@@ -19,11 +19,14 @@ try {
 </head>
 <body>
     <header>
-        <h1>Welcome to <?php echo SITE_NAME; ?></h1>
-        <p>Your high-converting solution is here.</p>
+        <div class="hero">
+            <h1>Welcome to <?php echo SITE_NAME; ?></h1>
+            <p>Your high-converting solution is here. We deliver results that matter.</p>
+            <a href="#start" class="cta">Get Started Now</a>
+        </div>
     </header>
 
-    <main>
+    <main id="start">
         <?php if (empty($sections)): ?>
             <section class="reveal-section">
                 <h2>Our Mission</h2>
