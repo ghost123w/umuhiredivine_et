@@ -18,11 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $admin = $stmt->fetch();
 
     if ($admin && password_verify($password, $admin['password'])) {
-        if (!$admin['is_verified']) {
-            $_SESSION['verify_email'] = $admin['email'];
-            header("Location: verify.php");
-            exit();
-        }
         $_SESSION['admin_id'] = $admin['id'];
         $_SESSION['username'] = $admin['username'];
         header("Location: dashboard.php");
@@ -63,10 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <button type="submit" class="btn-login">Login</button>
         </form>
-
-        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-            Need an account? <a href="signup.php" style="color: #007bff; text-decoration: none; font-weight: 600;">Sign Up</a>
-        </div>
 
         <a href="../index.php" class="back-link">&larr; Back to Website</a>
     </div>
