@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $installed ? 'Admin Login' : 'Installation'; ?> | Modern Selling Point</title>
+    <title><?php echo $installed ? 'Admin Login' : 'Administrator Installation'; ?> | Modern Selling Point</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .install-card { max-width: 500px; margin: 100px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
@@ -112,8 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="login-wrapper">
     <div class="install-card">
         <?php if (!$installed): ?>
-            <h2>Installation Wizard</h2>
-            <p>Set up the administrator account to get started. Only one admin is allowed.</p>
+            <h2>Administration Installation</h2>
+            <p>Welcome! Set up the primary administrator account to begin managing your website.</p>
 
             <?php if ($error): ?>
                 <div class="error-msg"><?php echo $error; ?></div>
@@ -124,17 +124,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="action" value="install">
                 <div class="form-group">
                     <label>Admin Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="e.g. admin" required autofocus>
+                    <input type="text" name="username" class="form-control" placeholder="Choose a username" required autofocus>
                 </div>
                 <div class="form-group">
                     <label>Admin Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="admin@example.com" required>
+                    <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
                 </div>
                 <div class="form-group">
                     <label>Admin Password</label>
                     <input type="password" name="password" class="form-control" placeholder="Choose a strong password" required>
                 </div>
-                <button type="submit" class="btn-login" style="background: #28a745;">Install Now</button>
+                <button type="submit" class="btn-login" style="background: #28a745;">Complete Installation</button>
             </form>
         <?php else: ?>
             <h2>Admin Login</h2>
