@@ -2,39 +2,114 @@
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 check_login();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) die("CSRF failed");
-    if ($_POST['action'] == 'add') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die("CSRF token validation failed.");
+    }
+
+    if (isset($_POST['add_section'])) {
+        $title = sanitize($_POST['section_title']);
+        $desc = sanitize($_POST['description']);
         $stmt = $pdo->prepare("INSERT INTO content (section_title, description) VALUES (?, ?)");
-        $stmt->execute([sanitize($_POST['section_title']), sanitize($_POST['description'])]);
+        $stmt->execute([$title, $desc]);
+        header("Location: dashboard.php?msg=added");
+        exit();
+    }
+
+    if (isset($_POST['delete_section'])) {
+        $id = (int)$_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM content WHERE id = ?");
+        $stmt->execute([$id]);
+        header("Location: dashboard.php?msg=deleted");
+        exit();
     }
 }
+
 $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>Dashboard</title><link rel="stylesheet" href="../css/style.css"></head>
-<body>
-    <div style="max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <header style="padding: 20px 0; background: none; color: inherit; text-align: left;">
-            <h2>Manage Content</h2>
-            <a href="logout.php">Logout</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Modern Selling Point</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <div class="user-info">
+                <span>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="logout.php" class="btn-logout">Logout</a>
+            </div>
         </header>
-        <form method="POST" style="margin-bottom: 30px;">
-            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-            <input type="hidden" name="action" value="add">
-            <input type="text" name="section_title" placeholder="Title" required style="width:100%; padding:10px; margin:10px 0;">
-            <textarea name="description" placeholder="Description" required style="width:100%; padding:10px; margin:10px 0;"></textarea>
-            <button type="submit" style="padding:10px 20px; background:#28a745; color:#fff; border:none; cursor:pointer;">Add Section</button>
-        </form>
-        <table style="width:100%; border-collapse: collapse;">
-            <thead><tr><th style="border:1px solid #ddd; padding:8px;">Title</th></tr></thead>
-            <tbody>
-                <?php foreach($sections as $s): ?>
-                    <tr><td style="border:1px solid #ddd; padding:8px;"><?php echo htmlspecialchars($s['section_title']); ?></td></tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+
+        <main class="admin-main">
+            <?php if (isset($_GET['msg'])): ?>
+                <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+                    <?php
+                        if ($_GET['msg'] == 'added') echo "Selling point added successfully.";
+                        if ($_GET['msg'] == 'deleted') echo "Selling point deleted successfully.";
+                    ?>
+                </div>
+            <?php endif; ?>
+
+            <section class="admin-card">
+                <h3>Add New Selling Point</h3>
+                <form method="POST" class="admin-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <div class="form-group">
+                        <label>Section Title</label>
+                        <input type="text" name="section_title" class="form-control" placeholder="e.g. Modern UI" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Describe this selling point..." required></textarea>
+                    </div>
+                    <button type="submit" name="add_section" class="btn-primary">Add Section</button>
+                </form>
+            </section>
+
+            <section class="admin-card">
+                <h3>Manage Selling Points</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($sections)): ?>
+                            <tr>
+                                <td colspan="3" class="text-center">No selling points found.</td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($sections as $s): ?>
+                                <tr>
+                                    <td><strong><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
+                                    <td><?php echo nl2br(htmlspecialchars($s['description'])); ?></td>
+                                    <td>
+                                        <form method="POST" onsubmit="return confirm('Are you sure?');">
+                                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                            <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
+                                            <button type="submit" name="delete_section" class="btn-delete">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer class="admin-footer">
+            <a href="../index.php">&larr; Back to Website</a>
+        </footer>
     </div>
 </body>
 </html>

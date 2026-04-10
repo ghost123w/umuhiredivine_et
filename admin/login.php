@@ -2,35 +2,64 @@
 session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
+
 $error = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) die("CSRF failed");
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die("CSRF token validation failed.");
+    }
+
     $username = sanitize($_POST['username']);
     $password = $_POST['password'];
+
     $stmt = $pdo->prepare("SELECT * FROM admins WHERE username = ?");
     $stmt->execute([$username]);
     $admin = $stmt->fetch();
+
     if ($admin && password_verify($password, $admin['password'])) {
         $_SESSION['admin_id'] = $admin['id'];
         $_SESSION['username'] = $admin['username'];
         header("Location: dashboard.php");
         exit();
-    } else { $error = "Invalid credentials"; }
+    } else {
+        $error = "Invalid username or password.";
+    }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>Admin Login</title><link rel="stylesheet" href="../css/style.css"></head>
-<body>
-    <div style="max-width: 400px; margin: 100px auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Modern Selling Point</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="login-wrapper">
+    <div class="login-card">
         <h2>Admin Login</h2>
-        <?php if ($error): ?><p style="color:red;"><?php echo $error; ?></p><?php endif; ?>
+
+        <?php if ($error): ?>
+            <div class="error-msg"><?php echo $error; ?></div>
+        <?php endif; ?>
+
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-            <input type="text" name="username" placeholder="Username" required style="width:100%; padding:10px; margin:10px 0;">
-            <input type="password" name="password" placeholder="Password" required style="width:100%; padding:10px; margin:10px 0;">
-            <button type="submit" style="width:100%; padding:10px; background:#333; color:#fff; border:none; cursor:pointer;">Login</button>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Enter username" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
         </form>
+
+        <a href="../index.php" class="back-link">&larr; Back to Website</a>
     </div>
 </body>
 </html>
