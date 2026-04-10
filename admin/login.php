@@ -18,6 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $admin = $stmt->fetch();
 
     if ($admin && password_verify($password, $admin['password'])) {
+        if (!$admin['is_verified']) {
+            $_SESSION['verify_email'] = $admin['email'];
+            header("Location: verify.php");
+            exit();
+        }
         $_SESSION['admin_id'] = $admin['id'];
         $_SESSION['username'] = $admin['username'];
         header("Location: dashboard.php");

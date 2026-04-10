@@ -12,20 +12,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $username = sanitize($_POST['username']);
+    $email = sanitize($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
     if ($password !== $confirm_password) {
         $error = "Passwords do not match.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format.";
     } else {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO admins (username, password) VALUES (?, ?)");
-            $stmt->execute([$username, $hashed_password]);
-            $success = "Account created successfully! You can now <a href='login.php'>login</a>.";
+            $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            $stmt = $pdo->prepare("INSERT INTO admins (username, email, password, confirmation_code, is_verified) VALUES (?, ?, ?, ?, 0)");
+            $stmt->execute([$username, $email, $hashed_password, $code]);
+
+            // Mock email sending
+            error_log("Verification code for $email: $code");
+            file_put_contents(__DIR__ . '/../data/last_email.txt', "To: $email\nCode: $code");
+
+            $_SESSION['verify_email'] = $email;
+            header("Location: verify.php");
+            exit();
         } catch (PDOException $e) {
             if ($e->getCode() == 23000) {
-                $error = "Username already exists.";
+                $error = "Username or email already exists.";
             } else {
                 $error = "Registration failed: " . $e->getMessage();
             }
@@ -49,18 +61,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="error-msg"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <?php if ($success): ?>
-            <div class="success-box" style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px; font-size: 0.9rem;">
-                <?php echo $success; ?>
-            </div>
-        <?php endif; ?>
-
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
 
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" class="form-control" placeholder="Choose a username" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
             </div>
 
             <div class="form-group">

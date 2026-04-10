@@ -14,6 +14,11 @@ if (file_exists('data/database.db')) {
 $mode = isset($_GET['mode']) ? $_GET['mode'] : ($installed ? 'login' : 'install');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Basic CSRF for sensitive actions
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die("CSRF token validation failed.");
+    }
+
     $action = $_POST['action'] ?? '';
 
     if ($action === 'install' || $action === 'register') {
@@ -24,29 +29,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdo = new PDO('sqlite:' . DB_PATH);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $pdo->exec("CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
+            // Ensure table creation matches includes/db.php
+            $pdo->exec("CREATE TABLE IF NOT EXISTS admins (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL UNIQUE,
+                password TEXT NOT NULL,
+                email TEXT,
+                confirmation_code TEXT,
+                is_verified INTEGER DEFAULT 0
+            )");
             $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
             $username = sanitize($_POST['username']);
+            $email = sanitize($_POST['email'] ?? '');
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-            $stmt = $pdo->prepare("INSERT INTO admins (username, password) VALUES (?, ?)");
-            $stmt->execute([$username, $password]);
+            // For install mode, mark verified as it's the root user
+            $verified = ($action === 'install') ? 1 : 0;
+            $code = ($verified) ? null : str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            $stmt = $pdo->prepare("INSERT INTO admins (username, email, password, confirmation_code, is_verified) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$username, $email, $password, $code, $verified]);
 
             if ($action === 'install') {
-                // Add default content only on first install
                 $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Lightning Fast', 'Our optimized code ensures your site loads in milliseconds.')");
                 $pdo->exec("INSERT INTO content (section_title, description) VALUES ('SEO Ready', 'Built-in SEO best practices to help you rank higher on Google.')");
 
-                // Log in immediately
-                $stmt = $pdo->prepare("SELECT * FROM admins WHERE username = ?");
-                $stmt->execute([$username]);
-                $admin = $stmt->fetch();
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['username'] = $admin['username'];
+                $_SESSION['admin_id'] = $pdo->lastInsertId();
+                $_SESSION['username'] = $username;
                 header("Location: admin/dashboard.php");
                 exit();
             } else {
+                if ($code) {
+                     $_SESSION['verify_email'] = $email;
+                     header("Location: admin/verify.php");
+                     exit();
+                }
                 $success = "Account created successfully! You can now log in.";
                 $mode = 'login';
             }
@@ -71,6 +89,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($admin && password_verify($pass, $admin['password'])) {
+                if (!$admin['is_verified']) {
+                    $_SESSION['verify_email'] = $admin['email'];
+                    header("Location: admin/verify.php");
+                    exit();
+                }
                 $_SESSION['admin_id'] = $admin['id'];
                 $_SESSION['username'] = $admin['username'];
                 header("Location: admin/dashboard.php");
@@ -117,10 +140,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <form method="POST">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="action" value="install">
                 <div class="form-group">
                     <label>Admin Username</label>
                     <input type="text" name="username" class="form-control" placeholder="e.g. admin" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label>Admin Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="admin@example.com" required>
                 </div>
                 <div class="form-group">
                     <label>Admin Password</label>
@@ -138,10 +166,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <form method="POST">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="action" value="register">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control" placeholder="Choose a username" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group">
                     <label>Password</label>
@@ -162,6 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <form method="POST">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="action" value="login">
                 <div class="form-group">
                     <label>Username</label>
