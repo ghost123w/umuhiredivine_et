@@ -3,6 +3,9 @@ require_once '../includes/db.php';
 require_once '../includes/functions.php';
 check_login();
 
+// 1. Create a variable in PHP that stores the path to a user's image.
+$hero_bg_path = '../images/hero-bg.png';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         die("CSRF token validation failed.");
@@ -35,6 +38,27 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Modern Selling Point</title>
     <link rel="stylesheet" href="../css/style.css">
+    <!-- 2. Use inline CSS in the head of the dashboard file to set that variable as the background image for a hero section. -->
+    <style>
+        .dashboard-hero {
+            background-image: url('<?php echo $hero_bg_path; ?>');
+            /* 3. Ensure the background is centered, covered, and fixed so it looks professional. */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 100px 20px;
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5); /* Overlay to make text readable */
+        }
+        .dashboard-hero h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+    </style>
 </head>
 <body class="admin-body">
     <div class="admin-container">
@@ -47,6 +71,12 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
         </header>
 
         <main class="admin-main">
+            <!-- Website dashboard landing page hero section -->
+            <section class="dashboard-hero">
+                <h2>Control Center</h2>
+                <p>Manage your professional high-converting solution from here.</p>
+            </section>
+
             <?php if (isset($_GET['msg'])): ?>
                 <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
                     <?php
