@@ -14,7 +14,6 @@ if (file_exists('data/database.db')) {
 $mode = isset($_GET['mode']) ? $_GET['mode'] : ($installed ? 'login' : 'install');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Basic CSRF for sensitive actions
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         die("CSRF token validation failed.");
     }
@@ -29,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdo = new PDO('sqlite:' . DB_PATH);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Ensure table creation matches includes/db.php
             $pdo->exec("CREATE TABLE IF NOT EXISTS admins (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL UNIQUE,
@@ -44,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = sanitize($_POST['email'] ?? '');
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-            // For install mode, mark verified as it's the root user
             $verified = ($action === 'install') ? 1 : 0;
             $code = ($verified) ? null : str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
@@ -61,6 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             } else {
                 if ($code) {
+                     // Log verification code for developers
+                     file_put_contents(__DIR__ . '/data/last_email.txt', "To: $email\nCode: $code");
                      $_SESSION['verify_email'] = $email;
                      header("Location: admin/verify.php");
                      exit();
