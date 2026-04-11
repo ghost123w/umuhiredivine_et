@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Sign Up | Modern Selling Point</title>
+    <title>Admin Sign Up | <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="login-wrapper">

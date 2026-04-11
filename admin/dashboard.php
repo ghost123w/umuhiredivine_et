@@ -36,7 +36,7 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Modern Selling Point</title>
+    <title>Admin Dashboard | <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="../css/style.css">
     <!-- 2. Use inline CSS in the head of the dashboard file to set that variable as the background image for a hero section. -->
     <style>
