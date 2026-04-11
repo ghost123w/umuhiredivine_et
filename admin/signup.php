@@ -3,15 +3,9 @@ session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
-// Check if an admin already exists
-try {
-    $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
-    if ($stmt->fetchColumn() > 0) {
-        header("Location: login.php");
-        exit();
-    }
-} catch (Exception $e) {
-    // If table doesn't exist, we can proceed to install/signup
+if (!defined('ALLOW_REGISTRATION') || ALLOW_REGISTRATION !== true) {
+    header("Location: login.php");
+    exit();
 }
 
 $error = '';
