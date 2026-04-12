@@ -33,6 +33,18 @@ try {
                 <h2>Innovation</h2>
                 <p>We deliver cutting-edge technology to your business.</p>
             </section>
+            <section class="reveal-section">
+                <h2>Scalability</h2>
+                <p>Grow your user base without worrying about infrastructure bottlenecks.</p>
+            </section>
+            <section class="reveal-section">
+                <h2>Security</h2>
+                <p>Top-tier protection for your data and your users' privacy.</p>
+            </section>
+            <section class="reveal-section">
+                <h2>Analytics</h2>
+                <p>Insightful data to help you make informed business decisions.</p>
+            </section>
         <?php else: ?>
             <?php foreach ($sections as $s): ?>
                 <section class="reveal-section">
