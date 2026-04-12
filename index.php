@@ -22,7 +22,9 @@ try {
 <body>
     <header>
         <div class="hero">
-            <h1><?php echo SITE_NAME; ?></h1>
+            <div class="vintage-frame">
+                <h1><?php echo SITE_NAME; ?></h1>
+            </div>
             <a href="#features" class="cta">Explore Features</a>
         </div>
     </header>
