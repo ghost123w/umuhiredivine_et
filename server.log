@@ -41,3 +41,24 @@
 [Sun Apr 12 09:07:49 2026] [::1]:43948 Accepted
 [Sun Apr 12 09:07:49 2026] [::1]:43948 [200]: GET /images/hero-bg.png
 [Sun Apr 12 09:07:49 2026] [::1]:43948 Closing
+[Sun Apr 12 09:27:33 2026] [::1]:58886 Accepted
+[Sun Apr 12 09:27:33 2026] [::1]:58886 [200]: GET /
+[Sun Apr 12 09:27:33 2026] [::1]:58886 Closing
+[Sun Apr 12 09:27:33 2026] [::1]:58896 Accepted
+[Sun Apr 12 09:27:33 2026] [::1]:58908 Accepted
+[Sun Apr 12 09:27:33 2026] [::1]:58896 [200]: GET /css/style.css
+[Sun Apr 12 09:27:33 2026] [::1]:58896 Closing
+[Sun Apr 12 09:27:33 2026] [::1]:58908 [200]: GET /js/script.js
+[Sun Apr 12 09:27:33 2026] [::1]:58908 Closing
+[Sun Apr 12 09:27:35 2026] [::1]:58920 Accepted
+[Sun Apr 12 09:27:35 2026] [::1]:58920 [200]: GET /admin/signup.php
+[Sun Apr 12 09:27:35 2026] [::1]:58920 Closing
+[Sun Apr 12 09:27:35 2026] [::1]:58936 Accepted
+[Sun Apr 12 09:27:35 2026] [::1]:58936 [200]: GET /css/style.css
+[Sun Apr 12 09:27:35 2026] [::1]:58936 Closing
+[Sun Apr 12 09:27:36 2026] [::1]:37378 Accepted
+[Sun Apr 12 09:27:37 2026] [::1]:37378 [200]: POST /admin/signup.php
+[Sun Apr 12 09:27:37 2026] [::1]:37378 Closing
+[Sun Apr 12 09:27:37 2026] [::1]:37386 Accepted
+[Sun Apr 12 09:27:37 2026] [::1]:37386 [200]: GET /css/style.css
+[Sun Apr 12 09:27:37 2026] [::1]:37386 Closing

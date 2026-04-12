@@ -23,7 +23,6 @@ try {
     <header>
         <div class="hero">
             <h1><?php echo SITE_NAME; ?></h1>
-            <p>Your professional high-converting solution. Elevate your business with our proven strategies.</p>
             <a href="#features" class="cta">Explore Features</a>
         </div>
     </header>

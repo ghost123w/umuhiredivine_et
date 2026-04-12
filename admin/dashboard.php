@@ -74,7 +74,6 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
             <!-- Website dashboard landing page hero section -->
             <section class="dashboard-hero">
                 <h2>Control Center</h2>
-                <p>Manage your professional high-converting solution from here.</p>
             </section>
 
             <?php if (isset($_GET['msg'])): ?>
