@@ -46,12 +46,17 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            padding: 100px 20px;
+            padding: 20px 20px 60px;
             color: #fff;
             text-align: center;
             border-radius: 12px;
             margin-bottom: 30px;
             box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5); /* Overlay to make text readable */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 200px;
         }
         .dashboard-hero h2 {
             font-size: 2.5rem;
