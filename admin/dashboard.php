@@ -66,22 +66,39 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
     </style>
 </head>
 <body class="admin-body">
-    <div class="admin-container">
-        <header class="admin-header">
-            <h1>Admin Dashboard</h1>
-            <div class="user-info">
+    <div class="layout-wrapper">
+        <header class="layout-header">
+            <div class="vintage-frame">
+                <h1><?php echo SITE_NAME; ?></h1>
+            </div>
+            <div class="user-info" style="position: absolute; right: 40px; color: #fff;">
                 <span>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="btn-logout">Logout</a>
+                <a href="logout.php" class="btn-logout" style="margin-left: 20px;">Logout</a>
             </div>
         </header>
 
-        <main class="admin-main">
-            <!-- Website dashboard landing page hero section -->
-            <section class="dashboard-hero">
+        <aside class="layout-sidebar">
+            <div class="sidebar-content">
+                <h2>Admin Panel</h2>
+                <div class="sidebar-line"></div>
+                <nav style="margin-top: 40px;">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 15px;"><a href="dashboard.php" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Dashboard Home</a></li>
+                        <li style="margin-bottom: 15px;"><a href="../index.php" style="color: #fff; text-decoration: none; opacity: 0.8;">View Website</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="layout-main">
+            <div class="dashboard-hero">
+                <h2>Admin Dashboard</h2>
                 <div class="vintage-frame">
-                    <h2><?php echo SITE_NAME; ?></h2>
+                    <span style="color: #c5a059; font-weight: bold; letter-spacing: 4px;">Verified Admin</span>
                 </div>
-            </section>
+            </div>
+
+            <h2 class="actions-title">Management Actions</h2>
 
             <?php if (isset($_GET['msg'])): ?>
                 <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
@@ -142,10 +159,6 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
                 </table>
             </section>
         </main>
-
-        <footer class="admin-footer">
-            <a href="../index.php">&larr; Back to Website</a>
-        </footer>
     </div>
 </body>
 </html>

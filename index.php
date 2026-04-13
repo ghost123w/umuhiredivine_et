@@ -19,41 +19,51 @@ try {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <div class="hero">
+<body class="landing-page">
+    <div class="layout-wrapper">
+        <header class="layout-header">
             <div class="vintage-frame">
                 <h1><?php echo SITE_NAME; ?></h1>
             </div>
-        </div>
-    </header>
-    <main class="grid" id="features">
-        <?php if (empty($sections)): ?>
-            <section class="reveal-section">
-                <h2>Innovation</h2>
-                <p>We deliver cutting-edge technology to your business.</p>
-            </section>
-            <section class="reveal-section">
-                <h2>Scalability</h2>
-                <p>Grow your user base without worrying about infrastructure bottlenecks.</p>
-            </section>
-            <section class="reveal-section">
-                <h2>Security</h2>
-                <p>Top-tier protection for your data and your users' privacy.</p>
-            </section>
-            <section class="reveal-section">
-                <h2>Analytics</h2>
-                <p>Insightful data to help you make informed business decisions.</p>
-            </section>
-        <?php else: ?>
-            <?php foreach ($sections as $s): ?>
+        </header>
+
+        <aside class="layout-sidebar">
+            <div class="sidebar-content">
+                <h2>Core Expertise</h2>
+                <div class="sidebar-line"></div>
+            </div>
+        </aside>
+
+        <main class="layout-main" id="features">
+            <h2 class="actions-title">Actions</h2>
+
+            <?php if (empty($sections)): ?>
                 <section class="reveal-section">
-                    <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
-                    <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                    <h2>Innovation</h2>
+                    <p>We deliver cutting-edge technology to your business.</p>
                 </section>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </main>
+                <section class="reveal-section">
+                    <h2>Scalability</h2>
+                    <p>Grow your user base without worrying about infrastructure bottlenecks.</p>
+                </section>
+                <section class="reveal-section">
+                    <h2>Security</h2>
+                    <p>Top-tier protection for your data and your users' privacy.</p>
+                </section>
+                <section class="reveal-section">
+                    <h2>Analytics</h2>
+                    <p>Insightful data to help you make informed business decisions.</p>
+                </section>
+            <?php else: ?>
+                <?php foreach ($sections as $s): ?>
+                    <section class="reveal-section">
+                        <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
+                        <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                    </section>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </main>
+    </div>
     <script src="js/script.js"></script>
 </body>
 </html>
