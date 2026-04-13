@@ -20,7 +20,37 @@ body {
 }
 
 .landing-page {
-    background: var(--light-color);
+    background: #000;
+}
+
+.stroll-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.stroll-bg-image {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+}
+
+.stroll-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 100%);
 }
 
 .layout-wrapper {
@@ -35,7 +65,8 @@ body {
 
 .layout-header {
     grid-area: header;
-    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    background: rgba(26, 26, 26, 0.9);
+    backdrop-filter: blur(10px);
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -102,7 +133,8 @@ body {
 
 .layout-sidebar {
     grid-area: sidebar;
-    background: var(--dark-color);
+    background: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(8px);
     border-right: 1px solid rgba(255,255,255,0.1);
     padding: 60px 40px;
     position: sticky;
@@ -175,7 +207,8 @@ body {
     grid-area: main;
     padding: 60px;
     max-width: 1000px;
-    background: var(--light-color);
+    background: rgba(240, 244, 248, 0.6);
+    backdrop-filter: blur(5px);
 }
 
 .actions-title {
@@ -190,7 +223,7 @@ body {
 }
 
 .reveal-section {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.95);
     padding: 0;
     margin-bottom: 100px;
     border-radius: 12px;

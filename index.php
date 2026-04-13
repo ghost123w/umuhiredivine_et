@@ -25,6 +25,10 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="landing-page">
+    <div class="stroll-bg-container">
+        <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
+        <div class="stroll-bg-overlay"></div>
+    </div>
     <div class="layout-wrapper">
         <header class="layout-header">
             <div class="vintage-frame">

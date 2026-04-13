@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal-section').forEach(s => observer.observe(s));
 
+    // Parallax stroll effect
+    const bgImage = document.querySelector('.stroll-bg-image');
+    if (bgImage) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const val = scrolled * 0.15;
+            bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
+        });
+    }
+
     // Smooth scroll for sidebar links
     document.querySelectorAll('.sidebar-nav a').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
