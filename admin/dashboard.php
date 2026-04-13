@@ -60,6 +60,8 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
 $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
+
+$view = $_GET['view'] ?? 'overview';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,23 +71,21 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
     <title>Admin Dashboard | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
-    <!-- 2. Use inline CSS in the head of the dashboard file to set that variable as the background image for a hero section. -->
     <style>
         .dashboard-hero {
             background-image: url('<?php echo $hero_bg_path; ?>');
-            /* 3. Ensure the background is centered, covered, and fixed so it looks professional. */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            padding: 20px 20px 60px;
+            padding: 40px 20px;
             color: #fff;
             text-align: center;
             border-radius: 12px;
             margin-bottom: 30px;
-            box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5); /* Overlay to make text readable */
+            box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             min-height: 200px;
         }
@@ -93,6 +93,21 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
             font-size: 2.5rem;
             margin: 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        .sidebar-nav-admin li {
+            margin-bottom: 10px;
+        }
+        .sidebar-nav-admin a {
+            display: block;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar-nav-admin a:hover, .sidebar-nav-admin a.active {
+            background: rgba(197, 160, 89, 0.2);
+            color: var(--primary-color);
         }
     </style>
 </head>
@@ -112,132 +127,175 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
             <div class="sidebar-content">
                 <h2>Admin Panel</h2>
                 <div class="sidebar-line"></div>
-                <nav style="margin-top: 40px;">
+                <nav class="sidebar-nav-admin">
                     <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 15px;"><a href="dashboard.php" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Dashboard Home</a></li>
-                        <li style="margin-bottom: 15px;"><a href="../index.php" style="color: #fff; text-decoration: none; opacity: 0.8;">View Website</a></li>
+                        <li><a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Overview</a></li>
+                        <li><a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">General Settings</a></li>
+                        <li><a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Add New Point</a></li>
+                        <li><a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage Points</a></li>
+                        <li style="margin-top: 40px;"><a href="../index.php" target="_blank" style="font-size: 0.8rem; opacity: 0.6;">View Website ↗</a></li>
                     </ul>
                 </nav>
             </div>
         </aside>
 
         <main class="layout-main">
-            <div class="dashboard-hero">
-                <h2>Admin Dashboard</h2>
-                <div class="vintage-frame">
-                    <span style="color: #c5a059; font-weight: bold; letter-spacing: 4px;">Verified Admin</span>
+            <?php if ($view == 'overview'): ?>
+                <div class="dashboard-hero">
+                    <h2>Welcome to the Atelier</h2>
+                    <div class="vintage-frame" style="transform: scale(0.6);">
+                        <span style="color: #c5a059; font-weight: bold; letter-spacing: 4px;">Verified Admin Access</span>
+                    </div>
                 </div>
-            </div>
 
-            <h2 class="actions-title">Management Actions</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="admin-card" style="margin-bottom: 0; text-align: center; padding: 30px;">
+                        <h4 style="margin: 0; color: var(--secondary-color); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Total Points</h4>
+                        <p style="font-size: 3rem; font-weight: 700; margin: 10px 0; color: var(--primary-color);"><?php echo count($sections); ?></p>
+                        <a href="dashboard.php?view=manage" class="btn-primary" style="padding: 8px 20px; font-size: 0.8rem;">Manage All</a>
+                    </div>
+                    <div class="admin-card" style="margin-bottom: 0; text-align: center; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                         <img src="../images/brand-portrait.jpg" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); margin-bottom: 10px;" alt="Brand">
+                         <h4 style="margin: 0; color: var(--dark-color);"><?php echo SITE_NAME; ?></h4>
+                         <p style="font-size: 0.8rem; color: #888;">Live Brand Profile</p>
+                    </div>
+                </div>
+
+                <div class="admin-card" style="margin-top: 40px;">
+                    <h3>Quick Tips</h3>
+                    <ul style="color: #666; font-size: 0.95rem; line-height: 1.8;">
+                        <li>Use high-quality images for your selling points to maintain the luxury aesthetic.</li>
+                        <li>Keep descriptions concise and punchy for better conversion.</li>
+                        <li>You can change the title of the sidebar section in General Settings.</li>
+                    </ul>
+                </div>
+            <?php endif; ?>
 
             <?php if (isset($_GET['msg'])): ?>
-                <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+                <div style="background: #e1f5fe; color: #0277bd; padding: 15px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #0277bd;">
                     <?php
-                        if ($_GET['msg'] == 'added') echo "Selling point added successfully.";
-                        if ($_GET['msg'] == 'deleted') echo "Selling point deleted successfully.";
-                        if ($_GET['msg'] == 'updated') echo "Selling point updated successfully.";
-                        if ($_GET['msg'] == 'settings_updated') echo "Settings updated successfully.";
+                        if ($_GET['msg'] == 'added') echo "<strong>Success:</strong> New selling point has been added to the gallery.";
+                        if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The section has been successfully deleted.";
+                        if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your changes have been saved perfectly.";
+                        if ($_GET['msg'] == 'settings_updated') echo "<strong>Updated:</strong> General settings are now live.";
                     ?>
                 </div>
             <?php endif; ?>
 
-            <section class="admin-card">
-                <h3>General Settings</h3>
-                <form method="POST" class="admin-form">
-                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                    <div class="form-group">
-                        <label>Selling Points Section Title</label>
-                        <input type="text" name="selling_points_title" class="form-control" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
-                    </div>
-                    <button type="submit" name="update_settings" class="btn-primary">Update Title</button>
-                </form>
-            </section>
-
-            <section class="admin-card">
-                <h3>Add New Selling Point</h3>
-                <form method="POST" class="admin-form" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                    <div class="form-group">
-                        <label>Section Title</label>
-                        <input type="text" name="section_title" class="form-control" placeholder="e.g. Modern UI" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea name="description" class="form-control" rows="4" placeholder="Describe this selling point..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Image (Optional)</label>
-                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
-                        <div id="imagePreview" style="margin-top: 15px; display: none;">
-                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <?php if ($view == 'settings'): ?>
+                <section class="admin-card">
+                    <h3>General Settings</h3>
+                    <form method="POST" class="admin-form">
+                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                        <div class="form-group">
+                            <label>Selling Points Section Title (Sidebar Header)</label>
+                            <input type="text" name="selling_points_title" class="form-control" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
+                            <small style="color: #888;">This appears at the top of the sidebar on the landing page.</small>
                         </div>
+                        <button type="submit" name="update_settings" class="btn-primary">Save Changes</button>
+                    </form>
+                </section>
+            <?php endif; ?>
+
+            <?php if ($view == 'add'): ?>
+                <section class="admin-card">
+                    <h3>Add New Selling Point</h3>
+                    <form method="POST" class="admin-form" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                        <div class="form-group">
+                            <label>Section Title</label>
+                            <input type="text" name="section_title" class="form-control" placeholder="e.g. Bespoke Tailoring" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" class="form-control" rows="4" placeholder="Describe the value proposition..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Image (Optional)</label>
+                            <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
+                            <div id="imagePreview" style="margin-top: 15px; display: none;">
+                                <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            </div>
+                        </div>
+                        <button type="submit" name="add_section" class="btn-primary">Publish Section</button>
+                    </form>
+                </section>
+            <?php endif; ?>
+
+            <?php if ($view == 'manage'): ?>
+                <section class="admin-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                        <h3 style="margin: 0;">Manage Selling Points</h3>
+                        <a href="dashboard.php?view=add" class="btn-primary" style="font-size: 0.8rem; padding: 10px 20px;">+ Add New</a>
                     </div>
-                    <button type="submit" name="add_section" class="btn-primary">Add Section</button>
-                </form>
-            </section>
+
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($sections)): ?>
+                                <tr>
+                                    <td colspan="4" class="text-center" style="padding: 40px; color: #999;">No selling points found. Start by adding one.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($sections as $s): ?>
+                                    <tr>
+                                        <td>
+                                            <?php if ($s['image_path']): ?>
+                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #eee;">
+                                            <?php else: ?>
+                                                <div style="width: 70px; height: 70px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 0.6rem; text-transform: uppercase;">No Image</div>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><strong style="color: var(--dark-color);"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
+                                        <td>
+                                            <div style="max-height: 60px; overflow: hidden; text-overflow: ellipsis; font-size: 0.9rem; color: #666;">
+                                                <?php echo nl2br(htmlspecialchars($s['description'])); ?>
+                                            </div>
+                                        </td>
+                                        <td style="white-space: nowrap;">
+                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 6px 14px; font-size: 0.75rem; text-decoration: none; margin-right: 5px; background: var(--secondary-color);">Edit</a>
+                                            <form method="POST" onsubmit="return confirm('Are you sure you want to delete this masterpiece?');" style="display: inline-block;">
+                                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                                <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
+                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 5px 12px; font-size: 0.75rem;">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </section>
+            <?php endif; ?>
 
             <script>
-                document.getElementById('imageInput').addEventListener('change', function(event) {
-                    const previewContainer = document.getElementById('imagePreview');
-                    const previewImage = previewContainer.querySelector('img');
-                    const file = event.target.files[0];
+                const imageInput = document.getElementById('imageInput');
+                if (imageInput) {
+                    imageInput.addEventListener('change', function(event) {
+                        const previewContainer = document.getElementById('imagePreview');
+                        const previewImage = previewContainer.querySelector('img');
+                        const file = event.target.files[0];
 
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            previewImage.src = e.target.result;
-                            previewContainer.style.display = 'block';
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                previewImage.src = e.target.result;
+                                previewContainer.style.display = 'block';
+                            }
+                            reader.readAsDataURL(file);
+                        } else {
+                            previewContainer.style.display = 'none';
                         }
-                        reader.readAsDataURL(file);
-                    } else {
-                        previewContainer.style.display = 'none';
-                    }
-                });
+                    });
+                }
             </script>
-
-            <section class="admin-card">
-                <h3>Manage Selling Points</h3>
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($sections)): ?>
-                            <tr>
-                                <td colspan="4" class="text-center">No selling points found.</td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($sections as $s): ?>
-                                <tr>
-                                    <td>
-                                        <?php if ($s['image_path']): ?>
-                                            <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
-                                        <?php else: ?>
-                                            <div style="width: 60px; height: 60px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.7rem;">No Image</div>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><strong><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
-                                    <td><?php echo nl2br(htmlspecialchars($s['description'])); ?></td>
-                                    <td style="white-space: nowrap;">
-                                        <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem; text-decoration: none; margin-right: 5px; display: inline-block;">Edit</a>
-                                        <form method="POST" onsubmit="return confirm('Are you sure?');" style="display: inline-block;">
-                                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                            <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
-                                            <button type="submit" name="delete_section" class="btn-delete">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </section>
         </main>
     </div>
 </body>
