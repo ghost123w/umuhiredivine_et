@@ -33,34 +33,47 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
 
         <aside class="layout-sidebar">
             <div class="sidebar-content">
-                <h2>Core Expertise</h2>
+                <h2><?php echo htmlspecialchars($selling_points_title); ?></h2>
                 <div class="sidebar-line"></div>
+
+                <nav class="sidebar-nav">
+                    <ul>
+                        <?php if (empty($sections)): ?>
+                            <li><a href="#innovation">Innovation</a></li>
+                            <li><a href="#scalability">Scalability</a></li>
+                            <li><a href="#security">Security</a></li>
+                            <li><a href="#analytics">Analytics</a></li>
+                        <?php else: ?>
+                            <?php foreach ($sections as $s): ?>
+                                <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </div>
         </aside>
 
         <main class="layout-main" id="features">
-            <h2 class="actions-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
-
             <?php if (empty($sections)): ?>
-                <section class="reveal-section">
+                <section id="innovation" class="reveal-section">
                     <div class="section-content">
                         <h2>Innovation</h2>
                         <p>We deliver cutting-edge technology to your business.</p>
                     </div>
                 </section>
-                <section class="reveal-section">
+                <section id="scalability" class="reveal-section">
                     <div class="section-content">
                         <h2>Scalability</h2>
                         <p>Grow your user base without worrying about infrastructure bottlenecks.</p>
                     </div>
                 </section>
-                <section class="reveal-section">
+                <section id="security" class="reveal-section">
                     <div class="section-content">
                         <h2>Security</h2>
                         <p>Top-tier protection for your data and your users' privacy.</p>
                     </div>
                 </section>
-                <section class="reveal-section">
+                <section id="analytics" class="reveal-section">
                     <div class="section-content">
                         <h2>Analytics</h2>
                         <p>Insightful data to help you make informed business decisions.</p>
@@ -68,7 +81,7 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
                 </section>
             <?php else: ?>
                 <?php foreach ($sections as $s): ?>
-                    <section class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
+                    <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
                         <?php if ($s['image_path']): ?>
                             <div class="section-image">
                                 <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
