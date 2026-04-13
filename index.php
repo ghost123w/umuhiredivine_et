@@ -38,62 +38,28 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
 
                 <nav class="sidebar-nav">
                     <ul>
-                        <?php if (empty($sections)): ?>
-                            <li><a href="#innovation">Innovation</a></li>
-                            <li><a href="#scalability">Scalability</a></li>
-                            <li><a href="#security">Security</a></li>
-                            <li><a href="#analytics">Analytics</a></li>
-                        <?php else: ?>
-                            <?php foreach ($sections as $s): ?>
-                                <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                        <?php foreach ($sections as $s): ?>
+                            <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </nav>
             </div>
         </aside>
 
         <main class="layout-main" id="features">
-            <?php if (empty($sections)): ?>
-                <section id="innovation" class="reveal-section">
-                    <div class="section-content">
-                        <h2>Innovation</h2>
-                        <p>We deliver cutting-edge technology to your business.</p>
-                    </div>
-                </section>
-                <section id="scalability" class="reveal-section">
-                    <div class="section-content">
-                        <h2>Scalability</h2>
-                        <p>Grow your user base without worrying about infrastructure bottlenecks.</p>
-                    </div>
-                </section>
-                <section id="security" class="reveal-section">
-                    <div class="section-content">
-                        <h2>Security</h2>
-                        <p>Top-tier protection for your data and your users' privacy.</p>
-                    </div>
-                </section>
-                <section id="analytics" class="reveal-section">
-                    <div class="section-content">
-                        <h2>Analytics</h2>
-                        <p>Insightful data to help you make informed business decisions.</p>
-                    </div>
-                </section>
-            <?php else: ?>
-                <?php foreach ($sections as $s): ?>
-                    <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
-                        <?php if ($s['image_path']): ?>
-                            <div class="section-image">
-                                <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
-                            </div>
-                        <?php endif; ?>
-                        <div class="section-content">
-                            <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
-                            <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+            <?php foreach ($sections as $s): ?>
+                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
+                    <?php if ($s['image_path']): ?>
+                        <div class="section-image">
+                            <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
                         </div>
-                    </section>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                    <?php endif; ?>
+                    <div class="section-content">
+                        <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
+                        <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                    </div>
+                </section>
+            <?php endforeach; ?>
         </main>
     </div>
     <script src="js/script.js"></script>
