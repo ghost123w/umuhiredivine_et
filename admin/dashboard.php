@@ -11,11 +11,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("CSRF token validation failed.");
     }
 
+    if (isset($_POST['update_settings'])) {
+        $title = sanitize($_POST['selling_points_title']);
+        $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = 'selling_points_title'");
+        $stmt->execute([$title]);
+        header("Location: dashboard.php?msg=settings_updated");
+        exit();
+    }
+
     if (isset($_POST['add_section'])) {
         $title = sanitize($_POST['section_title']);
         $desc = sanitize($_POST['description']);
-        $stmt = $pdo->prepare("INSERT INTO content (section_title, description) VALUES (?, ?)");
-        $stmt->execute([$title, $desc]);
+        $image_path = null;
+
+        if (isset($_FILES['section_image']) && $_FILES['section_image']['error'] == 0) {
+            $target_dir = "../uploads/";
+            if (!is_dir($target_dir)) mkdir($target_dir, 0777, true);
+
+            $file_ext = strtolower(pathinfo($_FILES["section_image"]["name"], PATHINFO_EXTENSION));
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (in_array($file_ext, $allowed_exts)) {
+                $new_filename = uniqid() . '.' . $file_ext;
+                $target_file = $target_dir . $new_filename;
+                if (move_uploaded_file($_FILES["section_image"]["tmp_name"], $target_file)) {
+                    $image_path = 'uploads/' . $new_filename;
+                }
+            }
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO content (section_title, description, image_path) VALUES (?, ?, ?)");
+        $stmt->execute([$title, $desc, $image_path]);
         header("Location: dashboard.php?msg=added");
         exit();
     }
@@ -30,6 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
+$stmt->execute();
+$selling_points_title = $stmt->fetchColumn() ?: 'Actions';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,13 +135,26 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
                     <?php
                         if ($_GET['msg'] == 'added') echo "Selling point added successfully.";
                         if ($_GET['msg'] == 'deleted') echo "Selling point deleted successfully.";
+                        if ($_GET['msg'] == 'settings_updated') echo "Settings updated successfully.";
                     ?>
                 </div>
             <?php endif; ?>
 
             <section class="admin-card">
-                <h3>Add New Selling Point</h3>
+                <h3>General Settings</h3>
                 <form method="POST" class="admin-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <div class="form-group">
+                        <label>Selling Points Section Title</label>
+                        <input type="text" name="selling_points_title" class="form-control" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
+                    </div>
+                    <button type="submit" name="update_settings" class="btn-primary">Update Title</button>
+                </form>
+            </section>
+
+            <section class="admin-card">
+                <h3>Add New Selling Point</h3>
+                <form method="POST" class="admin-form" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                     <div class="form-group">
                         <label>Section Title</label>
@@ -121,15 +164,42 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
                         <label>Description</label>
                         <textarea name="description" class="form-control" rows="4" placeholder="Describe this selling point..." required></textarea>
                     </div>
+                    <div class="form-group">
+                        <label>Image (Optional)</label>
+                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
+                        <div id="imagePreview" style="margin-top: 15px; display: none;">
+                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                        </div>
+                    </div>
                     <button type="submit" name="add_section" class="btn-primary">Add Section</button>
                 </form>
             </section>
+
+            <script>
+                document.getElementById('imageInput').addEventListener('change', function(event) {
+                    const previewContainer = document.getElementById('imagePreview');
+                    const previewImage = previewContainer.querySelector('img');
+                    const file = event.target.files[0];
+
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImage.src = e.target.result;
+                            previewContainer.style.display = 'block';
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        previewContainer.style.display = 'none';
+                    }
+                });
+            </script>
 
             <section class="admin-card">
                 <h3>Manage Selling Points</h3>
                 <table class="admin-table">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Actions</th>
@@ -138,11 +208,18 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
                     <tbody>
                         <?php if (empty($sections)): ?>
                             <tr>
-                                <td colspan="3" class="text-center">No selling points found.</td>
+                                <td colspan="4" class="text-center">No selling points found.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($sections as $s): ?>
                                 <tr>
+                                    <td>
+                                        <?php if ($s['image_path']): ?>
+                                            <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                        <?php else: ?>
+                                            <div style="width: 60px; height: 60px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.7rem;">No Image</div>
+                                        <?php endif; ?>
+                                    </td>
                                     <td><strong><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
                                     <td><?php echo nl2br(htmlspecialchars($s['description'])); ?></td>
                                     <td>

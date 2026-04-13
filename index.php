@@ -7,6 +7,10 @@ try {
 } catch (PDOException $e) {
     $sections = [];
 }
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
+$stmt->execute();
+$selling_points_title = $stmt->fetchColumn() ?: 'Actions';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,30 +39,45 @@ try {
         </aside>
 
         <main class="layout-main" id="features">
-            <h2 class="actions-title">Actions</h2>
+            <h2 class="actions-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
 
             <?php if (empty($sections)): ?>
                 <section class="reveal-section">
-                    <h2>Innovation</h2>
-                    <p>We deliver cutting-edge technology to your business.</p>
+                    <div class="section-content">
+                        <h2>Innovation</h2>
+                        <p>We deliver cutting-edge technology to your business.</p>
+                    </div>
                 </section>
                 <section class="reveal-section">
-                    <h2>Scalability</h2>
-                    <p>Grow your user base without worrying about infrastructure bottlenecks.</p>
+                    <div class="section-content">
+                        <h2>Scalability</h2>
+                        <p>Grow your user base without worrying about infrastructure bottlenecks.</p>
+                    </div>
                 </section>
                 <section class="reveal-section">
-                    <h2>Security</h2>
-                    <p>Top-tier protection for your data and your users' privacy.</p>
+                    <div class="section-content">
+                        <h2>Security</h2>
+                        <p>Top-tier protection for your data and your users' privacy.</p>
+                    </div>
                 </section>
                 <section class="reveal-section">
-                    <h2>Analytics</h2>
-                    <p>Insightful data to help you make informed business decisions.</p>
+                    <div class="section-content">
+                        <h2>Analytics</h2>
+                        <p>Insightful data to help you make informed business decisions.</p>
+                    </div>
                 </section>
             <?php else: ?>
                 <?php foreach ($sections as $s): ?>
-                    <section class="reveal-section">
-                        <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
-                        <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                    <section class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
+                        <?php if ($s['image_path']): ?>
+                            <div class="section-image">
+                                <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
+                            </div>
+                        <?php endif; ?>
+                        <div class="section-content">
+                            <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
+                            <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                        </div>
                     </section>
                 <?php endforeach; ?>
             <?php endif; ?>
