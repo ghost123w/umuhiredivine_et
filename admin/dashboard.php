@@ -67,6 +67,7 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | <?php echo SITE_NAME; ?></title>
+    <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
     <!-- 2. Use inline CSS in the head of the dashboard file to set that variable as the background image for a hero section. -->
     <style>
@@ -135,6 +136,7 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
                     <?php
                         if ($_GET['msg'] == 'added') echo "Selling point added successfully.";
                         if ($_GET['msg'] == 'deleted') echo "Selling point deleted successfully.";
+                        if ($_GET['msg'] == 'updated') echo "Selling point updated successfully.";
                         if ($_GET['msg'] == 'settings_updated') echo "Settings updated successfully.";
                     ?>
                 </div>
@@ -222,8 +224,9 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
                                     </td>
                                     <td><strong><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
                                     <td><?php echo nl2br(htmlspecialchars($s['description'])); ?></td>
-                                    <td>
-                                        <form method="POST" onsubmit="return confirm('Are you sure?');">
+                                    <td style="white-space: nowrap;">
+                                        <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem; text-decoration: none; margin-right: 5px; display: inline-block;">Edit</a>
+                                        <form method="POST" onsubmit="return confirm('Are you sure?');" style="display: inline-block;">
                                             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                                             <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
                                             <button type="submit" name="delete_section" class="btn-delete">Delete</button>
