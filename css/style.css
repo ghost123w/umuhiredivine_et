@@ -232,13 +232,14 @@ body {
     transform: translateY(30px);
     transition: all 0.8s ease-out;
     overflow: hidden;
-    display: flex;
+    display: none; /* Hidden by default for "click to view" logic */
     flex-direction: column;
 }
 
 .reveal-section.active {
     opacity: 1;
     transform: translateY(0);
+    display: flex;
 }
 
 .reveal-section.has-image {

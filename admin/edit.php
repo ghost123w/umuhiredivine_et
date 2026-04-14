@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_FILES['section_image']) && $_FILES['section_image']['error'] == 0) {
         $target_dir = "../uploads/";
-        if (!is_dir($target_dir)) mkdir($target_dir, 0777, true);
+        if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
 
         $file_ext = strtolower(pathinfo($_FILES["section_image"]["name"], PATHINFO_EXTENSION));
         $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];

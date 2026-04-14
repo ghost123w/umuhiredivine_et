@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (isset($_FILES['section_image']) && $_FILES['section_image']['error'] == 0) {
             $target_dir = "../uploads/";
-            if (!is_dir($target_dir)) mkdir($target_dir, 0777, true);
+            if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
 
             $file_ext = strtolower(pathinfo($_FILES["section_image"]["name"], PATHINFO_EXTENSION));
             $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -234,14 +234,13 @@ $view = $_GET['view'] ?? 'overview';
                             <tr>
                                 <th>Image</th>
                                 <th>Title</th>
-                                <th>Description</th>
-                                <th>Actions</th>
+                                <th style="text-align: right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($sections)): ?>
                                 <tr>
-                                    <td colspan="4" class="text-center" style="padding: 40px; color: #999;">No selling points found. Start by adding one.</td>
+                                    <td colspan="3" class="text-center" style="padding: 40px; color: #999;">No selling points found. Start by adding one.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($sections as $s): ?>
@@ -253,18 +252,13 @@ $view = $_GET['view'] ?? 'overview';
                                                 <div style="width: 70px; height: 70px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 0.6rem; text-transform: uppercase;">No Image</div>
                                             <?php endif; ?>
                                         </td>
-                                        <td><strong style="color: var(--dark-color);"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
-                                        <td>
-                                            <div style="max-height: 60px; overflow: hidden; text-overflow: ellipsis; font-size: 0.9rem; color: #666;">
-                                                <?php echo nl2br(htmlspecialchars($s['description'])); ?>
-                                            </div>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 6px 14px; font-size: 0.75rem; text-decoration: none; margin-right: 5px; background: var(--secondary-color);">Edit</a>
+                                        <td><strong style="color: var(--dark-color); font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
+                                        <td style="white-space: nowrap; text-align: right;">
+                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 8px 18px; font-size: 0.85rem; text-decoration: none; margin-right: 5px; background: var(--secondary-color);">Edit / View Text</a>
                                             <form method="POST" onsubmit="return confirm('Are you sure you want to delete this masterpiece?');" style="display: inline-block;">
                                                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                                                 <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
-                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 5px 12px; font-size: 0.75rem;">Delete</button>
+                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 7px 16px; font-size: 0.85rem;">Delete</button>
                                             </form>
                                         </td>
                                     </tr>

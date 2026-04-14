@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($action === 'install') {
         try {
             if (!is_dir('data')) {
-                mkdir('data', 0777, true);
+                mkdir('data', 0755, true);
             }
             $pdo = new PDO('sqlite:' . DB_PATH);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
