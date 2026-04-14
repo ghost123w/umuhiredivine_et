@@ -15,6 +15,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $title = sanitize($_POST['selling_points_title']);
         $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = 'selling_points_title'");
         $stmt->execute([$title]);
+
+        $cta_text = sanitize($_POST['cta_text']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('cta_text', ?)");
+        $stmt->execute([$cta_text]);
+
+        $cta_link = sanitize($_POST['cta_link']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('cta_link', ?)");
+        $stmt->execute([$cta_link]);
+
         header("Location: dashboard.php?msg=settings_updated");
         exit();
     }
@@ -60,6 +69,14 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
 $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
+$stmt->execute();
+$cta_text = $stmt->fetchColumn() ?: 'Get Started';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
+$stmt->execute();
+$cta_link = $stmt->fetchColumn() ?: '#';
 
 $view = $_GET['view'] ?? 'overview';
 ?>
@@ -192,6 +209,18 @@ $view = $_GET['view'] ?? 'overview';
                             <input type="text" name="selling_points_title" class="form-control" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
                             <small style="color: #888;">This appears at the top of the sidebar on the landing page.</small>
                         </div>
+
+                        <div class="form-group">
+                            <label>CTA Button Text</label>
+                            <input type="text" name="cta_text" class="form-control" value="<?php echo htmlspecialchars($cta_text); ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>CTA Button Link (URL)</label>
+                            <input type="text" name="cta_link" class="form-control" value="<?php echo htmlspecialchars($cta_link); ?>" required>
+                            <small style="color: #888;">Enter a URL or an anchor like #features.</small>
+                        </div>
+
                         <button type="submit" name="update_settings" class="btn-primary">Save Changes</button>
                     </form>
                 </section>

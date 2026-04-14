@@ -182,9 +182,13 @@ body {
     padding-left: 0;
 }
 
-.sidebar-nav a:hover {
+.sidebar-nav a:hover, .sidebar-nav a.active-link {
     color: var(--primary-color);
-    padding-left: 10px;
+    padding-left: 15px;
+}
+
+.sidebar-nav a.active-link {
+    font-weight: 700;
 }
 
 .sidebar-nav a::before {
@@ -198,9 +202,9 @@ body {
     transition: width 0.3s ease;
 }
 
-.sidebar-nav a:hover::before {
-    width: 8px;
-    left: -12px;
+.sidebar-nav a:hover::before, .sidebar-nav a.active-link::before {
+    width: 12px;
+    left: -18px;
 }
 
 .layout-main {
@@ -225,21 +229,25 @@ body {
 .reveal-section {
     background: rgba(255, 255, 255, 0.95);
     padding: 0;
-    margin-bottom: 100px;
+    margin-bottom: 300px;
     border-radius: 12px;
     box-shadow: var(--shadow);
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
+    transform: translateY(60px);
+    transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
     overflow: hidden;
-    display: none; /* Hidden by default for "click to view" logic */
+    display: flex;
     flex-direction: column;
+    min-height: 400px;
+}
+
+.reveal-section:last-child {
+    margin-bottom: 200px;
 }
 
 .reveal-section.active {
     opacity: 1;
     transform: translateY(0);
-    display: flex;
 }
 
 .reveal-section.has-image {

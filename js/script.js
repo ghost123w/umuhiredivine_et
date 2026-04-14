@@ -1,27 +1,61 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.reveal-section');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
 
-    // Function to show a specific section and hide others
-    const showSection = (id) => {
-        sections.forEach(s => {
-            s.classList.remove('active');
-            // We use a small timeout to ensure display: flex is set before opacity transition
-            if (s.id === id || s.id === id.substring(1)) {
-                s.style.display = 'flex';
-                setTimeout(() => s.classList.add('active'), 10);
-            } else {
-                s.classList.remove('active');
-                s.style.display = 'none';
+    // 1. Intersection Observer for Scroll-Triggered Reveal Effect
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
             }
         });
-    };
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-    // Show first section by default if any exist
-    if (sections.length > 0) {
-        showSection(sections[0].id);
-    }
+    sections.forEach((section) => {
+        revealObserver.observe(section);
+    });
 
-    // Parallax stroll effect
+    // 2. ScrollSpy: Highlight active sidebar link
+    const scrollSpyObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach((link) => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active-link');
+                    }
+                });
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+
+    sections.forEach((section) => {
+        scrollSpyObserver.observe(section);
+    });
+
+    // 3. Smooth Scrolling for Sidebar Links
+    navLinks.forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+
+    // 4. Parallax Background Effect
     const bgImage = document.querySelector('.stroll-bg-image');
     if (bgImage) {
         window.addEventListener('scroll', () => {
@@ -30,22 +64,4 @@ document.addEventListener('DOMContentLoaded', () => {
             bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
         });
     }
-
-    // Handle sidebar links to toggle sections
-    document.querySelectorAll('.sidebar-nav a').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            showSection(targetId);
-
-            // Optional: Scroll to top of the main area when switching
-            const main = document.querySelector('.layout-main');
-            if (main) {
-                window.scrollTo({
-                    top: main.offsetTop - 20,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
 });

@@ -11,6 +11,14 @@ try {
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
 $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
+$stmt->execute();
+$cta_text = $stmt->fetchColumn() ?: 'Get Started';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
+$stmt->execute();
+$cta_link = $stmt->fetchColumn() ?: '#';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +56,10 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
                         <?php endforeach; ?>
                     </ul>
                 </nav>
+
+                <div class="sidebar-cta" style="margin-top: 60px;">
+                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                </div>
             </div>
         </aside>
 
@@ -62,6 +74,9 @@ $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
                     <div class="section-content">
                         <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
                         <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                        <div style="margin-top: 30px;">
+                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                        </div>
                     </div>
                 </section>
             <?php endforeach; ?>
