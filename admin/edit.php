@@ -104,17 +104,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if ($section['image_path']): ?>
                             <div style="margin-bottom: 10px;">
                                 <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 200px; border-radius: 8px;">
-                                <p style="font-size: 0.8rem; color: #666;">Current Image</p>
+                                <p style="font-size: 0.8rem; color: #aaa;">Current Image</p>
                             </div>
                         <?php endif; ?>
                         <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
                         <div id="imagePreview" style="margin-top: 15px; display: none;">
-                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                            <p style="font-size: 0.8rem; color: #666;">New Image Preview</p>
+                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(255,53,3,0.2);">
+                            <p style="font-size: 0.8rem; color: #aaa;">New Image Preview</p>
                         </div>
                     </div>
                     <button type="submit" class="btn-primary">Update Selling Point</button>
-                    <a href="dashboard.php" style="margin-left: 20px; color: #666; text-decoration: none;">Cancel</a>
+                    <a href="dashboard.php" style="margin-left: 20px; color: #aaa; text-decoration: none;">Cancel</a>
                 </form>
             </section>
         </main>

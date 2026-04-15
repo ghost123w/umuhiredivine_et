@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="login-wrapper">
     <div class="login-card">
         <h2>Admin Sign Up</h2>
-        <p style="text-align: center; font-size: 0.9rem; color: #666; margin-bottom: 20px;">Create the primary administrator account.</p>
+        <p style="text-align: center; font-size: 0.9rem; color: #aaa; margin-bottom: 20px;">Create the primary administrator account.</p>
 
         <?php if ($error): ?>
             <div class="error-msg"><?php echo $error; ?></div>

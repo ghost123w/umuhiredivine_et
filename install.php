@@ -105,7 +105,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .install-card { max-width: 500px; margin: 100px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .install-card {
+            max-width: 500px;
+            margin: 100px auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+        .install-card h2 { color: #fff; margin-top: 0; }
+        .install-card p { color: #aaa; }
     </style>
 </head>
 <body class="login-wrapper">
@@ -133,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Admin Password</label>
                     <input type="password" name="password" class="form-control" placeholder="Choose a strong password" required>
                 </div>
-                <button type="submit" class="btn-login" style="background: #28a745;">Complete Installation</button>
+                <button type="submit" class="btn-login" style="background: var(--primary-color);">Complete Installation</button>
             </form>
         <?php else: ?>
             <h2>Admin Login</h2>

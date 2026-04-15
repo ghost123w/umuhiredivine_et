@@ -211,8 +211,8 @@ body {
     grid-area: main;
     padding: 60px;
     max-width: 1000px;
-    background: rgba(240, 244, 248, 0.6);
-    backdrop-filter: blur(5px);
+    background: rgba(18, 18, 18, 0.4);
+    backdrop-filter: blur(10px);
 }
 
 .actions-title {
@@ -227,7 +227,7 @@ body {
 }
 
 .reveal-section {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(26, 26, 26, 0.95);
     padding: 0;
     margin-bottom: 300px;
     border-radius: 12px;
@@ -274,7 +274,8 @@ body {
 
 .reveal-section h2 {
     margin-top: 0;
-    color: var(--dark-color);
+    color: #fff;
+    font-family: 'Cinzel', serif;
     position: relative;
     padding-bottom: 15px;
 }
@@ -298,6 +299,7 @@ body {
 .reveal-section p {
     letter-spacing: 0.03em;
     line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .cta {
@@ -322,23 +324,25 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #f0f2f5;
+    background: var(--dark-color);
 }
 
 .login-card {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
     width: 100%;
     max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .login-card h2 {
     margin-top: 0;
     margin-bottom: 25px;
     text-align: center;
-    color: #333;
+    color: #fff;
     font-weight: 700;
 }
 
@@ -351,38 +355,43 @@ body {
     margin-bottom: 8px;
     font-weight: 600;
     font-size: 0.9rem;
+    color: #ccc;
 }
 
 .form-control {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
     border-radius: 6px;
     box-sizing: border-box;
     font-size: 1rem;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
 }
 
 .form-control:focus {
     border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.08);
     outline: none;
 }
 
 .btn-login {
     width: 100%;
     padding: 12px;
-    background: #333;
+    background: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 6px;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.3s;
 }
 
 .btn-login:hover {
-    background: #555;
+    filter: brightness(1.1);
+    transform: translateY(-1px);
 }
 
 .error-msg {
@@ -410,8 +419,9 @@ body {
 
 /* Admin Dashboard Styles */
 .admin-body {
-    background: var(--admin-bg);
+    background: var(--dark-color);
     min-height: 100vh;
+    color: #eee;
 }
 
 .admin-container {
@@ -426,14 +436,14 @@ body {
     align-items: center;
     margin-bottom: 40px;
     padding-bottom: 24px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .admin-header h1 {
     margin: 0;
     font-size: 1.75rem;
     font-weight: 700;
-    color: var(--dark-color);
+    color: #fff;
     letter-spacing: -0.5px;
 }
 
@@ -466,16 +476,17 @@ body {
 .dashboard-hero .vintage-frame {
     transform: scale(0.7);
     margin: 0;
-    border-color: rgba(255, 53, 3, 0.8);
+    border-color: var(--primary-color);
 }
 
 .admin-card {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 16px;
     box-shadow: var(--shadow);
     margin-bottom: 60px;
-    border: 1px solid rgba(0,0,0,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .admin-card h3 {
@@ -483,11 +494,11 @@ body {
     margin-bottom: 30px;
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--dark-color);
+    color: #fff;
 }
 
 .btn-primary {
-    background: var(--dark-color);
+    background: var(--primary-color);
     color: #fff;
     border: none;
     padding: 14px 28px;
@@ -498,7 +509,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: var(--primary-color);
+    filter: brightness(1.1);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 53, 3, 0.3);
 }
@@ -512,20 +523,23 @@ body {
 .admin-table th, .admin-table td {
     padding: 20px;
     text-align: left;
-    border-bottom: 1px solid #f0f0f0;
 }
 
 .admin-table th {
-    background: #fafafa;
+    background: rgba(255,255,255,0.05);
     font-weight: 700;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #888;
+    color: #aaa;
+}
+
+.admin-table td {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .admin-table tr:hover td {
-    background: #fcfcfc;
+    background: rgba(255,255,255,0.02);
 }
 
 .btn-delete {

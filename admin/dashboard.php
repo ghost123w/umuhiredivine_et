@@ -123,7 +123,7 @@ $view = $_GET['view'] ?? 'overview';
             transition: all 0.3s;
         }
         .sidebar-nav-admin a:hover, .sidebar-nav-admin a.active {
-            background: rgba(255, 94, 0, 0.2);
+            background: rgba(255, 53, 3, 0.15);
             color: var(--primary-color);
         }
     </style>
@@ -173,14 +173,14 @@ $view = $_GET['view'] ?? 'overview';
                     </div>
                     <div class="admin-card" style="margin-bottom: 0; text-align: center; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                          <img src="../images/brand-portrait.jpg" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); margin-bottom: 10px;" alt="Brand">
-                         <h4 style="margin: 0; color: var(--dark-color);"><?php echo SITE_NAME; ?></h4>
-                         <p style="font-size: 0.8rem; color: #888;">Live Brand Profile</p>
+                         <h4 style="margin: 0; color: #fff;"><?php echo SITE_NAME; ?></h4>
+                         <p style="font-size: 0.8rem; color: #aaa;">Live Brand Profile</p>
                     </div>
                 </div>
 
                 <div class="admin-card" style="margin-top: 40px;">
                     <h3>Quick Tips</h3>
-                    <ul style="color: #666; font-size: 0.95rem; line-height: 1.8;">
+                    <ul style="color: #aaa; font-size: 0.95rem; line-height: 1.8;">
                         <li>Use high-quality images for your selling points to maintain the luxury aesthetic.</li>
                         <li>Keep descriptions concise and punchy for better conversion.</li>
                         <li>You can change the title of the sidebar section in General Settings.</li>
@@ -189,7 +189,7 @@ $view = $_GET['view'] ?? 'overview';
             <?php endif; ?>
 
             <?php if (isset($_GET['msg'])): ?>
-                <div style="background: #e1f5fe; color: #0277bd; padding: 15px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #0277bd;">
+                <div style="background: rgba(255, 53, 3, 0.1); color: var(--primary-color); padding: 15px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid var(--primary-color); backdrop-filter: blur(5px);">
                     <?php
                         if ($_GET['msg'] == 'added') echo "<strong>Success:</strong> New selling point has been added to the gallery.";
                         if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The section has been successfully deleted.";
@@ -276,12 +276,12 @@ $view = $_GET['view'] ?? 'overview';
                                     <tr>
                                         <td>
                                             <?php if ($s['image_path']): ?>
-                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #eee;">
+                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
                                             <?php else: ?>
-                                                <div style="width: 70px; height: 70px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 0.6rem; text-transform: uppercase;">No Image</div>
+                                                <div style="width: 70px; height: 70px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 0.6rem; text-transform: uppercase;">No Image</div>
                                             <?php endif; ?>
                                         </td>
-                                        <td><strong style="color: var(--dark-color); font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
+                                        <td><strong style="color: #fff; font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
                                         <td style="white-space: nowrap; text-align: right;">
                                             <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 8px 18px; font-size: 0.85rem; text-decoration: none; margin-right: 5px; background: var(--secondary-color);">Edit / View Text</a>
                                             <form method="POST" onsubmit="return confirm('Are you sure you want to delete this masterpiece?');" style="display: inline-block;">
