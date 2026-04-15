@@ -68,8 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="vintage-frame">
                 <h1><?php echo SITE_NAME; ?></h1>
             </div>
-            <div class="user-info" style="position: absolute; right: 40px; color: #fff;">
-                <a href="logout.php" class="btn-logout">Logout</a>
+            <div class="user-info" style="color: #fff; z-index: 10;">
+                <a href="logout.php" class="btn-primary" style="padding: 8px 15px; font-size: 0.8rem; background: #fff; color: var(--primary-color); animation: none;">Logout</a>
             </div>
         </header>
 

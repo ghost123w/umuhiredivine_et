@@ -48,9 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="login-wrapper">
-    <div class="login-card">
-        <h2>Admin Login</h2>
+<body class="login-wrapper" style="background: radial-gradient(circle, #ff3503 0%, #0a0a0a 70%);">
+    <div class="login-card" style="border: 2px solid var(--primary-color); box-shadow: 0 0 30px var(--primary-glow);">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="vintage-frame" style="padding: 10px 20px;">
+                <h1 style="font-size: 1.5rem; margin: 0; color: #fff;"><?php echo SITE_NAME; ?></h1>
+            </div>
+        </div>
+        <h2 style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px;">Admin Login</h2>
 
         <?php if ($error): ?>
             <div class="error-msg"><?php echo $error; ?></div>

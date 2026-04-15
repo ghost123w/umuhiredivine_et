@@ -95,9 +95,9 @@ $view = $_GET['view'] ?? 'overview';
             <div class="vintage-frame">
                 <h1><?php echo SITE_NAME; ?></h1>
             </div>
-            <div class="user-info" style="position: absolute; right: 40px; color: #fff;">
-                <span>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="btn-logout" style="margin-left: 20px;">Logout</a>
+            <div class="user-info" style="color: #fff; display: flex; align-items: center; gap: 20px; z-index: 10;">
+                <span style="font-weight: 600; text-shadow: 0 0 10px rgba(0,0,0,0.5);">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="logout.php" class="btn-primary" style="padding: 8px 15px; font-size: 0.8rem; background: #fff; color: var(--primary-color); animation: none;">Logout</a>
             </div>
         </header>
 

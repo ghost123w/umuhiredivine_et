@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 3D Stroll Tilt for Admin Cards
+        // 3D Stroll Tilt for Admin Cards & Dynamic Glow
         adminCards.forEach(card => {
             if (card.classList.contains('active')) {
                 const rect = card.getBoundingClientRect();
@@ -96,7 +96,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const tilt = distanceFromCenter * 4;
                 card.style.transform = `perspective(1200px) rotateX(${tilt}deg) translateZ(0)`;
+
+                // Dynamic Glow based on position
+                const intensity = Math.max(0.2, 1 - Math.abs(distanceFromCenter));
+                card.style.boxShadow = `0 ${10 * intensity}px ${30 * intensity}px rgba(255, 53, 3, ${0.3 * intensity})`;
             }
         });
+
+        // Dynamic Background Shift on Scroll
+        const header = document.querySelector('.layout-header');
+        if (header) {
+            const opacity = Math.min(0.95, 0.8 + (scrolled / 500));
+            header.style.background = `linear-gradient(135deg, rgba(255, 53, 3, ${opacity}) 0%, rgba(255, 122, 92, ${opacity}) 100%)`;
+        }
     });
 });
