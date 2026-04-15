@@ -88,45 +88,6 @@ $view = $_GET['view'] ?? 'overview';
     <title>Admin Dashboard | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .dashboard-hero {
-            background-image: url('<?php echo $hero_bg_path; ?>');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            padding: 40px 20px;
-            color: #fff;
-            text-align: center;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
-        .dashboard-hero h2 {
-            font-size: 2.5rem;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        }
-        .sidebar-nav-admin li {
-            margin-bottom: 10px;
-        }
-        .sidebar-nav-admin a {
-            display: block;
-            padding: 12px 20px;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        .sidebar-nav-admin a:hover, .sidebar-nav-admin a.active {
-            background: rgba(255, 53, 3, 0.15);
-            color: var(--primary-color);
-        }
-    </style>
 </head>
 <body class="admin-body">
     <div class="layout-wrapper">
