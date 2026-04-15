@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <?php if (defined('ALLOW_REGISTRATION') && ALLOW_REGISTRATION === true): ?>
         <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-            Don't have an account? <a href="signup.php" style="color: #007bff; text-decoration: none; font-weight: 600;">Sign Up</a>
+            Don't have an account? <a href="signup.php" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Sign Up</a>
         </div>
         <?php endif; ?>
 

@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #c5a059; /* Gold/Brass tone */
+    --primary-color: #ff3503; /* Electric Orange */
     --secondary-color: #8e8e8e;
     --success-color: #28a745;
     --danger-color: #e74c3c;
@@ -80,7 +80,7 @@ body {
     font-weight: 800;
     letter-spacing: -1px;
     text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
-    background: linear-gradient(to right, #c5a059 20%, #f9e1a1 40%, #f9e1a1 60%, #c5a059 80%);
+    background: linear-gradient(to right, var(--primary-color) 20%, #ff7a5c 40%, #ff7a5c 60%, var(--primary-color) 80%);
     background-size: 200% auto;
     background-clip: text;
     -webkit-background-clip: text;
@@ -103,7 +103,7 @@ body {
     text-transform: uppercase;
     font-family: 'Cinzel', serif;
     letter-spacing: 6px;
-    box-shadow: inset 0 0 0 2px rgba(197, 160, 89, 0.2);
+    box-shadow: inset 0 0 0 2px rgba(255, 53, 3, 0.2);
     transform: scale(0.9);
 }
 
@@ -121,14 +121,14 @@ body {
 
 .vintage-frame::before {
     top: -105px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'%3E%3Cpath d='M250,130 C150,130 50,80 50,50 C50,20 100,20 120,40 C140,60 120,80 100,80 C80,80 70,60 70,50' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,130 C350,130 450,80 450,50 C450,20 400,20 380,40 C360,60 380,80 400,80 C420,80 430,60 430,50' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 230,70' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 270,70' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,150 L240,120 L250,90 L260,120 Z' fill='%23c5a059'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'%3E%3Cpath d='M250,130 C150,130 50,80 50,50 C50,20 100,20 120,40 C140,60 120,80 100,80 C80,80 70,60 70,50' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,130 C350,130 450,80 450,50 C450,20 400,20 380,40 C360,60 380,80 400,80 C420,80 430,60 430,50' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 230,70' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 270,70' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,150 L240,120 L250,90 L260,120 Z' fill='%23ff3503'/%3E%3C/svg%3E");
     transform: scale(0.6) translateX(-85%);
 }
 
 .vintage-frame::after {
     bottom: -105px;
     transform: translateX(-50%) rotate(180deg) scale(0.6);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'%3E%3Cpath d='M250,130 C150,130 50,80 50,50 C50,20 100,20 120,40 C140,60 120,80 100,80 C80,80 70,60 70,50' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,130 C350,130 450,80 450,50 C450,20 400,20 380,40 C360,60 380,80 400,80 C420,80 430,60 430,50' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 230,70' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 270,70' fill='none' stroke='%23c5a059' stroke-width='2'/%3E%3Cpath d='M250,150 L240,120 L250,90 L260,120 Z' fill='%23c5a059'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'%3E%3Cpath d='M250,130 C150,130 50,80 50,50 C50,20 100,20 120,40 C140,60 120,80 100,80 C80,80 70,60 70,50' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,130 C350,130 450,80 450,50 C450,20 400,20 380,40 C360,60 380,80 400,80 C420,80 430,60 430,50' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 230,70' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 270,70' fill='none' stroke='%23ff3503' stroke-width='2'/%3E%3Cpath d='M250,150 L240,120 L250,90 L260,120 Z' fill='%23ff3503'/%3E%3C/svg%3E");
 }
 
 .layout-sidebar {
@@ -466,7 +466,7 @@ body {
 .dashboard-hero .vintage-frame {
     transform: scale(0.7);
     margin: 0;
-    border-color: rgba(197, 160, 89, 0.8);
+    border-color: rgba(255, 53, 3, 0.8);
 }
 
 .admin-card {
@@ -500,7 +500,7 @@ body {
 .btn-primary:hover {
     background: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
+    box-shadow: 0 5px 15px rgba(255, 53, 3, 0.3);
 }
 
 .admin-table {
@@ -553,38 +553,12 @@ body {
 .admin-footer { text-align: center; margin-top: 40px; color: #666; }
 .admin-footer a { color: #666; text-decoration: none; }
 
-/* Admin Dashboard Electric Orange Overrides */
+/* Admin Dashboard Overrides (Consistent with global theme now) */
 .admin-body, .login-wrapper {
-    --primary-color: #FF5E00;
-}
-
-.admin-body .layout-header h1, .login-wrapper h1 {
-    background: linear-gradient(to right, var(--primary-color) 20%, #ff8c00 40%, #ff8c00 60%, var(--primary-color) 80%);
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 4s linear infinite;
-}
-
-.admin-body .vintage-frame, .login-wrapper .vintage-frame {
-    border-color: var(--primary-color);
-    box-shadow: inset 0 0 0 2px rgba(255, 94, 0, 0.2);
-}
-
-.admin-body .vintage-frame::before, .login-wrapper .vintage-frame::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'%3E%3Cpath d='M250,130 C150,130 50,80 50,50 C50,20 100,20 120,40 C140,60 120,80 100,80 C80,80 70,60 70,50' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,130 C350,130 450,80 450,50 C450,20 400,20 380,40 C360,60 380,80 400,80 C420,80 430,60 430,50' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 230,70' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 270,70' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,150 L240,120 L250,90 L260,120 Z' fill='%23FF5E00'/%3E%3C/svg%3E");
-}
-
-.admin-body .vintage-frame::after, .login-wrapper .vintage-frame::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'%3E%3Cpath d='M250,130 C150,130 50,80 50,50 C50,20 100,20 120,40 C140,60 120,80 100,80 C80,80 70,60 70,50' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,130 C350,130 450,80 450,50 C450,20 400,20 380,40 C360,60 380,80 400,80 C420,80 430,60 430,50' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 230,70' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,130 L250,100 Q250,80 270,70' fill='none' stroke='%23FF5E00' stroke-width='2'/%3E%3Cpath d='M250,150 L240,120 L250,90 L260,120 Z' fill='%23FF5E00'/%3E%3C/svg%3E");
+    --primary-color: #ff3503;
 }
 
 .admin-body .btn-primary:hover, .login-wrapper .btn-login:hover {
-    background: #e65500;
-    box-shadow: 0 5px 15px rgba(255, 94, 0, 0.3);
-}
-
-.admin-body .dashboard-hero .vintage-frame {
-    border-color: rgba(255, 94, 0, 0.8);
+    background: #e62a00;
+    box-shadow: 0 5px 15px rgba(255, 53, 3, 0.3);
 }
