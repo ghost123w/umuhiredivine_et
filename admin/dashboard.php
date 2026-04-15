@@ -298,6 +298,7 @@ $view = $_GET['view'] ?? 'overview';
                 </section>
             <?php endif; ?>
 
+            <script src="../js/script.js"></script>
             <script>
                 const imageInput = document.getElementById('imageInput');
                 if (imageInput) {
