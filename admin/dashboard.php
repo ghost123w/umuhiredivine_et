@@ -123,7 +123,7 @@ $view = $_GET['view'] ?? 'overview';
             transition: all 0.3s;
         }
         .sidebar-nav-admin a:hover, .sidebar-nav-admin a.active {
-            background: rgba(197, 160, 89, 0.2);
+            background: rgba(255, 53, 3, 0.2);
             color: var(--primary-color);
         }
     </style>
@@ -160,9 +160,9 @@ $view = $_GET['view'] ?? 'overview';
             <?php if ($view == 'overview'): ?>
                 <div class="dashboard-hero">
                     <h2>Welcome to the Atelier</h2>
-                    <div class="vintage-frame" style="transform: scale(0.6);">
-                        <span style="color: #c5a059; font-weight: bold; letter-spacing: 4px;">Verified Admin Access</span>
-                    </div>
+                <div class="vintage-frame" style="transform: scale(0.6);">
+                    <span style="color: var(--primary-color); font-weight: bold; letter-spacing: 4px;">Verified Admin Access</span>
+                </div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
