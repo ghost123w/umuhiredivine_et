@@ -123,7 +123,7 @@ $view = $_GET['view'] ?? 'overview';
             transition: all 0.3s;
         }
         .sidebar-nav-admin a:hover, .sidebar-nav-admin a.active {
-            background: rgba(255, 53, 3, 0.2);
+            background: rgba(255, 94, 0, 0.2);
             color: var(--primary-color);
         }
     </style>
