@@ -97,7 +97,7 @@ $view = $_GET['view'] ?? 'overview';
             </div>
             <div class="user-info" style="color: #fff; display: flex; align-items: center; gap: 20px; z-index: 10;">
                 <span style="font-weight: 600; text-shadow: 0 0 10px rgba(0,0,0,0.5);">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="btn-primary" style="padding: 8px 15px; font-size: 0.8rem; background: #fff; color: var(--primary-color); animation: none;">Logout</a>
+                <a href="logout.php" class="btn-outline">Logout</a>
             </div>
         </header>
 
@@ -120,10 +120,10 @@ $view = $_GET['view'] ?? 'overview';
         <main class="layout-main">
             <?php if ($view == 'overview'): ?>
                 <div class="dashboard-hero">
-                    <h2>Welcome to the Atelier</h2>
-                <div class="vintage-frame" style="transform: scale(0.6);">
-                    <span style="color: var(--primary-color); font-weight: bold; letter-spacing: 4px;">Verified Admin Access</span>
-                </div>
+                    <h2 class="shimmer-text">Welcome to the Atelier</h2>
+                    <div class="vintage-frame" style="transform: scale(0.6);">
+                        <span style="color: #fff; font-weight: bold; letter-spacing: 4px;">Verified Admin Access</span>
+                    </div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">

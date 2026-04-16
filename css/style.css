@@ -101,9 +101,19 @@ body {
     letter-spacing: -1px;
     color: #fff;
     text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    background: none;
-    -webkit-text-fill-color: initial;
-    animation: none;
+    background: linear-gradient(90deg, #fff, var(--primary-color), #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+}
+
+.shimmer-text {
+    background: linear-gradient(90deg, #fff, var(--primary-color), #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s linear infinite;
 }
 
 @keyframes shimmer {
@@ -125,13 +135,15 @@ body {
 .vintage-frame {
     display: inline-block;
     position: relative;
-    padding: 5px 25px;
-    border: 2px solid #fff;
+    padding: 10px 30px;
+    border: 1px solid var(--primary-color);
     margin: 10px auto;
     text-transform: uppercase;
     font-family: 'Cinzel', serif;
     letter-spacing: 4px;
-    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    box-shadow: 0 0 20px var(--primary-glow), inset 0 0 10px var(--primary-glow);
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(10px);
 }
 
 .vintage-frame::before, .vintage-frame::after {
@@ -312,6 +324,11 @@ body {
     font-family: 'Cinzel', serif;
     position: relative;
     padding-bottom: 15px;
+    background: linear-gradient(90deg, #fff, var(--primary-color), #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s linear infinite;
 }
 
 .reveal-section h2::after {
@@ -360,7 +377,15 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: var(--dark-color);
+    background: radial-gradient(circle at 50% 50%, #1a0a05, #0a0a0a);
+    background-size: 200% 200%;
+    animation: bg-pulse 8s ease-in-out infinite;
+}
+
+@keyframes bg-pulse {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .login-card {
@@ -588,6 +613,30 @@ body {
     animation: none;
 }
 
+.btn-outline {
+    background: transparent !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    padding: 8px 15px !important;
+    border-radius: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.8rem;
+    animation: none !important;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    box-shadow: 0 0 15px rgba(255, 53, 3, 0.2);
+}
+
 .admin-table {
     width: 100%;
     border-collapse: separate;
@@ -600,20 +649,21 @@ body {
 }
 
 .admin-table th {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 53, 3, 0.05);
     font-weight: 700;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #aaa;
+    color: var(--primary-color);
 }
 
 .admin-table td {
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255, 53, 3, 0.1);
 }
 
 .admin-table tr:hover td {
-    background: rgba(255,255,255,0.02);
+    background: rgba(255, 53, 3, 0.05);
+    border-bottom-color: var(--primary-color);
 }
 
 .btn-delete {
@@ -670,8 +720,8 @@ body {
 .sidebar-nav-admin a:hover, .sidebar-nav-admin a.active {
     background: var(--primary-color);
     color: #fff;
-    box-shadow: 0 0 15px var(--primary-glow);
-    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--primary-glow);
+    transform: translateX(10px) scale(1.05);
 }
 
 .sidebar-nav-admin a.active::after {
