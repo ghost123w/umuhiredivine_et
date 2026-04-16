@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Selling Point | <?php echo SITE_NAME; ?></title>
+    <title>Edit Point | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -68,8 +68,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="vintage-frame">
                 <h1><?php echo SITE_NAME; ?></h1>
             </div>
-            <div class="user-info" style="color: #fff; z-index: 10;">
-                <a href="logout.php" class="btn-primary" style="padding: 8px 15px; font-size: 0.8rem; background: #fff; color: var(--primary-color); animation: none;">Logout</a>
+            <div class="user-info" style="color: #fff; display: flex; align-items: center; gap: 20px; z-index: 10;">
+                <span style="font-weight: 600; text-shadow: 0 0 10px rgba(0,0,0,0.5);">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="logout.php" class="btn-outline">Logout</a>
             </div>
         </header>
 
@@ -77,16 +78,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="sidebar-content">
                 <h2>Admin Panel</h2>
                 <div class="sidebar-line"></div>
-                <nav style="margin-top: 40px;">
+                <nav class="sidebar-nav-admin">
                     <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 15px;"><a href="dashboard.php" style="color: #fff; text-decoration: none; opacity: 0.8;">Back to Dashboard</a></li>
+                        <li><a href="dashboard.php?view=overview">Overview</a></li>
+                        <li><a href="dashboard.php?view=settings">General Settings</a></li>
+                        <li><a href="dashboard.php?view=add">Add New Point</a></li>
+                        <li><a href="dashboard.php?view=manage" class="active">Manage Points</a></li>
+                        <li style="margin-top: 40px;"><a href="../index.php" target="_blank" style="font-size: 0.8rem; opacity: 0.6;">View Website ↗</a></li>
                     </ul>
                 </nav>
             </div>
         </aside>
 
         <main class="layout-main">
-            <h2 class="actions-title">Edit Selling Point</h2>
+            <div class="dashboard-hero">
+                <h2 class="shimmer-text">Refine Masterpiece</h2>
+                <p style="color: #aaa; margin-top: -10px;">Updating: <?php echo htmlspecialchars($section['section_title']); ?></p>
+            </div>
 
             <section class="admin-card">
                 <form method="POST" class="admin-form" enctype="multipart/form-data">
@@ -101,42 +109,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label>Image (Optional)</label>
-                        <?php if ($section['image_path']): ?>
-                            <div style="margin-bottom: 10px;">
-                                <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 200px; border-radius: 8px;">
-                                <p style="font-size: 0.8rem; color: #aaa;">Current Image</p>
+                        <div style="display: flex; gap: 30px; align-items: flex-start; margin-bottom: 20px;">
+                            <?php if ($section['image_path']): ?>
+                                <div>
+                                    <p style="font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 5px;">Current Image</p>
+                                    <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 150px; border-radius: 8px; border: 1px solid rgba(255,53,3,0.3);">
+                                </div>
+                            <?php endif; ?>
+                            <div id="imagePreview" style="display: none;">
+                                <p style="font-size: 0.7rem; color: var(--primary-color); text-transform: uppercase; margin-bottom: 5px;">New Preview</p>
+                                <img src="" alt="Preview" style="max-width: 150px; border-radius: 8px; border: 2px solid var(--primary-color); box-shadow: 0 0 15px rgba(255,53,3,0.3);">
                             </div>
-                        <?php endif; ?>
-                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
-                        <div id="imagePreview" style="margin-top: 15px; display: none;">
-                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(255,53,3,0.2);">
-                            <p style="font-size: 0.8rem; color: #aaa;">New Image Preview</p>
                         </div>
+                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
                     </div>
-                    <button type="submit" class="btn-primary">Update Selling Point</button>
-                    <a href="dashboard.php" style="margin-left: 20px; color: #aaa; text-decoration: none;">Cancel</a>
+
+                    <div style="margin-top: 40px; display: flex; gap: 20px; align-items: center;">
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                        <a href="dashboard.php?view=manage" class="btn-outline">Cancel</a>
+                    </div>
                 </form>
             </section>
         </main>
     </div>
 
+    <script src="../js/script.js"></script>
     <script>
-        document.getElementById('imageInput').addEventListener('change', function(event) {
-            const previewContainer = document.getElementById('imagePreview');
-            const previewImage = previewContainer.querySelector('img');
-            const file = event.target.files[0];
+        const imageInput = document.getElementById('imageInput');
+        if (imageInput) {
+            imageInput.addEventListener('change', function(event) {
+                const previewContainer = document.getElementById('imagePreview');
+                const previewImage = previewContainer.querySelector('img');
+                const file = event.target.files[0];
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    previewContainer.style.display = 'block';
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    previewContainer.style.display = 'none';
                 }
-                reader.readAsDataURL(file);
-            } else {
-                previewContainer.style.display = 'none';
-            }
-        });
+            });
+        }
     </script>
 </body>
 </html>
