@@ -60,7 +60,7 @@ body {
     grid-template-columns: 300px 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:
-        "header header"
+        "sidebar header"
         "sidebar main";
     min-height: 100vh;
 }
@@ -90,8 +90,8 @@ body {
 }
 
 @keyframes electric-flow {
-    from { transform: translateX(-50%); }
-    to { transform: translateX(50%); }
+    from { transform: translateX(-50%) skewX(-20deg); }
+    to { transform: translateX(50%) skewX(-20deg); }
 }
 
 .layout-header h1 {
@@ -167,19 +167,20 @@ body {
     padding: 40px 20px;
     position: sticky;
     top: 0;
-    height: calc(100vh - 80px);
+    height: 100vh;
     color: #fff;
     box-shadow: 10px 0 30px rgba(0,0,0,0.5), 2px 0 15px var(--primary-glow);
     perspective: 1000px;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
     z-index: 50;
+    overflow-y: auto;
 }
 
 @keyframes sidebar-bg-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
 }
 
 .sidebar-portrait-container {
@@ -203,13 +204,14 @@ body {
 
 .sidebar-content h2 {
     font-family: 'Cinzel', serif;
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2.5rem;
+    font-weight: 800;
     color: var(--primary-color);
-    letter-spacing: 4px;
+    letter-spacing: 6px;
     margin: 0;
     text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(255, 53, 3, 0.4);
+    text-shadow: 0 0 15px var(--primary-glow);
+    animation: orange-pulse 3s infinite;
 }
 
 .sidebar-line {
