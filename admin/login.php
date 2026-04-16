@@ -3,6 +3,7 @@ session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
+// Check if any admin exists. If not, redirect to installation/signup.
 try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
     if ($stmt->fetchColumn() == 0) {
@@ -34,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: dashboard.php");
         exit();
     } else {
-        $error = "Invalid credentials. The atelier remains closed.";
+        $error = "Invalid username or password.";
     }
 }
 ?>
@@ -47,42 +48,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="login-page">
-    <div class="aurora-bg"></div>
-
-    <div class="login-bento">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <div class="login-brand shimmer-text"><?php echo SITE_NAME; ?></div>
-            <p style="color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Administration Portal</p>
-        </div>
+<body class="login-wrapper">
+    <div class="login-card">
+        <h2>Admin Login</h2>
 
         <?php if ($error): ?>
-            <div class="error-toast"><?php echo $error; ?></div>
+            <div class="error-msg"><?php echo $error; ?></div>
         <?php endif; ?>
 
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
 
-            <div class="modern-form-group">
-                <label>Username</label>
-                <input type="text" name="username" required autofocus>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Enter username" required autofocus>
             </div>
 
-            <div class="modern-form-group">
-                <label>Password</label>
-                <input type="password" name="password" required>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
             </div>
 
-            <button type="submit" class="btn-modern" style="width: 100%; margin-top: 10px;">Enter Atelier</button>
+            <button type="submit" class="btn-login">Login</button>
         </form>
 
-        <div style="margin-top: 30px; text-align: center; border-top: 1px solid var(--glass-border); padding-top: 20px;">
-            <?php if (defined('ALLOW_REGISTRATION') && ALLOW_REGISTRATION === true): ?>
-                <a href="signup.php" style="color: var(--primary-color); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Request Access</a>
-                <span style="color: #444; margin: 0 10px;">•</span>
-            <?php endif; ?>
-            <a href="../index.php" style="color: #666; text-decoration: none; font-size: 0.85rem;">View Website</a>
+        <?php if (defined('ALLOW_REGISTRATION') && ALLOW_REGISTRATION === true): ?>
+        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+            Don't have an account? <a href="signup.php" style="color: #007bff; text-decoration: none; font-weight: 600;">Sign Up</a>
         </div>
+        <?php endif; ?>
+
+        <a href="../index.php" class="back-link">&larr; Back to Website</a>
     </div>
 </body>
 </html>

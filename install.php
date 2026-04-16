@@ -46,8 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 email TEXT,
                 is_verified INTEGER DEFAULT 1
             )");
-            $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, image_path TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
-            $pdo->exec("CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, setting_key TEXT UNIQUE, setting_value TEXT)");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
+
+            // Removed restriction that blocked multiple administrators during installation phase if needed
+            // However, installation is usually for the FIRST admin.
+            // For subsequent admins, they should use signup.php if enabled.
 
             $username = sanitize($_POST['username']);
             $email = sanitize($_POST['email'] ?? '');
@@ -101,64 +104,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title><?php echo $installed ? 'Admin Login' : 'Administrator Installation'; ?> | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .install-card { max-width: 500px; margin: 100px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    </style>
 </head>
-<body class="login-page">
-    <div class="aurora-bg"></div>
-
-    <div class="login-bento">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <div class="login-brand shimmer-text"><?php echo SITE_NAME; ?></div>
-            <p style="color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
-                <?php echo $installed ? 'Administration Portal' : 'Installation Wizard'; ?>
-            </p>
-        </div>
-
-        <?php if ($error): ?>
-            <div class="error-toast"><?php echo $error; ?></div>
-        <?php endif; ?>
-
+<body class="login-wrapper">
+    <div class="install-card">
         <?php if (!$installed): ?>
-            <p style="color: #888; text-align: center; margin-bottom: 30px; font-size: 0.9rem;">Set up the primary administrator account.</p>
+            <h2>Administration Installation</h2>
+            <p>Welcome! Set up the primary administrator account to begin managing your website.</p>
+
+            <?php if ($error): ?>
+                <div class="error-msg"><?php echo $error; ?></div>
+            <?php endif; ?>
+
             <form method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="action" value="install">
-
-                <div class="modern-form-group">
+                <div class="form-group">
                     <label>Admin Username</label>
-                    <input type="text" name="username" required autofocus>
+                    <input type="text" name="username" class="form-control" placeholder="Choose a username" required autofocus>
                 </div>
-
-                <div class="modern-form-group">
+                <div class="form-group">
                     <label>Admin Email</label>
-                    <input type="email" name="email" required>
+                    <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
                 </div>
-
-                <div class="modern-form-group">
+                <div class="form-group">
                     <label>Admin Password</label>
-                    <input type="password" name="password" required>
+                    <input type="password" name="password" class="form-control" placeholder="Choose a strong password" required>
                 </div>
-
-                <button type="submit" class="btn-modern" style="width: 100%; margin-top: 10px;">Complete Installation</button>
+                <button type="submit" class="btn-login" style="background: #28a745;">Complete Installation</button>
             </form>
         <?php else: ?>
+            <h2>Admin Login</h2>
+            <p>Access your dashboard to manage selling points.</p>
+
+            <?php if ($error): ?>
+                <div class="error-msg"><?php echo $error; ?></div>
+            <?php endif; ?>
+
             <form method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="action" value="login">
-
-                <div class="modern-form-group">
+                <div class="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" required autofocus>
+                    <input type="text" name="username" class="form-control" placeholder="Enter username" required autofocus>
                 </div>
-
-                <div class="modern-form-group">
+                <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" required>
+                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
                 </div>
-
-                <button type="submit" class="btn-modern" style="width: 100%; margin-top: 10px;">Enter Atelier</button>
+                <button type="submit" class="btn-login">Login</button>
             </form>
-            <div style="margin-top: 30px; text-align: center; border-top: 1px solid var(--glass-border); padding-top: 20px;">
-                <a href="index.php" style="color: #666; text-decoration: none; font-size: 0.85rem;">Return to Website</a>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="index.php" class="back-link">View Website</a>
             </div>
         <?php endif; ?>
     </div>

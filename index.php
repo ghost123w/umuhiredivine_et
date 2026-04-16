@@ -10,11 +10,11 @@ try {
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
-$selling_points_title = $stmt->fetchColumn() ?: 'Curation';
+$selling_points_title = $stmt->fetchColumn() ?: 'Actions';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
 $stmt->execute();
-$cta_text = $stmt->fetchColumn() ?: 'Explore Now';
+$cta_text = $stmt->fetchColumn() ?: 'Get Started';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
 $stmt->execute();
@@ -30,55 +30,58 @@ $cta_link = $stmt->fetchColumn() ?: '#';
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Cinzel:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="landing-page">
-    <div class="aurora-bg"></div>
+    <div class="stroll-bg-container">
+        <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
+        <div class="stroll-bg-overlay"></div>
+    </div>
+    <div class="layout-wrapper">
+        <header class="layout-header">
+            <div class="vintage-frame">
+                <h1><?php echo SITE_NAME; ?></h1>
+            </div>
+        </header>
 
-    <nav class="glass-pill-nav">
-        <div class="nav-brand shimmer-text"><?php echo SITE_NAME; ?></div>
-        <div class="nav-links">
-            <a href="#home" class="active">Home</a>
-            <a href="#curation"><?php echo htmlspecialchars($selling_points_title); ?></a>
-            <a href="admin/login.php">Portal</a>
-        </div>
-        <div class="nav-actions">
-            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="btn-modern" style="padding: 8px 25px; font-size: 0.75rem;"><?php echo htmlspecialchars($cta_text); ?></a>
-        </div>
-    </nav>
+        <aside class="layout-sidebar">
+            <div class="sidebar-content">
+                <h2><?php echo htmlspecialchars($selling_points_title); ?></h2>
+                <div class="sidebar-line"></div>
 
-    <header class="landing-hero" id="home">
-        <h1 class="shimmer-text"><?php echo SITE_NAME; ?></h1>
-        <p>A digital atelier for the modern visionary. Crafted with precision, powered by passion.</p>
-        <div class="status-indicator" style="justify-content: center;">
-            <div class="pulse-dot"></div>
-            <span>System Operational • Artisan Version 2.0</span>
-        </div>
-    </header>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <?php foreach ($sections as $s): ?>
+                            <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
 
-    <main id="curation">
-        <div class="content-grid">
+                <div class="sidebar-cta" style="margin-top: 60px;">
+                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="layout-main" id="features">
             <?php foreach ($sections as $s): ?>
-                <article class="bento-card reveal-section">
+                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
                     <?php if ($s['image_path']): ?>
-                        <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
+                        <div class="section-image">
+                            <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
+                        </div>
                     <?php endif; ?>
-                    <div class="bento-card-content">
+                    <div class="section-content">
                         <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
                         <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
-                        <div style="margin-top: auto;">
-                             <a href="<?php echo htmlspecialchars($cta_link); ?>" class="btn-modern" style="display: inline-block; text-decoration: none;"><?php echo htmlspecialchars($cta_text); ?></a>
+                        <div style="margin-top: 30px;">
+                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
                         </div>
                     </div>
-                </article>
+                </section>
             <?php endforeach; ?>
-        </div>
-    </main>
-
-    <footer class="landing-footer">
-        &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> • Built for Excellence
-    </footer>
-
+        </main>
+    </div>
     <script src="js/script.js"></script>
 </body>
 </html>

@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $pdo->prepare("UPDATE content SET section_title = ?, description = ?, image_path = ? WHERE id = ?");
     $stmt->execute([$title, $desc, $image_path, $id]);
-    header("Location: dashboard.php?view=manage&msg=updated");
+    header("Location: dashboard.php?msg=updated");
     exit();
 }
 ?>
@@ -58,102 +58,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Point | <?php echo SITE_NAME; ?></title>
+    <title>Edit Selling Point | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="admin-body modern-layout">
-    <div class="aurora-bg"></div>
-
-    <nav class="glass-pill-nav">
-        <div class="nav-brand shimmer-text"><?php echo SITE_NAME; ?></div>
-        <div class="nav-links">
-            <a href="dashboard.php?view=overview">Overview</a>
-            <a href="dashboard.php?view=settings">Settings</a>
-            <a href="dashboard.php?view=add">Create</a>
-            <a href="dashboard.php?view=manage" class="active">Manage</a>
-        </div>
-        <div class="nav-actions">
-            <span class="user-badge">Hello, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-            <a href="logout.php" class="btn-logout-minimal">Sign Out</a>
-        </div>
-    </nav>
-
-    <main class="dashboard-main-modern">
-        <div class="bento-header">
-            <div class="bento-item welcome-tile">
-                <h2 class="shimmer-text">Refine Masterpiece</h2>
-                <p style="color: #aaa; margin: 0;">Updating: <?php echo htmlspecialchars($section['section_title']); ?></p>
+<body class="admin-body">
+    <div class="layout-wrapper">
+        <header class="layout-header">
+            <div class="vintage-frame">
+                <h1><?php echo SITE_NAME; ?></h1>
             </div>
-            <div class="bento-item live-tile" onclick="window.open('../index.php', '_blank')">
-                <h3>View Live</h3>
-                <span class="external-icon">↗</span>
+            <div class="user-info" style="position: absolute; right: 40px; color: #fff;">
+                <a href="logout.php" class="btn-logout">Logout</a>
             </div>
-        </div>
+        </header>
 
-        <section class="bento-item modern-form-container">
-            <form method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+        <aside class="layout-sidebar">
+            <div class="sidebar-content">
+                <h2>Admin Panel</h2>
+                <div class="sidebar-line"></div>
+                <nav style="margin-top: 40px;">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 15px;"><a href="dashboard.php" style="color: #fff; text-decoration: none; opacity: 0.8;">Back to Dashboard</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
 
-                <div class="modern-form-group">
-                    <label>Section Title</label>
-                    <input type="text" name="section_title" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
-                </div>
+        <main class="layout-main">
+            <h2 class="actions-title">Edit Selling Point</h2>
 
-                <div class="modern-form-group">
-                    <label>Description</label>
-                    <textarea name="description" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
-                </div>
-
-                <div class="modern-form-group">
-                    <label>Visual Asset</label>
-                    <div style="display: flex; gap: 30px; align-items: flex-start; margin-bottom: 20px;">
+            <section class="admin-card">
+                <form method="POST" class="admin-form" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <div class="form-group">
+                        <label>Section Title</label>
+                        <input type="text" name="section_title" class="form-control" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image (Optional)</label>
                         <?php if ($section['image_path']): ?>
-                            <div>
-                                <p style="font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 5px;">Current</p>
-                                <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 150px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                            <div style="margin-bottom: 10px;">
+                                <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 200px; border-radius: 8px;">
+                                <p style="font-size: 0.8rem; color: #666;">Current Image</p>
                             </div>
                         <?php endif; ?>
-                        <div id="imagePreview" style="display: none;">
-                            <p style="font-size: 0.7rem; color: var(--primary-color); text-transform: uppercase; margin-bottom: 5px;">New Preview</p>
-                            <img src="" alt="Preview" style="max-width: 150px; border-radius: 12px; border: 2px solid var(--primary-color);">
+                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
+                        <div id="imagePreview" style="margin-top: 15px; display: none;">
+                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <p style="font-size: 0.8rem; color: #666;">New Image Preview</p>
                         </div>
                     </div>
-                    <div class="modern-file-upload">
-                        <span>Drop image here or click to browse</span>
-                        <input type="file" name="section_image" id="imageInput" accept="image/*">
-                    </div>
-                </div>
+                    <button type="submit" class="btn-primary">Update Selling Point</button>
+                    <a href="dashboard.php" style="margin-left: 20px; color: #666; text-decoration: none;">Cancel</a>
+                </form>
+            </section>
+        </main>
+    </div>
 
-                <div style="margin-top: 40px; display: flex; gap: 20px;">
-                    <button type="submit" class="btn-modern">Save Masterpiece</button>
-                    <a href="dashboard.php?view=manage" style="color: #888; text-decoration: none; align-self: center; font-weight: 600;">Cancel Changes</a>
-                </div>
-            </form>
-        </section>
-    </main>
-
-    <script src="../js/script.js"></script>
     <script>
-        const imageInput = document.getElementById('imageInput');
-        if (imageInput) {
-            imageInput.addEventListener('change', function(event) {
-                const previewContainer = document.getElementById('imagePreview');
-                const previewImage = previewContainer.querySelector('img');
-                const file = event.target.files[0];
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const previewContainer = document.getElementById('imagePreview');
+            const previewImage = previewContainer.querySelector('img');
+            const file = event.target.files[0];
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        previewImage.src = e.target.result;
-                        previewContainer.style.display = 'block';
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    previewContainer.style.display = 'none';
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'block';
                 }
-            });
-        }
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
