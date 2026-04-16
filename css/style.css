@@ -438,7 +438,7 @@ body {
 }
 
 .dashboard-hero {
-    background-image: url('../images/hero-bg.png');
+    background-image: url('../images/dashboard-bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -460,7 +460,13 @@ body {
     margin: 0;
     font-weight: 800;
     letter-spacing: 2px;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.6), 0 4px 10px rgba(0,0,0,0.5);
+    animation: pulse-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+    from { text-shadow: 0 0 10px rgba(255, 53, 3, 0.4), 0 4px 10px rgba(0,0,0,0.5); }
+    to { text-shadow: 0 0 30px rgba(255, 53, 3, 0.8), 0 4px 10px rgba(0,0,0,0.5); }
 }
 
 .dashboard-hero .vintage-frame {
@@ -500,7 +506,10 @@ body {
 .btn-primary:hover {
     background: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 53, 3, 0.3);
+    box-shadow: 0 0 20px rgba(255, 53, 3, 0.6);
+    background: linear-gradient(to right, #ff3503, #ff8c00, #ff3503);
+    background-size: 200% auto;
+    animation: shimmer 2s linear infinite;
 }
 
 .admin-table {

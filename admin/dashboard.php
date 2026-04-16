@@ -4,7 +4,7 @@ require_once '../includes/functions.php';
 check_login();
 
 // 1. Create a variable in PHP that stores the path to a user's image.
-$hero_bg_path = '../images/hero-bg.png';
+$hero_bg_path = '../images/dashboard-bg.png';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
