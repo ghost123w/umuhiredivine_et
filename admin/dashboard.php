@@ -3,9 +3,6 @@ require_once '../includes/db.php';
 require_once '../includes/functions.php';
 check_login();
 
-// 1. Create a variable in PHP that stores the path to a user's image.
-$hero_bg_path = '../images/hero-bg.png';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         die("CSRF token validation failed.");
@@ -85,203 +82,193 @@ $view = $_GET['view'] ?? 'overview';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | <?php echo SITE_NAME; ?></title>
+    <title>Dashboard | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="admin-body">
-    <div class="layout-wrapper">
-        <header class="layout-header">
-            <div class="vintage-frame">
-                <h1><?php echo SITE_NAME; ?></h1>
-            </div>
-            <div class="user-info" style="color: #fff; display: flex; align-items: center; gap: 20px; z-index: 10;">
-                <span style="font-weight: 600; text-shadow: 0 0 10px rgba(0,0,0,0.5);">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="btn-outline">Logout</a>
-            </div>
-        </header>
+<body class="admin-body modern-layout">
+    <div class="aurora-bg"></div>
 
-        <aside class="layout-sidebar">
-            <div class="sidebar-content">
-                <h2>Admin Panel</h2>
-                <div class="sidebar-line"></div>
-                <nav class="sidebar-nav-admin">
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Overview</a></li>
-                        <li><a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">General Settings</a></li>
-                        <li><a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Add New Point</a></li>
-                        <li><a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage Points</a></li>
-                        <li style="margin-top: 40px;"><a href="../index.php" target="_blank" style="font-size: 0.8rem; opacity: 0.6;">View Website ↗</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+    <!-- Floating Glass Navigation -->
+    <nav class="glass-pill-nav">
+        <div class="nav-brand"><?php echo SITE_NAME; ?></div>
+        <div class="nav-links">
+            <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Overview</a>
+            <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Settings</a>
+            <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
+            <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
+        </div>
+        <div class="nav-actions">
+            <span class="user-badge">Hello, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            <a href="logout.php" class="btn-logout-minimal">Sign Out</a>
+        </div>
+    </nav>
 
-        <main class="layout-main">
-            <?php if ($view == 'overview'): ?>
-                <div class="dashboard-hero">
-                    <h2 class="shimmer-text">Welcome to the Atelier</h2>
-                    <div class="vintage-frame" style="transform: scale(0.6);">
-                        <span style="color: #fff; font-weight: bold; letter-spacing: 4px;">Verified Admin Access</span>
+    <main class="dashboard-main-modern">
+        <?php if (isset($_GET['msg'])): ?>
+            <div class="modern-toast">
+                <?php
+                    if ($_GET['msg'] == 'added') echo "✨ Masterpiece published successfully!";
+                    if ($_GET['msg'] == 'deleted') echo "🗑️ Section removed from gallery.";
+                    if ($_GET['msg'] == 'updated') echo "🪄 Changes applied beautifully.";
+                    if ($_GET['msg'] == 'settings_updated') echo "⚙️ Global settings synchronized.";
+                ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($view == 'overview'): ?>
+            <header class="bento-header">
+                <div class="bento-item welcome-tile">
+                    <h2 class="shimmer-text">Welcome back, Artisan</h2>
+                    <p>The atelier is ready for your next creation.</p>
+                    <div class="status-indicator">
+                        <span class="pulse-dot"></span>
+                        Verified Session Active
                     </div>
                 </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <div class="admin-card" style="margin-bottom: 0; text-align: center; padding: 30px;">
-                        <h4 style="margin: 0; color: var(--secondary-color); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Total Points</h4>
-                        <p style="font-size: 3rem; font-weight: 700; margin: 10px 0; color: var(--primary-color);"><?php echo count($sections); ?></p>
-                        <a href="dashboard.php?view=manage" class="btn-primary" style="padding: 8px 20px; font-size: 0.8rem;">Manage All</a>
-                    </div>
-                    <div class="admin-card" style="margin-bottom: 0; text-align: center; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                         <img src="../images/brand-portrait.jpg" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); margin-bottom: 10px;" alt="Brand">
-                         <h4 style="margin: 0; color: #fff;"><?php echo SITE_NAME; ?></h4>
-                         <p style="font-size: 0.8rem; color: #aaa;">Live Brand Profile</p>
+                <div class="bento-item portrait-tile">
+                    <img src="../images/sidebar-portrait.jpg" alt="Brand">
+                    <div class="portrait-overlay">
+                        <h3><?php echo SITE_NAME; ?></h3>
+                        <p>Brand Essence</p>
                     </div>
                 </div>
+            </header>
 
-                <div class="admin-card" style="margin-top: 40px;">
-                    <h3>Quick Tips</h3>
-                    <ul style="color: #aaa; font-size: 0.95rem; line-height: 1.8;">
-                        <li>Use high-quality images for your selling points to maintain the luxury aesthetic.</li>
-                        <li>Keep descriptions concise and punchy for better conversion.</li>
-                        <li>You can change the title of the sidebar section in General Settings.</li>
-                    </ul>
+            <div class="bento-grid">
+                <div class="bento-item stats-tile">
+                    <h4>Collections</h4>
+                    <span class="stat-number"><?php echo count($sections); ?></span>
+                    <p>Active Points</p>
                 </div>
-            <?php endif; ?>
-
-            <?php if (isset($_GET['msg'])): ?>
-                <div style="background: rgba(255, 53, 3, 0.1); color: var(--primary-color); padding: 15px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid var(--primary-color); backdrop-filter: blur(5px);">
-                    <?php
-                        if ($_GET['msg'] == 'added') echo "<strong>Success:</strong> New selling point has been added to the gallery.";
-                        if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The section has been successfully deleted.";
-                        if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your changes have been saved perfectly.";
-                        if ($_GET['msg'] == 'settings_updated') echo "<strong>Updated:</strong> General settings are now live.";
-                    ?>
+                <div class="bento-item quick-action-tile" onclick="window.location='dashboard.php?view=add'">
+                    <div class="action-icon">+</div>
+                    <h4>Create New</h4>
+                    <p>Expand your horizon</p>
                 </div>
-            <?php endif; ?>
+                <div class="bento-item tip-tile">
+                    <h3>Atelier Tip</h3>
+                    <p>Visual harmony is achieved through high-contrast imagery and minimalist descriptions. Let the brand breathe.</p>
+                </div>
+                <div class="bento-item live-tile" onclick="window.open('../index.php', '_blank')">
+                    <h3>View Live</h3>
+                    <div class="external-icon">↗</div>
+                </div>
+            </div>
+        <?php endif; ?>
 
-            <?php if ($view == 'settings'): ?>
-                <section class="admin-card">
-                    <h3>General Settings</h3>
-                    <form method="POST" class="admin-form">
-                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                        <div class="form-group">
-                            <label>Selling Points Section Title (Sidebar Header)</label>
-                            <input type="text" name="selling_points_title" class="form-control" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
-                            <small style="color: #888;">This appears at the top of the sidebar on the landing page.</small>
-                        </div>
-
-                        <div class="form-group">
+        <?php if ($view == 'settings'): ?>
+            <div class="modern-form-container bento-item">
+                <h3>General Settings</h3>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <div class="modern-form-group">
+                        <label>Section Title</label>
+                        <input type="text" name="selling_points_title" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
+                    </div>
+                    <div class="modern-form-row">
+                        <div class="modern-form-group">
                             <label>CTA Button Text</label>
-                            <input type="text" name="cta_text" class="form-control" value="<?php echo htmlspecialchars($cta_text); ?>" required>
+                            <input type="text" name="cta_text" value="<?php echo htmlspecialchars($cta_text); ?>" required>
                         </div>
+                        <div class="modern-form-group">
+                            <label>CTA Button Link</label>
+                            <input type="text" name="cta_link" value="<?php echo htmlspecialchars($cta_link); ?>" required>
+                        </div>
+                    </div>
+                    <button type="submit" name="update_settings" class="btn-modern">Sync Settings</button>
+                </form>
+            </div>
+        <?php endif; ?>
 
-                        <div class="form-group">
-                            <label>CTA Button Link (URL)</label>
-                            <input type="text" name="cta_link" class="form-control" value="<?php echo htmlspecialchars($cta_link); ?>" required>
-                            <small style="color: #888;">Enter a URL or an anchor like #features.</small>
-                        </div>
-
-                        <button type="submit" name="update_settings" class="btn-primary">Save Changes</button>
-                    </form>
-                </section>
-            <?php endif; ?>
-
-            <?php if ($view == 'add'): ?>
-                <section class="admin-card">
-                    <h3>Add New Selling Point</h3>
-                    <form method="POST" class="admin-form" enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                        <div class="form-group">
-                            <label>Section Title</label>
-                            <input type="text" name="section_title" class="form-control" placeholder="e.g. Bespoke Tailoring" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea name="description" class="form-control" rows="4" placeholder="Describe the value proposition..." required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Image (Optional)</label>
-                            <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
-                            <div id="imagePreview" style="margin-top: 15px; display: none;">
-                                <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <?php if ($view == 'add'): ?>
+            <div class="modern-form-container bento-item">
+                <h3>Create Selling Point</h3>
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <div class="modern-form-group">
+                        <label>Title</label>
+                        <input type="text" name="section_title" placeholder="A name for your masterpiece..." required>
+                    </div>
+                    <div class="modern-form-group">
+                        <label>Narrative</label>
+                        <textarea name="description" rows="5" placeholder="Tell the story..." required></textarea>
+                    </div>
+                    <div class="modern-form-group">
+                        <label>Visual Asset</label>
+                        <div class="modern-file-upload">
+                            <input type="file" name="section_image" id="modernImageInput" accept="image/*">
+                            <div class="upload-placeholder">
+                                <span>Drop image here or click to browse</span>
+                            </div>
+                            <div id="modernImagePreview" class="modern-preview-box" style="display: none;">
+                                <img src="" alt="Preview">
                             </div>
                         </div>
-                        <button type="submit" name="add_section" class="btn-primary">Publish Section</button>
-                    </form>
-                </section>
-            <?php endif; ?>
-
-            <?php if ($view == 'manage'): ?>
-                <section class="admin-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                        <h3 style="margin: 0;">Manage Selling Points</h3>
-                        <a href="dashboard.php?view=add" class="btn-primary" style="font-size: 0.8rem; padding: 10px 20px;">+ Add New</a>
                     </div>
+                    <button type="submit" name="add_section" class="btn-modern">Publish to Atelier</button>
+                </form>
+            </div>
+        <?php endif; ?>
 
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th style="text-align: right;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($sections)): ?>
-                                <tr>
-                                    <td colspan="3" class="text-center" style="padding: 40px; color: #999;">No selling points found. Start by adding one.</td>
-                                </tr>
-                            <?php else: ?>
-                                <?php foreach ($sections as $s): ?>
-                                    <tr>
-                                        <td>
-                                            <?php if ($s['image_path']): ?>
-                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
-                                            <?php else: ?>
-                                                <div style="width: 70px; height: 70px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 0.6rem; text-transform: uppercase;">No Image</div>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><strong style="color: #fff; font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
-                                        <td style="white-space: nowrap; text-align: right;">
-                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 8px 18px; font-size: 0.85rem; text-decoration: none; margin-right: 5px; background: var(--secondary-color);">Edit / View Text</a>
-                                            <form method="POST" onsubmit="return confirm('Are you sure you want to delete this masterpiece?');" style="display: inline-block;">
-                                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                                <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
-                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 7px 16px; font-size: 0.85rem;">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </section>
-            <?php endif; ?>
+        <?php if ($view == 'manage'): ?>
+            <div class="modern-table-container bento-item">
+                <div class="table-header">
+                    <h3>Manage Assets</h3>
+                    <a href="dashboard.php?view=add" class="btn-modern-pill">+ New</a>
+                </div>
+                <div class="modern-grid-table">
+                    <?php if (empty($sections)): ?>
+                        <div class="empty-state">No masterpieces found in the atelier.</div>
+                    <?php else: ?>
+                        <?php foreach ($sections as $s): ?>
+                            <div class="modern-table-row">
+                                <div class="row-image">
+                                    <?php if ($s['image_path']): ?>
+                                        <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="">
+                                    <?php else: ?>
+                                        <div class="placeholder-img">No Image</div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="row-info">
+                                    <strong><?php echo htmlspecialchars($s['section_title']); ?></strong>
+                                </div>
+                                <div class="row-actions">
+                                    <a href="edit.php?id=<?php echo $s['id']; ?>" class="icon-btn-modern edit" title="Edit">✎</a>
+                                    <form method="POST" onsubmit="return confirm('Remove this masterpiece?');" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                        <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
+                                        <button type="submit" name="delete_section" class="icon-btn-modern delete" title="Delete">×</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    </main>
 
-            <script src="../js/script.js"></script>
-            <script>
-                const imageInput = document.getElementById('imageInput');
-                if (imageInput) {
-                    imageInput.addEventListener('change', function(event) {
-                        const previewContainer = document.getElementById('imagePreview');
-                        const previewImage = previewContainer.querySelector('img');
-                        const file = event.target.files[0];
-
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                previewImage.src = e.target.result;
-                                previewContainer.style.display = 'block';
-                            }
-                            reader.readAsDataURL(file);
-                        } else {
-                            previewContainer.style.display = 'none';
-                        }
-                    });
+    <script src="../js/script.js"></script>
+    <script>
+        const mInput = document.getElementById('modernImageInput');
+        if (mInput) {
+            mInput.addEventListener('change', function(e) {
+                const preview = document.getElementById('modernImagePreview');
+                const img = preview.querySelector('img');
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(re) {
+                        img.src = re.target.result;
+                        preview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.style.display = 'none';
                 }
-            </script>
-        </main>
-    </div>
+            });
+        }
+    </script>
 </body>
 </html>

@@ -3,7 +3,6 @@ session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
-// Check if any admin exists. If not, redirect to installation/signup.
 try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
     if ($stmt->fetchColumn() == 0) {
@@ -35,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: dashboard.php");
         exit();
     } else {
-        $error = "Invalid username or password.";
+        $error = "Invalid credentials. The atelier remains closed.";
     }
 }
 ?>
@@ -47,43 +46,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Admin Login | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Cinzel:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        .login-page {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-color);
+        }
+        .login-bento {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            animation: bento-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes bento-pop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .error-toast {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            color: #ff4d4d;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .login-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+    </style>
 </head>
-<body class="login-wrapper">
-    <div class="login-card" style="border: 1px solid var(--primary-color); box-shadow: 0 0 40px var(--primary-glow);">
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div class="vintage-frame" style="padding: 10px 20px;">
-                <h1 style="font-size: 1.5rem; margin: 0; color: #fff;"><?php echo SITE_NAME; ?></h1>
-            </div>
+<body class="login-page">
+    <div class="aurora-bg"></div>
+
+    <div class="login-bento">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div class="login-brand shimmer-text"><?php echo SITE_NAME; ?></div>
+            <p style="color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Administration Portal</p>
         </div>
-        <h2 style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px;">Admin Login</h2>
 
         <?php if ($error): ?>
-            <div class="error-msg"><?php echo $error; ?></div>
+            <div class="error-toast"><?php echo $error; ?></div>
         <?php endif; ?>
 
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
 
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" class="form-control" placeholder="Enter username" required autofocus>
+            <div class="modern-form-group">
+                <label>Username</label>
+                <input type="text" name="username" required autofocus>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+            <div class="modern-form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
             </div>
 
-            <button type="submit" class="btn-login">Login</button>
+            <button type="submit" class="btn-modern" style="width: 100%; margin-top: 10px;">Enter Atelier</button>
         </form>
 
-        <?php if (defined('ALLOW_REGISTRATION') && ALLOW_REGISTRATION === true): ?>
-        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-            Don't have an account? <a href="signup.php" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Sign Up</a>
+        <div style="margin-top: 30px; text-align: center; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+            <?php if (defined('ALLOW_REGISTRATION') && ALLOW_REGISTRATION === true): ?>
+                <a href="signup.php" style="color: var(--primary-color); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Request Access</a>
+                <span style="color: #444; margin: 0 10px;">•</span>
+            <?php endif; ?>
+            <a href="../index.php" style="color: #666; text-decoration: none; font-size: 0.85rem;">View Website</a>
         </div>
-        <?php endif; ?>
-
-        <a href="../index.php" class="back-link">&larr; Back to Website</a>
     </div>
 </body>
 </html>

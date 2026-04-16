@@ -104,72 +104,109 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title><?php echo $installed ? 'Admin Login' : 'Administrator Installation'; ?> | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Cinzel:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        .install-card {
-            max-width: 500px;
-            margin: 100px auto;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: #fff;
+        .login-page {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-color);
         }
-        .install-card h2 { color: #fff; margin-top: 0; }
-        .install-card p { color: #aaa; }
+        .login-bento {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            animation: bento-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes bento-pop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .error-toast {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            color: #ff4d4d;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .login-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
-<body class="login-wrapper">
-    <div class="install-card">
+<body class="login-page">
+    <div class="aurora-bg"></div>
+
+    <div class="login-bento">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div class="login-brand shimmer-text"><?php echo SITE_NAME; ?></div>
+            <p style="color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
+                <?php echo $installed ? 'Administration Portal' : 'Installation Wizard'; ?>
+            </p>
+        </div>
+
+        <?php if ($error): ?>
+            <div class="error-toast"><?php echo $error; ?></div>
+        <?php endif; ?>
+
         <?php if (!$installed): ?>
-            <h2>Administration Installation</h2>
-            <p>Welcome! Set up the primary administrator account to begin managing your website.</p>
-
-            <?php if ($error): ?>
-                <div class="error-msg"><?php echo $error; ?></div>
-            <?php endif; ?>
-
+            <p style="color: #888; text-align: center; margin-bottom: 30px; font-size: 0.9rem;">Set up the primary administrator account.</p>
             <form method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="action" value="install">
-                <div class="form-group">
+
+                <div class="modern-form-group">
                     <label>Admin Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Choose a username" required autofocus>
+                    <input type="text" name="username" required autofocus>
                 </div>
-                <div class="form-group">
+
+                <div class="modern-form-group">
                     <label>Admin Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
+                    <input type="email" name="email" required>
                 </div>
-                <div class="form-group">
+
+                <div class="modern-form-group">
                     <label>Admin Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Choose a strong password" required>
+                    <input type="password" name="password" required>
                 </div>
-                <button type="submit" class="btn-login" style="background: var(--primary-color);">Complete Installation</button>
+
+                <button type="submit" class="btn-modern" style="width: 100%; margin-top: 10px;">Complete Installation</button>
             </form>
         <?php else: ?>
-            <h2>Admin Login</h2>
-            <p>Access your dashboard to manage selling points.</p>
-
-            <?php if ($error): ?>
-                <div class="error-msg"><?php echo $error; ?></div>
-            <?php endif; ?>
-
             <form method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="action" value="login">
-                <div class="form-group">
+
+                <div class="modern-form-group">
                     <label>Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Enter username" required autofocus>
+                    <input type="text" name="username" required autofocus>
                 </div>
-                <div class="form-group">
+
+                <div class="modern-form-group">
                     <label>Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                    <input type="password" name="password" required>
                 </div>
-                <button type="submit" class="btn-login">Login</button>
+
+                <button type="submit" class="btn-modern" style="width: 100%; margin-top: 10px;">Enter Atelier</button>
             </form>
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="index.php" class="back-link">View Website</a>
+            <div style="margin-top: 30px; text-align: center; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                <a href="index.php" style="color: #666; text-decoration: none; font-size: 0.85rem;">Return to Website</a>
             </div>
         <?php endif; ?>
     </div>
