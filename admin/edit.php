@@ -61,15 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Edit Point | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Cinzel:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="admin-body">
+<body class="admin-body modern-layout">
     <div class="aurora-bg"></div>
 
     <nav class="glass-pill-nav">
-        <div class="nav-brand"><?php echo SITE_NAME; ?></div>
+        <div class="nav-brand shimmer-text"><?php echo SITE_NAME; ?></div>
         <div class="nav-links">
             <a href="dashboard.php?view=overview">Overview</a>
             <a href="dashboard.php?view=settings">Settings</a>
@@ -123,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                     <div class="modern-file-upload">
-                        <p>Click or Drag to replace image</p>
+                        <span>Drop image here or click to browse</span>
                         <input type="file" name="section_image" id="imageInput" accept="image/*">
                     </div>
                 </div>

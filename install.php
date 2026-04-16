@@ -46,11 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 email TEXT,
                 is_verified INTEGER DEFAULT 1
             )");
-            $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
-
-            // Removed restriction that blocked multiple administrators during installation phase if needed
-            // However, installation is usually for the FIRST admin.
-            // For subsequent admins, they should use signup.php if enabled.
+            $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, image_path TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, setting_key TEXT UNIQUE, setting_value TEXT)");
 
             $username = sanitize($_POST['username']);
             $email = sanitize($_POST['email'] ?? '');
@@ -104,51 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title><?php echo $installed ? 'Admin Login' : 'Administrator Installation'; ?> | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Cinzel:wght@400;700;800&display=swap" rel="stylesheet">
-    <style>
-        .login-page {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--dark-color);
-        }
-        .login-bento {
-            width: 100%;
-            max-width: 450px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            animation: bento-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes bento-pop {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        .error-toast {
-            background: rgba(255, 77, 77, 0.1);
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            color: #ff4d4d;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            font-size: 0.85rem;
-            text-align: center;
-        }
-        .login-brand {
-            font-family: 'Cinzel', serif;
-            font-weight: 800;
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-    </style>
 </head>
 <body class="login-page">
     <div class="aurora-bg"></div>

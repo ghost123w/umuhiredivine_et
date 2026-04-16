@@ -127,7 +127,7 @@ $view = $_GET['view'] ?? 'overview';
                     </div>
                 </div>
                 <div class="bento-item portrait-tile">
-                    <img src="../images/sidebar-portrait.jpg" alt="Brand">
+                    <img src="../images/brand-portrait.jpg" alt="Brand">
                     <div class="portrait-overlay">
                         <h3><?php echo SITE_NAME; ?></h3>
                         <p>Brand Essence</p>
