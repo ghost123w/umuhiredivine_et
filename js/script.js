@@ -75,12 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
             bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
         }
 
-        // Sidebar 3D Tilt
+        // Sidebar 3D Stroll Effect
         if (sidebar) {
-            const sidebarScrollProgress = Math.min(1, scrolled / 500);
-            const sidebarTilt = sidebarScrollProgress * 3; // Tilt up to 3 degrees
-            const sidebarRotateY = sidebarScrollProgress * 2; // Subtle side rotate
-            sidebar.style.transform = `perspective(1000px) rotateX(${sidebarTilt}deg) rotateY(${sidebarRotateY}deg) translateZ(10px)`;
+            const sidebarScrollProgress = scrolled / 1000;
+            const sidebarTilt = Math.sin(sidebarScrollProgress * Math.PI) * 2;
+            const sidebarRotateY = Math.cos(sidebarScrollProgress * Math.PI) * 1.5;
+            const sidebarTranslateY = Math.sin(sidebarScrollProgress * Math.PI * 0.5) * 10;
+            const sidebarTranslateZ = 10 + Math.abs(Math.sin(sidebarScrollProgress * Math.PI)) * 15;
+
+            sidebar.style.transform = `perspective(1000px)
+                                        translateY(${sidebarTranslateY}px)
+                                        translateZ(${sidebarTranslateZ}px)
+                                        rotateX(${sidebarTilt}deg)
+                                        rotateY(${sidebarRotateY}deg)`;
         }
 
         // 3D Stroll Tilt for Sections

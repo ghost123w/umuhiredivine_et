@@ -160,18 +160,26 @@ body {
 
 .layout-sidebar {
     grid-area: sidebar;
-    background: rgba(10, 10, 10, 0.95);
+    background: linear-gradient(135deg, #0a0a0a, #1a0a05, #0a0a0a);
+    background-size: 200% 200%;
+    animation: sidebar-bg-shift 10s ease infinite;
     border-right: 2px solid var(--primary-color);
     padding: 40px 20px;
     position: sticky;
     top: 0;
     height: calc(100vh - 80px);
     color: #fff;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5), 2px 0 15px var(--primary-glow);
     perspective: 1000px;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
     z-index: 50;
+}
+
+@keyframes sidebar-bg-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .sidebar-portrait-container {
@@ -195,20 +203,22 @@ body {
 
 .sidebar-content h2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--primary-color);
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     margin: 0;
     text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255, 53, 3, 0.4);
 }
 
 .sidebar-line {
-    width: 50px;
-    height: 4px;
+    width: 40px;
+    height: 3px;
     background: var(--primary-color);
     margin-top: 15px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 8px var(--primary-glow);
 }
 
 .sidebar-nav ul {
@@ -218,42 +228,33 @@ body {
 }
 
 .sidebar-nav li {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .sidebar-nav a {
-    color: rgba(255,255,255,0.8);
+    color: #fff;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     transition: all 0.3s ease;
     display: block;
     position: relative;
-    padding-left: 0;
+    padding: 12px 15px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.02);
 }
 
 .sidebar-nav a:hover, .sidebar-nav a.active-link {
-    color: var(--primary-color);
-    padding-left: 0;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-glow);
+    background: rgba(255, 53, 3, 0.05);
 }
 
 .sidebar-nav a::before {
-    content: '';
-    position: absolute;
-    left: -25px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 3px;
-    background: var(--primary-color);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.sidebar-nav a:hover::before, .sidebar-nav a.active-link::before {
-    opacity: 1;
+    display: none; /* Removed the dash as we now use box styling */
 }
 
 .layout-main {
