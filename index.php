@@ -46,6 +46,9 @@ $cta_link = $stmt->fetchColumn() ?: '#';
 
         <aside class="layout-sidebar">
             <div class="sidebar-content">
+                <div class="sidebar-portrait-container">
+                    <img src="images/sidebar-portrait.jpg" alt="Leadership" class="sidebar-portrait">
+                </div>
                 <h2><?php echo htmlspecialchars($selling_points_title); ?></h2>
                 <div class="sidebar-line"></div>
 

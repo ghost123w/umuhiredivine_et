@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Parallax Background & 3D Stroll Tilt Effect
     const bgImage = document.querySelector('.stroll-bg-image');
+    const sidebar = document.querySelector('.layout-sidebar');
 
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
@@ -72,6 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bgImage) {
             const val = scrolled * 0.15;
             bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
+        }
+
+        // Sidebar 3D Tilt
+        if (sidebar) {
+            const sidebarScrollProgress = Math.min(1, scrolled / 500);
+            const sidebarTilt = sidebarScrollProgress * 3; // Tilt up to 3 degrees
+            const sidebarRotateY = sidebarScrollProgress * 2; // Subtle side rotate
+            sidebar.style.transform = `perspective(1000px) rotateX(${sidebarTilt}deg) rotateY(${sidebarRotateY}deg) translateZ(10px)`;
         }
 
         // 3D Stroll Tilt for Sections
