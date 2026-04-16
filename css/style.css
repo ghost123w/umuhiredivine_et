@@ -172,19 +172,20 @@ body {
 
 .sidebar-content h2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
+    font-weight: 700;
     color: var(--primary-color);
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     margin: 0;
-    text-shadow: 0 0 10px var(--primary-glow);
+    text-transform: uppercase;
 }
 
 .sidebar-line {
-    width: 40px;
-    height: 3px;
+    width: 50px;
+    height: 4px;
     background: var(--primary-color);
     margin-top: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 .sidebar-nav ul {
@@ -198,12 +199,12 @@ body {
 }
 
 .sidebar-nav a {
-    color: rgba(255,255,255,0.7);
+    color: rgba(255,255,255,0.8);
     text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     transition: all 0.3s ease;
     display: block;
     position: relative;
@@ -212,27 +213,24 @@ body {
 
 .sidebar-nav a:hover, .sidebar-nav a.active-link {
     color: var(--primary-color);
-    padding-left: 15px;
-}
-
-.sidebar-nav a.active-link {
-    font-weight: 700;
+    padding-left: 0;
 }
 
 .sidebar-nav a::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: -25px;
     top: 50%;
-    width: 0;
-    height: 1px;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 3px;
     background: var(--primary-color);
-    transition: width 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .sidebar-nav a:hover::before, .sidebar-nav a.active-link::before {
-    width: 12px;
-    left: -18px;
+    opacity: 1;
 }
 
 .layout-main {
@@ -333,13 +331,15 @@ body {
 
 .cta {
     display: inline-block;
-    padding: 12px 30px;
-    background: var(--primary-color);
+    padding: 18px 45px;
+    background: #ff3503;
     color: #fff;
     text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: transform 0.2s, background 0.2s;
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
 .cta:hover {
