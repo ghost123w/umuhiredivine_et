@@ -35,6 +35,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
 <body class="landing-page">
     <div class="stroll-bg-container">
         <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
+        <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
     <div class="layout-wrapper">
@@ -44,11 +45,15 @@ $cta_link = $stmt->fetchColumn() ?: '#';
             </div>
         </header>
 
-        <nav class="layout-sidebar glass-pill">
-            <?php foreach ($sections as $s): ?>
-                <a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a>
-            <?php endforeach; ?>
-            <a href="admin/login.php" style="opacity: 0.2; font-size: 0.6rem; vertical-align: middle;">ADMIN</a>
+        <nav class="aura-nav-bar">
+            <div class="nav-container">
+                <div class="nav-links">
+                    <?php foreach ($sections as $s): ?>
+                        <a href="#section-<?php echo $s['id']; ?>" class="nav-item"><?php echo htmlspecialchars($s['section_title']); ?></a>
+                    <?php endforeach; ?>
+                </div>
+                <a href="admin/login.php" class="admin-link">ADMIN ACCESS</a>
+            </div>
         </nav>
 
         <main class="layout-main" id="features">

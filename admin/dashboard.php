@@ -228,26 +228,34 @@ $view = $_GET['view'] ?? 'overview';
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($sections as $s): ?>
+                            <?php if (empty($sections)): ?>
                                 <tr>
-                                    <td style="background: transparent;">
-                                        <?php if ($s['image_path']): ?>
-                                            <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" style="width: 70px; height: 70px; object-fit: cover; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
-                                        <?php endif; ?>
-                                    </td>
-                                    <td style="background: transparent; vertical-align: middle;">
-                                        <strong style="color: #fff; font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong>
-                                    </td>
-                                    <td style="text-align: right; background: transparent; vertical-align: middle;">
-                                        <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 10px 25px; text-decoration: none; font-size: 0.8rem; border-radius: 100px;">REFINE</a>
-                                        <form method="POST" style="display: inline-block; margin-left: 10px;">
-                                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                            <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
-                                            <button type="submit" name="delete_section" class="btn-delete" style="padding: 10px 25px; font-size: 0.8rem; border-radius: 100px;" onclick="return confirm('Remove this piece from the archive?');">VOID</button>
-                                        </form>
+                                    <td colspan="3" style="text-align: center; padding: 40px; color: #666; font-style: italic;">
+                                        The archive is currently empty. Manifest your first masterpiece in the 'Create' tab.
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php foreach ($sections as $s): ?>
+                                    <tr>
+                                        <td style="background: transparent;">
+                                            <?php if ($s['image_path']): ?>
+                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" style="width: 70px; height: 70px; object-fit: cover; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                                            <?php endif; ?>
+                                        </td>
+                                        <td style="background: transparent; vertical-align: middle;">
+                                            <strong style="color: #fff; font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong>
+                                        </td>
+                                        <td style="text-align: right; background: transparent; vertical-align: middle;">
+                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 10px 25px; text-decoration: none; font-size: 0.8rem; border-radius: 100px;">REFINE</a>
+                                            <form method="POST" style="display: inline-block; margin-left: 10px;">
+                                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                                <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
+                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 10px 25px; font-size: 0.8rem; border-radius: 100px;" onclick="return confirm('Remove this piece from the archive?');">VOID</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </section>
