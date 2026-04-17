@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $pdo->prepare("UPDATE content SET section_title = ?, description = ?, image_path = ? WHERE id = ?");
     $stmt->execute([$title, $desc, $image_path, $id]);
-    header("Location: dashboard.php?msg=updated");
+    header("Location: dashboard.php?view=manage&msg=updated");
     exit();
 }
 ?>
@@ -58,67 +58,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Selling Point | <?php echo SITE_NAME; ?></title>
+    <title>Edit Point | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .form-control {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        label { color: #888; font-weight: 600; margin-bottom: 10px; display: block; }
+    </style>
 </head>
 <body class="admin-body">
-    <div class="layout-wrapper">
-        <header class="layout-header">
-            <div class="vintage-frame">
-                <h1><?php echo SITE_NAME; ?></h1>
-            </div>
-            <div class="user-info" style="position: absolute; right: 40px; color: #fff;">
-                <a href="logout.php" class="btn-logout">Logout</a>
-            </div>
-        </header>
+    <nav class="top-nav">
+        <a href="dashboard.php" class="logo"><?php echo SITE_NAME; ?></a>
+        <div class="nav-links">
+            <a href="dashboard.php?view=overview">Overview</a>
+            <a href="dashboard.php?view=settings">Settings</a>
+            <a href="dashboard.php?view=add">Create</a>
+            <a href="dashboard.php?view=manage" class="active">Manage</a>
+        </div>
+        <div class="user-meta">
+            <span>Hello, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            <a href="logout.php" class="btn-signout">SIGN OUT</a>
+        </div>
+    </nav>
 
-        <aside class="layout-sidebar">
-            <div class="sidebar-content">
-                <h2>Admin Panel</h2>
-                <div class="sidebar-line"></div>
-                <nav style="margin-top: 40px;">
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 15px;"><a href="dashboard.php" style="color: #fff; text-decoration: none; opacity: 0.8;">Back to Dashboard</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+    <main style="max-width: 800px; margin: 40px auto; padding: 0 40px;">
+        <h2 style="font-family: 'Cinzel', serif; color: var(--primary-color); margin-bottom: 30px;">Edit Selling Point</h2>
 
-        <main class="layout-main">
-            <h2 class="actions-title">Edit Selling Point</h2>
-
-            <section class="admin-card">
-                <form method="POST" class="admin-form" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                    <div class="form-group">
-                        <label>Section Title</label>
-                        <input type="text" name="section_title" class="form-control" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea name="description" class="form-control" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Image (Optional)</label>
-                        <?php if ($section['image_path']): ?>
-                            <div style="margin-bottom: 10px;">
-                                <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 200px; border-radius: 8px;">
-                                <p style="font-size: 0.8rem; color: #666;">Current Image</p>
-                            </div>
-                        <?php endif; ?>
-                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
-                        <div id="imagePreview" style="margin-top: 15px; display: none;">
-                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                            <p style="font-size: 0.8rem; color: #666;">New Image Preview</p>
+        <section class="admin-card">
+            <form method="POST" class="admin-form" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                <div class="form-group">
+                    <label>Section Title</label>
+                    <input type="text" name="section_title" class="form-control" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" class="form-control" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Image (Optional)</label>
+                    <?php if ($section['image_path']): ?>
+                        <div style="margin-bottom: 20px;">
+                            <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Current Masterpiece</p>
                         </div>
+                    <?php endif; ?>
+                    <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
+                    <div id="imagePreview" style="margin-top: 20px; display: none;">
+                        <img src="" alt="Preview" style="max-width: 100%; border-radius: 12px; border: 1px solid var(--primary-color);">
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">New Vision Preview</p>
                     </div>
-                    <button type="submit" class="btn-primary">Update Selling Point</button>
-                    <a href="dashboard.php" style="margin-left: 20px; color: #666; text-decoration: none;">Cancel</a>
-                </form>
-            </section>
-        </main>
-    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 20px; margin-top: 40px;">
+                    <button type="submit" class="btn-primary">Update Point</button>
+                    <a href="dashboard.php?view=manage" style="color: #666; text-decoration: none; font-size: 0.9rem;">Cancel and return</a>
+                </div>
+            </form>
+        </section>
+    </main>
 
     <script>
         document.getElementById('imageInput').addEventListener('change', function(event) {

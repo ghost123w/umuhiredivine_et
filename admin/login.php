@@ -47,10 +47,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Admin Login | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .login-wrapper {
+            background: var(--admin-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .login-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .login-card h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        label { color: #888; }
+        .btn-login {
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        .btn-login:hover {
+            background: #ff5020;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 53, 3, 0.3);
+        }
+    </style>
 </head>
 <body class="login-wrapper">
+    <div style="margin-bottom: 40px;">
+        <h1 style="font-family: 'Cinzel', serif; color: #fff; font-size: 1.5rem; letter-spacing: 4px;"><?php echo SITE_NAME; ?></h1>
+    </div>
+
     <div class="login-card">
-        <h2>Admin Login</h2>
+        <h2>Atelier Login</h2>
 
         <?php if ($error): ?>
             <div class="error-msg"><?php echo $error; ?></div>
@@ -60,25 +112,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
 
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Artisan Username</label>
                 <input type="text" name="username" id="username" class="form-control" placeholder="Enter username" required autofocus>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Security Code</label>
                 <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
             </div>
 
-            <button type="submit" class="btn-login">Login</button>
+            <button type="submit" class="btn-login">Unlock Workspace</button>
         </form>
 
         <?php if (defined('ALLOW_REGISTRATION') && ALLOW_REGISTRATION === true): ?>
-        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-            Don't have an account? <a href="signup.php" style="color: #007bff; text-decoration: none; font-weight: 600;">Sign Up</a>
+        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #666;">
+            New Artisan? <a href="signup.php" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Apply for Access</a>
         </div>
         <?php endif; ?>
 
-        <a href="../index.php" class="back-link">&larr; Back to Website</a>
+        <a href="../index.php" class="back-link" style="color: #444;">&larr; Return to Gallery</a>
     </div>
 </body>
 </html>
