@@ -82,156 +82,175 @@ $view = $_GET['view'] ?? 'overview';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Immersive Dashboard | <?php echo SITE_NAME; ?></title>
+    <title>Aura Portal | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="admin-body">
-    <div class="artisan-layout">
-        <aside class="artisan-sidebar">
-            <div class="brand">
-                <?php echo SITE_NAME; ?>
-            </div>
-            <nav class="artisan-nav">
-                <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Overview</a>
-                <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Settings</a>
-                <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
-                <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
-            </nav>
-            <div style="margin-top: auto; padding: 0 20px;">
-                <a href="logout.php" class="btn-signout" style="display: block; text-align: center;">SIGN OUT</a>
-            </div>
-        </aside>
+<body class="aura-body">
+    <div class="aura-portal-bg"></div>
 
-        <main class="artisan-main">
-            <?php if ($view == 'overview'): ?>
-                <section class="immersive-hero">
-                    <div class="hero-text">
-                        <h1>Atelier</h1>
-                        <span>Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                        <p style="color: #666; margin-top: 40px; font-size: 1.1rem; max-width: 400px;">
-                            Your professional workspace is optimized for elegance and performance.
-                            Ready to refine your digital legacy?
-                        </p>
-                    </div>
-                    <div class="hero-image-frame">
-                        <img src="../images/leadership.jpg" alt="Artisan Workspace">
+    <nav class="aura-nav">
+        <div class="glass-pill">
+            <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Portal</a>
+            <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
+            <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
+            <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
+            <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; margin-left: -20px;">Exit</a>
+        </div>
+    </nav>
+
+    <main class="portal-container">
+        <?php if ($view == 'overview'): ?>
+            <header class="portal-hero">
+                <h1><?php echo SITE_NAME; ?></h1>
+                <p>Welcome back, Artisan <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+            </header>
+
+            <div class="portal-grid">
+                <section class="aura-card welcome-section">
+                    <h2>Perspective</h2>
+                    <p>Your digital workspace is currently vibrating at peak performance. All systems are synchronized with your creative vision.</p>
+
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <h3><?php echo count($sections); ?></h3>
+                            <span>Masterpieces</span>
+                        </div>
+                        <div class="stat-item">
+                            <h3>Active</h3>
+                            <span>System Status</span>
+                        </div>
                     </div>
                 </section>
 
-                <div class="module-grid">
-                    <div class="module-card">
-                        <h3 style="color: var(--primary-color); font-family: 'Cinzel'; margin-top:0;">Statistics</h3>
-                        <div style="font-size: 3.5rem; font-weight: 800;"><?php echo count($sections); ?></div>
-                        <p style="color: #888;">Active Selling Points</p>
+                <section class="aura-card" style="padding: 0; overflow: hidden;">
+                    <div class="portrait-frame">
+                        <img src="../images/leadership.jpg" alt="Artisan">
+                        <div class="portrait-overlay">
+                            <h3>Verified Administrator</h3>
+                            <span style="color: var(--primary-color); font-size: 0.7rem; letter-spacing: 2px;">SECURE ACCESS SESSION</span>
+                        </div>
                     </div>
-                    <div class="module-card">
-                        <h3 style="color: var(--primary-color); font-family: 'Cinzel'; margin-top:0;">System</h3>
-                        <p style="color: #fff; font-weight: 700;">Status: Optimal</p>
-                        <p style="color: #888; font-size: 0.9rem;">Verified session active for administrator.</p>
-                    </div>
-                    <div class="module-card" style="display: flex; align-items: center; justify-content: center; background: rgba(255, 53, 3, 0.05);">
-                        <a href="dashboard.php?view=add" style="text-decoration: none; text-align: center;">
-                            <div style="font-size: 3rem; color: var(--primary-color);">+</div>
-                            <span style="color: #fff; text-transform: uppercase; font-weight: 700; letter-spacing: 2px;">New Point</span>
-                        </a>
-                    </div>
+                </section>
+
+                <div class="actions-grid">
+                    <a href="dashboard.php?view=add" class="action-card">
+                        <div class="icon">✧</div>
+                        <h4>Add Masterpiece</h4>
+                        <p>Expand your digital collection with new points of light.</p>
+                    </a>
+                    <a href="dashboard.php?view=manage" class="action-card">
+                        <div class="icon">❖</div>
+                        <h4>Manage Aura</h4>
+                        <p>Refine and orchestrate your existing masterpieces.</p>
+                    </a>
+                    <a href="dashboard.php?view=settings" class="action-card">
+                        <div class="icon">⚙</div>
+                        <h4>Core Config</h4>
+                        <p>Adjust the foundational frequencies of your landing page.</p>
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <div style="max-width: 900px; margin: 0 auto; width: 100%;">
+            <?php if (isset($_GET['msg'])): ?>
+                <div style="background: rgba(255, 53, 3, 0.1); border: 1px solid var(--primary-color); color: var(--primary-color); padding: 20px; border-radius: 20px; margin-bottom: 40px; text-align: center; backdrop-filter: blur(10px);">
+                    <?php
+                        if ($_GET['msg'] == 'added') echo "<strong>Masterpiece Added:</strong> The collection has been expanded.";
+                        if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The piece has been returned to the void.";
+                        if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your vision has been updated.";
+                        if ($_GET['msg'] == 'settings_updated') echo "<strong>Synchronized:</strong> Core settings are now in harmony.";
+                    ?>
                 </div>
             <?php endif; ?>
 
-            <div style="max-width: 1000px; margin-top: 40px;">
-                <?php if (isset($_GET['msg'])): ?>
-                    <div style="background: rgba(40, 167, 69, 0.1); color: #28a745; padding: 20px; border-radius: 20px; margin-bottom: 40px; border: 1px solid rgba(40, 167, 69, 0.2);">
-                        <?php
-                            if ($_GET['msg'] == 'added') echo "<strong>Success:</strong> Section published to the artisan collection.";
-                            if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> Section successfully archived.";
-                            if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your masterpiece has been updated.";
-                            if ($_GET['msg'] == 'settings_updated') echo "<strong>Updated:</strong> Core settings reconfigured.";
-                        ?>
-                    </div>
-                <?php endif; ?>
+            <?php if ($view == 'settings'): ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Core <span style="color: var(--primary-color);">Frequencies</span></h2>
+                    <form method="POST">
+                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Section Title</label>
+                            <input type="text" name="selling_points_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Call to Action Text</label>
+                            <input type="text" name="cta_text" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($cta_text); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Call to Action Link</label>
+                            <input type="text" name="cta_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($cta_link); ?>" required>
+                        </div>
+                        <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
+                    </form>
+                </section>
+            <?php endif; ?>
 
-                <?php if ($view == 'settings'): ?>
-                    <section class="module-card">
-                        <h3 style="margin-top:0; font-family: 'Cinzel'; color: var(--primary-color);">General Settings</h3>
-                        <form method="POST">
-                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                            <div class="form-group">
-                                <label style="color: #888;">Section Title</label>
-                                <input type="text" name="selling_points_title" class="form-control" style="background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(255,255,255,0.1);" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label style="color: #888;">CTA Button Text</label>
-                                <input type="text" name="cta_text" class="form-control" style="background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(255,255,255,0.1);" value="<?php echo htmlspecialchars($cta_text); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label style="color: #888;">CTA Button Link</label>
-                                <input type="text" name="cta_link" class="form-control" style="background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(255,255,255,0.1);" value="<?php echo htmlspecialchars($cta_link); ?>" required>
-                            </div>
-                            <button type="submit" name="update_settings" class="btn-primary" style="margin-top: 20px;">Commit Changes</button>
-                        </form>
-                    </section>
-                <?php endif; ?>
+            <?php if ($view == 'add'): ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Create <span style="color: var(--primary-color);">Masterpiece</span></h2>
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Title</label>
+                            <input type="text" name="section_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Description</label>
+                            <textarea name="description" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Visual Asset</label>
+                            <input type="file" name="section_image" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" accept="image/*">
+                        </div>
+                        <button type="submit" name="add_section" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">MANIFEST</button>
+                    </form>
+                </section>
+            <?php endif; ?>
 
-                <?php if ($view == 'add'): ?>
-                    <section class="module-card">
-                        <h3 style="margin-top:0; font-family: 'Cinzel'; color: var(--primary-color);">Create New Point</h3>
-                        <form method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                            <div class="form-group">
-                                <label style="color: #888;">Title</label>
-                                <input type="text" name="section_title" class="form-control" style="background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(255,255,255,0.1);" placeholder="..." required>
-                            </div>
-                            <div class="form-group">
-                                <label style="color: #888;">Description</label>
-                                <textarea name="description" class="form-control" style="background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(255,255,255,0.1);" rows="4" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label style="color: #888;">Image</label>
-                                <input type="file" name="section_image" class="form-control" style="background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(255,255,255,0.1);" accept="image/*">
-                            </div>
-                            <button type="submit" name="add_section" class="btn-primary" style="margin-top: 20px;">Publish to Collection</button>
-                        </form>
-                    </section>
-                <?php endif; ?>
-
-                <?php if ($view == 'manage'): ?>
-                    <section class="module-card">
-                        <h3 style="margin-top:0; font-family: 'Cinzel'; color: var(--primary-color);">Collection Management</h3>
-                        <table class="admin-table">
-                            <thead>
+            <?php if ($view == 'manage'): ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Masterpiece <span style="color: var(--primary-color);">Archive</span></h2>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="border: none; padding-bottom: 20px;">Asset</th>
+                                <th style="border: none; padding-bottom: 20px;">Title</th>
+                                <th style="text-align: right; border: none; padding-bottom: 20px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($sections as $s): ?>
                                 <tr>
-                                    <th style="color: #666; font-size: 0.7rem;">Image</th>
-                                    <th style="color: #666; font-size: 0.7rem;">Title</th>
-                                    <th style="text-align: right; color: #666; font-size: 0.7rem;">Actions</th>
+                                    <td style="background: transparent;">
+                                        <?php if ($s['image_path']): ?>
+                                            <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" style="width: 70px; height: 70px; object-fit: cover; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                                        <?php endif; ?>
+                                    </td>
+                                    <td style="background: transparent; vertical-align: middle;">
+                                        <strong style="color: #fff; font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong>
+                                    </td>
+                                    <td style="text-align: right; background: transparent; vertical-align: middle;">
+                                        <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 10px 25px; text-decoration: none; font-size: 0.8rem; border-radius: 100px;">REFINE</a>
+                                        <form method="POST" style="display: inline-block; margin-left: 10px;">
+                                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                            <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
+                                            <button type="submit" name="delete_section" class="btn-delete" style="padding: 10px 25px; font-size: 0.8rem; border-radius: 100px;" onclick="return confirm('Remove this piece from the archive?');">VOID</button>
+                                        </form>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($sections as $s): ?>
-                                    <tr>
-                                        <td>
-                                            <?php if ($s['image_path']): ?>
-                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,53,3,0.2);">
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><strong style="color: #fff;"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
-                                        <td style="text-align: right;">
-                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 8px 15px; font-size: 0.7rem; text-decoration: none;">Refine</a>
-                                            <form method="POST" style="display: inline-block;">
-                                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                                <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
-                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 8px 15px; font-size: 0.7rem;" onclick="return confirm('Are you sure you want to archive this masterpiece?');">Archive</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </section>
-                <?php endif; ?>
-            </div>
-        </main>
-    </div>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </section>
+            <?php endif; ?>
+        </div>
+    </main>
+
+    <footer class="aura-footer">
+        &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA PORTAL v2.0
+    </footer>
 </body>
 </html>
