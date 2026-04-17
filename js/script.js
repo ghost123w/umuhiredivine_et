@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.reveal-section');
-    const navLinks = document.querySelectorAll('.sidebar-nav a');
+    const navLinks = document.querySelectorAll('.aura-nav-bar .nav-item');
 
     // 1. Intersection Observer for Scroll-Triggered Reveal Effect
     const revealObserver = new IntersectionObserver((entries) => {
@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 navLinks.forEach((link) => {
-                    link.classList.remove('active-link');
+                    link.classList.remove('active');
                     if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active-link');
+                        link.classList.add('active');
                     }
                 });
             }
@@ -55,13 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. Parallax Background Effect
+    // 4. Parallax Background Effect & Navbar Scroll Class
     const bgImage = document.querySelector('.stroll-bg-image');
-    if (bgImage) {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
+    const navbar = document.querySelector('.aura-nav-bar');
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+
+        // Parallax
+        if (bgImage) {
             const val = scrolled * 0.15;
             bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
-        });
-    }
+        }
+
+        // Navbar scrolled state
+        if (navbar) {
+            if (scrolled > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+    });
 });

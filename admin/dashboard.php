@@ -3,9 +3,6 @@ require_once '../includes/db.php';
 require_once '../includes/functions.php';
 check_login();
 
-// 1. Create a variable in PHP that stores the path to a user's image.
-$hero_bg_path = '../images/hero-bg.png';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         die("CSRF token validation failed.");
@@ -24,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('cta_link', ?)");
         $stmt->execute([$cta_link]);
 
-        header("Location: dashboard.php?msg=settings_updated");
+        header("Location: dashboard.php?view=settings&msg=settings_updated");
         exit();
     }
 
@@ -51,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $stmt = $pdo->prepare("INSERT INTO content (section_title, description, image_path) VALUES (?, ?, ?)");
         $stmt->execute([$title, $desc, $image_path]);
-        header("Location: dashboard.php?msg=added");
+        header("Location: dashboard.php?view=manage&msg=added");
         exit();
     }
 
@@ -59,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = (int)$_POST['id'];
         $stmt = $pdo->prepare("DELETE FROM content WHERE id = ?");
         $stmt->execute([$id]);
-        header("Location: dashboard.php?msg=deleted");
+        header("Location: dashboard.php?view=manage&msg=deleted");
         exit();
     }
 }
@@ -85,209 +82,175 @@ $view = $_GET['view'] ?? 'overview';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | <?php echo SITE_NAME; ?></title>
+    <title>Aura Portal | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .dashboard-hero {
-            background-image: url('<?php echo $hero_bg_path; ?>');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            padding: 40px 20px;
-            color: #fff;
-            text-align: center;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
-        .dashboard-hero h2 {
-            font-size: 2.5rem;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        }
-        .sidebar-nav-admin li {
-            margin-bottom: 10px;
-        }
-        .sidebar-nav-admin a {
-            display: block;
-            padding: 12px 20px;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        .sidebar-nav-admin a:hover, .sidebar-nav-admin a.active {
-            background: rgba(197, 160, 89, 0.2);
-            color: var(--primary-color);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="admin-body">
-    <div class="layout-wrapper">
-        <header class="layout-header">
-            <div class="vintage-frame">
+<body class="aura-body">
+    <div class="aura-portal-bg"></div>
+
+    <nav class="aura-nav">
+        <div class="glass-pill">
+            <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Portal</a>
+            <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
+            <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
+            <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
+            <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; margin-left: -20px;">Exit</a>
+        </div>
+    </nav>
+
+    <main class="portal-container">
+        <?php if ($view == 'overview'): ?>
+            <header class="portal-hero">
                 <h1><?php echo SITE_NAME; ?></h1>
-            </div>
-            <div class="user-info" style="position: absolute; right: 40px; color: #fff;">
-                <span>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="btn-logout" style="margin-left: 20px;">Logout</a>
-            </div>
-        </header>
+                <p>Welcome back, Artisan <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+            </header>
 
-        <aside class="layout-sidebar">
-            <div class="sidebar-content">
-                <h2>Admin Panel</h2>
-                <div class="sidebar-line"></div>
-                <nav class="sidebar-nav-admin">
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Overview</a></li>
-                        <li><a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">General Settings</a></li>
-                        <li><a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Add New Point</a></li>
-                        <li><a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage Points</a></li>
-                        <li style="margin-top: 40px;"><a href="../index.php" target="_blank" style="font-size: 0.8rem; opacity: 0.6;">View Website ↗</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+            <div class="portal-grid">
+                <section class="aura-card welcome-section">
+                    <h2>Perspective</h2>
+                    <p>Your digital workspace is currently vibrating at peak performance. All systems are synchronized with your creative vision.</p>
 
-        <main class="layout-main">
-            <?php if ($view == 'overview'): ?>
-                <div class="dashboard-hero">
-                    <h2>Welcome to the Atelier</h2>
-                    <div class="vintage-frame" style="transform: scale(0.6);">
-                        <span style="color: #c5a059; font-weight: bold; letter-spacing: 4px;">Verified Admin Access</span>
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <h3><?php echo count($sections); ?></h3>
+                            <span>Masterpieces</span>
+                        </div>
+                        <div class="stat-item">
+                            <h3>Active</h3>
+                            <span>System Status</span>
+                        </div>
                     </div>
-                </div>
+                </section>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <div class="admin-card" style="margin-bottom: 0; text-align: center; padding: 30px;">
-                        <h4 style="margin: 0; color: var(--secondary-color); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Total Points</h4>
-                        <p style="font-size: 3rem; font-weight: 700; margin: 10px 0; color: var(--primary-color);"><?php echo count($sections); ?></p>
-                        <a href="dashboard.php?view=manage" class="btn-primary" style="padding: 8px 20px; font-size: 0.8rem;">Manage All</a>
+                <section class="aura-card" style="padding: 0; overflow: hidden;">
+                    <div class="portrait-frame">
+                        <img src="../images/leadership.jpg" alt="Artisan">
+                        <div class="portrait-overlay">
+                            <h3>Verified Administrator</h3>
+                            <span style="color: var(--primary-color); font-size: 0.7rem; letter-spacing: 2px;">SECURE ACCESS SESSION</span>
+                        </div>
                     </div>
-                    <div class="admin-card" style="margin-bottom: 0; text-align: center; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                         <img src="../images/brand-portrait.jpg" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); margin-bottom: 10px;" alt="Brand">
-                         <h4 style="margin: 0; color: var(--dark-color);"><?php echo SITE_NAME; ?></h4>
-                         <p style="font-size: 0.8rem; color: #888;">Live Brand Profile</p>
-                    </div>
-                </div>
+                </section>
 
-                <div class="admin-card" style="margin-top: 40px;">
-                    <h3>Quick Tips</h3>
-                    <ul style="color: #666; font-size: 0.95rem; line-height: 1.8;">
-                        <li>Use high-quality images for your selling points to maintain the luxury aesthetic.</li>
-                        <li>Keep descriptions concise and punchy for better conversion.</li>
-                        <li>You can change the title of the sidebar section in General Settings.</li>
-                    </ul>
+                <div class="actions-grid">
+                    <a href="dashboard.php?view=add" class="action-card">
+                        <div class="icon">✧</div>
+                        <h4>Add Masterpiece</h4>
+                        <p>Expand your digital collection with new points of light.</p>
+                    </a>
+                    <a href="dashboard.php?view=manage" class="action-card">
+                        <div class="icon">❖</div>
+                        <h4>Manage Aura</h4>
+                        <p>Refine and orchestrate your existing masterpieces.</p>
+                    </a>
+                    <a href="dashboard.php?view=settings" class="action-card">
+                        <div class="icon">⚙</div>
+                        <h4>Core Config</h4>
+                        <p>Adjust the foundational frequencies of your landing page.</p>
+                    </a>
                 </div>
-            <?php endif; ?>
+            </div>
+        <?php endif; ?>
 
+        <div style="max-width: 900px; margin: 0 auto; width: 100%;">
             <?php if (isset($_GET['msg'])): ?>
-                <div style="background: #e1f5fe; color: #0277bd; padding: 15px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #0277bd;">
+                <div style="background: rgba(255, 53, 3, 0.1); border: 1px solid var(--primary-color); color: var(--primary-color); padding: 20px; border-radius: 20px; margin-bottom: 40px; text-align: center; backdrop-filter: blur(10px);">
                     <?php
-                        if ($_GET['msg'] == 'added') echo "<strong>Success:</strong> New selling point has been added to the gallery.";
-                        if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The section has been successfully deleted.";
-                        if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your changes have been saved perfectly.";
-                        if ($_GET['msg'] == 'settings_updated') echo "<strong>Updated:</strong> General settings are now live.";
+                        if ($_GET['msg'] == 'added') echo "<strong>Masterpiece Added:</strong> The collection has been expanded.";
+                        if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The piece has been returned to the void.";
+                        if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your vision has been updated.";
+                        if ($_GET['msg'] == 'settings_updated') echo "<strong>Synchronized:</strong> Core settings are now in harmony.";
                     ?>
                 </div>
             <?php endif; ?>
 
             <?php if ($view == 'settings'): ?>
-                <section class="admin-card">
-                    <h3>General Settings</h3>
-                    <form method="POST" class="admin-form">
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Core <span style="color: var(--primary-color);">Frequencies</span></h2>
+                    <form method="POST">
                         <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                         <div class="form-group">
-                            <label>Selling Points Section Title (Sidebar Header)</label>
-                            <input type="text" name="selling_points_title" class="form-control" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
-                            <small style="color: #888;">This appears at the top of the sidebar on the landing page.</small>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Section Title</label>
+                            <input type="text" name="selling_points_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($selling_points_title); ?>" required>
                         </div>
-
                         <div class="form-group">
-                            <label>CTA Button Text</label>
-                            <input type="text" name="cta_text" class="form-control" value="<?php echo htmlspecialchars($cta_text); ?>" required>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Call to Action Text</label>
+                            <input type="text" name="cta_text" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($cta_text); ?>" required>
                         </div>
-
                         <div class="form-group">
-                            <label>CTA Button Link (URL)</label>
-                            <input type="text" name="cta_link" class="form-control" value="<?php echo htmlspecialchars($cta_link); ?>" required>
-                            <small style="color: #888;">Enter a URL or an anchor like #features.</small>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Call to Action Link</label>
+                            <input type="text" name="cta_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($cta_link); ?>" required>
                         </div>
-
-                        <button type="submit" name="update_settings" class="btn-primary">Save Changes</button>
+                        <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
                 </section>
             <?php endif; ?>
 
             <?php if ($view == 'add'): ?>
-                <section class="admin-card">
-                    <h3>Add New Selling Point</h3>
-                    <form method="POST" class="admin-form" enctype="multipart/form-data">
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Create <span style="color: var(--primary-color);">Masterpiece</span></h2>
+                    <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                         <div class="form-group">
-                            <label>Section Title</label>
-                            <input type="text" name="section_title" class="form-control" placeholder="e.g. Bespoke Tailoring" required>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Title</label>
+                            <input type="text" name="section_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" required>
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
-                            <textarea name="description" class="form-control" rows="4" placeholder="Describe the value proposition..." required></textarea>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Description</label>
+                            <textarea name="description" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" rows="4" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Image (Optional)</label>
-                            <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
-                            <div id="imagePreview" style="margin-top: 15px; display: none;">
-                                <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Visual Asset</label>
+                            <input type="file" name="section_image" class="form-control" id="imageInput" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" accept="image/*">
+                        </div>
+                        <div id="imagePreview" style="margin-top: 25px; display: none;">
+                            <div style="border-radius: 20px; overflow: hidden; border: 2px solid var(--primary-color);">
+                                <img src="" alt="Preview" style="width: 100%; display: block;">
                             </div>
+                            <p style="font-size: 0.7rem; color: var(--primary-color); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; text-align: center;">Vision Captured</p>
                         </div>
-                        <button type="submit" name="add_section" class="btn-primary">Publish Section</button>
+                        <button type="submit" name="add_section" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">MANIFEST</button>
                     </form>
                 </section>
             <?php endif; ?>
 
             <?php if ($view == 'manage'): ?>
-                <section class="admin-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                        <h3 style="margin: 0;">Manage Selling Points</h3>
-                        <a href="dashboard.php?view=add" class="btn-primary" style="font-size: 0.8rem; padding: 10px 20px;">+ Add New</a>
-                    </div>
-
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Masterpiece <span style="color: var(--primary-color);">Archive</span></h2>
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th style="text-align: right;">Actions</th>
+                                <th style="border: none; padding-bottom: 20px;">Asset</th>
+                                <th style="border: none; padding-bottom: 20px;">Title</th>
+                                <th style="text-align: right; border: none; padding-bottom: 20px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($sections)): ?>
                                 <tr>
-                                    <td colspan="3" class="text-center" style="padding: 40px; color: #999;">No selling points found. Start by adding one.</td>
+                                    <td colspan="3" style="text-align: center; padding: 40px; color: #666; font-style: italic;">
+                                        The archive is currently empty. Manifest your first masterpiece in the 'Create' tab.
+                                    </td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($sections as $s): ?>
                                     <tr>
-                                        <td>
+                                        <td style="background: transparent;">
                                             <?php if ($s['image_path']): ?>
-                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" alt="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #eee;">
-                                            <?php else: ?>
-                                                <div style="width: 70px; height: 70px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 0.6rem; text-transform: uppercase;">No Image</div>
+                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" style="width: 70px; height: 70px; object-fit: cover; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
                                             <?php endif; ?>
                                         </td>
-                                        <td><strong style="color: var(--dark-color); font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong></td>
-                                        <td style="white-space: nowrap; text-align: right;">
-                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 8px 18px; font-size: 0.85rem; text-decoration: none; margin-right: 5px; background: var(--secondary-color);">Edit / View Text</a>
-                                            <form method="POST" onsubmit="return confirm('Are you sure you want to delete this masterpiece?');" style="display: inline-block;">
+                                        <td style="background: transparent; vertical-align: middle;">
+                                            <strong style="color: #fff; font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong>
+                                        </td>
+                                        <td style="text-align: right; background: transparent; vertical-align: middle;">
+                                            <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 10px 25px; text-decoration: none; font-size: 0.8rem; border-radius: 100px;">REFINE</a>
+                                            <form method="POST" style="display: inline-block; margin-left: 10px;">
                                                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                                                 <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
-                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 7px 16px; font-size: 0.85rem;">Delete</button>
+                                                <button type="submit" name="delete_section" class="btn-delete" style="padding: 10px 25px; font-size: 0.8rem; border-radius: 100px;" onclick="return confirm('Remove this piece from the archive?');">VOID</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -297,29 +260,33 @@ $view = $_GET['view'] ?? 'overview';
                     </table>
                 </section>
             <?php endif; ?>
+        </div>
+    </main>
 
-            <script>
-                const imageInput = document.getElementById('imageInput');
-                if (imageInput) {
-                    imageInput.addEventListener('change', function(event) {
-                        const previewContainer = document.getElementById('imagePreview');
-                        const previewImage = previewContainer.querySelector('img');
-                        const file = event.target.files[0];
+    <footer class="aura-footer">
+        &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA PORTAL v2.0
+    </footer>
 
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                previewImage.src = e.target.result;
-                                previewContainer.style.display = 'block';
-                            }
-                            reader.readAsDataURL(file);
-                        } else {
-                            previewContainer.style.display = 'none';
-                        }
-                    });
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        if (imageInput) {
+            imageInput.addEventListener('change', function(event) {
+                const previewContainer = document.getElementById('imagePreview');
+                const previewImage = previewContainer.querySelector('img');
+                const file = event.target.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    previewContainer.style.display = 'none';
                 }
-            </script>
-        </main>
-    </div>
+            });
+        }
+    </script>
 </body>
 </html>

@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $pdo->prepare("UPDATE content SET section_title = ?, description = ?, image_path = ? WHERE id = ?");
     $stmt->execute([$title, $desc, $image_path, $id]);
-    header("Location: dashboard.php?msg=updated");
+    header("Location: dashboard.php?view=manage&msg=updated");
     exit();
 }
 ?>
@@ -58,67 +58,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Selling Point | <?php echo SITE_NAME; ?></title>
+    <title>Refine Masterpiece | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="admin-body">
-    <div class="layout-wrapper">
-        <header class="layout-header">
-            <div class="vintage-frame">
-                <h1><?php echo SITE_NAME; ?></h1>
-            </div>
-            <div class="user-info" style="position: absolute; right: 40px; color: #fff;">
-                <a href="logout.php" class="btn-logout">Logout</a>
-            </div>
+<body class="aura-body">
+    <div class="aura-portal-bg"></div>
+
+    <nav class="aura-nav">
+        <div class="glass-pill">
+            <a href="dashboard.php?view=overview">Portal</a>
+            <a href="dashboard.php?view=settings">Aura</a>
+            <a href="dashboard.php?view=add">Create</a>
+            <a href="dashboard.php?view=manage" class="active">Manage</a>
+            <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; margin-left: -20px;">Exit</a>
+        </div>
+    </nav>
+
+    <main class="portal-container" style="max-width: 900px;">
+        <header style="margin-bottom: 60px; text-align: center;">
+            <h1 style="font-family: 'Cinzel', serif; font-size: 3rem; letter-spacing: 0.1em; text-transform: uppercase; margin: 0;">
+                Refine <span style="color: var(--primary-color);">Masterpiece</span>
+            </h1>
+            <p style="color: #666; font-size: 0.9rem; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px;">Elevate your vision to perfection.</p>
         </header>
 
-        <aside class="layout-sidebar">
-            <div class="sidebar-content">
-                <h2>Admin Panel</h2>
-                <div class="sidebar-line"></div>
-                <nav style="margin-top: 40px;">
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 15px;"><a href="dashboard.php" style="color: #fff; text-decoration: none; opacity: 0.8;">Back to Dashboard</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+        <section class="aura-card">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
 
-        <main class="layout-main">
-            <h2 class="actions-title">Edit Selling Point</h2>
+                <div style="margin-bottom: 30px;">
+                    <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">Title</label>
+                    <input type="text" name="section_title" class="form-control" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
+                </div>
 
-            <section class="admin-card">
-                <form method="POST" class="admin-form" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                    <div class="form-group">
-                        <label>Section Title</label>
-                        <input type="text" name="section_title" class="form-control" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea name="description" class="form-control" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Image (Optional)</label>
-                        <?php if ($section['image_path']): ?>
-                            <div style="margin-bottom: 10px;">
-                                <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 200px; border-radius: 8px;">
-                                <p style="font-size: 0.8rem; color: #666;">Current Image</p>
+                <div style="margin-bottom: 30px;">
+                    <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">Description</label>
+                    <textarea name="description" class="form-control" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">Visual Asset</label>
+
+                    <?php if ($section['image_path']): ?>
+                        <div style="margin-bottom: 25px; position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+                            <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="width: 100%; display: block; opacity: 0.6;">
+                            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3);">
+                                <span style="color: #fff; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; background: rgba(0,0,0,0.6); padding: 8px 15px; border-radius: 50px;">Current Inspiration</span>
                             </div>
-                        <?php endif; ?>
-                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
-                        <div id="imagePreview" style="margin-top: 15px; display: none;">
-                            <img src="" alt="Preview" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                            <p style="font-size: 0.8rem; color: #666;">New Image Preview</p>
                         </div>
+                    <?php endif; ?>
+
+                    <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
+
+                    <div id="imagePreview" style="margin-top: 25px; display: none;">
+                        <div style="border-radius: 20px; overflow: hidden; border: 2px solid var(--primary-color);">
+                            <img src="" alt="Preview" style="width: 100%; display: block;">
+                        </div>
+                        <p style="font-size: 0.7rem; color: var(--primary-color); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; text-align: center;">New Vision Captured</p>
                     </div>
-                    <button type="submit" class="btn-primary">Update Selling Point</button>
-                    <a href="dashboard.php" style="margin-left: 20px; color: #666; text-decoration: none;">Cancel</a>
-                </form>
-            </section>
-        </main>
-    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 30px; margin-top: 50px;">
+                    <button type="submit" class="btn-primary" style="flex: 1; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
+                    <a href="dashboard.php?view=manage" style="color: #666; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#666'">Discard changes</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 60px; color: #444; font-size: 0.8rem; letter-spacing: 1px;">
+        &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA PORTAL v2.0
+    </footer>
 
     <script>
         document.getElementById('imageInput').addEventListener('change', function(event) {
