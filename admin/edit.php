@@ -74,56 +74,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         label { color: #888; font-weight: 600; margin-bottom: 10px; display: block; }
     </style>
 </head>
-<body class="admin-body">
-    <nav class="top-nav">
-        <a href="dashboard.php" class="logo"><?php echo SITE_NAME; ?></a>
-        <div class="nav-links">
-            <a href="dashboard.php?view=overview">Overview</a>
-            <a href="dashboard.php?view=settings">Settings</a>
-            <a href="dashboard.php?view=add">Create</a>
-            <a href="dashboard.php?view=manage" class="active">Manage</a>
+<body class="artisan-layout">
+    <aside class="artisan-sidebar">
+        <div class="sidebar-brand">
+            <h2 class="shimmer-text"><?php echo SITE_NAME; ?></h2>
         </div>
-        <div class="user-meta">
-            <span>Hello, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-            <a href="logout.php" class="btn-signout">SIGN OUT</a>
-        </div>
-    </nav>
 
-    <main style="max-width: 800px; margin: 40px auto; padding: 0 40px;">
-        <h2 style="font-family: 'Cinzel', serif; color: var(--primary-color); margin-bottom: 30px;">Edit Selling Point</h2>
+        <nav class="sidebar-nav">
+            <a href="dashboard.php?view=overview">OVERVIEW</a>
+            <a href="dashboard.php?view=settings">SETTINGS</a>
+            <a href="dashboard.php?view=add">CREATE</a>
+            <a href="dashboard.php?view=manage" class="active">MANAGE</a>
+        </nav>
 
-        <section class="admin-card">
-            <form method="POST" class="admin-form" enctype="multipart/form-data">
-                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                <div class="form-group">
-                    <label>Section Title</label>
-                    <input type="text" name="section_title" class="form-control" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Image (Optional)</label>
-                    <?php if ($section['image_path']): ?>
-                        <div style="margin-bottom: 20px;">
-                            <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
-                            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Current Masterpiece</p>
-                        </div>
-                    <?php endif; ?>
-                    <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
-                    <div id="imagePreview" style="margin-top: 20px; display: none;">
-                        <img src="" alt="Preview" style="max-width: 100%; border-radius: 12px; border: 1px solid var(--primary-color);">
-                        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">New Vision Preview</p>
+        <a href="logout.php" class="btn-outline" style="margin: auto 30px 40px; text-align: center; text-decoration: none; display: block;">SIGN OUT</a>
+    </aside>
+
+    <main class="artisan-main">
+        <div class="view-container">
+            <header style="margin-bottom: 40px;">
+                <h1 style="font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 0.1em; text-transform: uppercase;">
+                    Edit <span style="color: var(--primary-color);">Masterpiece</span>
+                </h1>
+                <p style="color: #888; font-size: 0.9rem; margin-top: 10px;">Refine the details of your collection.</p>
+            </header>
+
+            <section class="module-card">
+                <form method="POST" class="admin-form" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="section_title" class="form-control" value="<?php echo htmlspecialchars($section['section_title']); ?>" required>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" rows="6" required><?php echo htmlspecialchars($section['description']); ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Visual Asset</label>
+                        <?php if ($section['image_path']): ?>
+                            <div style="margin-bottom: 20px;">
+                                <img src="../<?php echo htmlspecialchars($section['image_path']); ?>" alt="Current" style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                                <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Current Asset</p>
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" name="section_image" class="form-control" id="imageInput" accept="image/*">
+                        <div id="imagePreview" style="margin-top: 20px; display: none;">
+                            <img src="" alt="Preview" style="max-width: 100%; border-radius: 12px; border: 1px solid var(--primary-color);">
+                            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">New Preview</p>
+                        </div>
+                    </div>
 
-                <div style="display: flex; align-items: center; gap: 20px; margin-top: 40px;">
-                    <button type="submit" class="btn-primary">Update Point</button>
-                    <a href="dashboard.php?view=manage" style="color: #666; text-decoration: none; font-size: 0.9rem;">Cancel and return</a>
-                </div>
-            </form>
-        </section>
+                    <div style="display: flex; align-items: center; gap: 20px; margin-top: 40px;">
+                        <button type="submit" class="btn-primary">Update Piece</button>
+                        <a href="dashboard.php?view=manage" style="color: #666; text-decoration: none; font-size: 0.9rem;">Discard changes</a>
+                    </div>
+                </form>
+            </section>
+        </div>
     </main>
 
     <script>
