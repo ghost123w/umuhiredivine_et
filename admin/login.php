@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main class="login-wrapper">
         <div style="text-align: center; margin-bottom: 40px;">
-             <h1 style="font-family: 'Cinzel', serif; color: #fff; font-size: 2.5rem; letter-spacing: 10px; margin: 0;"><?php echo SITE_NAME; ?></h1>
+             <h1 class="shimmer-text" style="font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 10px; margin: 0;"><?php echo SITE_NAME; ?></h1>
              <p style="color: var(--primary-color); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; margin-top: 10px;">Security Gateway</p>
         </div>
 

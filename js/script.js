@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.reveal-section');
-    const navLinks = document.querySelectorAll('.sidebar-nav a');
+    const navLinks = document.querySelectorAll('.layout-sidebar a');
 
     // 1. Intersection Observer for Scroll-Triggered Reveal Effect
     const revealObserver = new IntersectionObserver((entries) => {
@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 navLinks.forEach((link) => {
-                    link.classList.remove('active-link');
+                    link.classList.remove('active');
                     if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active-link');
+                        link.classList.add('active');
                     }
                 });
             }

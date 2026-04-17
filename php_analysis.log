@@ -1,0 +1,97 @@
+[Fri Apr 17 11:29:48 2026] PHP 8.3.6 Development Server (http://localhost:8082) started
+[Fri Apr 17 11:29:53 2026] [::1]:35780 Accepted
+[Fri Apr 17 11:29:53 2026] [::1]:35780 [200]: GET /index.php
+[Fri Apr 17 11:29:53 2026] [::1]:35780 Closing
+[Fri Apr 17 11:29:53 2026] [::1]:35796 Accepted
+[Fri Apr 17 11:29:53 2026] [::1]:35802 Accepted
+[Fri Apr 17 11:29:53 2026] [::1]:35796 [200]: GET /css/style.css
+[Fri Apr 17 11:29:53 2026] [::1]:35802 [200]: GET /js/script.js
+[Fri Apr 17 11:29:53 2026] [::1]:35796 Closing
+[Fri Apr 17 11:29:53 2026] [::1]:35802 Closing
+[Fri Apr 17 11:29:53 2026] [::1]:35804 Accepted
+[Fri Apr 17 11:29:53 2026] [::1]:35804 [200]: GET /images/landing-bg.png
+[Fri Apr 17 11:29:53 2026] [::1]:35804 Closing
+[Fri Apr 17 11:29:55 2026] [::1]:35812 Accepted
+[Fri Apr 17 11:29:55 2026] [::1]:35812 [200]: GET /admin/login.php
+[Fri Apr 17 11:29:55 2026] [::1]:35812 Closing
+[Fri Apr 17 11:29:55 2026] [::1]:35828 Accepted
+[Fri Apr 17 11:29:55 2026] [::1]:35828 [200]: GET /css/style.css
+[Fri Apr 17 11:29:55 2026] [::1]:35828 Closing
+[Fri Apr 17 11:29:55 2026] [::1]:35836 Accepted
+[Fri Apr 17 11:29:55 2026] [::1]:35836 [302]: POST /admin/login.php
+[Fri Apr 17 11:29:55 2026] [::1]:35836 Closing
+[Fri Apr 17 11:29:55 2026] [::1]:57808 Accepted
+[Fri Apr 17 11:29:55 2026] [::1]:57808 [200]: GET /admin/dashboard.php
+[Fri Apr 17 11:29:55 2026] [::1]:57808 Closing
+[Fri Apr 17 11:29:55 2026] [::1]:57824 Accepted
+[Fri Apr 17 11:29:55 2026] [::1]:57824 [200]: GET /css/style.css
+[Fri Apr 17 11:29:55 2026] [::1]:57824 Closing
+[Fri Apr 17 11:29:55 2026] [::1]:57834 Accepted
+[Fri Apr 17 11:29:55 2026] [::1]:57834 [200]: GET /images/leadership.jpg
+[Fri Apr 17 11:29:55 2026] [::1]:57834 Closing
+[Fri Apr 17 11:46:55 2026] [::1]:51048 Accepted
+[Fri Apr 17 11:46:55 2026] [::1]:51048 [200]: GET /index.php
+[Fri Apr 17 11:46:55 2026] [::1]:51048 Closing
+[Fri Apr 17 11:46:56 2026] [::1]:51060 Accepted
+[Fri Apr 17 11:46:56 2026] [::1]:51074 Accepted
+[Fri Apr 17 11:46:56 2026] [::1]:51060 [200]: GET /css/style.css
+[Fri Apr 17 11:46:56 2026] [::1]:51074 [200]: GET /js/script.js
+[Fri Apr 17 11:46:56 2026] [::1]:51060 Closing
+[Fri Apr 17 11:46:56 2026] [::1]:51074 Closing
+[Fri Apr 17 11:46:56 2026] [::1]:51080 Accepted
+[Fri Apr 17 11:46:56 2026] [::1]:51080 [200]: GET /images/landing-bg.png
+[Fri Apr 17 11:46:56 2026] [::1]:51080 Closing
+[Fri Apr 17 11:47:00 2026] [::1]:51088 Accepted
+[Fri Apr 17 11:47:00 2026] [::1]:51088 [302]: GET /admin/dashboard.php
+[Fri Apr 17 11:47:00 2026] [::1]:51088 Closing
+[Fri Apr 17 11:47:00 2026] [::1]:51100 Accepted
+[Fri Apr 17 11:47:00 2026] [::1]:51100 [200]: GET /admin/login.php
+[Fri Apr 17 11:47:00 2026] [::1]:51100 Closing
+[Fri Apr 17 11:47:00 2026] [::1]:51116 Accepted
+[Fri Apr 17 11:47:00 2026] [::1]:51116 [200]: GET /css/style.css
+[Fri Apr 17 11:47:00 2026] [::1]:51116 Closing
+[Fri Apr 17 11:47:03 2026] [::1]:51126 Accepted
+[Fri Apr 17 11:47:03 2026] [::1]:51126 [302]: POST /admin/login.php
+[Fri Apr 17 11:47:03 2026] [::1]:51126 Closing
+[Fri Apr 17 11:47:03 2026] [::1]:51130 Accepted
+[Fri Apr 17 11:47:03 2026] [::1]:51130 [200]: GET /admin/dashboard.php
+[Fri Apr 17 11:47:03 2026] [::1]:51130 Closing
+[Fri Apr 17 11:47:03 2026] [::1]:51132 Accepted
+[Fri Apr 17 11:47:03 2026] [::1]:51148 Accepted
+[Fri Apr 17 11:47:03 2026] [::1]:51132 [200]: GET /css/style.css
+[Fri Apr 17 11:47:03 2026] [::1]:51132 Closing
+[Fri Apr 17 11:47:03 2026] [::1]:51148 [200]: GET /images/leadership.jpg
+[Fri Apr 17 11:47:03 2026] [::1]:51148 Closing
+[Fri Apr 17 12:17:07 2026] [::1]:44430 Accepted
+[Fri Apr 17 12:17:07 2026] [::1]:44430 [200]: GET /index.php
+[Fri Apr 17 12:17:07 2026] [::1]:44430 Closing
+[Fri Apr 17 12:17:07 2026] [::1]:44436 Accepted
+[Fri Apr 17 12:17:07 2026] [::1]:44452 Accepted
+[Fri Apr 17 12:17:07 2026] [::1]:44436 [200]: GET /css/style.css
+[Fri Apr 17 12:17:07 2026] [::1]:44452 [200]: GET /js/script.js
+[Fri Apr 17 12:17:07 2026] [::1]:44436 Closing
+[Fri Apr 17 12:17:07 2026] [::1]:44452 Closing
+[Fri Apr 17 12:17:07 2026] [::1]:44456 Accepted
+[Fri Apr 17 12:17:07 2026] [::1]:44456 [200]: GET /images/landing-bg.png
+[Fri Apr 17 12:17:07 2026] [::1]:44456 Closing
+[Fri Apr 17 12:17:12 2026] [::1]:44462 Accepted
+[Fri Apr 17 12:17:12 2026] [::1]:44462 [302]: GET /admin/dashboard.php
+[Fri Apr 17 12:17:12 2026] [::1]:44462 Closing
+[Fri Apr 17 12:17:12 2026] [::1]:44476 Accepted
+[Fri Apr 17 12:17:12 2026] [::1]:44476 [200]: GET /admin/login.php
+[Fri Apr 17 12:17:12 2026] [::1]:44476 Closing
+[Fri Apr 17 12:17:12 2026] [::1]:44488 Accepted
+[Fri Apr 17 12:17:12 2026] [::1]:44488 [200]: GET /css/style.css
+[Fri Apr 17 12:17:12 2026] [::1]:44488 Closing
+[Fri Apr 17 12:17:14 2026] [::1]:44496 Accepted
+[Fri Apr 17 12:17:14 2026] [::1]:44496 [302]: POST /admin/login.php
+[Fri Apr 17 12:17:14 2026] [::1]:44496 Closing
+[Fri Apr 17 12:17:14 2026] [::1]:44508 Accepted
+[Fri Apr 17 12:17:14 2026] [::1]:44508 [200]: GET /admin/dashboard.php
+[Fri Apr 17 12:17:14 2026] [::1]:44508 Closing
+[Fri Apr 17 12:17:14 2026] [::1]:44518 Accepted
+[Fri Apr 17 12:17:14 2026] [::1]:44534 Accepted
+[Fri Apr 17 12:17:14 2026] [::1]:44518 [200]: GET /css/style.css
+[Fri Apr 17 12:17:14 2026] [::1]:44534 [200]: GET /images/leadership.jpg
+[Fri Apr 17 12:17:14 2026] [::1]:44518 Closing
+[Fri Apr 17 12:17:14 2026] [::1]:44534 Closing

@@ -203,9 +203,15 @@ $view = $_GET['view'] ?? 'overview';
                         </div>
                         <div class="form-group">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Visual Asset</label>
-                            <input type="file" name="section_image" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" accept="image/*">
+                            <input type="file" name="section_image" class="form-control" id="imageInput" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" accept="image/*">
                         </div>
-                        <button type="submit" name="add_section" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">MANIFEST</button>
+                        <div id="imagePreview" style="margin-top: 25px; display: none;">
+                            <div style="border-radius: 20px; overflow: hidden; border: 2px solid var(--primary-color);">
+                                <img src="" alt="Preview" style="width: 100%; display: block;">
+                            </div>
+                            <p style="font-size: 0.7rem; color: var(--primary-color); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; text-align: center;">Vision Captured</p>
+                        </div>
+                        <button type="submit" name="add_section" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">MANIFEST</button>
                     </form>
                 </section>
             <?php endif; ?>
@@ -252,5 +258,27 @@ $view = $_GET['view'] ?? 'overview';
     <footer class="aura-footer">
         &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA PORTAL v2.0
     </footer>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        if (imageInput) {
+            imageInput.addEventListener('change', function(event) {
+                const previewContainer = document.getElementById('imagePreview');
+                const previewImage = previewContainer.querySelector('img');
+                const file = event.target.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    previewContainer.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

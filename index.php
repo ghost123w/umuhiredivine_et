@@ -44,28 +44,16 @@ $cta_link = $stmt->fetchColumn() ?: '#';
             </div>
         </header>
 
-        <aside class="layout-sidebar">
-            <div class="sidebar-content">
-                <h2><?php echo htmlspecialchars($selling_points_title); ?></h2>
-                <div class="sidebar-line"></div>
-
-                <nav class="sidebar-nav">
-                    <ul>
-                        <?php foreach ($sections as $s): ?>
-                            <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </nav>
-
-                <div class="sidebar-cta" style="margin-top: 60px;">
-                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
-                </div>
-            </div>
-        </aside>
+        <nav class="layout-sidebar glass-pill">
+            <?php foreach ($sections as $s): ?>
+                <a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a>
+            <?php endforeach; ?>
+            <a href="admin/login.php" style="opacity: 0.2; font-size: 0.6rem; vertical-align: middle;">ADMIN</a>
+        </nav>
 
         <main class="layout-main" id="features">
-            <?php foreach ($sections as $s): ?>
-                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
+            <?php foreach ($sections as $index => $s): ?>
+                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo ($s['image_path'] && $index % 2 != 0) ? 'has-image reverse' : ($s['image_path'] ? 'has-image' : ''); ?>">
                     <?php if ($s['image_path']): ?>
                         <div class="section-image">
                             <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
@@ -74,7 +62,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                     <div class="section-content">
                         <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
                         <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
-                        <div style="margin-top: 30px;">
+                        <div style="margin-top: 40px;">
                             <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
                         </div>
                     </div>
