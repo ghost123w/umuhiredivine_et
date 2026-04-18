@@ -38,9 +38,15 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         <div class="stroll-bg-overlay"></div>
     </div>
     <header class="layout-header">
-        <div class="vintage-frame">
-            <h1><?php echo SITE_NAME; ?></h1>
-        </div>
+        <h1><?php echo htmlspecialchars(SITE_NAME); ?></h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="admin/login.php" class="nav-admin">Admin</a></li>
+            </ul>
+        </nav>
     </header>
 
 

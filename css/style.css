@@ -51,33 +51,57 @@ body {
 /* Header & Navigation */
 .layout-header {
     position: fixed;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 40px;
+    right: 60px;
     z-index: 1000;
-    width: 100%;
-    pointer-events: none;
-    text-align: center;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
 }
 
 .layout-header h1 {
     font-family: 'Cinzel', serif;
-    font-size: 1.4rem;
-    letter-spacing: 8px;
+    font-size: 1.2rem;
+    letter-spacing: 6px;
     text-transform: uppercase;
     background: linear-gradient(to bottom, #f9e1a1 0%, #c5a059 50%, #8a6d3b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     margin: 0;
-    pointer-events: auto;
-    filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.3));
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
     transition: all 0.5s ease;
 }
 
-.layout-header h1:hover {
-    letter-spacing: 12px;
-    filter: drop-shadow(0 0 25px rgba(197, 160, 89, 0.6));
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: #c5a059;
+    text-shadow: 0 0 8px rgba(197, 160, 89, 0.5);
+}
+
+.nav-admin {
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    padding: 6px 15px;
+    border-radius: 4px;
 }
 
 
@@ -104,11 +128,16 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 40px;
     overflow: hidden;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.2s ease;
     opacity: 0;
-    transform: translateY(100px);
+    /* Parallax variables initialized */
+    --parallax-y: 0px;
+    --parallax-rot: 0deg;
+    transform: translateY(100px) translateY(var(--parallax-y)) rotateX(var(--parallax-rot));
     box-shadow: 0 40px 100px rgba(0,0,0,0.6);
     position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .portrait-card::after {
@@ -127,7 +156,7 @@ body {
 
 .portrait-card.active {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) translateY(var(--parallax-y)) rotateX(var(--parallax-rot)) scale(1);
 }
 
 .portrait-image-header {
@@ -212,6 +241,71 @@ body {
 
 .cta:hover::before {
     left: 0;
+}
+
+/* Admin Access Styles (Login/Signup/Install) */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #050505;
+}
+
+.login-card, .install-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.login-card h2, .install-card h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.btn-login {
+    width: 100%;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.error-msg {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Admin Styles (Aura Theme) */

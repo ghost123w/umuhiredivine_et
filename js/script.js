@@ -42,11 +42,10 @@ window.addEventListener('scroll', () => {
     const cards = document.querySelectorAll('.portrait-card');
     cards.forEach((card, index) => {
         const speed = 0.05 * (index + 1);
-        const yPos = -(scrolled * speed);
-        // Only apply if active for extra depth
-        if (card.classList.contains('active')) {
-             card.style.transform = `translateY(${yPos}px) rotateX(${scrolled * 0.01}deg)`;
-        }
+        const yOffset = -(scrolled * speed);
+        // Using CSS variables to handle parallax so it doesn't fight with the .active reveal transform
+        card.style.setProperty('--parallax-y', `${yOffset}px`);
+        card.style.setProperty('--parallax-rot', `${scrolled * 0.01}deg`);
     });
 
     // Header shimmer intensity based on scroll

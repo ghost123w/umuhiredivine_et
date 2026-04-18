@@ -13,7 +13,8 @@ function sanitize($data) {
     }
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    // Removed htmlspecialchars to avoid double escaping in DB.
+    // Escaping should happen on output.
     return $data;
 }
 
