@@ -51,28 +51,34 @@ body {
 /* Header & Navigation */
 .layout-header {
     position: fixed;
-    top: 40px;
-    right: 60px;
+    top: 50px;
+    left: 0;
+    width: 100%;
     z-index: 1000;
-    text-align: right;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 20px;
+    align-items: center;
+    gap: 30px;
+    pointer-events: none;
+}
+
+.layout-header h1, .main-nav {
+    pointer-events: auto;
 }
 
 .layout-header h1 {
     font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    letter-spacing: 6px;
+    font-size: 1.4rem;
+    letter-spacing: 12px;
     text-transform: uppercase;
     background: linear-gradient(to bottom, #f9e1a1 0%, #c5a059 50%, #8a6d3b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     margin: 0;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
-    transition: all 0.5s ease;
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.8));
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .main-nav ul {
@@ -84,24 +90,30 @@ body {
 }
 
 .main-nav a {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.7);
     text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
+    letter-spacing: 3px;
+    transition: all 0.4s ease;
 }
 
 .main-nav a:hover {
-    color: #c5a059;
-    text-shadow: 0 0 8px rgba(197, 160, 89, 0.5);
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .nav-admin {
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    padding: 6px 15px;
-    border-radius: 4px;
+    border: 1px solid rgba(197, 160, 89, 0.5);
+    padding: 8px 25px;
+    border-radius: 8px;
+    background: rgba(197, 160, 89, 0.05);
+}
+
+.nav-admin:hover {
+    background: rgba(197, 160, 89, 0.15);
+    border-color: #c5a059;
 }
 
 
