@@ -80,52 +80,7 @@ body {
     filter: drop-shadow(0 0 25px rgba(197, 160, 89, 0.6));
 }
 
-.glass-pill {
-    position: fixed;
-    top: 90px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border-glass);
-    padding: 8px 24px;
-    border-radius: 100px;
-    z-index: 1000;
-    box-shadow: var(--shadow-deep);
-}
 
-.glass-pill ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.glass-pill a {
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-}
-
-.glass-pill a:hover {
-    color: #fff;
-}
-
-.pill-cta {
-    background: var(--primary-color);
-    color: #fff !important;
-    padding: 8px 24px;
-    border-radius: 50px;
-    margin-left: 10px;
-    white-space: nowrap;
-    display: inline-block;
-}
 
 /* Portrait Layout */
 .portrait-viewport {
@@ -311,7 +266,4 @@ body {
 @media (max-width: 600px) {
     .portrait-card h2 { font-size: 1.8rem; }
     .portrait-image-header { height: 300px; }
-    .glass-pill { width: 90%; }
-    .glass-pill ul { justify-content: space-around; gap: 5px; }
-    .glass-pill a { font-size: 0.7rem; }
 }

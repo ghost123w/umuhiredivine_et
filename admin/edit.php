@@ -70,11 +70,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>REFINEMENT PORTAL</h1>
     </header>
 
-    <nav class="glass-pill">
-        <ul>
-            <li><a href="dashboard.php?view=manage">Return</a></li>
-            <li><a href="logout.php" class="pill-cta">Exit</a></li>
-        </ul>
+    <nav class="admin-nav-minimal">
+        <div class="aura-container" style="display: flex; justify-content: center; gap: 40px; padding: 20px 0;">
+            <a href="dashboard.php?view=manage" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Return</a>
+            <a href="logout.php" style="color: rgba(231, 76, 60, 0.8); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Exit</a>
+        </div>
     </nav>
 
     <div class="aura-container" style="max-width: 800px;">

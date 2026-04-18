@@ -43,14 +43,6 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         </div>
     </header>
 
-    <nav class="glass-pill">
-        <ul>
-            <?php foreach ($sections as $s): ?>
-                <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
-            <?php endforeach; ?>
-            <li><a href="<?php echo htmlspecialchars($cta_link); ?>" class="pill-cta"><?php echo htmlspecialchars($cta_text); ?></a></li>
-        </ul>
-    </nav>
 
     <div class="portrait-viewport">
         <main class="portrait-container" id="features">

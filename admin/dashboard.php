@@ -96,13 +96,13 @@ $view = $_GET['view'] ?? 'overview';
         <h1>AURA PORTAL</h1>
     </header>
 
-    <nav class="glass-pill">
-        <ul>
-            <li><a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Home</a></li>
-            <li><a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a></li>
-            <li><a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">AURA</a></li>
-            <li><a href="logout.php" class="pill-cta" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Exit</a></li>
-        </ul>
+    <nav class="admin-nav-minimal">
+        <div class="aura-container" style="display: flex; justify-content: center; gap: 40px; padding: 20px 0;">
+            <a href="dashboard.php?view=overview" style="color: <?php echo $view == 'overview' ? 'var(--primary-color)' : 'rgba(255,255,255,0.5)'; ?>; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Home</a>
+            <a href="dashboard.php?view=manage" style="color: <?php echo $view == 'manage' ? 'var(--primary-color)' : 'rgba(255,255,255,0.5)'; ?>; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Manage</a>
+            <a href="dashboard.php?view=settings" style="color: <?php echo $view == 'settings' ? 'var(--primary-color)' : 'rgba(255,255,255,0.5)'; ?>; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Settings</a>
+            <a href="logout.php" style="color: rgba(231, 76, 60, 0.8); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Exit</a>
+        </div>
     </nav>
 
     <div class="aura-container">

@@ -19,7 +19,7 @@ document.querySelectorAll('.reveal-section').forEach((section) => {
 });
 
 // Smooth scroll for nav links
-document.querySelectorAll('.glass-pill a, .sidebar-nav a').forEach(anchor => {
+document.querySelectorAll('.admin-nav-minimal a, .sidebar-nav a').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         if (this.getAttribute('href').startsWith('#')) {
             e.preventDefault();
