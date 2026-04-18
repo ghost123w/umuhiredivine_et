@@ -7,11 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
+            } else {
+                // Remove active class when section is far out of view to allow re-animation
+                const rect = entry.target.getBoundingClientRect();
+                if (rect.top > window.innerHeight || rect.bottom < 0) {
+                    entry.target.classList.remove('active');
+                }
             }
         });
     }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -10% 0px'
     });
 
     sections.forEach((section) => {

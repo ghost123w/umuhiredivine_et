@@ -37,15 +37,18 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
-    <div class="layout-wrapper">
-        <header class="layout-header">
-            <div class="vintage-frame">
-                <h1><?php echo SITE_NAME; ?></h1>
-            </div>
-        </header>
+    <header class="layout-header">
+        <div class="vintage-frame">
+            <h1><?php echo SITE_NAME; ?></h1>
+        </div>
+    </header>
 
-        <aside class="layout-sidebar">
+    <div class="immersive-container">
+        <aside class="floating-sidebar">
             <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <span class="gold-accent">EST.</span> 2024
+                </div>
                 <h2><?php echo htmlspecialchars($selling_points_title); ?></h2>
                 <div class="sidebar-line"></div>
 
@@ -57,13 +60,13 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                     </ul>
                 </nav>
 
-                <div class="sidebar-cta" style="margin-top: 60px;">
-                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                <div class="sidebar-footer">
+                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta floating-cta"><?php echo htmlspecialchars($cta_text); ?></a>
                 </div>
             </div>
         </aside>
 
-        <main class="layout-main" id="features">
+        <main class="immersive-main" id="features">
             <?php foreach ($sections as $s): ?>
                 <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
                     <?php if ($s['image_path']): ?>
