@@ -51,7 +51,7 @@ body {
 /* Header & Navigation */
 .layout-header {
     position: fixed;
-    top: 40px;
+    top: 110px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -74,7 +74,7 @@ body {
 
 .glass-pill {
     position: fixed;
-    bottom: 40px;
+    top: 40px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--glass-bg);
