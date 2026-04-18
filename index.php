@@ -34,19 +34,30 @@ $cta_link = $stmt->fetchColumn() ?: '#';
 </head>
 <body class="landing-page">
     <div class="stroll-bg-container">
-        <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
+        <div class="stroll-bg-image" style="background-image: url('images/aura-bg.jpg');"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
+    <!-- Section Indicator (ScrollSpy) -->
+    <nav class="section-nav">
+        <ul>
+            <?php foreach ($sections as $index => $s): ?>
+                <li><a href="#section-<?php echo $s['id']; ?>" class="section-dot" data-section="section-<?php echo $s['id']; ?>"><span class="dot-label"><?php echo htmlspecialchars($s['section_title']); ?></span></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </nav>
+
     <header class="layout-header">
-        <h1><?php echo htmlspecialchars(SITE_NAME); ?></h1>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="admin/login.php" class="nav-admin">Admin</a></li>
-            </ul>
-        </nav>
+        <div class="layout-header-content">
+            <h1><?php echo htmlspecialchars(SITE_NAME); ?></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="admin/login.php" class="nav-admin">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
 
