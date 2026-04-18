@@ -1,73 +1,59 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('.reveal-section');
-    const navLinks = document.querySelectorAll('.sidebar-nav a');
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -100px 0px"
+};
 
-    // 1. Intersection Observer for Scroll-Triggered Reveal Effect
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            } else {
-                // Remove active class when section is far out of view to allow re-animation
-                const rect = entry.target.getBoundingClientRect();
-                if (rect.top > window.innerHeight || rect.bottom < 0) {
-                    entry.target.classList.remove('active');
-                }
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -10% 0px'
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        } else {
+            // Keep the exit animation if desired, or remove for one-way reveal
+            // entry.target.classList.remove('active');
+        }
     });
+}, observerOptions);
 
-    sections.forEach((section) => {
-        revealObserver.observe(section);
-    });
+document.querySelectorAll('.reveal-section').forEach((section) => {
+    observer.observe(section);
+});
 
-    // 2. ScrollSpy: Highlight active sidebar link
-    const scrollSpyObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                navLinks.forEach((link) => {
-                    link.classList.remove('active-link');
-                    if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active-link');
-                    }
+// Smooth scroll for nav links
+document.querySelectorAll('.glass-pill a, .sidebar-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        if (this.getAttribute('href').startsWith('#')) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
-        });
-    }, {
-        threshold: 0.5
+        }
+    });
+});
+
+// Advanced dynamic interactions
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+
+    // Smooth Parallax for cards and background
+    const cards = document.querySelectorAll('.portrait-card');
+    cards.forEach((card, index) => {
+        const speed = 0.05 * (index + 1);
+        const yPos = -(scrolled * speed);
+        // Only apply if active for extra depth
+        if (card.classList.contains('active')) {
+             card.style.transform = `translateY(${yPos}px) rotateX(${scrolled * 0.01}deg)`;
+        }
     });
 
-    sections.forEach((section) => {
-        scrollSpyObserver.observe(section);
-    });
-
-    // 3. Smooth Scrolling for Sidebar Links
-    navLinks.forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    });
-
-    // 4. Parallax Background Effect
-    const bgImage = document.querySelector('.stroll-bg-image');
-    if (bgImage) {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            const val = scrolled * 0.15;
-            bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
-        });
+    // Header shimmer intensity based on scroll
+    const header = document.querySelector('.layout-header h1');
+    if (header) {
+        const opacity = Math.max(0.2, 1 - scrolled / 400);
+        header.style.opacity = opacity;
+        header.style.transform = `translateX(-50%) translateY(${scrolled * 0.2}px)`;
     }
 });

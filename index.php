@@ -43,41 +43,29 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         </div>
     </header>
 
-    <div class="immersive-container">
-        <aside class="floating-sidebar">
-            <div class="sidebar-content">
-                <div class="sidebar-brand">
-                    <span class="gold-accent">EST.</span> 2024
-                </div>
-                <h2><?php echo htmlspecialchars($selling_points_title); ?></h2>
-                <div class="sidebar-line"></div>
-
-                <nav class="sidebar-nav">
-                    <ul>
-                        <?php foreach ($sections as $s): ?>
-                            <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </nav>
-
-                <div class="sidebar-footer">
-                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta floating-cta"><?php echo htmlspecialchars($cta_text); ?></a>
-                </div>
-            </div>
-        </aside>
-
-        <main class="immersive-main" id="features">
+    <nav class="glass-pill">
+        <ul>
             <?php foreach ($sections as $s): ?>
-                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo $s['image_path'] ? 'has-image' : ''; ?>">
+                <li><a href="#section-<?php echo $s['id']; ?>"><?php echo htmlspecialchars($s['section_title']); ?></a></li>
+            <?php endforeach; ?>
+            <li><a href="<?php echo htmlspecialchars($cta_link); ?>" class="pill-cta"><?php echo htmlspecialchars($cta_text); ?></a></li>
+        </ul>
+    </nav>
+
+    <div class="portrait-viewport">
+        <main class="portrait-container" id="features">
+            <?php foreach ($sections as $s): ?>
+                <section id="section-<?php echo $s['id']; ?>" class="portrait-card reveal-section <?php echo $s['image_path'] ? 'with-image' : ''; ?>">
                     <?php if ($s['image_path']): ?>
-                        <div class="section-image">
+                        <div class="portrait-image-header">
                             <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
                         </div>
                     <?php endif; ?>
-                    <div class="section-content">
+                    <div class="portrait-content">
+                        <span class="section-tag">Feature</span>
                         <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
                         <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
-                        <div style="margin-top: 30px;">
+                        <div class="portrait-footer">
                             <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
                         </div>
                     </div>

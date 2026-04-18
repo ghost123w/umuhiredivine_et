@@ -3,7 +3,6 @@ session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
-// Check if any admin exists. If not, redirect to installation/signup.
 try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
     if ($stmt->fetchColumn() == 0) {
@@ -35,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: dashboard.php");
         exit();
     } else {
-        $error = "Invalid username or password.";
+        $error = "Invalid credentials. Aura access denied.";
     }
 }
 ?>
@@ -44,41 +43,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | <?php echo SITE_NAME; ?></title>
+    <title>Aura Access | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="login-wrapper">
-    <div class="login-card">
-        <h2>Admin Login</h2>
+<body class="aura-body" style="display: flex; align-items: center; justify-content: center;">
+    <div class="stroll-bg-container"></div>
+
+    <div class="aura-card" style="width: 100%; max-width: 400px;">
+        <h2 class="aura-title" style="text-align: center; margin-bottom: 40px;">System Authentication</h2>
 
         <?php if ($error): ?>
-            <div class="error-msg"><?php echo $error; ?></div>
+            <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid #e74c3c; color: #e74c3c; padding: 15px; border-radius: 12px; margin-bottom: 30px; font-size: 0.85rem; text-align: center;">
+                <?php echo $error; ?>
+            </div>
         <?php endif; ?>
 
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
 
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" class="form-control" placeholder="Enter username" required autofocus>
+                <label>Identifier</label>
+                <input type="text" name="username" class="form-control" placeholder="Admin username" required autofocus>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+                <label>Key</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
             </div>
 
-            <button type="submit" class="btn-login">Login</button>
+            <button type="submit" class="btn-aura" style="width: 100%;">Initialize Session</button>
         </form>
 
-        <?php if (defined('ALLOW_REGISTRATION') && ALLOW_REGISTRATION === true): ?>
-        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-            Don't have an account? <a href="signup.php" style="color: #007bff; text-decoration: none; font-weight: 600;">Sign Up</a>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="../index.php" style="color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">&larr; Return to Website</a>
         </div>
-        <?php endif; ?>
-
-        <a href="../index.php" class="back-link">&larr; Back to Website</a>
     </div>
 </body>
 </html>
