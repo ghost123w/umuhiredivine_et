@@ -51,7 +51,7 @@ body {
 /* Header & Navigation */
 .layout-header {
     position: fixed;
-    top: 105px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -62,19 +62,27 @@ body {
 
 .layout-header h1 {
     font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    letter-spacing: 6px;
+    font-size: 1.4rem;
+    letter-spacing: 8px;
     text-transform: uppercase;
-    color: #c5a059;
-    font-weight: 700;
+    background: linear-gradient(to bottom, #f9e1a1 0%, #c5a059 50%, #8a6d3b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
     margin: 0;
     pointer-events: auto;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.3));
+    transition: all 0.5s ease;
+}
+
+.layout-header h1:hover {
+    letter-spacing: 12px;
+    filter: drop-shadow(0 0 25px rgba(197, 160, 89, 0.6));
 }
 
 .glass-pill {
     position: fixed;
-    top: 40px;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--glass-bg);
@@ -112,9 +120,11 @@ body {
 .pill-cta {
     background: var(--primary-color);
     color: #fff !important;
-    padding: 8px 16px;
+    padding: 8px 24px;
     border-radius: 50px;
     margin-left: 10px;
+    white-space: nowrap;
+    display: inline-block;
 }
 
 /* Portrait Layout */

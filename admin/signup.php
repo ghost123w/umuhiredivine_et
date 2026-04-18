@@ -8,6 +8,13 @@ if (!defined('ALLOW_REGISTRATION') || ALLOW_REGISTRATION !== true) {
     exit();
 }
 
+// Enforce single admin constraint
+$stmt = $pdo->query("SELECT COUNT(*) FROM admins");
+if ($stmt->fetchColumn() > 0) {
+    header("Location: login.php");
+    exit();
+}
+
 $error = '';
 $success = '';
 
