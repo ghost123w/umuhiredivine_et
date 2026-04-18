@@ -83,7 +83,7 @@ body {
 .layout-header h1 {
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
-    letter-spacing: 10px;
+    letter-spacing: 5px;
     text-transform: uppercase;
     background: linear-gradient(to bottom, #f9e1a1 0%, #c5a059 50%, #8a6d3b 100%);
     -webkit-background-clip: text;
@@ -107,7 +107,6 @@ body {
     text-decoration: none;
     font-size: 0.75rem;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 3px;
     transition: all 0.4s ease;
 }

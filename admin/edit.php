@@ -67,15 +67,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="stroll-bg-container"></div>
 
     <header class="layout-header">
-        <h1>REFINEMENT PORTAL</h1>
-    </header>
-
-    <nav class="admin-nav-minimal">
-        <div class="aura-container" style="display: flex; justify-content: center; gap: 40px; padding: 20px 0;">
-            <a href="dashboard.php?view=manage" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Return</a>
-            <a href="logout.php" style="color: rgba(231, 76, 60, 0.8); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Exit</a>
+        <div class="layout-header-content">
+            <h1 class="brand-title"><?php echo htmlspecialchars(SITE_NAME); ?></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.php">Home</a></li>
+                    <li><a href="dashboard.php?view=manage">Features</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="logout.php" class="nav-admin">Admin</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <div class="aura-container" style="max-width: 800px;">
         <div class="aura-card">

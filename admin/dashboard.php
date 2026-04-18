@@ -93,17 +93,18 @@ $view = $_GET['view'] ?? 'overview';
     <div class="stroll-bg-container"></div>
 
     <header class="layout-header">
-        <h1>AURA PORTAL</h1>
-    </header>
-
-    <nav class="admin-nav-minimal">
-        <div class="aura-container" style="display: flex; justify-content: center; gap: 40px; padding: 20px 0;">
-            <a href="dashboard.php?view=overview" style="color: <?php echo $view == 'overview' ? 'var(--primary-color)' : 'rgba(255,255,255,0.5)'; ?>; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Home</a>
-            <a href="dashboard.php?view=manage" style="color: <?php echo $view == 'manage' ? 'var(--primary-color)' : 'rgba(255,255,255,0.5)'; ?>; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Manage</a>
-            <a href="dashboard.php?view=settings" style="color: <?php echo $view == 'settings' ? 'var(--primary-color)' : 'rgba(255,255,255,0.5)'; ?>; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Settings</a>
-            <a href="logout.php" style="color: rgba(231, 76, 60, 0.8); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Exit</a>
+        <div class="layout-header-content">
+            <h1 class="brand-title"><?php echo htmlspecialchars(SITE_NAME); ?></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.php">Home</a></li>
+                    <li><a href="dashboard.php?view=manage">Features</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="logout.php" class="nav-admin">Admin</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <div class="aura-container">
         <?php if (isset($_GET['msg'])): ?>

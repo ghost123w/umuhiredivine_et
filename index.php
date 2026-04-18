@@ -48,7 +48,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
 
     <header class="layout-header">
         <div class="layout-header-content">
-            <h1><?php echo htmlspecialchars(SITE_NAME); ?></h1>
+            <h1 class="brand-title"><?php echo htmlspecialchars(SITE_NAME); ?></h1>
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.php">Home</a></li>
