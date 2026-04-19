@@ -368,8 +368,22 @@ body {
 
 .form-group { margin-bottom: 25px; }
 .form-group label { display: block; margin-bottom: 10px; font-size: 0.85rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
-.form-control { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 12px; color: #fff; font-size: 1rem; }
+.form-control {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+}
 .form-control:focus { outline: none; border-color: var(--primary-color); }
+select.form-control option {
+    background: #111;
+    color: #fff;
+}
 
 .btn-aura {
     background: var(--primary-color);

@@ -59,9 +59,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: dashboard.php?view=manage&msg=deleted");
         exit();
     }
+
+    if (isset($_POST['delete_message'])) {
+        $id = (int)$_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM messages WHERE id = ?");
+        $stmt->execute([$id]);
+        header("Location: dashboard.php?view=messages&msg=msg_deleted");
+        exit();
+    }
 }
 
 $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
+$messages = $pdo->query("SELECT * FROM messages ORDER BY created_at DESC")->fetchAll();
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
@@ -99,7 +108,7 @@ $view = $_GET['view'] ?? 'overview';
                 <ul>
                     <li><a href="../index.php">Home</a></li>
                     <li><a href="dashboard.php?view=manage">Features</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="dashboard.php?view=messages">Messages</a></li>
                 </ul>
             </nav>
         </div>
@@ -113,6 +122,7 @@ $view = $_GET['view'] ?? 'overview';
                         if ($_GET['msg'] == 'added') echo "Aura synchronized: New content piece initialized.";
                         if ($_GET['msg'] == 'deleted') echo "System purge: Content piece removed.";
                         if ($_GET['msg'] == 'settings_updated') echo "Core update: Aura parameters refined.";
+                        if ($_GET['msg'] == 'msg_deleted') echo "Archive update: Message removed.";
                     ?>
                 </p>
             </div>
@@ -126,6 +136,10 @@ $view = $_GET['view'] ?? 'overview';
                     <div>
                         <span style="display: block; font-size: 2.5rem; font-weight: 800; color: var(--primary-color);"><?php echo count($sections); ?></span>
                         <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5;">Active Points</span>
+                    </div>
+                    <div>
+                        <span style="display: block; font-size: 2.5rem; font-weight: 800; color: var(--primary-color);"><?php echo count($messages); ?></span>
+                        <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5;">Inquiries</span>
                     </div>
                 </div>
             </div>
@@ -192,6 +206,43 @@ $view = $_GET['view'] ?? 'overview';
                             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                             <input type="hidden" name="id" value="<?php echo $s['id']; ?>">
                             <button type="submit" name="delete_section" class="btn-aura" style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; font-size: 0.7rem; padding: 10px 15px;">Purge</button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if ($view == 'messages'): ?>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <h2 class="aura-title" style="margin: 0;">Correspondence Archive</h2>
+            </div>
+
+            <?php if (empty($messages)): ?>
+                <div class="aura-card" style="text-align: center; padding: 60px;">
+                    <p style="opacity: 0.5;">No active inquiries in the aura.</p>
+                </div>
+            <?php endif; ?>
+
+            <?php foreach ($messages as $m): ?>
+                <div class="aura-card" style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div>
+                            <h4 style="margin: 0; font-size: 1.2rem; color: #fff;"><?php echo htmlspecialchars($m['name']); ?></h4>
+                            <p style="margin: 5px 0; font-size: 0.8rem; color: var(--primary-color);"><?php echo htmlspecialchars($m['email']); ?></p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.4;"><?php echo date('M d, Y H:i', strtotime($m['created_at'])); ?></span>
+                            <span style="display: inline-block; margin-top: 5px; padding: 4px 10px; background: rgba(197, 160, 89, 0.1); color: var(--primary-color); border-radius: 4px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase;"><?php echo htmlspecialchars($m['subject']); ?></span>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: rgba(255,255,255,0.8);"><?php echo nl2br(htmlspecialchars($m['message'])); ?></p>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <form method="POST" onsubmit="return confirm('Archive permanently?');">
+                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                            <input type="hidden" name="id" value="<?php echo $m['id']; ?>">
+                            <button type="submit" name="delete_message" class="btn-aura" style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; font-size: 0.7rem; padding: 8px 20px; border: 1px solid rgba(231, 76, 60, 0.2);">Archive</button>
                         </form>
                     </div>
                 </div>
