@@ -60,7 +60,7 @@ body {
 
 /* Header & Navigation */
 .layout-header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -69,7 +69,6 @@ body {
     justify-content: center; /* Centered for new design */
     padding: 60px 20px;
     pointer-events: none;
-    mix-blend-mode: difference;
 }
 
 .layout-header-content {

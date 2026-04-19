@@ -54,7 +54,6 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                     <li><a href="index.php">Home</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#">Contact Us</a></li>
-                    <li><a href="admin/login.php" class="nav-admin">Admin</a></li>
                 </ul>
             </nav>
         </div>

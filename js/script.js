@@ -65,13 +65,4 @@ window.addEventListener('scroll', () => {
         card.style.setProperty('--parallax-rot', `${rotation}deg`);
     });
 
-    // Header shimmer and position based on scroll
-    const header = document.querySelector('.layout-header h1');
-    if (header) {
-        const opacity = Math.max(0, 1 - scrolled / 300);
-        const yMove = scrolled * 0.3;
-        header.style.opacity = opacity;
-        header.style.transform = `translateY(${yMove}px)`;
-        header.style.filter = `blur(${scrolled / 100}px)`;
-    }
 });
