@@ -1,5 +1,7 @@
 <?php
+session_start();
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
 require_once 'config.php';
 try {
     $stmt = $pdo->query("SELECT * FROM content ORDER BY id ASC");
@@ -103,6 +105,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                     <p>Experience the aura of personalized luxury. Send us a message and we will get back to you shortly.</p>
 
                     <form action="process_contact.php" method="POST" class="contact-form">
+                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                         <div class="form-group">
                             <input type="text" name="name" placeholder="Your Name" class="form-control" required>
                         </div>

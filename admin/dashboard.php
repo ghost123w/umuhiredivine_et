@@ -54,6 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['delete_section'])) {
         $id = (int)$_POST['id'];
+
+        // Delete image file if exists
+        $stmt = $pdo->prepare("SELECT image_path FROM content WHERE id = ?");
+        $stmt->execute([$id]);
+        $img = $stmt->fetchColumn();
+        if ($img && file_exists('../' . $img)) {
+            unlink('../' . $img);
+        }
+
         $stmt = $pdo->prepare("DELETE FROM content WHERE id = ?");
         $stmt->execute([$id]);
         header("Location: dashboard.php?view=manage&msg=deleted");

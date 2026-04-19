@@ -3,6 +3,10 @@ require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die("CSRF token validation failed.");
+    }
+
     $name = sanitize($_POST['name']);
     $email = sanitize($_POST['email']);
     $subject = sanitize($_POST['subject']);
