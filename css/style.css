@@ -66,8 +66,8 @@ body {
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: flex-end; /* Top Right Branding */
-    padding: 40px 60px;
+    justify-content: center; /* Centered for new design */
+    padding: 60px 20px;
     pointer-events: none;
     mix-blend-mode: difference;
 }
@@ -75,22 +75,22 @@ body {
 .layout-header-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Align contents to right */
-    gap: 20px;
+    align-items: center; /* Center contents */
+    gap: 30px;
     pointer-events: auto;
 }
 
 .layout-header h1 {
     font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    letter-spacing: 5px;
+    font-size: 1.8rem;
+    letter-spacing: 12px;
     text-transform: uppercase;
     background: linear-gradient(to bottom, #f9e1a1 0%, #c5a059 50%, #8a6d3b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     margin: 0;
-    filter: drop-shadow(0 0 15px rgba(0,0,0,0.8));
+    filter: drop-shadow(0 0 20px rgba(0,0,0,0.9));
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -99,15 +99,17 @@ body {
     padding: 0;
     margin: 0;
     display: flex;
-    gap: 25px;
+    align-items: center;
+    gap: 40px;
 }
 
 .main-nav a {
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.7);
     text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 3px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
     transition: all 0.4s ease;
 }
 
@@ -117,9 +119,9 @@ body {
 }
 
 .nav-admin {
-    border: 1px solid rgba(197, 160, 89, 0.5);
-    padding: 8px 25px;
-    border-radius: 8px;
+    border: 1px solid rgba(197, 160, 89, 0.8);
+    padding: 10px 35px;
+    border-radius: 20px; /* Pill shape */
     background: rgba(197, 160, 89, 0.05);
 }
 

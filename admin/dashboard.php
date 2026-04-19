@@ -100,7 +100,6 @@ $view = $_GET['view'] ?? 'overview';
                     <li><a href="../index.php">Home</a></li>
                     <li><a href="dashboard.php?view=manage">Features</a></li>
                     <li><a href="#">Contact Us</a></li>
-                    <li><a href="logout.php" class="nav-admin">Admin</a></li>
                 </ul>
             </nav>
         </div>
