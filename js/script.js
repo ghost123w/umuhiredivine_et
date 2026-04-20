@@ -24,26 +24,38 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Separate observer for Navigation Visibility to ensure it only shows when contact is really in view
+// Separate observer for Navigation Visibility
 const navObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
+        if (entry.target.id === 'features') {
+            if (entry.isIntersecting) {
+                document.body.classList.add('features-active');
+            } else {
+                if (entry.boundingClientRect.top > 0) {
+                    document.body.classList.remove('features-active');
+                }
+            }
+        }
         if (entry.target.id === 'contact') {
             if (entry.isIntersecting) {
                 document.body.classList.add('contact-active');
             } else {
-                // Only remove if we are above the contact section
                 if (entry.boundingClientRect.top > 0) {
                     document.body.classList.remove('contact-active');
                 }
             }
         }
     });
-}, { threshold: 0.1 });
+}, { threshold: 0.01 });
 
 document.querySelectorAll('.reveal-section').forEach((section) => {
     observer.observe(section);
 });
 
+const featureContainer = document.getElementById('features');
+if (featureContainer) {
+    navObserver.observe(featureContainer);
+}
 const contactSection = document.getElementById('contact');
 if (contactSection) {
     navObserver.observe(contactSection);

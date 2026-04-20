@@ -1,5 +1,6 @@
 :root {
-    --primary-color: #c5a059; /* Aura Gold */
+    --primary-color: #c5a059;
+    --aura-gold: #c5a059;
     --secondary-color: #8e8e8e;
     --success-color: #28a745;
     --danger-color: #e74c3c;
@@ -467,7 +468,7 @@ select.form-control option {
 /* Section Navigation (ScrollSpy) */
 .section-nav {
     position: fixed;
-    left: 40px; /* Branding on right, dots on left */
+    left: calc(50% - 380px); /* Positioning closer to the 600px wide container */
     top: 50%;
     transform: translateY(-50%);
     z-index: 2000;
@@ -481,9 +482,15 @@ select.form-control option {
     transition: all 0.5s ease;
 }
 
-body.contact-active .section-nav {
+body.features-active .section-nav {
     opacity: 1;
     visibility: visible;
+}
+
+@media (max-width: 800px) {
+    .section-nav {
+        left: 10px;
+    }
 }
 
 .section-nav ul {

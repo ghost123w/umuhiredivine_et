@@ -33,20 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($action === 'install') {
         try {
-            if (!is_dir('data')) {
-                mkdir('data', 0755, true);
-            }
-            $pdo = new PDO('sqlite:' . DB_PATH);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $pdo->exec("CREATE TABLE IF NOT EXISTS admins (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT NOT NULL UNIQUE,
-                password TEXT NOT NULL,
-                email TEXT,
-                is_verified INTEGER DEFAULT 1
-            )");
-            $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
+            require_once 'includes/db.php';
+            // The tables are already created by db.php
 
             // Enforce single admin constraint
             $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
@@ -62,10 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo->prepare("INSERT INTO admins (username, email, password, is_verified) VALUES (?, ?, ?, 1)");
             $stmt->execute([$username, $email, $password]);
 
-            $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Lightning Fast', 'Our optimized code ensures your site loads in milliseconds.')");
-            $pdo->exec("INSERT INTO content (section_title, description) VALUES ('SEO Ready', 'Built-in SEO best practices to help you rank higher on Google.')");
-            $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Mobile First', 'Optimized for a seamless experience across all devices and screen sizes.')");
-            $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Secure by Design', 'Advanced security measures to protect your data and user privacy.')");
+            // Seed default content if empty
+            $stmt = $pdo->query("SELECT COUNT(*) FROM content");
+            if ($stmt->fetchColumn() == 0) {
+                $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Lightning Fast', 'Our optimized code ensures your site loads in milliseconds.')");
+                $pdo->exec("INSERT INTO content (section_title, description) VALUES ('SEO Ready', 'Built-in SEO best practices to help you rank higher on Google.')");
+                $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Mobile First', 'Optimized for a seamless experience across all devices and screen sizes.')");
+                $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Secure by Design', 'Advanced security measures to protect your data and user privacy.')");
+            }
 
             $_SESSION['admin_id'] = $pdo->lastInsertId();
             $_SESSION['username'] = $username;
