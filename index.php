@@ -97,8 +97,14 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                 </section>
             <?php endforeach; ?>
 
-            <!-- Contact Us Section -->
-            <section id="contact" class="portrait-card reveal-section">
+        </main>
+    </div>
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="aura-modal">
+        <div class="aura-modal-overlay"></div>
+        <div class="aura-modal-container">
+            <button class="modal-close">&times;</button>
+            <section id="contact" class="portrait-card" style="opacity: 1; filter: none; transform: none;">
                 <div class="portrait-content">
                     <span class="section-tag">Inquiry</span>
                     <h2>Connect With Us</h2>
@@ -128,8 +134,9 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                     </form>
                 </div>
             </section>
-        </main>
+        </div>
     </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>

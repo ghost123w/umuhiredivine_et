@@ -61,13 +61,38 @@ if (contactSection) {
     navObserver.observe(contactSection);
 }
 
-// Smooth scroll for nav links
-document.querySelectorAll('.admin-nav-minimal a, .sidebar-nav a, .section-dot, .main-nav a, .admin-nav-minimal a').forEach(anchor => {
+// Modal Logic
+const contactModal = document.getElementById('contact-modal');
+const modalClose = document.querySelector('.modal-close');
+const modalOverlay = document.querySelector('.aura-modal-overlay');
+
+function openModal() {
+    contactModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    contactModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+if (modalClose) modalClose.addEventListener('click', closeModal);
+if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+
+// Smooth scroll and Modal trigger
+document.querySelectorAll('.admin-nav-minimal a, .sidebar-nav a, .section-dot, .main-nav a, .cta').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
+
+        if (href === '#contact') {
+            e.preventDefault();
+            openModal();
+            return;
+        }
+
         if (href && href.startsWith('#')) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(href);
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
