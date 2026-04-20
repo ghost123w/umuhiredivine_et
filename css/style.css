@@ -60,22 +60,29 @@ body {
 
 /* Header & Navigation */
 .layout-header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 3000;
     display: flex;
-    justify-content: center; /* Centered for new design */
-    padding: 60px 20px;
+    justify-content: center;
+    padding: 40px 20px;
     pointer-events: none;
+    transition: background 0.5s ease, padding 0.5s ease;
+}
+
+body.contact-active .layout-header {
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(20px);
+    padding: 20px;
 }
 
 .layout-header-content {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center contents */
-    gap: 30px;
+    align-items: center;
+    gap: 20px;
     pointer-events: auto;
 }
 
@@ -102,6 +109,19 @@ body {
 @keyframes floating-aura {
     0%, 100% { transform: translateY(0) rotateX(0); }
     50% { transform: translateY(-15px) rotateX(10deg); }
+}
+
+.main-nav {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.contact-active .main-nav {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .main-nav ul {
@@ -430,6 +450,14 @@ select.form-control option {
     backdrop-filter: blur(20px);
     border-radius: 40px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+body.contact-active .section-nav {
+    opacity: 1;
+    visibility: visible;
 }
 
 .section-nav ul {

@@ -1,6 +1,6 @@
 const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -100px 0px"
+    threshold: 0.2,
+    rootMargin: "0px 0px -10% 0px"
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -21,9 +21,30 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
+// Separate observer for Navigation Visibility to ensure it only shows when contact is really in view
+const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.target.id === 'contact') {
+            if (entry.isIntersecting) {
+                document.body.classList.add('contact-active');
+            } else {
+                // Only remove if we are above the contact section
+                if (entry.boundingClientRect.top > 0) {
+                    document.body.classList.remove('contact-active');
+                }
+            }
+        }
+    });
+}, { threshold: 0.1 });
+
 document.querySelectorAll('.reveal-section').forEach((section) => {
     observer.observe(section);
 });
+
+const contactSection = document.getElementById('contact');
+if (contactSection) {
+    navObserver.observe(contactSection);
+}
 
 // Smooth scroll for nav links
 document.querySelectorAll('.admin-nav-minimal a, .sidebar-nav a, .section-dot, .main-nav a').forEach(anchor => {

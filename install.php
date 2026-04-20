@@ -64,6 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Lightning Fast', 'Our optimized code ensures your site loads in milliseconds.')");
             $pdo->exec("INSERT INTO content (section_title, description) VALUES ('SEO Ready', 'Built-in SEO best practices to help you rank higher on Google.')");
+            $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Mobile First', 'Optimized for a seamless experience across all devices and screen sizes.')");
+            $pdo->exec("INSERT INTO content (section_title, description) VALUES ('Secure by Design', 'Advanced security measures to protect your data and user privacy.')");
 
             $_SESSION['admin_id'] = $pdo->lastInsertId();
             $_SESSION['username'] = $username;

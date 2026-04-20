@@ -91,7 +91,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                         <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
                         <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
                         <div class="portrait-footer">
-                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                            <a href="#contact" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
                         </div>
                     </div>
                 </section>
