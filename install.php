@@ -101,11 +101,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title><?php echo $installed ? 'Admin Login' : 'Administrator Installation'; ?> | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .install-card { max-width: 500px; margin: 100px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    </style>
 </head>
 <body class="login-wrapper">
+    <div class="stroll-bg-container">
+        <div class="stroll-bg-overlay"></div>
+    </div>
     <div class="install-card">
         <?php if (!$installed): ?>
             <h2>Administration Installation</h2>
