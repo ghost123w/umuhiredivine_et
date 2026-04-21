@@ -396,6 +396,16 @@ select.form-control option {
     color: #fff;
 }
 
+.contact-index-image {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--primary-color);
+    margin: 0 auto 15px;
+}
+
 #contact h2 {
     font-size: 1.4rem;
     letter-spacing: 4px;

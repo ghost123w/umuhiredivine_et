@@ -54,7 +54,6 @@ $cta_link = $stmt->fetchColumn() ?: '#';
     <?php endif; ?>
 
     <div class="stroll-bg-container">
-        <div class="stroll-bg-image" style="background-image: url('images/aura-bg.jpg');"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
     <!-- Section Indicator (ScrollSpy) -->
@@ -113,6 +112,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
             <button class="modal-close">&times;</button>
             <section id="contact" class="portrait-card" style="opacity: 1; filter: none; transform: none;">
                 <div class="portrait-content">
+                    <img src="images/brand-portrait.jpg" alt="Brand Portrait" class="contact-index-image">
                     <span class="section-tag">Inquiry</span>
                     <h2>Connect With Us</h2>
                     <p>Experience the aura of personalized luxury. Send us a message and we will get back to you shortly.</p>
