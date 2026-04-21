@@ -32,7 +32,10 @@ $cta_link = $stmt->fetchColumn() ?: '#';
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    </noscript>
 </head>
 <body class="landing-page">
     <?php if (isset($_GET['msg'])): ?>
@@ -79,11 +82,15 @@ $cta_link = $stmt->fetchColumn() ?: '#';
 
     <div class="portrait-viewport">
         <main class="portrait-container" id="features">
+            <header class="section-hero">
+                <span class="section-tag">Archive</span>
+                <h2 class="shimmer-text"><?php echo htmlspecialchars($selling_points_title); ?></h2>
+            </header>
             <?php foreach ($sections as $s): ?>
                 <section id="section-<?php echo $s['id']; ?>" class="portrait-card reveal-section <?php echo $s['image_path'] ? 'with-image' : ''; ?>">
                     <?php if ($s['image_path']): ?>
                         <div class="portrait-image-header">
-                            <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
+                            <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>" loading="lazy">
                         </div>
                     <?php endif; ?>
                     <div class="portrait-content">

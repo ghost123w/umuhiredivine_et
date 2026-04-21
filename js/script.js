@@ -7,8 +7,6 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
-
-            // Update Section Nav
             const sectionId = entry.target.id;
             document.querySelectorAll('.section-dot').forEach(dot => {
                 if (dot.dataset.section === sectionId) {
@@ -18,13 +16,11 @@ const observer = new IntersectionObserver((entries) => {
                 }
             });
         } else {
-            // Re-triggerable: remove active when out of view
             entry.target.classList.remove('active');
         }
     });
 }, observerOptions);
 
-// Separate observer for Navigation Visibility
 const navObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.target.id === 'features') {
@@ -56,10 +52,6 @@ const featureContainer = document.getElementById('features');
 if (featureContainer) {
     navObserver.observe(featureContainer);
 }
-const contactSection = document.getElementById('contact');
-if (contactSection) {
-    navObserver.observe(contactSection);
-}
 
 // Modal Logic
 const contactModal = document.getElementById('contact-modal');
@@ -79,51 +71,42 @@ function closeModal() {
 if (modalClose) modalClose.addEventListener('click', closeModal);
 if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
-// Smooth scroll and Modal trigger
-document.querySelectorAll('.admin-nav-minimal a, .sidebar-nav a, .section-dot, .main-nav a, .cta').forEach(anchor => {
+// Navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
-
         if (href === '#contact') {
             e.preventDefault();
             openModal();
             return;
         }
 
-        if (href && href.startsWith('#')) {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
     });
 });
 
-// Advanced dynamic interactions
+// Parallax Effect
 window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
     const viewportHeight = window.innerHeight;
-
-    // Smooth Parallax for cards based on viewport position
     const cards = document.querySelectorAll('.portrait-card');
+
     cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
         const cardCenter = rect.top + rect.height / 2;
         const viewCenter = viewportHeight / 2;
-
-        // Calculate distance from center of viewport (-1 to 1)
         const distanceFromCenter = (cardCenter - viewCenter) / (viewportHeight / 2);
 
-        // Apply parallax based on proximity to center
-        const yOffset = distanceFromCenter * 30; // 30px max offset
-        const rotation = distanceFromCenter * -5; // -5deg to 5deg
+        const yOffset = distanceFromCenter * 30;
+        const rotation = distanceFromCenter * -5;
 
         card.style.setProperty('--parallax-y', `${yOffset}px`);
         card.style.setProperty('--parallax-rot', `${rotation}deg`);
     });
-
 });
