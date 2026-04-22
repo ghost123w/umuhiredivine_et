@@ -37,23 +37,40 @@ html {
 .stroll-bg-container::before {
     content: '';
     position: absolute;
-    inset: -100px;
+    inset: -150px;
     background:
-        radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(197, 160, 89, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 50% 10%, rgba(40, 30, 10, 0.4) 0%, transparent 70%);
-    filter: blur(60px);
-    animation: mesh-flow 25s infinite alternate ease-in-out;
+        radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(138, 109, 59, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(20, 15, 5, 0.6) 0%, transparent 80%),
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(197, 160, 89, 0.08) 0%, transparent 30%);
+    filter: blur(80px);
+    animation: mesh-flow 30s infinite alternate ease-in-out;
 }
 
 .stroll-bg-container::after {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.04;
-    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    mix-blend-mode: soft-light;
     pointer-events: none;
+}
+
+/* Light Leak Effect */
+.stroll-bg-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(125deg, transparent 0%, rgba(197, 160, 89, 0.05) 45%, rgba(255, 255, 255, 0.05) 50%, rgba(197, 160, 89, 0.05) 55%, transparent 100%);
+    background-size: 400% 400%;
+    animation: light-leak 15s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes light-leak {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 
 .stroll-bg-container.admin-bg::before {
