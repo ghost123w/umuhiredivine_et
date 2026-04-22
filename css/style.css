@@ -45,6 +45,13 @@ html {
     transform: scale(1.2);
 }
 
+.stroll-bg-container.admin-bg::before {
+    background-image: url('../images/dashboard-bg.png');
+    filter: brightness(0.4);
+    inset: 0;
+    transform: none;
+}
+
 .stroll-bg-overlay {
     position: absolute;
     inset: 0;

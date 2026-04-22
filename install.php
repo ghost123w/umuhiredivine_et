@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-wrapper">
-    <div class="stroll-bg-container">
+    <div class="stroll-bg-container admin-bg">
         <div class="stroll-bg-overlay"></div>
     </div>
     <div class="install-card">

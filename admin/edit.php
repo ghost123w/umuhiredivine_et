@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="aura-body">
-    <div class="stroll-bg-container"></div>
+    <div class="stroll-bg-container admin-bg"></div>
 
     <header class="layout-header">
         <div class="layout-header-content">

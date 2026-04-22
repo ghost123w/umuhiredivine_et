@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="aura-body" style="display: flex; align-items: center; justify-content: center;">
-    <div class="stroll-bg-container"></div>
+    <div class="stroll-bg-container admin-bg"></div>
 
     <div class="aura-card" style="width: 100%; max-width: 400px;">
         <h2 class="aura-title" style="text-align: center; margin-bottom: 40px;">System Authentication</h2>
