@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #c5a059;
-    --aura-gold: #c5a059;
+    --primary-color: #0077ff;
+    --aura-blue: #0077ff;
     --dark-color: #050505;
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.05);
@@ -39,10 +39,10 @@ html {
     position: absolute;
     inset: -150px;
     background:
-        radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(138, 109, 59, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(20, 15, 5, 0.6) 0%, transparent 80%),
-        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(197, 160, 89, 0.08) 0%, transparent 30%);
+        radial-gradient(circle at 10% 20%, rgba(0, 119, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 82, 204, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(5, 15, 30, 0.6) 0%, transparent 80%),
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 119, 255, 0.08) 0%, transparent 30%);
     filter: blur(80px);
     animation: mesh-flow 30s infinite alternate ease-in-out;
 }
@@ -62,7 +62,7 @@ html {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(125deg, transparent 0%, rgba(197, 160, 89, 0.05) 45%, rgba(255, 255, 255, 0.05) 50%, rgba(197, 160, 89, 0.05) 55%, transparent 100%);
+    background: linear-gradient(125deg, transparent 0%, rgba(0, 119, 255, 0.05) 45%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 119, 255, 0.05) 55%, transparent 100%);
     background-size: 400% 400%;
     animation: light-leak 15s infinite linear;
     pointer-events: none;
@@ -115,7 +115,7 @@ body.contact-active .layout-header {
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(30px);
     padding: 15px 0;
-    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    border-bottom: 1px solid rgba(0, 119, 255, 0.2);
 }
 
 .layout-header-content {
@@ -133,10 +133,17 @@ body.contact-active .layout-header {
     font-weight: 900;
     letter-spacing: 14px;
     text-transform: uppercase;
-    background: linear-gradient(to bottom, #f9e1a1 0%, #c5a059 50%, #8a6d3b 100%);
+    background: linear-gradient(to bottom, #a1c4fd 0%, #0077ff 50%, #0052cc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 5px 15px rgba(0,119,255,0.4), 0 10px 25px rgba(0,0,0,0.3));
+    animation: floating-aura 6s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes floating-aura {
+    0%, 100% { transform: translateY(0) rotateX(0deg); }
+    50% { transform: translateY(-15px) rotateX(10deg); }
 }
 
 .main-nav ul {
@@ -192,7 +199,7 @@ body.contact-active .layout-header {
     inset: 0;
     padding: 1px;
     border-radius: 32px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent 50%, rgba(197, 160, 89, 0.1));
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent 50%, rgba(0, 119, 255, 0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -265,7 +272,7 @@ body.contact-active .layout-header {
     background: var(--primary-color);
     color: #fff;
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(197, 160, 89, 0.3);
+    box-shadow: 0 15px 30px rgba(0, 119, 255, 0.3);
 }
 
 /* Modal */
@@ -520,7 +527,7 @@ select.form-control option {
 .btn-login:hover {
     filter: brightness(1.2);
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 119, 255, 0.3);
 }
 
 .back-link {

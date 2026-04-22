@@ -33,7 +33,7 @@ function init() {
 
     // Create custom shader material for "bokeh" effect
     const material = new THREE.PointsMaterial({
-        color: 0xc5a059,
+        color: 0x0077ff,
         size: 0.03,
         transparent: true,
         opacity: 0.6,
