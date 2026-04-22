@@ -54,6 +54,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
     <?php endif; ?>
 
     <div class="stroll-bg-container">
+        <div id="canvas-container" style="position: absolute; inset: 0; z-index: 1;"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
     <!-- Section Indicator (ScrollSpy) -->
@@ -144,6 +145,8 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/three-scene.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
