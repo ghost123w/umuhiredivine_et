@@ -85,70 +85,58 @@ $view = $_GET['view'] ?? 'overview';
     <title>Aura Portal | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="../images/favicon.jpg">
     <link rel="stylesheet" href="../css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="aura-body">
+<body class="futura-body">
     <div class="aura-portal-bg"></div>
 
     <div class="aura-dashboard-wrapper">
-        <aside class="aura-sidebar">
+        <aside class="futura-sidebar">
             <div class="brand"><?php echo SITE_NAME; ?></div>
-            <nav class="sidebar-nav">
+            <nav class="futura-nav">
                 <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Portal</a>
                 <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
                 <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
                 <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
-                <a href="logout.php" class="sidebar-logout">Exit</a>
+                <a href="logout.php" class="sidebar-logout" style="margin-top: auto; color: var(--danger-color);">Exit</a>
             </nav>
         </aside>
 
-        <div class="aura-main-content">
-            <div class="aura-dashboard-frame">
-                <main class="portal-container">
+        <div class="futura-main-content">
+            <div class="futura-frame">
+                <main>
         <?php if ($view == 'overview'): ?>
-            <header class="portal-hero redesigned">
-                <h1><?php echo SITE_NAME; ?></h1>
-                <p>ORCHESTRATING THE DIGITAL EXPERIENCE</p>
-            </header>
-
-            <div class="stats-perspective-grid">
-                <section class="aura-card stats-card">
-                    <h2 class="section-label">SYSTEM STATUS</h2>
-                    <div class="stats-values-container">
-                        <div>
-                            <div class="stat-value"><?php echo count($sections); ?></div>
-                            <div class="stat-label">Active Assets</div>
-                        </div>
-                        <div>
-                            <div class="stat-value white">99<span class="stat-fraction">.9</span></div>
-                            <div class="stat-label">Stability Index</div>
-                        </div>
+            <div class="futura-grid">
+                <div class="futura-card span-8 futura-hero">
+                    <h1><?php echo SITE_NAME; ?></h1>
+                    <p>ORCHESTRATING THE DIGITAL EXPERIENCE</p>
+                </div>
+                <div class="futura-card span-4 futura-artisan">
+                    <img src="../images/leadership.jpg" class="artisan-img" alt="Artisan">
+                    <div class="artisan-meta">
+                        <h3><?php echo htmlspecialchars($_SESSION['username']); ?></h3>
+                        <span>AUTHENTICATED ARTISAN</span>
                     </div>
-                </section>
-
-                <section class="aura-card portrait-container">
-                    <div class="portrait-frame">
-                        <img src="../images/leadership.jpg" alt="Artisan">
-                        <div class="portrait-info">
-                            <h3 class="artisan-name"><?php echo htmlspecialchars($_SESSION['username']); ?></h3>
-                            <span class="artisan-badge">AUTHENTICATED ARTISAN</span>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <div class="actions-redesigned-grid">
-                <a href="dashboard.php?view=add" class="action-card redesigned">
+                </div>
+                <div class="futura-card span-6 stat-group">
+                    <div class="stat-num"><?php echo count($sections); ?></div>
+                    <div class="stat-desc">Active Assets</div>
+                </div>
+                <div class="futura-card span-6 stat-group">
+                    <div class="stat-num">99<span style="font-size: 1.5rem">.9</span></div>
+                    <div class="stat-desc">Stability Index</div>
+                </div>
+                <a href="dashboard.php?view=add" class="futura-card span-4 futura-action">
                     <div class="icon">✧</div>
                     <h4>CREATE</h4>
                     <p>Manifest a new masterpiece in your digital collection.</p>
                 </a>
-                <a href="dashboard.php?view=manage" class="action-card redesigned">
+                <a href="dashboard.php?view=manage" class="futura-card span-4 futura-action">
                     <div class="icon">❖</div>
                     <h4>ORCHESTRATE</h4>
                     <p>Refine and manage your existing creative assets.</p>
                 </a>
-                <a href="dashboard.php?view=settings" class="action-card redesigned">
+                <a href="dashboard.php?view=settings" class="futura-card span-4 futura-action">
                     <div class="icon">⚙</div>
                     <h4>CONFIG</h4>
                     <p>Adjust the foundational frequencies of the portal.</p>
@@ -241,7 +229,7 @@ $view = $_GET['view'] ?? 'overview';
                                     <tr>
                                         <td>
                                             <?php if ($s['image_path']): ?>
-                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" class="admin-table-thumb">
+                                                <img src="../<?php echo htmlspecialchars($s['image_path']); ?>" class="admin-table-thumb" alt="Thumb">
                                             <?php endif; ?>
                                         </td>
                                         <td class="middle">
@@ -265,8 +253,8 @@ $view = $_GET['view'] ?? 'overview';
         </div>
     </main>
 
-                <footer class="aura-footer">
-                    &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA PORTAL v3.0
+                <footer class="aura-footer" style="padding: 40px 0 0 0">
+                    &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA PORTAL v4.0
                 </footer>
             </div>
         </div>

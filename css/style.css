@@ -89,7 +89,7 @@ body {
     text-align: center;
 }
 
-.layout-header h1, .shimmer-text, .portal-hero h1 {
+.layout-header h1, .shimmer-text {
     background: linear-gradient(to right, #ff3503 20%, #ff8c00 40%, #ff8c00 60%, #ff3503 80%);
     background-size: 200% auto;
     background-clip: text;
@@ -306,35 +306,6 @@ body {
     z-index: -1;
 }
 
-.aura-nav { display: flex; justify-content: center; padding: 30px 0; }
-
-.glass-pill {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 8px 40px;
-    border-radius: 100px;
-    display: flex;
-    gap: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-.glass-pill a {
-    color: rgba(255,255,255,0.5);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 10px 0;
-    transition: 0.3s;
-    position: relative;
-}
-
-.glass-pill a:hover, .glass-pill a.active { color: var(--primary-color); }
-
-.portal-container { max-width: 1200px; margin: 40px auto; width: 90%; }
-
 .aura-card {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(30px);
@@ -410,123 +381,6 @@ body {
     max-width: 450px;
 }
 
-/* Dashboard Specifics */
-.portal-hero {
-    text-align: left;
-    margin-bottom: 60px;
-}
-
-.portal-hero h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 3.5rem;
-    margin: 0;
-    letter-spacing: 4px;
-}
-
-.portal-hero p {
-    color: var(--primary-color);
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-size: 0.8rem;
-    margin-top: 10px;
-}
-
-.portal-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 30px;
-    margin-bottom: 30px;
-}
-
-.quick-stats {
-    display: flex;
-    gap: 40px;
-    margin-top: 40px;
-}
-
-.stat-item h3 {
-    font-size: 2.5rem;
-    margin: 0;
-    color: var(--primary-color);
-}
-
-.stat-item span {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #666;
-}
-
-.portrait-frame {
-    position: relative;
-    height: 100%;
-    min-height: 400px;
-}
-
-.portrait-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(1) contrast(1.2);
-}
-
-.portrait-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 40px;
-    background: linear-gradient(to top, #000, transparent);
-}
-
-.portrait-overlay h3 {
-    margin: 0;
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-}
-
-.actions-grid {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-.action-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 40px;
-    border-radius: 30px;
-    text-decoration: none;
-    color: #fff;
-    transition: 0.4s;
-}
-
-.action-card:hover {
-    background: rgba(255, 53, 3, 0.05);
-    border-color: var(--primary-color);
-    transform: translateY(-5px);
-}
-
-.action-card .icon {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-.action-card h4 {
-    margin: 0 0 10px 0;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 1px;
-}
-
-.action-card p {
-    margin: 0;
-    font-size: 0.85rem;
-    color: #888;
-}
-
 .aura-footer {
     text-align: center;
     padding: 80px 0;
@@ -540,258 +394,6 @@ body {
 .aura-dashboard-wrapper {
     display: flex;
     min-height: 100vh;
-}
-
-.aura-sidebar {
-    width: 280px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    padding: 40px 20px;
-    z-index: 1001;
-}
-
-.aura-sidebar .brand {
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    color: var(--primary-color);
-    margin-bottom: 60px;
-    text-align: center;
-    letter-spacing: 2px;
-}
-
-.sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sidebar-nav a {
-    color: rgba(255, 255, 255, 0.5);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 15px 25px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.sidebar-nav a:hover {
-    background: rgba(255, 53, 3, 0.05);
-    color: #fff;
-}
-
-.sidebar-nav a.active {
-    background: rgba(255, 53, 3, 0.1);
-    color: var(--primary-color);
-    border-left: 4px solid var(--primary-color);
-}
-
-.sidebar-logout {
-    color: var(--danger-color) !important;
-    margin-top: auto !important;
-}
-
-.aura-main-content {
-    flex: 1;
-    margin-left: 280px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: calc(100% - 280px);
-}
-
-.aura-dashboard-frame {
-    width: 100%;
-    max-width: 1200px;
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
-    border-radius: 40px;
-    padding: 60px;
-    box-shadow: 0 0 50px rgba(255, 53, 3, 0.05);
-    margin-bottom: 60px;
-}
-
-.aura-dashboard-frame::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border: 1px solid var(--primary-color);
-    border-radius: 42px;
-    opacity: 0.3;
-    pointer-events: none;
-    mask-image: linear-gradient(to bottom, black, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
-}
-
-/* Redesigned Overview View Components */
-.portal-hero.redesigned {
-    text-align: center;
-    margin-bottom: 80px;
-}
-
-.portal-hero.redesigned h1 {
-    font-size: 4rem;
-    margin-bottom: 20px;
-}
-
-.portal-hero.redesigned p {
-    font-size: 1rem;
-    letter-spacing: 6px;
-    opacity: 0.7;
-}
-
-.action-card.redesigned {
-    border: 2px solid rgba(255, 53, 3, 0.1);
-    padding: 30px;
-    border-radius: 24px;
-}
-
-.action-card.redesigned:hover {
-    border-color: var(--primary-color);
-    background: rgba(255, 53, 3, 0.03);
-}
-
-.stats-perspective-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-bottom: 40px;
-}
-
-.stats-values-container {
-    display: flex;
-    gap: 50px;
-}
-
-.stat-fraction {
-    font-size: 1.5rem;
-}
-
-.portrait-frame {
-    height: 100%;
-    position: relative;
-}
-
-.portrait-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.actions-redesigned-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-/* Dashboard Typography & Headings */
-.portal-hero.redesigned h1 {
-    font-family: 'Cinzel', serif;
-    font-weight: 900;
-    background: linear-gradient(to bottom, #fff, #666);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    font-size: 3.5rem;
-}
-
-.section-label {
-    font-family: 'Cinzel', serif;
-    letter-spacing: 3px;
-    font-size: 1rem;
-    margin-bottom: 25px;
-    opacity: 0.8;
-}
-
-.stat-value {
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--primary-color);
-    line-height: 1;
-}
-
-.stat-value.white {
-    color: #fff;
-}
-
-.stat-label {
-    font-size: 0.6rem;
-    letter-spacing: 2px;
-    opacity: 0.5;
-    margin-top: 8px;
-    text-transform: uppercase;
-}
-
-.artisan-name {
-    font-size: 1rem;
-    margin: 0;
-    font-family: 'Cinzel', serif;
-    text-transform: uppercase;
-}
-
-.artisan-badge {
-    color: var(--primary-color);
-    font-size: 0.6rem;
-    letter-spacing: 3px;
-    font-weight: 700;
-}
-
-.action-card.redesigned .icon {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-.action-card.redesigned h4 {
-    font-family: 'Cinzel', serif;
-    margin-bottom: 12px;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-}
-
-.action-card.redesigned p {
-    font-size: 0.7rem;
-    opacity: 0.5;
-    line-height: 1.8;
-    padding: 0 10px;
-}
-
-.stats-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 40px;
-    background: rgba(255,255,255,0.02);
-}
-
-.portrait-container {
-    padding: 0;
-    overflow: hidden;
-    height: 220px;
-}
-
-.portrait-info {
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    padding: 30px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
 
 /* Common Admin View Components */
@@ -903,4 +505,262 @@ body {
     padding: 10px 25px;
     font-size: 0.8rem;
     border-radius: 100px;
+}
+
+/* --- FUTURA REDESIGN --- */
+
+.futura-body {
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.futura-sidebar {
+    width: 260px;
+    height: calc(100vh - 40px);
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
+    border: 1px solid rgba(255, 53, 3, 0.2);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    z-index: 1001;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 53, 3, 0.05);
+}
+
+.futura-sidebar .brand {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 50px;
+    text-align: center;
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.4);
+}
+
+.futura-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.futura-nav a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 15px 25px;
+    border-radius: 15px;
+    transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+    border: 1px solid transparent;
+}
+
+.futura-nav a:hover {
+    color: #fff;
+    background: rgba(255, 53, 3, 0.05);
+    border-color: rgba(255, 53, 3, 0.1);
+}
+
+.futura-nav a.active {
+    background: linear-gradient(135deg, rgba(255, 53, 3, 0.2), transparent);
+    color: var(--primary-color);
+    border-color: rgba(255, 53, 3, 0.3);
+    box-shadow: 0 10px 20px rgba(255, 53, 3, 0.1);
+}
+
+.futura-main-content {
+    margin-left: 300px;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.futura-frame {
+    width: 100%;
+    max-width: 1300px;
+    background: rgba(10, 10, 10, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 40px;
+    padding: 50px;
+    position: relative;
+    animation: suspended-float 6s infinite ease-in-out;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+}
+
+@keyframes suspended-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.futura-frame::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border: 2px solid var(--primary-color);
+    border-radius: 42px;
+    pointer-events: none;
+    opacity: 0.2;
+    mask-image: radial-gradient(circle at top left, black, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle at top left, black, transparent 70%);
+}
+
+.futura-frame::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 41px;
+    pointer-events: none;
+}
+
+/* Bento Grid */
+.futura-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    gap: 20px;
+}
+
+.futura-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 25px;
+    padding: 30px;
+    transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.futura-card:hover {
+    border-color: rgba(255, 53, 3, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+    transform: scale(1.02);
+}
+
+.futura-card.span-6 { grid-column: span 6; }
+.futura-card.span-4 { grid-column: span 4; }
+.futura-card.span-8 { grid-column: span 8; }
+.futura-card.span-12 { grid-column: span 12; }
+
+.futura-hero {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.futura-hero h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    margin: 0;
+    line-height: 1;
+    background: linear-gradient(to right, #fff, #888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.futura-hero p {
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    color: var(--primary-color);
+    margin-top: 15px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat-num {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+}
+
+.stat-desc {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-top: 10px;
+}
+
+.futura-artisan {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.artisan-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    border: 2px solid var(--primary-color);
+    object-fit: cover;
+}
+
+.artisan-meta h3 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.artisan-meta span {
+    font-size: 0.6rem;
+    color: var(--primary-color);
+    letter-spacing: 2px;
+}
+
+.futura-action {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.futura-action .icon {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 53, 3, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.futura-action:hover .icon {
+    background: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 53, 3, 0.5);
+}
+
+.futura-action h4 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+}
+
+.futura-action p {
+    margin: 0;
+    font-size: 0.75rem;
+    opacity: 0.4;
+    line-height: 1.5;
 }
