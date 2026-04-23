@@ -375,8 +375,11 @@ body {
 .form-control:focus { outline: none; border-color: var(--primary-color); background: rgba(255, 255, 255, 0.05); }
 
 .admin-table { width: 100%; border-collapse: collapse; }
-.admin-table th { text-align: left; color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; padding-bottom: 20px; }
-.admin-table td { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.admin-table th { text-align: left; color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; padding-bottom: 20px; border: none; }
+.admin-table td { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); background: transparent; }
+.admin-table td.middle { vertical-align: middle; }
+.admin-table td.actions { text-align: right; vertical-align: middle; }
+.admin-table td.center { text-align: center; padding: 40px; color: #666; font-style: italic; }
 
 .btn-delete {
     background: transparent;
@@ -531,4 +534,373 @@ body {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 4px;
+}
+
+/* Redesigned Dashboard Layout */
+.aura-dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.aura-sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    z-index: 1001;
+}
+
+.aura-sidebar .brand {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 60px;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-nav a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sidebar-nav a:hover {
+    background: rgba(255, 53, 3, 0.05);
+    color: #fff;
+}
+
+.sidebar-nav a.active {
+    background: rgba(255, 53, 3, 0.1);
+    color: var(--primary-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.sidebar-logout {
+    color: var(--danger-color) !important;
+    margin-top: auto !important;
+}
+
+.aura-main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 280px);
+}
+
+.aura-dashboard-frame {
+    width: 100%;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    border-radius: 40px;
+    padding: 60px;
+    box-shadow: 0 0 50px rgba(255, 53, 3, 0.05);
+    margin-bottom: 60px;
+}
+
+.aura-dashboard-frame::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 1px solid var(--primary-color);
+    border-radius: 42px;
+    opacity: 0.3;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, black, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+/* Redesigned Overview View Components */
+.portal-hero.redesigned {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.portal-hero.redesigned h1 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.portal-hero.redesigned p {
+    font-size: 1rem;
+    letter-spacing: 6px;
+    opacity: 0.7;
+}
+
+.action-card.redesigned {
+    border: 2px solid rgba(255, 53, 3, 0.1);
+    padding: 30px;
+    border-radius: 24px;
+}
+
+.action-card.redesigned:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 53, 3, 0.03);
+}
+
+.stats-perspective-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.stats-values-container {
+    display: flex;
+    gap: 50px;
+}
+
+.stat-fraction {
+    font-size: 1.5rem;
+}
+
+.portrait-frame {
+    height: 100%;
+    position: relative;
+}
+
+.portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.actions-redesigned-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Dashboard Typography & Headings */
+.portal-hero.redesigned h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    background: linear-gradient(to bottom, #fff, #666);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    font-size: 3.5rem;
+}
+
+.section-label {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 3px;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    opacity: 0.8;
+}
+
+.stat-value {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.stat-value.white {
+    color: #fff;
+}
+
+.stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    margin-top: 8px;
+    text-transform: uppercase;
+}
+
+.artisan-name {
+    font-size: 1rem;
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+}
+
+.artisan-badge {
+    color: var(--primary-color);
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+
+.action-card.redesigned .icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.action-card.redesigned h4 {
+    font-family: 'Cinzel', serif;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+.action-card.redesigned p {
+    font-size: 0.7rem;
+    opacity: 0.5;
+    line-height: 1.8;
+    padding: 0 10px;
+}
+
+.stats-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    background: rgba(255,255,255,0.02);
+}
+
+.portrait-container {
+    padding: 0;
+    overflow: hidden;
+    height: 220px;
+}
+
+.portrait-info {
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    padding: 30px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Common Admin View Components */
+.admin-view-container {
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.admin-view-title {
+    font-family: 'Cinzel', serif;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.admin-view-title span {
+    color: var(--primary-color);
+}
+
+.admin-alert {
+    background: rgba(255, 53, 3, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: block;
+    color: #666;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.form-control.aura {
+    background: rgba(255,255,255,0.03);
+    color: #fff;
+    border-color: rgba(255,255,255,0.05);
+    padding: 20px;
+}
+
+.btn-primary.btn-block {
+    width: 100%;
+    padding: 20px;
+    font-size: 1rem;
+    letter-spacing: 4px;
+}
+
+.image-preview-wrapper {
+    margin-top: 25px;
+    display: none;
+}
+
+.image-preview-frame {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid var(--primary-color);
+}
+
+.image-preview-frame img {
+    width: 100%;
+    display: block;
+}
+
+.preview-caption {
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.admin-table-thumb {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-table-title {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.btn-refine {
+    padding: 10px 25px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    border-radius: 100px;
+}
+
+.inline-form {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.btn-void {
+    padding: 10px 25px;
+    font-size: 0.8rem;
+    border-radius: 100px;
 }
