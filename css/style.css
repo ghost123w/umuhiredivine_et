@@ -511,6 +511,150 @@ body {
     padding: 25px 60px !important;
 }
 
+/* FAQ SECTION STYLES */
+.faq-section {
+    background: #fbc794 !important;
+    color: #000;
+    padding: 100px 60px;
+    border: none;
+    border-radius: 80px;
+    margin-top: 150px;
+}
+
+.faq-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.accordion-item {
+    border-bottom: 2px solid #000;
+    padding: 30px 0;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.accordion-header h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.accordion-header .icon {
+    font-size: 2rem;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.accordion-item.active .icon {
+    transform: rotate(45deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 1000px;
+    transition: max-height 1s ease-in-out;
+}
+
+.accordion-content p {
+    font-size: 1.1rem;
+    margin-top: 20px;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.6;
+}
+
+/* STROLL FOOTER STYLES */
+.stroll-footer {
+    background: #fbc794 !important;
+    color: #000;
+    padding: 120px 60px 40px;
+    border-radius: 80px 80px 0 0;
+    margin-top: 50px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 60px;
+}
+
+.footer-brand {
+    flex: 1;
+    min-width: 300px;
+}
+
+.footer-logo {
+    font-family: 'Inter', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+}
+
+.footer-credit {
+    font-size: 1rem;
+    margin-top: 10px;
+    color: rgba(0,0,0,0.5);
+}
+
+.footer-info {
+    display: flex;
+    gap: 100px;
+    flex: 1;
+    justify-content: flex-end;
+    min-width: 300px;
+}
+
+.footer-column h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+}
+
+.footer-column p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(0,0,0,0.8);
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 80px auto 0;
+    padding-top: 30px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.footer-bottom p {
+    font-size: 0.8rem;
+    color: rgba(0,0,0,0.4);
+    letter-spacing: 1px;
+}
+
 /* Aura Portal / Admin Styles */
 .aura-body {
     background: var(--admin-bg);

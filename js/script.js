@@ -77,4 +77,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // 5. FAQ Accordion Toggle
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            item.classList.toggle('active');
+
+            // Optional: Close other items when one is opened
+            const siblings = item.parentElement.querySelectorAll('.accordion-item');
+            siblings.forEach(sibling => {
+                if (sibling !== item) {
+                    sibling.classList.remove('active');
+                }
+            });
+        });
+    });
 });
