@@ -40,15 +40,15 @@ $cta_link = $stmt->fetchColumn() ?: '#';
     </div>
 
     <nav class="aura-nav-bar">
-        <div class="nav-pill">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#hero"><?php echo SITE_NAME; ?></a>
+            </div>
             <div class="nav-links">
-                <a href="#hero" class="nav-item">HOME</a>
                 <?php foreach ($sections as $s): ?>
                     <a href="#section-<?php echo $s['id']; ?>" class="nav-item"><?php echo strtoupper(htmlspecialchars($s['section_title'])); ?></a>
                 <?php endforeach; ?>
-            </div>
-            <div class="nav-actions">
-                <a href="admin/login.php" class="admin-link">PORTAL</a>
+                <a href="admin/login.php" class="nav-item portal">PORTAL</a>
             </div>
         </div>
     </nav>
@@ -56,10 +56,10 @@ $cta_link = $stmt->fetchColumn() ?: '#';
     <div class="layout-wrapper">
         <section id="hero" class="aura-hero">
             <div class="hero-content">
-                <div class="vintage-frame">
+                <p class="hero-subtitle">We forge visuals that crush doubts and spark action.</p>
+                <div class="hero-title-wrapper">
                     <h1><?php echo SITE_NAME; ?></h1>
                 </div>
-                <p class="hero-subtitle">Experience the future of digital elegance</p>
                 <div class="hero-cta">
                     <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
                 </div>
