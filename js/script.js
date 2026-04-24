@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('.reveal-section');
-    const navLinks = document.querySelectorAll('.aura-nav-bar .nav-item');
+    const sections = document.querySelectorAll('.reveal-section, .aura-hero');
+    const navLinks = document.querySelectorAll('.nav-item');
+    const navbar = document.querySelector('.aura-nav-bar');
+    const bgImage = document.querySelector('.stroll-bg-image');
 
     // 1. Intersection Observer for Scroll-Triggered Reveal Effect
     const revealObserver = new IntersectionObserver((entries) => {
@@ -10,15 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        threshold: 0.15,
+        threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     });
 
-    sections.forEach((section) => {
+    document.querySelectorAll('.reveal-section').forEach((section) => {
         revealObserver.observe(section);
     });
 
-    // 2. ScrollSpy: Highlight active sidebar link
+    // 2. ScrollSpy: Highlight active navigation link
     const scrollSpyObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -32,14 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        threshold: 0.5
+        threshold: 0.3,
+        rootMargin: '-10% 0px -60% 0px'
     });
 
     sections.forEach((section) => {
         scrollSpyObserver.observe(section);
     });
 
-    // 3. Smooth Scrolling for Sidebar Links
+    // 3. Smooth Scrolling for Navigation Links
     navLinks.forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
@@ -56,21 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 4. Parallax Background Effect & Navbar Scroll Class
-    const bgImage = document.querySelector('.stroll-bg-image');
-    const navbar = document.querySelector('.aura-nav-bar');
-
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
 
         // Parallax
         if (bgImage) {
-            const val = scrolled * 0.15;
+            const val = scrolled * 0.1;
             bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
         }
 
         // Navbar scrolled state
         if (navbar) {
-            if (scrolled > 50) {
+            if (scrolled > 100) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');

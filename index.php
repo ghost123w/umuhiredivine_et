@@ -38,23 +38,36 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
-    <div class="layout-wrapper">
-        <header class="layout-header">
-            <div class="vintage-frame">
-                <h1><?php echo SITE_NAME; ?></h1>
-            </div>
-        </header>
 
-        <nav class="aura-nav-bar">
-            <div class="nav-container">
-                <div class="nav-links">
-                    <?php foreach ($sections as $s): ?>
-                        <a href="#section-<?php echo $s['id']; ?>" class="nav-item"><?php echo htmlspecialchars($s['section_title']); ?></a>
-                    <?php endforeach; ?>
-                </div>
-                <a href="admin/login.php" class="admin-link">ADMIN ACCESS</a>
+    <nav class="aura-nav-bar">
+        <div class="nav-pill">
+            <div class="nav-links">
+                <a href="#hero" class="nav-item">HOME</a>
+                <?php foreach ($sections as $s): ?>
+                    <a href="#section-<?php echo $s['id']; ?>" class="nav-item"><?php echo strtoupper(htmlspecialchars($s['section_title'])); ?></a>
+                <?php endforeach; ?>
             </div>
-        </nav>
+            <div class="nav-actions">
+                <a href="admin/login.php" class="admin-link">PORTAL</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="layout-wrapper">
+        <section id="hero" class="aura-hero">
+            <div class="hero-content">
+                <div class="vintage-frame">
+                    <h1><?php echo SITE_NAME; ?></h1>
+                </div>
+                <p class="hero-subtitle">Experience the future of digital elegance</p>
+                <div class="hero-cta">
+                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="mouse"></div>
+            </div>
+        </section>
 
         <main class="layout-main" id="features">
             <?php foreach ($sections as $index => $s): ?>
@@ -68,12 +81,16 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                         <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
                         <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
                         <div style="margin-top: 40px;">
-                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta secondary"><?php echo htmlspecialchars($cta_text); ?></a>
                         </div>
                     </div>
                 </section>
             <?php endforeach; ?>
         </main>
+
+        <footer class="aura-footer">
+            <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. ALL RIGHTS RESERVED.</p>
+        </footer>
     </div>
     <script src="js/script.js"></script>
 </body>
