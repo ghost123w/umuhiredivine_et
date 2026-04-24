@@ -580,6 +580,35 @@ body {
     line-height: 1.6;
 }
 
+.faq-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: -30px; /* Overlap with the top section like in the image */
+    position: relative;
+    z-index: 10;
+}
+
+.connect-now-pill {
+    background: #ff602e;
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    line-height: 1.1;
+    text-align: center;
+    display: inline-block;
+    width: 140px;
+    box-shadow: 0 10px 30px rgba(255, 96, 46, 0.3);
+    transition: 0.3s ease;
+}
+
+.connect-now-pill:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 96, 46, 0.5);
+}
+
 /* STROLL FOOTER STYLES */
 .stroll-footer {
     background: #fbc794 !important;
@@ -606,11 +635,12 @@ body {
 
 .footer-logo {
     font-family: 'Inter', sans-serif;
-    font-size: 4rem;
+    font-size: 5rem;
     font-weight: 900;
     margin: 0;
     text-transform: uppercase;
-    letter-spacing: -2px;
+    letter-spacing: -3px;
+    line-height: 1;
 }
 
 .footer-credit {

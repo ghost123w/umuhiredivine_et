@@ -163,6 +163,10 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                             </div>
                         </div>
                     </div>
+
+                    <div class="faq-cta">
+                        <a href="#" class="connect-now-pill">CONNECT NOW</a>
+                    </div>
                 </div>
             </section>
         </main>
@@ -170,8 +174,8 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         <footer class="stroll-footer">
             <div class="footer-container">
                 <div class="footer-brand">
-                    <h2 class="footer-logo"><?php echo SITE_NAME; ?></h2>
-                    <p class="footer-credit">Design & Strategy</p>
+                    <h2 class="footer-logo">YOUR SITE TITLE</h2>
+                    <p class="footer-credit">Made with <a href="#" style="color: #ff602e; text-decoration: underline;">Squarespace</a></p>
                 </div>
                 <div class="footer-info">
                     <div class="footer-column">
@@ -184,7 +188,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
+            <div class="footer-bottom" style="display: none;">
                 <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. ALL RIGHTS RESERVED.</p>
             </div>
         </footer>
