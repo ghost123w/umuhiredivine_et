@@ -86,6 +86,32 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                     </div>
                 </section>
             <?php endforeach; ?>
+
+            <!-- POWER KITS SECTION -->
+            <section id="power-kits" class="reveal-section power-kits-section">
+                <div class="power-kits-container">
+                    <h2 class="section-title-bold">POWER KITS</h2>
+                    <div class="product-grid">
+                        <?php for($i=1; $i<=3; $i++): ?>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/power-kit-<?php echo $i; ?>.png" alt="Power Kit <?php echo $i; ?>" onerror="this.src='images/power-kits-section.png'">
+                            </div>
+                            <h3 class="product-name">Product Name</h3>
+                            <p class="product-price">$25.00</p>
+                            <div class="product-actions">
+                                <div class="quantity-selector">
+                                    <button class="qty-btn minus">−</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="add-to-cart-btn">ADD TO CART</button>
+                            </div>
+                        </div>
+                        <?php endfor; ?>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <footer class="aura-footer">
