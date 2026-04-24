@@ -263,67 +263,8 @@ $view = $_GET['view'] ?? 'overview';
         </div>
     </main>
 
-    <footer class="aura-footer" style="margin-top: 150px; padding: 0; border: none; background: transparent;">
-        <!-- STROLLING SECTION IN ADMIN -->
-        <section id="faq-admin" class="reveal-section faq-section" style="margin-bottom: 0; border-radius: 80px 80px 0 0;">
-            <div class="faq-container">
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3>ACCORDION ITEM 1</h3>
-                            <span class="icon">+</span>
-                        </div>
-                        <div class="accordion-content">
-                            <p>Content for accordion item 1 goes here. This section expands when the header is clicked.</p>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3>ACCORDION ITEM 2</h3>
-                            <span class="icon">+</span>
-                        </div>
-                        <div class="accordion-content">
-                            <p>Content for accordion item 2 goes here. Detailed information can be displayed here.</p>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3>ACCORDION ITEM 3</h3>
-                            <span class="icon">+</span>
-                        </div>
-                        <div class="accordion-content">
-                            <p>Content for accordion item 3 goes here. This provides a clean way to manage large amounts of content.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-cta">
-                    <a href="#" class="connect-now-pill">CONNECT NOW</a>
-                </div>
-            </div>
-        </section>
-
-        <footer class="stroll-footer" style="margin-top: 0; border-radius: 0;">
-            <div class="footer-container">
-                <div class="footer-brand">
-                    <h2 class="footer-logo">YOUR SITE TITLE</h2>
-                    <p class="footer-credit">Made with <a href="#" style="color: #ff602e; text-decoration: underline;">Squarespace</a></p>
-                </div>
-                <div class="footer-info">
-                    <div class="footer-column">
-                        <h4>LOCATION</h4>
-                        <p>123 Demo Street<br>New York, NY 12345</p>
-                    </div>
-                    <div class="footer-column">
-                        <h4>CONTACT</h4>
-                        <p>email@example.com<br>(555) 555-5555</p>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom" style="display: none;">
-                <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. ALL RIGHTS RESERVED.</p>
-            </div>
-        </footer>
+    <footer class="aura-footer" style="margin-top: 150px;">
+        <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script>

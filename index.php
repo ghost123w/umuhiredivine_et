@@ -37,6 +37,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
         <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
+        <div class="grain-overlay"></div>
     </div>
 
     <nav class="aura-nav-bar">
@@ -174,7 +175,7 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         <footer class="stroll-footer">
             <div class="footer-container">
                 <div class="footer-brand">
-                    <h2 class="footer-logo">YOUR SITE TITLE</h2>
+                    <h2 class="footer-logo"><?php echo SITE_NAME; ?></h2>
                     <p class="footer-credit">Made with <a href="#" style="color: #ff602e; text-decoration: underline;">Squarespace</a></p>
                 </div>
                 <div class="footer-info">

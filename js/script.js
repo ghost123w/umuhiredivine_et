@@ -61,10 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Parallax Background Effect & Navbar Scroll Class
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const totalHeight = document.body.offsetHeight;
+        const scrollPercent = scrolled / (totalHeight - viewportHeight || 1);
 
-        // Parallax
+        // Parallax - moves within the 20% buffer defined in CSS
         if (bgImage) {
-            const val = scrolled * 0.1;
+            // Move from 0 to -15% of viewport height to stay within the -20% top buffer
+            const moveRange = viewportHeight * 0.15;
+            const val = - (scrollPercent * moveRange);
             bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
         }
 
