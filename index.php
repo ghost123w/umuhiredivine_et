@@ -40,14 +40,16 @@ $cta_link = $stmt->fetchColumn() ?: '#';
     </div>
 
     <nav class="aura-nav-bar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <a href="#hero"><?php echo SITE_NAME; ?></a>
+        <div class="nav-pill">
+            <div class="nav-brand-wrapper">
+                <a href="#hero" class="aura-brand-3d"><?php echo SITE_NAME; ?></a>
             </div>
             <div class="nav-links">
                 <?php foreach ($sections as $s): ?>
                     <a href="#section-<?php echo $s['id']; ?>" class="nav-item"><?php echo strtoupper(htmlspecialchars($s['section_title'])); ?></a>
                 <?php endforeach; ?>
+                <a href="#power-kits" class="nav-item">POWER</a>
+                <a href="#creative-charge" class="nav-item">CHARGE</a>
                 <a href="admin/login.php" class="nav-item portal">PORTAL</a>
             </div>
         </div>
@@ -109,6 +111,22 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                             </div>
                         </div>
                         <?php endfor; ?>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CREATIVE CHARGE SECTION -->
+            <section id="creative-charge" class="reveal-section creative-charge-section">
+                <div class="creative-charge-container">
+                    <h2 class="creative-charge-title">FOLLOW OUR CREATIVE CHARGE</h2>
+                    <div class="creative-grid">
+                        <div class="creative-item"><img src="images/creative-1.jpg" alt="Creative 1" onerror="this.src='images/creative-charge.png'"></div>
+                        <div class="creative-item"><img src="images/creative-2.jpg" alt="Creative 2" onerror="this.src='images/creative-charge.png'"></div>
+                        <div class="creative-item"><img src="images/creative-3.jpg" alt="Creative 3" onerror="this.src='images/creative-charge.png'"></div>
+                        <div class="creative-item"><img src="images/creative-4.jpg" alt="Creative 4" onerror="this.src='images/creative-charge.png'"></div>
+                    </div>
+                    <div class="creative-footer">
+                        <a href="#" class="cta connect-btn">CONNECT NOW</a>
                     </div>
                 </div>
             </section>
