@@ -51,7 +51,6 @@ $cta_link = $stmt->fetchColumn() ?: '#';
                 <?php endforeach; ?>
                 <a href="#power-kits" class="nav-item">POWER</a>
                 <a href="#creative-charge" class="nav-item">CHARGE</a>
-                <a href="admin/login.php" class="nav-item portal">PORTAL</a>
             </div>
         </div>
     </nav>
