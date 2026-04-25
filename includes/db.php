@@ -46,7 +46,7 @@ try {
     $count = $pdo->query("SELECT COUNT(*) FROM creative_charge")->fetchColumn();
     if ($count == 0) {
         for ($i=1; $i<=4; $i++) {
-            $pdo->exec("INSERT INTO creative_charge (image_path_1, image_path_2) VALUES ('images/creative-1.jpg', 'images/creative-2.jpg')");
+            $pdo->exec("INSERT INTO creative_charge (image_path_1, image_path_2) VALUES ('images/brand-portrait.jpg', 'images/brand-portrait.jpg')");
         }
     }
 

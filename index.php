@@ -40,7 +40,7 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
 </head>
 <body class="landing-page">
     <div class="stroll-bg-container">
-        <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
+        <div class="stroll-bg-image" style="background: #050505;"></div>
         <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
         <div class="grain-overlay"></div>
@@ -103,7 +103,7 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
                         <?php for($i=1; $i<=3; $i++): ?>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="images/power-kit-<?php echo $i; ?>.png" alt="Power Kit <?php echo $i; ?>" onerror="this.src='images/power-kits-section.png'">
+                                <img src="images/power-kit-<?php echo $i; ?>.png" alt="Power Kit <?php echo $i; ?>" onerror="this.src='images/brand-portrait.jpg'">
                             </div>
                             <h3 class="product-name">Product Name</h3>
                             <p class="product-price">$25.00</p>
@@ -131,10 +131,10 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
                                 <h3 class="creative-card-header"><?php echo htmlspecialchars($creative_charge_title); ?></h3>
                                 <div class="creative-dual-images">
                                     <div class="creative-img-box">
-                                        <img src="<?php echo htmlspecialchars($item['image_path_1']); ?>" alt="Creative 1" onerror="this.src='images/creative-charge.png'">
+                                        <img src="<?php echo htmlspecialchars($item['image_path_1']); ?>" alt="Creative 1" onerror="this.src='images/brand-portrait.jpg'">
                                     </div>
                                     <div class="creative-img-box">
-                                        <img src="<?php echo htmlspecialchars($item['image_path_2']); ?>" alt="Creative 2" onerror="this.src='images/creative-charge.png'">
+                                        <img src="<?php echo htmlspecialchars($item['image_path_2']); ?>" alt="Creative 2" onerror="this.src='images/brand-portrait.jpg'">
                                     </div>
                                 </div>
                                 <div class="creative-card-footer">
@@ -203,7 +203,7 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom" style="display: none;">
+            <div class="footer-bottom">
                 <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. ALL RIGHTS RESERVED.</p>
             </div>
         </footer>

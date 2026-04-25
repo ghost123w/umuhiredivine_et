@@ -65,6 +65,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['delete_charge'])) {
         $id = (int)$_POST['id'];
+
+        $stmt = $pdo->prepare("SELECT image_path_1, image_path_2 FROM creative_charge WHERE id = ?");
+        $stmt->execute([$id]);
+        $card = $stmt->fetch();
+
+        if ($card) {
+            foreach (['image_path_1', 'image_path_2'] as $img_col) {
+                if ($card[$img_col] && file_exists('../' . $card[$img_col])) {
+                    unlink('../' . $card[$img_col]);
+                }
+            }
+        }
+
         $stmt = $pdo->prepare("DELETE FROM creative_charge WHERE id = ?");
         $stmt->execute([$id]);
         header("Location: dashboard.php?view=charge&msg=deleted");
@@ -100,6 +113,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['delete_section'])) {
         $id = (int)$_POST['id'];
+
+        $stmt = $pdo->prepare("SELECT image_path FROM content WHERE id = ?");
+        $stmt->execute([$id]);
+        $section = $stmt->fetch();
+
+        if ($section && $section['image_path'] && file_exists('../' . $section['image_path'])) {
+            unlink('../' . $section['image_path']);
+        }
+
         $stmt = $pdo->prepare("DELETE FROM content WHERE id = ?");
         $stmt->execute([$id]);
         header("Location: dashboard.php?view=manage&msg=deleted");
