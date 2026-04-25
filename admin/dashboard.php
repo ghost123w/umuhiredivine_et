@@ -25,6 +25,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    if (isset($_POST['update_charge_title'])) {
+        $title = sanitize($_POST['creative_charge_title']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('creative_charge_title', ?)");
+        $stmt->execute([$title]);
+        header("Location: dashboard.php?view=charge&msg=updated");
+        exit();
+    }
+
+    if (isset($_POST['add_charge_card'])) {
+        $image_1 = null;
+        $image_2 = null;
+        $target_dir = "../uploads/";
+        if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
+
+        foreach (['image_1', 'image_2'] as $key) {
+            if (isset($_FILES[$key]) && $_FILES[$key]['error'] == 0) {
+                $file_ext = strtolower(pathinfo($_FILES[$key]["name"], PATHINFO_EXTENSION));
+                $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                if (in_array($file_ext, $allowed_exts)) {
+                    $new_filename = uniqid('charge_') . '_' . $key . '.' . $file_ext;
+                    if (move_uploaded_file($_FILES[$key]["tmp_name"], $target_dir . $new_filename)) {
+                        if ($key == 'image_1') $image_1 = 'uploads/' . $new_filename;
+                        else $image_2 = 'uploads/' . $new_filename;
+                    }
+                }
+            }
+        }
+
+        if ($image_1 || $image_2) {
+            $stmt = $pdo->prepare("INSERT INTO creative_charge (image_path_1, image_path_2) VALUES (?, ?)");
+            $stmt->execute([$image_1, $image_2]);
+            header("Location: dashboard.php?view=charge&msg=added");
+        } else {
+            header("Location: dashboard.php?view=charge&msg=error");
+        }
+        exit();
+    }
+
+    if (isset($_POST['delete_charge'])) {
+        $id = (int)$_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM creative_charge WHERE id = ?");
+        $stmt->execute([$id]);
+        header("Location: dashboard.php?view=charge&msg=deleted");
+        exit();
+    }
+
     if (isset($_POST['add_section'])) {
         $title = sanitize($_POST['section_title']);
         $desc = sanitize($_POST['description']);
@@ -62,10 +108,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
+$charge_cards = $pdo->query("SELECT * FROM creative_charge ORDER BY id ASC")->fetchAll();
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
 $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'creative_charge_title'");
+$stmt->execute();
+$creative_charge_title = $stmt->fetchColumn() ?: 'FOLLOW OUR CREATIVE CHARGE';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
 $stmt->execute();
@@ -94,6 +145,7 @@ $view = $_GET['view'] ?? 'overview';
         <div class="glass-pill">
             <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Portal</a>
             <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
+            <a href="dashboard.php?view=charge" class="<?php echo $view == 'charge' ? 'active' : ''; ?>">Charge</a>
             <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
             <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
             <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; margin-left: -20px;">Exit</a>
@@ -145,10 +197,10 @@ $view = $_GET['view'] ?? 'overview';
                         <h4>Manage Aura</h4>
                         <p>Refine and orchestrate your existing masterpieces.</p>
                     </a>
-                    <a href="dashboard.php?view=settings" class="action-card">
-                        <div class="icon">⚙</div>
-                        <h4>Core Config</h4>
-                        <p>Adjust the foundational frequencies of your landing page.</p>
+                    <a href="dashboard.php?view=charge" class="action-card">
+                        <div class="icon">⚡</div>
+                        <h4>Creative Charge</h4>
+                        <p>Curate the dual-vision gallery of your high-energy feed.</p>
                     </a>
                 </div>
             </div>
@@ -162,6 +214,7 @@ $view = $_GET['view'] ?? 'overview';
                         if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The piece has been returned to the void.";
                         if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your vision has been updated.";
                         if ($_GET['msg'] == 'settings_updated') echo "<strong>Synchronized:</strong> Core settings are now in harmony.";
+                        if ($_GET['msg'] == 'error') echo "<strong>Interrupted:</strong> A frequency mismatch occurred.";
                     ?>
                 </div>
             <?php endif; ?>
@@ -185,6 +238,54 @@ $view = $_GET['view'] ?? 'overview';
                         </div>
                         <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
+                </section>
+            <?php endif; ?>
+
+            <?php if ($view == 'charge'): ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Creative <span style="color: var(--primary-color);">Charge</span></h2>
+
+                    <form method="POST" style="margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Feed Title</label>
+                            <input type="text" name="creative_charge_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($creative_charge_title); ?>" required>
+                        </div>
+                        <button type="submit" name="update_charge_title" class="btn-primary" style="width: 100%; padding: 15px; font-size: 0.8rem; letter-spacing: 2px;">UPDATE TITLE</button>
+                    </form>
+
+                    <h3 style="font-family: 'Cinzel', serif; margin-bottom: 30px; font-size: 1.2rem;">Add <span style="color: var(--primary-color);">Dual-Vision</span> Card</h3>
+                    <form method="POST" enctype="multipart/form-data" style="margin-bottom: 60px;">
+                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Image 1 (Left)</label>
+                                <input type="file" name="image_1" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" accept="image/*" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Image 2 (Right)</label>
+                                <input type="file" name="image_2" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" accept="image/*" required>
+                            </div>
+                        </div>
+                        <button type="submit" name="add_charge_card" class="btn-primary" style="width: 100%; padding: 20px; font-size: 1rem; letter-spacing: 4px;">INJECT CHARGE</button>
+                    </form>
+
+                    <h3 style="font-family: 'Cinzel', serif; margin-bottom: 30px; font-size: 1.2rem;">Existing <span style="color: var(--primary-color);">Frequencies</span></h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                        <?php foreach ($charge_cards as $card): ?>
+                            <div class="aura-card" style="padding: 15px; background: rgba(255,255,255,0.02);">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; height: 100px; margin-bottom: 15px; border-radius: 10px; overflow: hidden;">
+                                    <img src="../<?php echo htmlspecialchars($card['image_path_1']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="../<?php echo htmlspecialchars($card['image_path_2']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <form method="POST">
+                                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                    <input type="hidden" name="id" value="<?php echo $card['id']; ?>">
+                                    <button type="submit" name="delete_charge" class="btn-delete" style="width: 100%; padding: 10px; font-size: 0.7rem;" onclick="return confirm('Disconnect this charge?');">VOID</button>
+                                </form>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </section>
             <?php endif; ?>
 

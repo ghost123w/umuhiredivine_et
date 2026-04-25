@@ -19,6 +19,12 @@ $cta_text = $stmt->fetchColumn() ?: 'Get Started';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'creative_charge_title'");
+$stmt->execute();
+$creative_charge_title = $stmt->fetchColumn() ?: 'FOLLOW OUR CREATIVE CHARGE';
+
+$creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id ASC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,15 +124,24 @@ $cta_link = $stmt->fetchColumn() ?: '#';
             <!-- CREATIVE CHARGE SECTION -->
             <section id="creative-charge" class="reveal-section creative-charge-section">
                 <div class="creative-charge-container">
-                    <h2 class="creative-charge-title">FOLLOW OUR CREATIVE CHARGE</h2>
+                    <h2 class="creative-charge-title"><?php echo htmlspecialchars($creative_charge_title); ?></h2>
                     <div class="creative-grid">
-                        <div class="creative-item"><img src="images/creative-1.jpg" alt="Creative 1" onerror="this.src='images/creative-charge.png'"></div>
-                        <div class="creative-item"><img src="images/creative-2.jpg" alt="Creative 2" onerror="this.src='images/creative-charge.png'"></div>
-                        <div class="creative-item"><img src="images/creative-3.jpg" alt="Creative 3" onerror="this.src='images/creative-charge.png'"></div>
-                        <div class="creative-item"><img src="images/creative-4.jpg" alt="Creative 4" onerror="this.src='images/creative-charge.png'"></div>
-                    </div>
-                    <div class="creative-footer">
-                        <a href="#" class="cta connect-btn">CONNECT NOW</a>
+                        <?php foreach ($creative_charge_items as $item): ?>
+                            <div class="creative-card">
+                                <h3 class="creative-card-header"><?php echo htmlspecialchars($creative_charge_title); ?></h3>
+                                <div class="creative-dual-images">
+                                    <div class="creative-img-box">
+                                        <img src="<?php echo htmlspecialchars($item['image_path_1']); ?>" alt="Creative 1" onerror="this.src='images/creative-charge.png'">
+                                    </div>
+                                    <div class="creative-img-box">
+                                        <img src="<?php echo htmlspecialchars($item['image_path_2']); ?>" alt="Creative 2" onerror="this.src='images/creative-charge.png'">
+                                    </div>
+                                </div>
+                                <div class="creative-card-footer">
+                                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="connect-pill-small">CONNECT NOW</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </section>

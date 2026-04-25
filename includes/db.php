@@ -31,9 +31,24 @@ try {
         setting_value TEXT
     )");
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS creative_charge (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        image_path_1 TEXT,
+        image_path_2 TEXT
+    )");
+
     // Seed default settings
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
     $stmt->execute(['selling_points_title', 'Actions']);
+    $stmt->execute(['creative_charge_title', 'FOLLOW OUR CREATIVE CHARGE']);
+
+    // Seed creative_charge if empty
+    $count = $pdo->query("SELECT COUNT(*) FROM creative_charge")->fetchColumn();
+    if ($count == 0) {
+        for ($i=1; $i<=4; $i++) {
+            $pdo->exec("INSERT INTO creative_charge (image_path_1, image_path_2) VALUES ('images/creative-1.jpg', 'images/creative-2.jpg')");
+        }
+    }
 
 } catch (PDOException $e) {
     die("Database connection failed");
