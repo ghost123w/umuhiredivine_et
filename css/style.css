@@ -92,7 +92,7 @@ body {
 
 /* Aura Luxury Navigation Pill */
 .aura-nav-bar {
-    position: fixed;
+    position: absolute;
     top: 30px;
     left: 0;
     width: 100%;
@@ -103,7 +103,7 @@ body {
 }
 
 .aura-nav-bar.scrolled {
-    top: 15px;
+    top: 30px;
 }
 
 .nav-pill {
@@ -120,9 +120,8 @@ body {
 }
 
 .aura-nav-bar.scrolled .nav-pill {
-    background: rgba(10, 10, 10, 0.8);
-    border-color: rgba(255, 53, 3, 0.3);
-    padding: 8px 30px;
+    background: rgba(10, 10, 10, 0.4);
+    border-color: rgba(255, 53, 3, 0.1);
 }
 
 /* 3D Floating Brand Effect */
@@ -139,7 +138,6 @@ body {
     letter-spacing: 2px;
     text-transform: uppercase;
     display: inline-block;
-    animation: floating-aura 4s infinite ease-in-out;
     text-shadow:
         0 1px 0 #ccc,
         0 2px 0 #c9c9c9,
