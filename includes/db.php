@@ -37,6 +37,13 @@ try {
         image_path_2 TEXT
     )");
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        price TEXT,
+        image_path TEXT
+    )");
+
     // Seed default settings
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
     $stmt->execute(['selling_points_title', 'Actions']);
@@ -47,6 +54,15 @@ try {
     if ($count == 0) {
         for ($i=1; $i<=4; $i++) {
             $pdo->exec("INSERT INTO creative_charge (image_path_1, image_path_2) VALUES ('images/brand-portrait.jpg', 'images/brand-portrait.jpg')");
+        }
+    }
+
+    // Seed products if empty
+    $pCount = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
+    if ($pCount == 0) {
+        for ($i=1; $i<=3; $i++) {
+            $stmt = $pdo->prepare("INSERT INTO products (name, price, image_path) VALUES (?, ?, ?)");
+            $stmt->execute(["Power Kit $i", "25.00", "images/power-kit-$i.png"]);
         }
     }
 

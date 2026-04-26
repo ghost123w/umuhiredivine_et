@@ -8,6 +8,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("CSRF token validation failed.");
     }
 
+    if (isset($_POST['update_product_price'])) {
+        $id = (int)$_POST['id'];
+        $price = sanitize($_POST['price']);
+        $stmt = $pdo->prepare("UPDATE products SET price = ? WHERE id = ?");
+        $stmt->execute([$price, $id]);
+        header("Location: dashboard.php?view=power&msg=updated");
+        exit();
+    }
+
     if (isset($_POST['update_settings'])) {
         $title = sanitize($_POST['selling_points_title']);
         $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = 'selling_points_title'");
@@ -167,6 +176,7 @@ $view = $_GET['view'] ?? 'overview';
         <div class="glass-pill">
             <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Portal</a>
             <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
+            <a href="dashboard.php?view=power" class="<?php echo $view == 'power' ? 'active' : ''; ?>">Power</a>
             <a href="dashboard.php?view=charge" class="<?php echo $view == 'charge' ? 'active' : ''; ?>">Charge</a>
             <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
             <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
@@ -239,6 +249,32 @@ $view = $_GET['view'] ?? 'overview';
                         if ($_GET['msg'] == 'error') echo "<strong>Interrupted:</strong> A frequency mismatch occurred.";
                     ?>
                 </div>
+            <?php endif; ?>
+
+            <?php if ($view == 'power'): ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Power <span style="color: var(--primary-color);">Kits</span></h2>
+                    <?php
+                    $products = $pdo->query("SELECT * FROM products ORDER BY id ASC")->fetchAll();
+                    foreach ($products as $product):
+                    ?>
+                    <div style="background: rgba(255,255,255,0.02); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; align-items: center; gap: 30px;">
+                        <img src="../<?php echo htmlspecialchars($product['image_path']); ?>" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;" onerror="this.src='../images/brand-portrait.jpg'">
+                        <div style="flex-grow: 1;">
+                            <h4 style="margin: 0 0 10px 0; font-family: 'Cinzel', serif;"><?php echo htmlspecialchars($product['name']); ?></h4>
+                            <form method="POST" style="display: flex; gap: 15px; align-items: center;">
+                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                                <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding-left: 15px;">
+                                    <span style="color: #666;">$</span>
+                                    <input type="text" name="price" value="<?php echo htmlspecialchars($product['price']); ?>" class="form-control" style="background: transparent; border: none; padding: 10px; width: 100px;">
+                                </div>
+                                <button type="submit" name="update_product_price" class="btn-primary" style="padding: 10px 20px; font-size: 0.8rem;">UPDATE</button>
+                            </form>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </section>
             <?php endif; ?>
 
             <?php if ($view == 'settings'): ?>

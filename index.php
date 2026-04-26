@@ -100,13 +100,15 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
                 <div class="power-kits-container">
                     <h2 class="section-title-bold">POWER KITS</h2>
                     <div class="product-grid">
-                        <?php for($i=1; $i<=3; $i++): ?>
+                        <?php
+                        $products = $pdo->query("SELECT * FROM products ORDER BY id ASC")->fetchAll();
+                        foreach ($products as $product): ?>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="images/power-kit-<?php echo $i; ?>.png" alt="Power Kit <?php echo $i; ?>" onerror="this.src='images/brand-portrait.jpg'">
+                                <img src="<?php echo htmlspecialchars($product['image_path']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" onerror="this.src='images/brand-portrait.jpg'">
                             </div>
-                            <h3 class="product-name">Product Name</h3>
-                            <p class="product-price">$25.00</p>
+                            <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
+                            <p class="product-price">$<?php echo htmlspecialchars($product['price']); ?></p>
                             <div class="product-actions">
                                 <div class="quantity-selector">
                                     <button class="qty-btn minus">−</button>
@@ -116,7 +118,7 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
                                 <button class="add-to-cart-btn">ADD TO CART</button>
                             </div>
                         </div>
-                        <?php endfor; ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </section>
