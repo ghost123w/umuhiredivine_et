@@ -73,18 +73,39 @@ body {
 
 /* Aura Luxury Navigation Pill */
 .aura-nav-bar {
-    position: absolute;
-    top: 30px;
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
     transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    pointer-events: none;
 }
 
 .aura-nav-bar.scrolled {
-    top: 30px;
+    padding-top: 15px;
+    background: rgba(5, 5, 5, 0.5);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 53, 3, 0.1);
+    pointer-events: auto;
+}
+
+.nav-brand-top {
+    margin-bottom: 15px;
+    transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+    pointer-events: auto;
+}
+
+.aura-nav-bar.scrolled .nav-brand-top {
+    transform: translateY(-5px) scale(0.8);
+    opacity: 0;
+    height: 0;
+    margin-bottom: 0;
+    pointer-events: none;
 }
 
 .nav-pill {
@@ -97,23 +118,23 @@ body {
     align-items: center;
     gap: 50px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    transition: 0.4s;
+    transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+    pointer-events: auto;
 }
 
 .aura-nav-bar.scrolled .nav-pill {
-    background: rgba(10, 10, 10, 0.4);
-    border-color: rgba(255, 53, 3, 0.1);
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 8px 40px;
 }
 
 /* 3D Floating Brand Effect */
-.nav-brand-wrapper {
-    perspective: 1000px;
-}
-
 .aura-brand-3d {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     color: #fff;
     text-decoration: none;
     letter-spacing: 2px;
@@ -154,10 +175,29 @@ body {
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: 0.3s;
+    position: relative;
+    padding: 5px 0;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+    transform: translateX(-50%);
+}
+
+.nav-item:hover::after, .nav-item.active::after {
+    width: 100%;
 }
 
 .nav-item:hover, .nav-item.active {
-    color: var(--primary-color);
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 53, 3, 0.5);
 }
 
 .nav-item.portal {
@@ -248,14 +288,17 @@ body {
     border-radius: 40px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     opacity: 0;
-    transform: translateY(100px);
-    transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+    transform: translateY(80px) scale(0.98);
+    transition: opacity 1.5s cubic-bezier(0.2, 1, 0.3, 1), transform 1.5s cubic-bezier(0.2, 1, 0.3, 1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-.reveal-section.active { opacity: 1; transform: translateY(0); }
+.reveal-section.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
 .reveal-section.has-image { flex-direction: row; min-height: 500px; }
 .reveal-section.has-image.reverse { flex-direction: row-reverse; }
 
@@ -373,20 +416,20 @@ body {
 
 .product-name {
     font-family: 'Inter', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 700;
     margin-bottom: 8px;
     color: #000;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 .product-price {
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 400;
     margin-bottom: 30px;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0,0,0,0.7);
 }
 
 .product-actions {
@@ -395,6 +438,12 @@ body {
     gap: 12px;
     width: 100%;
     justify-content: center;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.product-card:hover .product-actions {
+    opacity: 1;
 }
 
 .quantity-selector {

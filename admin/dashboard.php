@@ -81,7 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($card) {
             foreach (['image_path_1', 'image_path_2'] as $img_col) {
-                if ($card[$img_col] && file_exists('../' . $card[$img_col])) {
+                // Safety: only delete files if they are in the uploads directory
+                if ($card[$img_col] && strpos($card[$img_col], 'uploads/') === 0 && file_exists('../' . $card[$img_col])) {
                     unlink('../' . $card[$img_col]);
                 }
             }
@@ -127,7 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$id]);
         $section = $stmt->fetch();
 
-        if ($section && $section['image_path'] && file_exists('../' . $section['image_path'])) {
+        // Safety: only delete files if they are in the uploads directory
+        if ($section && $section['image_path'] && strpos($section['image_path'], 'uploads/') === 0 && file_exists('../' . $section['image_path'])) {
             unlink('../' . $section['image_path']);
         }
 

@@ -40,17 +40,17 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
 </head>
 <body class="landing-page">
     <div class="stroll-bg-container">
-        <div class="stroll-bg-image" style="background: #050505;"></div>
+        <div class="stroll-bg-image"></div>
         <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
         <div class="grain-overlay"></div>
     </div>
 
     <nav class="aura-nav-bar">
+        <div class="nav-brand-top">
+            <a href="#hero" class="aura-brand-3d"><?php echo SITE_NAME; ?></a>
+        </div>
         <div class="nav-pill">
-            <div class="nav-brand-wrapper">
-                <a href="#hero" class="aura-brand-3d"><?php echo SITE_NAME; ?></a>
-            </div>
             <div class="nav-links">
                 <?php foreach ($sections as $s): ?>
                     <a href="#section-<?php echo $s['id']; ?>" class="nav-item"><?php echo strtoupper(htmlspecialchars($s['section_title'])); ?></a>
@@ -78,23 +78,6 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
         </section>
 
         <main class="layout-main" id="features">
-            <?php foreach ($sections as $index => $s): ?>
-                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo ($s['image_path'] && $index % 2 != 0) ? 'has-image reverse' : ($s['image_path'] ? 'has-image' : ''); ?>">
-                    <?php if ($s['image_path']): ?>
-                        <div class="section-image">
-                            <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
-                        </div>
-                    <?php endif; ?>
-                    <div class="section-content">
-                        <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
-                        <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
-                        <div style="margin-top: 40px;">
-                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta secondary"><?php echo htmlspecialchars($cta_text); ?></a>
-                        </div>
-                    </div>
-                </section>
-            <?php endforeach; ?>
-
             <!-- POWER KITS SECTION -->
             <section id="power-kits" class="reveal-section power-kits-section">
                 <div class="power-kits-container">
@@ -122,6 +105,24 @@ $creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id 
                     </div>
                 </div>
             </section>
+
+            <!-- DYNAMIC CONTENT SECTIONS -->
+            <?php foreach ($sections as $index => $s): ?>
+                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo ($s['image_path'] && $index % 2 != 0) ? 'has-image reverse' : ($s['image_path'] ? 'has-image' : ''); ?>">
+                    <?php if ($s['image_path']): ?>
+                        <div class="section-image">
+                            <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
+                        </div>
+                    <?php endif; ?>
+                    <div class="section-content">
+                        <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
+                        <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                        <div style="margin-top: 40px;">
+                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta secondary"><?php echo htmlspecialchars($cta_text); ?></a>
+                        </div>
+                    </div>
+                </section>
+            <?php endforeach; ?>
 
             <!-- CREATIVE CHARGE SECTION -->
             <section id="creative-charge" class="reveal-section creative-charge-section">

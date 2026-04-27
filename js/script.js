@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        threshold: 0.3,
-        rootMargin: '-10% 0px -60% 0px'
+        threshold: 0.5,
+        rootMargin: '-20% 0px -30% 0px'
     });
 
     sections.forEach((section) => {
@@ -65,17 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalHeight = document.body.offsetHeight;
         const scrollPercent = scrolled / (totalHeight - viewportHeight || 1);
 
-        // Parallax - moves within the 20% buffer defined in CSS
+        // Parallax - moves within the buffer defined in CSS
         if (bgImage) {
-            // Move from 0 to -15% of viewport height to stay within the -20% top buffer
-            const moveRange = viewportHeight * 0.15;
+            // Move from 0 to -10% of viewport height to stay within the bottom buffer
+            // Image is 120% height with top -10%, so it has 10% overflow at bottom.
+            const moveRange = viewportHeight * 0.10;
             const val = - (scrollPercent * moveRange);
             bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
         }
 
         // Navbar scrolled state
         if (navbar) {
-            if (scrolled > 100) {
+            if (scrolled > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
