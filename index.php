@@ -1,216 +1,154 @@
 <?php
 require_once 'includes/db.php';
 require_once 'config.php';
+
 try {
+    // Fetch generic content sections
     $stmt = $pdo->query("SELECT * FROM content ORDER BY id ASC");
     $sections = $stmt->fetchAll();
+
+    // Fetch products
+    $stmt = $pdo->query("SELECT * FROM products ORDER BY id ASC");
+    $products = $stmt->fetchAll();
+
+    // Fetch creative charge (gallery)
+    $stmt = $pdo->query("SELECT * FROM creative_charge ORDER BY id ASC");
+    $charge_cards = $stmt->fetchAll();
+
 } catch (PDOException $e) {
     $sections = [];
+    $products = [];
+    $charge_cards = [];
 }
 
+// Fetch settings
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
-$selling_points_title = $stmt->fetchColumn() ?: 'Actions';
-
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
-$stmt->execute();
-$cta_text = $stmt->fetchColumn() ?: 'Get Started';
-
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
-$stmt->execute();
-$cta_link = $stmt->fetchColumn() ?: '#';
+$selling_points_title = $stmt->fetchColumn() ?: 'Features';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'creative_charge_title'");
 $stmt->execute();
-$creative_charge_title = $stmt->fetchColumn() ?: 'FOLLOW OUR CREATIVE CHARGE';
+$creative_charge_title = $stmt->fetchColumn() ?: 'Creative Gallery';
 
-$creative_charge_items = $pdo->query("SELECT * FROM creative_charge ORDER BY id ASC")->fetchAll();
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
+$stmt->execute();
+$cta_text = $stmt->fetchColumn() ?: 'Explore Now';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
+$stmt->execute();
+$cta_link = $stmt->fetchColumn() ?: '#features';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo SITE_NAME; ?></title>
+    <title><?php echo SITE_NAME; ?> | Aura Redesign</title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body class="landing-page">
-    <div class="stroll-bg-container">
-        <div class="stroll-bg-image"></div>
-        <div class="mesh-bg"></div>
-        <div class="stroll-bg-overlay"></div>
-        <div class="grain-overlay"></div>
-    </div>
-
+    <!-- Navigation Bar -->
     <nav class="aura-nav-bar">
-        <div class="nav-brand-top">
-            <a href="#hero" class="aura-brand-3d"><?php echo SITE_NAME; ?></a>
-        </div>
-        <div class="nav-pill">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#"><?php echo SITE_NAME; ?></a>
+            </div>
             <div class="nav-links">
-                <?php foreach ($sections as $s): ?>
-                    <a href="#section-<?php echo $s['id']; ?>" class="nav-item"><?php echo strtoupper(htmlspecialchars($s['section_title'])); ?></a>
-                <?php endforeach; ?>
-                <a href="#power-kits" class="nav-item">POWER</a>
-                <a href="#creative-charge" class="nav-item">CHARGE</a>
+                <a href="#features" class="nav-item">Features</a>
+                <a href="#products" class="nav-item">Products</a>
+                <a href="#gallery" class="nav-item">Gallery</a>
+            </div>
+            <div class="nav-actions">
+                <a href="admin/login.php" class="admin-link">Portal</a>
             </div>
         </div>
     </nav>
 
+    <!-- Background Elements -->
+    <div class="stroll-bg-container">
+        <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
+        <div class="mesh-bg"></div>
+        <div class="stroll-bg-overlay"></div>
+    </div>
+
     <div class="layout-wrapper">
-        <section id="hero" class="aura-hero">
+        <!-- Hero Section -->
+        <header class="hero-section">
             <div class="hero-content">
-                <p class="hero-subtitle">We forge visuals that crush doubts and spark action.</p>
-                <div class="hero-title-wrapper">
+                <div class="vintage-frame">
                     <h1><?php echo SITE_NAME; ?></h1>
                 </div>
+                <p class="hero-subtitle">Redefining Excellence through Design and Innovation.</p>
                 <div class="hero-cta">
                     <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
                 </div>
             </div>
-            <div class="scroll-indicator">
-                <div class="mouse"></div>
-            </div>
-        </section>
+        </header>
 
-        <main class="layout-main" id="features">
-            <!-- POWER KITS SECTION -->
-            <section id="power-kits" class="reveal-section power-kits-section">
-                <div class="power-kits-container">
-                    <h2 class="section-title-bold">POWER KITS</h2>
-                    <div class="product-grid">
-                        <?php
-                        $products = $pdo->query("SELECT * FROM products ORDER BY id ASC")->fetchAll();
-                        foreach ($products as $product): ?>
+        <main class="layout-main">
+            <!-- Features Section -->
+            <section id="features" class="page-section">
+                <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
+                <div class="features-grid">
+                    <?php foreach ($sections as $index => $s): ?>
+                        <div class="reveal-section <?php echo ($s['image_path'] && $index % 2 != 0) ? 'has-image reverse' : ($s['image_path'] ? 'has-image' : ''); ?>">
+                            <?php if ($s['image_path']): ?>
+                                <div class="section-image">
+                                    <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>" loading="lazy">
+                                </div>
+                            <?php endif; ?>
+                            <div class="section-content">
+                                <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
+                                <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="products" class="page-section">
+                <h2 class="section-title">Power Kits</h2>
+                <div class="products-grid">
+                    <?php foreach ($products as $p): ?>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="<?php echo htmlspecialchars($product['image_path']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" onerror="this.src='images/brand-portrait.jpg'">
+                                <img src="<?php echo htmlspecialchars($p['image_path']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>" loading="lazy">
                             </div>
-                            <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
-                            <p class="product-price">$<?php echo htmlspecialchars($product['price']); ?></p>
-                            <div class="product-actions">
-                                <div class="quantity-selector">
-                                    <button class="qty-btn minus">−</button>
-                                    <span class="qty-value">1</span>
-                                    <button class="qty-btn plus">+</button>
-                                </div>
-                                <button class="add-to-cart-btn">ADD TO CART</button>
+                            <div class="product-info">
+                                <h4><?php echo htmlspecialchars($p['name']); ?></h4>
+                                <span class="price">$<?php echo htmlspecialchars($p['price']); ?></span>
                             </div>
                         </div>
-                        <?php endforeach; ?>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </section>
 
-            <!-- DYNAMIC CONTENT SECTIONS -->
-            <?php foreach ($sections as $index => $s): ?>
-                <section id="section-<?php echo $s['id']; ?>" class="reveal-section <?php echo ($s['image_path'] && $index % 2 != 0) ? 'has-image reverse' : ($s['image_path'] ? 'has-image' : ''); ?>">
-                    <?php if ($s['image_path']): ?>
-                        <div class="section-image">
-                            <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>">
-                        </div>
-                    <?php endif; ?>
-                    <div class="section-content">
-                        <h2><?php echo htmlspecialchars($s['section_title']); ?></h2>
-                        <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
-                        <div style="margin-top: 40px;">
-                            <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta secondary"><?php echo htmlspecialchars($cta_text); ?></a>
-                        </div>
-                    </div>
-                </section>
-            <?php endforeach; ?>
-
-            <!-- CREATIVE CHARGE SECTION -->
-            <section id="creative-charge" class="reveal-section creative-charge-section">
-                <div class="creative-charge-container">
-                    <h2 class="creative-charge-title"><?php echo htmlspecialchars($creative_charge_title); ?></h2>
-                    <div class="creative-grid">
-                        <?php foreach ($creative_charge_items as $item): ?>
-                            <div class="creative-card">
-                                <h3 class="creative-card-header"><?php echo htmlspecialchars($creative_charge_title); ?></h3>
-                                <div class="creative-dual-images">
-                                    <div class="creative-img-box">
-                                        <img src="<?php echo htmlspecialchars($item['image_path_1']); ?>" alt="Creative 1" onerror="this.src='images/brand-portrait.jpg'">
-                                    </div>
-                                    <div class="creative-img-box">
-                                        <img src="<?php echo htmlspecialchars($item['image_path_2']); ?>" alt="Creative 2" onerror="this.src='images/brand-portrait.jpg'">
-                                    </div>
-                                </div>
-                                <div class="creative-card-footer">
-                                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="connect-pill-small">CONNECT NOW</a>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FAQ SECTION -->
-            <section id="faq" class="reveal-section faq-section">
-                <div class="faq-container">
-                    <div class="accordion">
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <h3>ACCORDION ITEM 1</h3>
-                                <span class="icon">+</span>
-                            </div>
-                            <div class="accordion-content">
-                                <p>Content for accordion item 1 goes here. This section expands when the header is clicked.</p>
+            <!-- Gallery Section -->
+            <section id="gallery" class="page-section">
+                <h2 class="section-title"><?php echo htmlspecialchars($creative_charge_title); ?></h2>
+                <div class="gallery-grid">
+                    <?php foreach ($charge_cards as $card): ?>
+                        <div class="gallery-item">
+                            <div class="gallery-image dual">
+                                <img src="<?php echo htmlspecialchars($card['image_path_1']); ?>" alt="Gallery Image 1" loading="lazy">
+                                <img src="<?php echo htmlspecialchars($card['image_path_2']); ?>" alt="Gallery Image 2" loading="lazy">
                             </div>
                         </div>
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <h3>ACCORDION ITEM 2</h3>
-                                <span class="icon">+</span>
-                            </div>
-                            <div class="accordion-content">
-                                <p>Content for accordion item 2 goes here. Detailed information can be displayed here.</p>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <h3>ACCORDION ITEM 3</h3>
-                                <span class="icon">+</span>
-                            </div>
-                            <div class="accordion-content">
-                                <p>Content for accordion item 3 goes here. This provides a clean way to manage large amounts of content.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="faq-cta">
-                        <a href="#" class="connect-now-pill">CONNECT NOW</a>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </section>
         </main>
 
-        <footer class="stroll-footer">
-            <div class="footer-container">
-                <div class="footer-brand">
-                    <h2 class="footer-logo"><?php echo SITE_NAME; ?></h2>
-                    <p class="footer-credit">Made with <a href="#" style="color: #ff602e; text-decoration: underline;">Squarespace</a></p>
-                </div>
-                <div class="footer-info">
-                    <div class="footer-column">
-                        <h4>LOCATION</h4>
-                        <p>123 Demo Street<br>New York, NY 12345</p>
-                    </div>
-                    <div class="footer-column">
-                        <h4>CONTACT</h4>
-                        <p>email@example.com<br>(555) 555-5555</p>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. ALL RIGHTS RESERVED.</p>
-            </div>
+        <footer class="layout-footer">
+            <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. All Rights Reserved.</p>
         </footer>
     </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>

@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('.reveal-section, .aura-hero');
+    const sections = document.querySelectorAll('.page-section, .hero-section');
+    const revealSections = document.querySelectorAll('.reveal-section');
     const navLinks = document.querySelectorAll('.nav-item');
     const navbar = document.querySelector('.aura-nav-bar');
     const bgImage = document.querySelector('.stroll-bg-image');
 
-    // 1. Intersection Observer for Scroll-Triggered Reveal Effect
+    // 1. Intersection Observer for Reveal Effect
     const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
             }
@@ -16,16 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: '0px 0px -50px 0px'
     });
 
-    document.querySelectorAll('.reveal-section').forEach((section) => {
+    revealSections.forEach(section => {
         revealObserver.observe(section);
     });
 
-    // 2. ScrollSpy: Highlight active navigation link
+    // 2. ScrollSpy Implementation
+    const scrollSpyOptions = {
+        threshold: 0.3,
+        rootMargin: '0px 0px -20% 0px'
+    };
+
     const scrollSpyObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                navLinks.forEach((link) => {
+                const id = entry.target.getAttribute('id') || '#';
+                navLinks.forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${id}`) {
                         link.classList.add('active');
@@ -33,48 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-    }, {
-        threshold: 0.5,
-        rootMargin: '-20% 0px -30% 0px'
-    });
+    }, scrollSpyOptions);
 
-    sections.forEach((section) => {
+    sections.forEach(section => {
         scrollSpyObserver.observe(section);
     });
 
-    // 3. Smooth Scrolling for Navigation Links
-    navLinks.forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    });
-
-    // 4. Parallax Background Effect & Navbar Scroll Class
+    // 3. Navbar Scroll Effect & Parallax
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
-        const viewportHeight = window.innerHeight;
-        const totalHeight = document.body.offsetHeight;
-        const scrollPercent = scrolled / (totalHeight - viewportHeight || 1);
 
-        // Parallax - moves within the buffer defined in CSS
-        if (bgImage) {
-            // Move from 0 to -10% of viewport height to stay within the bottom buffer
-            // Image is 120% height with top -10%, so it has 10% overflow at bottom.
-            const moveRange = viewportHeight * 0.10;
-            const val = - (scrollPercent * moveRange);
-            bgImage.style.transform = `translate3d(0, ${val}px, 0)`;
-        }
-
-        // Navbar scrolled state
+        // Navbar appearance
         if (navbar) {
             if (scrolled > 50) {
                 navbar.classList.add('scrolled');
@@ -82,22 +57,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 navbar.classList.remove('scrolled');
             }
         }
+
+        // Parallax Effect
+        if (bgImage) {
+            // Subtle parallax that moves upward to avoid gaps at the top
+            // scale(1.2) provides 10% margin top/bottom.
+            // 0.05 factor means 100px move for 2000px scroll.
+            const val = scrolled * 0.05;
+            bgImage.style.transform = `scale(1.2) translate3d(0, ${-val}px, 0)`;
+        }
     });
 
-    // 5. FAQ Accordion Toggle
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            const item = header.parentElement;
-            item.classList.toggle('active');
-
-            // Optional: Close other items when one is opened
-            const siblings = item.parentElement.querySelectorAll('.accordion-item');
-            siblings.forEach(sibling => {
-                if (sibling !== item) {
-                    sibling.classList.remove('active');
+    // 4. Smooth Scrolling for Navigation
+    navLinks.forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId === '#' ? 'body' : targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 }
-            });
+            }
         });
     });
 });
