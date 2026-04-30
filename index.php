@@ -82,12 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
 </head>
 <body class="landing-page">
     <!-- Navigation Bar -->
-    <nav class="aura-nav-bar">
-        <div class="nav-container">
-            <div class="nav-brand-centered">
-                <a href="#" class="nav-brand-title"><?php echo SITE_NAME; ?></a>
-            </div>
-            <div class="nav-links-pill">
+    <nav class="aura-nav-compact">
+        <div class="nav-pill-wrapper">
+            <a href="#" class="nav-brand-pill"><?php echo SITE_NAME; ?></a>
+            <div class="nav-links-inner">
                 <a href="#features" class="nav-item">Features</a>
                 <a href="#products" class="nav-item">Products</a>
                 <a href="#gallery" class="nav-item">Gallery</a>
@@ -132,6 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
                             <div class="card-content">
                                 <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
                                 <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                                <button class="book-us-btn" data-subject="<?php echo htmlspecialchars($s['section_title']); ?>">BOOK US</button>
                             </div>
                             <div class="aura-pulse-element"></div>
                         </div>

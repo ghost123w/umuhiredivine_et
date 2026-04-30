@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.page-section, .hero-section');
     const revealItems = document.querySelectorAll('.reveal-item');
     const navLinks = document.querySelectorAll('.nav-item');
-    const navbar = document.querySelector('.aura-nav-bar');
+    const navbar = document.querySelector('.aura-nav-compact');
     const bgImage = document.querySelector('.stroll-bg-image');
 
     // 1. Intersection Observer for Reveal Effect (Bento Grid & Cards)
@@ -89,15 +89,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Contact Modal Logic
     const contactTrigger = document.getElementById('contact-trigger');
+    const bookUsButtons = document.querySelectorAll('.book-us-btn');
     const contactModal = document.getElementById('contact-modal');
     const modalClose = document.querySelector('.modal-close');
     const modalOverlay = document.querySelector('.modal-overlay');
 
-    if (contactTrigger && contactModal) {
-        contactTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
+    if (contactModal) {
+        const openModal = (subject = null) => {
+            if (subject) {
+                const subjectSelect = contactModal.querySelector('select[name="subject"]');
+                if (subjectSelect) {
+                    // Try to match subject or default to "Masterpiece Request"
+                    let found = false;
+                    for (let option of subjectSelect.options) {
+                        if (option.value === subject) {
+                            subjectSelect.value = subject;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        // Dynamically add option if it's a specific feature
+                        const newOpt = new Option(subject, subject);
+                        subjectSelect.add(newOpt);
+                        subjectSelect.value = subject;
+                    }
+                }
+            }
             contactModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+        };
+
+        if (contactTrigger) {
+            contactTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        }
+
+        bookUsButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const subject = btn.getAttribute('data-subject');
+                openModal(subject);
+            });
         });
 
         const closeModal = () => {
