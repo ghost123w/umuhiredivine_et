@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.page-section, .hero-section');
-    const revealSections = document.querySelectorAll('.reveal-section');
+    const revealItems = document.querySelectorAll('.reveal-item');
     const navLinks = document.querySelectorAll('.nav-item');
     const navbar = document.querySelector('.aura-nav-bar');
     const bgImage = document.querySelector('.stroll-bg-image');
 
-    // 1. Intersection Observer for Reveal Effect
+    // 1. Intersection Observer for Reveal Effect (Bento Grid & Cards)
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -13,24 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -100px 0px'
     });
 
-    revealSections.forEach(section => {
-        revealObserver.observe(section);
+    revealItems.forEach(item => {
+        revealObserver.observe(item);
     });
 
     // 2. ScrollSpy Implementation
     const scrollSpyOptions = {
-        threshold: 0.3,
-        rootMargin: '0px 0px -20% 0px'
+        threshold: 0.2,
+        rootMargin: '0px 0px -30% 0px'
     };
 
     const scrollSpyObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id') || '#';
+                const id = entry.target.getAttribute('id') || 'hero';
                 navLinks.forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${id}`) {
@@ -51,20 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Navbar appearance
         if (navbar) {
-            if (scrolled > 50) {
+            if (scrolled > 80) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
         }
 
-        // Parallax Effect
+        // Refined Parallax Effect
         if (bgImage) {
-            // Subtle parallax that moves upward to avoid gaps at the top
-            // scale(1.2) provides 10% margin top/bottom.
-            // 0.05 factor means 100px move for 2000px scroll.
-            const val = scrolled * 0.05;
-            bgImage.style.transform = `scale(1.2) translate3d(0, ${-val}px, 0)`;
+            // Subtle upward shift to maintain focus
+            const val = scrolled * 0.08;
+            bgImage.style.transform = `scale(1.15) translate3d(0, ${-val}px, 0)`;
         }
     });
 
@@ -76,11 +74,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const targetElement = document.querySelector(targetId === '#' ? 'body' : targetId);
                 if (targetElement) {
-                    targetElement.scrollIntoView({
+                    const offset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
                 }
             }
         });
     });
+
+    // 5. Contact Modal Logic
+    const contactTrigger = document.getElementById('contact-trigger');
+    const contactModal = document.getElementById('contact-modal');
+    const modalClose = document.querySelector('.modal-close');
+    const modalOverlay = document.querySelector('.modal-overlay');
+
+    if (contactTrigger && contactModal) {
+        contactTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeModal = () => {
+            contactModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+
+        if (modalClose) modalClose.addEventListener('click', closeModal);
+        if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactModal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+
+    // Auto-hide notification toast
+    const toast = document.querySelector('.notification-toast');
+    if (toast) {
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(20px)';
+            toast.style.transition = '0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            setTimeout(() => toast.remove(), 600);
+        }, 5000);
+    }
 });

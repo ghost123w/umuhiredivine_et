@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
 require_once 'config.php';
 
 try {
@@ -37,6 +38,35 @@ $cta_text = $stmt->fetchColumn() ?: 'Explore Now';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#features';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_title'");
+$stmt->execute();
+$contact_title = $stmt->fetchColumn() ?: 'Connect With Us';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_subtitle'");
+$stmt->execute();
+$contact_subtitle = $stmt->fetchColumn() ?: 'Orchestrate your vision with our creative team.';
+
+$contact_msg = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $contact_msg = "Security mismatch. Please refresh and try again.";
+    } else {
+        $name = sanitize($_POST['name']);
+        $email = sanitize($_POST['email']);
+        $subject = sanitize($_POST['subject']);
+        $message = sanitize($_POST['message']);
+
+        if (!empty($name) && !empty($email) && !empty($message)) {
+            $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)");
+            if ($stmt->execute([$name, $email, $subject, $message])) {
+                $contact_msg = "Your message has been manifested. We will synchronize shortly.";
+            } else {
+                $contact_msg = "A frequency mismatch occurred. Please try again.";
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,16 +84,14 @@ $cta_link = $stmt->fetchColumn() ?: '#features';
     <!-- Navigation Bar -->
     <nav class="aura-nav-bar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <a href="#"><?php echo SITE_NAME; ?></a>
+            <div class="nav-brand-centered">
+                <a href="#" class="nav-brand-title"><?php echo SITE_NAME; ?></a>
             </div>
-            <div class="nav-links">
+            <div class="nav-links-pill">
                 <a href="#features" class="nav-item">Features</a>
                 <a href="#products" class="nav-item">Products</a>
                 <a href="#gallery" class="nav-item">Gallery</a>
-            </div>
-            <div class="nav-actions">
-                <a href="admin/login.php" class="admin-link">Portal</a>
+                <a href="#" class="nav-item" id="contact-trigger">Contact</a>
             </div>
         </div>
     </nav>
@@ -77,34 +105,35 @@ $cta_link = $stmt->fetchColumn() ?: '#features';
 
     <div class="layout-wrapper">
         <!-- Hero Section -->
-        <header class="hero-section">
+        <header class="hero-section" id="hero">
             <div class="hero-content">
-                <div class="vintage-frame">
-                    <h1><?php echo SITE_NAME; ?></h1>
+                <div class="brand-display">
+                    <h1 class="floating-brand-title"><?php echo SITE_NAME; ?></h1>
                 </div>
                 <p class="hero-subtitle">Redefining Excellence through Design and Innovation.</p>
                 <div class="hero-cta">
-                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta"><?php echo htmlspecialchars($cta_text); ?></a>
+                    <a href="<?php echo htmlspecialchars($cta_link); ?>" class="cta-shimmer"><?php echo htmlspecialchars($cta_text); ?></a>
                 </div>
             </div>
         </header>
 
         <main class="layout-main">
-            <!-- Features Section -->
+            <!-- Features Section (Bento Grid) -->
             <section id="features" class="page-section">
                 <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
-                <div class="features-grid">
-                    <?php foreach ($sections as $index => $s): ?>
-                        <div class="reveal-section <?php echo ($s['image_path'] && $index % 2 != 0) ? 'has-image reverse' : ($s['image_path'] ? 'has-image' : ''); ?>">
+                <div class="prism-grid">
+                    <?php foreach ($sections as $index => $s):
+                        $grid_class = ($index % 3 == 0) ? 'grid-large' : 'grid-small';
+                    ?>
+                        <div class="bento-card <?php echo $grid_class; ?> reveal-item">
                             <?php if ($s['image_path']): ?>
-                                <div class="section-image">
-                                    <img src="<?php echo htmlspecialchars($s['image_path']); ?>" alt="<?php echo htmlspecialchars($s['section_title']); ?>" loading="lazy">
-                                </div>
+                                <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($s['image_path']); ?>');"></div>
                             <?php endif; ?>
-                            <div class="section-content">
+                            <div class="card-content">
                                 <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
                                 <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
                             </div>
+                            <div class="aura-pulse-element"></div>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -115,7 +144,7 @@ $cta_link = $stmt->fetchColumn() ?: '#features';
                 <h2 class="section-title">Power Kits</h2>
                 <div class="products-grid">
                     <?php foreach ($products as $p): ?>
-                        <div class="product-card">
+                        <div class="product-card aura-glow reveal-item">
                             <div class="product-image">
                                 <img src="<?php echo htmlspecialchars($p['image_path']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>" loading="lazy">
                             </div>
@@ -128,15 +157,15 @@ $cta_link = $stmt->fetchColumn() ?: '#features';
                 </div>
             </section>
 
-            <!-- Gallery Section -->
+            <!-- Gallery Section (Bento Grid) -->
             <section id="gallery" class="page-section">
                 <h2 class="section-title"><?php echo htmlspecialchars($creative_charge_title); ?></h2>
-                <div class="gallery-grid">
-                    <?php foreach ($charge_cards as $card): ?>
-                        <div class="gallery-item">
-                            <div class="gallery-image dual">
-                                <img src="<?php echo htmlspecialchars($card['image_path_1']); ?>" alt="Gallery Image 1" loading="lazy">
-                                <img src="<?php echo htmlspecialchars($card['image_path_2']); ?>" alt="Gallery Image 2" loading="lazy">
+                <div class="prism-grid gallery-prism">
+                    <?php foreach ($charge_cards as $index => $card): ?>
+                        <div class="gallery-bento-item reveal-item">
+                            <div class="gallery-img-container">
+                                <img src="<?php echo htmlspecialchars($card['image_path_1']); ?>" alt="Gallery Image 1" loading="lazy" class="img-primary">
+                                <img src="<?php echo htmlspecialchars($card['image_path_2']); ?>" alt="Gallery Image 2" loading="lazy" class="img-secondary">
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -148,6 +177,49 @@ $cta_link = $stmt->fetchColumn() ?: '#features';
             <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. All Rights Reserved.</p>
         </footer>
     </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="aura-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content glass-morphism">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <img src="images/brand-portrait.jpg" alt="Brand Portrait" class="modal-brand-img">
+                    <h2><?php echo htmlspecialchars($contact_title); ?></h2>
+                    <p><?php echo htmlspecialchars($contact_subtitle); ?></p>
+                </div>
+                <form id="contact-form" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Full Name" required class="aura-input">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email Address" required class="aura-input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select name="subject" class="aura-input aura-select">
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Masterpiece Request">Masterpiece Request</option>
+                            <option value="Aura Consultation">Aura Consultation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" required class="aura-input" rows="5"></textarea>
+                    </div>
+                    <button type="submit" name="send_message" class="cta-shimmer full-width">Manifest Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <?php if ($contact_msg): ?>
+        <div class="notification-toast">
+            <?php echo $contact_msg; ?>
+        </div>
+    <?php endif; ?>
 
     <script src="js/script.js"></script>
 </body>

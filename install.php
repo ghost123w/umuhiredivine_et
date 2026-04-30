@@ -101,65 +101,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $installed ? 'Admin Login' : 'Administrator Installation'; ?> | <?php echo SITE_NAME; ?></title>
+    <title><?php echo $installed ? 'Portal Access' : 'Artisan Initiation'; ?> | <?php echo SITE_NAME; ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .install-card { max-width: 500px; margin: 100px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="login-wrapper">
-    <div class="install-card">
-        <?php if (!$installed): ?>
-            <h2>Administration Installation</h2>
-            <p>Welcome! Set up the primary administrator account to begin managing your website.</p>
+<body class="aura-body">
+    <div class="aura-portal-bg"></div>
 
-            <?php if ($error): ?>
-                <div class="error-msg"><?php echo $error; ?></div>
+    <main class="login-wrapper">
+        <div style="text-align: center; margin-bottom: 40px;">
+             <h1 class="shimmer-text" style="font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 10px; margin: 0;"><?php echo SITE_NAME; ?></h1>
+             <p style="color: var(--primary-color); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; margin-top: 10px;">Security Gateway</p>
+        </div>
+
+        <div class="login-card" style="backdrop-filter: blur(20px); background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+            <?php if (!$installed): ?>
+                <h2 style="font-family: 'Cinzel', serif; color: #fff; text-align: center; margin-bottom: 40px; font-size: 1.5rem;">Artisan <span style="color: var(--primary-color);">Initiation</span></h2>
+                <p style="color: #666; font-size: 0.8rem; text-align: center; margin-bottom: 30px;">Set up the primary administrator identity to manifest your digital space.</p>
+
+                <?php if ($error): ?>
+                    <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid var(--danger-color); color: var(--danger-color); padding: 15px; border-radius: 12px; margin-bottom: 30px; text-align: center; font-size: 0.9rem;">
+                        <?php echo $error; ?>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <input type="hidden" name="action" value="install">
+                    <div style="margin-bottom: 20px;">
+                        <label style="color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">Identity Name</label>
+                        <input type="text" name="username" class="form-control" placeholder="Artisan Username" style="padding: 15px;" required autofocus>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">Digital Signature</label>
+                        <input type="email" name="email" class="form-control" placeholder="email@nexus.com" style="padding: 15px;" required>
+                    </div>
+                    <div style="margin-bottom: 30px;">
+                        <label style="color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">Security Key</label>
+                        <input type="password" name="password" class="form-control" placeholder="Strong Passkey" style="padding: 15px;" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 20px; font-size: 1rem; letter-spacing: 4px;">INITIALIZE</button>
+                </form>
+            <?php else: ?>
+                <h2 style="font-family: 'Cinzel', serif; color: #fff; text-align: center; margin-bottom: 40px; font-size: 1.5rem;">Access <span style="color: var(--primary-color);">Portal</span></h2>
+
+                <?php if ($error): ?>
+                    <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid var(--danger-color); color: var(--danger-color); padding: 15px; border-radius: 12px; margin-bottom: 30px; text-align: center; font-size: 0.9rem;">
+                        <?php echo $error; ?>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                    <input type="hidden" name="action" value="login">
+                    <div style="margin-bottom: 20px;">
+                        <label style="color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">Artisan Identity</label>
+                        <input type="text" name="username" class="form-control" placeholder="Username" style="padding: 18px;" required autofocus>
+                    </div>
+                    <div style="margin-bottom: 30px;">
+                        <label style="color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">Security Key</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password" style="padding: 18px;" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 20px; font-size: 1rem; letter-spacing: 4px;">UNLOCK</button>
+                </form>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="index.php" style="color: #444; text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#444'">&larr; Return to Gallery</a>
+                </div>
             <?php endif; ?>
-
-            <form method="POST">
-                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                <input type="hidden" name="action" value="install">
-                <div class="form-group">
-                    <label>Admin Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Choose a username" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label>Admin Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Admin Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Choose a strong password" required>
-                </div>
-                <button type="submit" class="btn-login" style="background: #28a745;">Complete Installation</button>
-            </form>
-        <?php else: ?>
-            <h2>Admin Login</h2>
-            <p>Access your dashboard to manage selling points.</p>
-
-            <?php if ($error): ?>
-                <div class="error-msg"><?php echo $error; ?></div>
-            <?php endif; ?>
-
-            <form method="POST">
-                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                <input type="hidden" name="action" value="login">
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Enter username" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
-                </div>
-                <button type="submit" class="btn-login">Login</button>
-            </form>
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="index.php" class="back-link">View Website</a>
-            </div>
-        <?php endif; ?>
-    </div>
+        </div>
+    </main>
 </body>
 </html>

@@ -57,6 +57,8 @@ try {
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
     $stmt->execute(['selling_points_title', 'Actions']);
     $stmt->execute(['creative_charge_title', 'FOLLOW OUR CREATIVE CHARGE']);
+    $stmt->execute(['contact_title', 'Connect With Us']);
+    $stmt->execute(['contact_subtitle', 'Orchestrate your vision with our creative team.']);
 
     // Seed creative_charge if empty
     $count = $pdo->query("SELECT COUNT(*) FROM creative_charge")->fetchColumn();

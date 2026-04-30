@@ -30,6 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('cta_link', ?)");
         $stmt->execute([$cta_link]);
 
+        $contact_title = sanitize($_POST['contact_title']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('contact_title', ?)");
+        $stmt->execute([$contact_title]);
+
+        $contact_subtitle = sanitize($_POST['contact_subtitle']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('contact_subtitle', ?)");
+        $stmt->execute([$contact_subtitle]);
+
         header("Location: dashboard.php?view=settings&msg=settings_updated");
         exit();
     }
@@ -138,6 +146,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: dashboard.php?view=manage&msg=deleted");
         exit();
     }
+
+    if (isset($_POST['delete_message'])) {
+        $id = (int)$_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM contact_messages WHERE id = ?");
+        $stmt->execute([$id]);
+        header("Location: dashboard.php?view=messages&msg=deleted");
+        exit();
+    }
 }
 
 $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
@@ -158,6 +174,14 @@ $cta_text = $stmt->fetchColumn() ?: 'Get Started';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_title'");
+$stmt->execute();
+$contact_title = $stmt->fetchColumn() ?: 'Connect With Us';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_subtitle'");
+$stmt->execute();
+$contact_subtitle = $stmt->fetchColumn() ?: 'Orchestrate your vision with our creative team.';
 
 $view = $_GET['view'] ?? 'overview';
 ?>
@@ -180,6 +204,7 @@ $view = $_GET['view'] ?? 'overview';
             <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
             <a href="dashboard.php?view=power" class="<?php echo $view == 'power' ? 'active' : ''; ?>">Power</a>
             <a href="dashboard.php?view=charge" class="<?php echo $view == 'charge' ? 'active' : ''; ?>">Charge</a>
+            <a href="dashboard.php?view=messages" class="<?php echo $view == 'messages' ? 'active' : ''; ?>">Messages</a>
             <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
             <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
             <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; margin-left: -20px;">Exit</a>
@@ -296,6 +321,14 @@ $view = $_GET['view'] ?? 'overview';
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Call to Action Link</label>
                             <input type="text" name="cta_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($cta_link); ?>" required>
                         </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Contact Modal Title</label>
+                            <input type="text" name="contact_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_title); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Contact Modal Subtitle</label>
+                            <input type="text" name="contact_subtitle" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_subtitle); ?>" required>
+                        </div>
                         <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
                 </section>
@@ -374,6 +407,42 @@ $view = $_GET['view'] ?? 'overview';
                         </div>
                         <button type="submit" name="add_section" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">MANIFEST</button>
                     </form>
+                </section>
+            <?php endif; ?>
+
+            <?php if ($view == 'messages'): ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Contact <span style="color: var(--primary-color);">Messages</span></h2>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <?php
+                        $messages = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC")->fetchAll();
+                        if (empty($messages)):
+                        ?>
+                            <p style="text-align: center; color: #666; font-style: italic; padding: 40px;">No messages manifested yet.</p>
+                        <?php else: ?>
+                            <?php foreach ($messages as $msg): ?>
+                                <div style="background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative;">
+                                    <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-start;">
+                                        <div>
+                                            <h4 style="margin: 0; font-family: 'Cinzel', serif; color: #fff;"><?php echo htmlspecialchars($msg['name']); ?></h4>
+                                            <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--primary-color);"><?php echo htmlspecialchars($msg['email']); ?></p>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <p style="margin: 0; font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px;"><?php echo htmlspecialchars($msg['created_at']); ?></p>
+                                            <p style="margin: 5px 0 0 0; font-size: 0.7rem; color: #fff; font-weight: 700;"><?php echo htmlspecialchars($msg['subject']); ?></p>
+                                        </div>
+                                    </div>
+                                    <p style="margin: 0; line-height: 1.6; color: rgba(255,255,255,0.7);"><?php echo nl2br(htmlspecialchars($msg['message'])); ?></p>
+
+                                    <form method="POST" style="margin-top: 20px; text-align: right;">
+                                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                        <input type="hidden" name="id" value="<?php echo $msg['id']; ?>">
+                                        <button type="submit" name="delete_message" class="btn-delete" style="padding: 8px 20px; font-size: 0.7rem; border-radius: 100px;" onclick="return confirm('Void this message?');">VOID</button>
+                                    </form>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </section>
             <?php endif; ?>
 
