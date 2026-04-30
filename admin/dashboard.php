@@ -8,15 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("CSRF token validation failed.");
     }
 
-    if (isset($_POST['update_product_price'])) {
-        $id = (int)$_POST['id'];
-        $price = sanitize($_POST['price']);
-        $stmt = $pdo->prepare("UPDATE products SET price = ? WHERE id = ?");
-        $stmt->execute([$price, $id]);
-        header("Location: dashboard.php?view=power&msg=updated");
-        exit();
-    }
-
     if (isset($_POST['update_settings'])) {
         $title = sanitize($_POST['selling_points_title']);
         $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = 'selling_points_title'");
@@ -30,75 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('cta_link', ?)");
         $stmt->execute([$cta_link]);
 
-        $contact_title = sanitize($_POST['contact_title']);
-        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('contact_title', ?)");
-        $stmt->execute([$contact_title]);
-
-        $contact_subtitle = sanitize($_POST['contact_subtitle']);
-        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('contact_subtitle', ?)");
-        $stmt->execute([$contact_subtitle]);
-
         header("Location: dashboard.php?view=settings&msg=settings_updated");
-        exit();
-    }
-
-    if (isset($_POST['update_charge_title'])) {
-        $title = sanitize($_POST['creative_charge_title']);
-        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('creative_charge_title', ?)");
-        $stmt->execute([$title]);
-        header("Location: dashboard.php?view=charge&msg=updated");
-        exit();
-    }
-
-    if (isset($_POST['add_charge_card'])) {
-        $image_1 = null;
-        $image_2 = null;
-        $target_dir = "../uploads/";
-        if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
-
-        foreach (['image_1', 'image_2'] as $key) {
-            if (isset($_FILES[$key]) && $_FILES[$key]['error'] == 0) {
-                $file_ext = strtolower(pathinfo($_FILES[$key]["name"], PATHINFO_EXTENSION));
-                $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-                if (in_array($file_ext, $allowed_exts)) {
-                    $new_filename = uniqid('charge_') . '_' . $key . '.' . $file_ext;
-                    if (move_uploaded_file($_FILES[$key]["tmp_name"], $target_dir . $new_filename)) {
-                        if ($key == 'image_1') $image_1 = 'uploads/' . $new_filename;
-                        else $image_2 = 'uploads/' . $new_filename;
-                    }
-                }
-            }
-        }
-
-        if ($image_1 || $image_2) {
-            $stmt = $pdo->prepare("INSERT INTO creative_charge (image_path_1, image_path_2) VALUES (?, ?)");
-            $stmt->execute([$image_1, $image_2]);
-            header("Location: dashboard.php?view=charge&msg=added");
-        } else {
-            header("Location: dashboard.php?view=charge&msg=error");
-        }
-        exit();
-    }
-
-    if (isset($_POST['delete_charge'])) {
-        $id = (int)$_POST['id'];
-
-        $stmt = $pdo->prepare("SELECT image_path_1, image_path_2 FROM creative_charge WHERE id = ?");
-        $stmt->execute([$id]);
-        $card = $stmt->fetch();
-
-        if ($card) {
-            foreach (['image_path_1', 'image_path_2'] as $img_col) {
-                // Safety: only delete files if they are in the uploads directory
-                if ($card[$img_col] && strpos($card[$img_col], 'uploads/') === 0 && file_exists('../' . $card[$img_col])) {
-                    unlink('../' . $card[$img_col]);
-                }
-            }
-        }
-
-        $stmt = $pdo->prepare("DELETE FROM creative_charge WHERE id = ?");
-        $stmt->execute([$id]);
-        header("Location: dashboard.php?view=charge&msg=deleted");
         exit();
     }
 
@@ -131,41 +54,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['delete_section'])) {
         $id = (int)$_POST['id'];
-
-        $stmt = $pdo->prepare("SELECT image_path FROM content WHERE id = ?");
-        $stmt->execute([$id]);
-        $section = $stmt->fetch();
-
-        // Safety: only delete files if they are in the uploads directory
-        if ($section && $section['image_path'] && strpos($section['image_path'], 'uploads/') === 0 && file_exists('../' . $section['image_path'])) {
-            unlink('../' . $section['image_path']);
-        }
-
         $stmt = $pdo->prepare("DELETE FROM content WHERE id = ?");
         $stmt->execute([$id]);
         header("Location: dashboard.php?view=manage&msg=deleted");
         exit();
     }
-
-    if (isset($_POST['delete_message'])) {
-        $id = (int)$_POST['id'];
-        $stmt = $pdo->prepare("DELETE FROM contact_messages WHERE id = ?");
-        $stmt->execute([$id]);
-        header("Location: dashboard.php?view=messages&msg=deleted");
-        exit();
-    }
 }
 
 $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
-$charge_cards = $pdo->query("SELECT * FROM creative_charge ORDER BY id ASC")->fetchAll();
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
 $selling_points_title = $stmt->fetchColumn() ?: 'Actions';
-
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'creative_charge_title'");
-$stmt->execute();
-$creative_charge_title = $stmt->fetchColumn() ?: 'FOLLOW OUR CREATIVE CHARGE';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
 $stmt->execute();
@@ -174,14 +74,6 @@ $cta_text = $stmt->fetchColumn() ?: 'Get Started';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
-
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_title'");
-$stmt->execute();
-$contact_title = $stmt->fetchColumn() ?: 'Connect With Us';
-
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_subtitle'");
-$stmt->execute();
-$contact_subtitle = $stmt->fetchColumn() ?: 'Orchestrate your vision with our creative team.';
 
 $view = $_GET['view'] ?? 'overview';
 ?>
@@ -202,9 +94,6 @@ $view = $_GET['view'] ?? 'overview';
         <div class="glass-pill">
             <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Portal</a>
             <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
-            <a href="dashboard.php?view=power" class="<?php echo $view == 'power' ? 'active' : ''; ?>">Power</a>
-            <a href="dashboard.php?view=charge" class="<?php echo $view == 'charge' ? 'active' : ''; ?>">Charge</a>
-            <a href="dashboard.php?view=messages" class="<?php echo $view == 'messages' ? 'active' : ''; ?>">Messages</a>
             <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
             <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
             <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; margin-left: -20px;">Exit</a>
@@ -219,7 +108,30 @@ $view = $_GET['view'] ?? 'overview';
             </header>
 
             <div class="portal-grid">
-                <section class="aura-card welcome-section">
+                <section class="aura-card welcome-section" style="position: relative;">
+                    <div class="dashboard-laurel-container">
+                        <div class="laurel-icon small">
+                            <svg viewBox="0 0 100 80" class="laurel-svg">
+                                <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="15" cy="30" r="3" fill="currentColor"/>
+                                <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                                <circle cx="30" cy="15" r="3" fill="currentColor"/>
+                                <circle cx="45" cy="12" r="3" fill="currentColor"/>
+                                <circle cx="85" cy="30" r="3" fill="currentColor"/>
+                                <circle cx="80" cy="20" r="3" fill="currentColor"/>
+                                <circle cx="70" cy="15" r="3" fill="currentColor"/>
+                                <circle cx="55" cy="12" r="3" fill="currentColor"/>
+                            </svg>
+                            <div class="laurel-text">
+                                <span class="book">BOOK</span>
+                                <span class="now">NOW</span>
+                            </div>
+                            <div class="laurel-stars">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                        </div>
+                    </div>
                     <h2>Perspective</h2>
                     <p>Your digital workspace is currently vibrating at peak performance. All systems are synchronized with your creative vision.</p>
 
@@ -256,10 +168,10 @@ $view = $_GET['view'] ?? 'overview';
                         <h4>Manage Aura</h4>
                         <p>Refine and orchestrate your existing masterpieces.</p>
                     </a>
-                    <a href="dashboard.php?view=charge" class="action-card">
-                        <div class="icon">⚡</div>
-                        <h4>Creative Charge</h4>
-                        <p>Curate the dual-vision gallery of your high-energy feed.</p>
+                    <a href="dashboard.php?view=settings" class="action-card">
+                        <div class="icon">⚙</div>
+                        <h4>Core Config</h4>
+                        <p>Adjust the foundational frequencies of your landing page.</p>
                     </a>
                 </div>
             </div>
@@ -273,35 +185,8 @@ $view = $_GET['view'] ?? 'overview';
                         if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The piece has been returned to the void.";
                         if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your vision has been updated.";
                         if ($_GET['msg'] == 'settings_updated') echo "<strong>Synchronized:</strong> Core settings are now in harmony.";
-                        if ($_GET['msg'] == 'error') echo "<strong>Interrupted:</strong> A frequency mismatch occurred.";
                     ?>
                 </div>
-            <?php endif; ?>
-
-            <?php if ($view == 'power'): ?>
-                <section class="aura-card">
-                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Power <span style="color: var(--primary-color);">Kits</span></h2>
-                    <?php
-                    $products = $pdo->query("SELECT * FROM products ORDER BY id ASC")->fetchAll();
-                    foreach ($products as $product):
-                    ?>
-                    <div style="background: rgba(255,255,255,0.02); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; align-items: center; gap: 30px;">
-                        <img src="../<?php echo htmlspecialchars($product['image_path']); ?>" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;" onerror="this.src='../images/brand-portrait.jpg'">
-                        <div style="flex-grow: 1;">
-                            <h4 style="margin: 0 0 10px 0; font-family: 'Cinzel', serif;"><?php echo htmlspecialchars($product['name']); ?></h4>
-                            <form method="POST" style="display: flex; gap: 15px; align-items: center;">
-                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
-                                <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding-left: 15px;">
-                                    <span style="color: #666;">$</span>
-                                    <input type="text" name="price" value="<?php echo htmlspecialchars($product['price']); ?>" class="form-control" style="background: transparent; border: none; padding: 10px; width: 100px;">
-                                </div>
-                                <button type="submit" name="update_product_price" class="btn-primary" style="padding: 10px 20px; font-size: 0.8rem;">UPDATE</button>
-                            </form>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </section>
             <?php endif; ?>
 
             <?php if ($view == 'settings'): ?>
@@ -321,64 +206,8 @@ $view = $_GET['view'] ?? 'overview';
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Call to Action Link</label>
                             <input type="text" name="cta_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($cta_link); ?>" required>
                         </div>
-                        <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Contact Modal Title</label>
-                            <input type="text" name="contact_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_title); ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Contact Modal Subtitle</label>
-                            <input type="text" name="contact_subtitle" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_subtitle); ?>" required>
-                        </div>
                         <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
-                </section>
-            <?php endif; ?>
-
-            <?php if ($view == 'charge'): ?>
-                <section class="aura-card">
-                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Creative <span style="color: var(--primary-color);">Charge</span></h2>
-
-                    <form method="POST" style="margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                        <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Feed Title</label>
-                            <input type="text" name="creative_charge_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($creative_charge_title); ?>" required>
-                        </div>
-                        <button type="submit" name="update_charge_title" class="btn-primary" style="width: 100%; padding: 15px; font-size: 0.8rem; letter-spacing: 2px;">UPDATE TITLE</button>
-                    </form>
-
-                    <h3 style="font-family: 'Cinzel', serif; margin-bottom: 30px; font-size: 1.2rem;">Add <span style="color: var(--primary-color);">Dual-Vision</span> Card</h3>
-                    <form method="POST" enctype="multipart/form-data" style="margin-bottom: 60px;">
-                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                            <div class="form-group">
-                                <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Image 1 (Left)</label>
-                                <input type="file" name="image_1" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" accept="image/*" required>
-                            </div>
-                            <div class="form-group">
-                                <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Image 2 (Right)</label>
-                                <input type="file" name="image_2" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" accept="image/*" required>
-                            </div>
-                        </div>
-                        <button type="submit" name="add_charge_card" class="btn-primary" style="width: 100%; padding: 20px; font-size: 1rem; letter-spacing: 4px;">INJECT CHARGE</button>
-                    </form>
-
-                    <h3 style="font-family: 'Cinzel', serif; margin-bottom: 30px; font-size: 1.2rem;">Existing <span style="color: var(--primary-color);">Frequencies</span></h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
-                        <?php foreach ($charge_cards as $card): ?>
-                            <div class="aura-card" style="padding: 15px; background: rgba(255,255,255,0.02);">
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; height: 100px; margin-bottom: 15px; border-radius: 10px; overflow: hidden;">
-                                    <img src="../<?php echo htmlspecialchars($card['image_path_1']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                                    <img src="../<?php echo htmlspecialchars($card['image_path_2']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                                </div>
-                                <form method="POST">
-                                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                    <input type="hidden" name="id" value="<?php echo $card['id']; ?>">
-                                    <button type="submit" name="delete_charge" class="btn-delete" style="width: 100%; padding: 10px; font-size: 0.7rem;" onclick="return confirm('Disconnect this charge?');">VOID</button>
-                                </form>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
                 </section>
             <?php endif; ?>
 
@@ -407,42 +236,6 @@ $view = $_GET['view'] ?? 'overview';
                         </div>
                         <button type="submit" name="add_section" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">MANIFEST</button>
                     </form>
-                </section>
-            <?php endif; ?>
-
-            <?php if ($view == 'messages'): ?>
-                <section class="aura-card">
-                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Contact <span style="color: var(--primary-color);">Messages</span></h2>
-                    <div style="display: flex; flex-direction: column; gap: 20px;">
-                        <?php
-                        $messages = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC")->fetchAll();
-                        if (empty($messages)):
-                        ?>
-                            <p style="text-align: center; color: #666; font-style: italic; padding: 40px;">No messages manifested yet.</p>
-                        <?php else: ?>
-                            <?php foreach ($messages as $msg): ?>
-                                <div style="background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative;">
-                                    <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-start;">
-                                        <div>
-                                            <h4 style="margin: 0; font-family: 'Cinzel', serif; color: #fff;"><?php echo htmlspecialchars($msg['name']); ?></h4>
-                                            <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--primary-color);"><?php echo htmlspecialchars($msg['email']); ?></p>
-                                        </div>
-                                        <div style="text-align: right;">
-                                            <p style="margin: 0; font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px;"><?php echo htmlspecialchars($msg['created_at']); ?></p>
-                                            <p style="margin: 5px 0 0 0; font-size: 0.7rem; color: #fff; font-weight: 700;"><?php echo htmlspecialchars($msg['subject']); ?></p>
-                                        </div>
-                                    </div>
-                                    <p style="margin: 0; line-height: 1.6; color: rgba(255,255,255,0.7);"><?php echo nl2br(htmlspecialchars($msg['message'])); ?></p>
-
-                                    <form method="POST" style="margin-top: 20px; text-align: right;">
-                                        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                        <input type="hidden" name="id" value="<?php echo $msg['id']; ?>">
-                                        <button type="submit" name="delete_message" class="btn-delete" style="padding: 8px 20px; font-size: 0.7rem; border-radius: 100px;" onclick="return confirm('Void this message?');">VOID</button>
-                                    </form>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
                 </section>
             <?php endif; ?>
 
@@ -493,8 +286,8 @@ $view = $_GET['view'] ?? 'overview';
         </div>
     </main>
 
-    <footer class="aura-footer" style="margin-top: 150px;">
-        <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. ALL RIGHTS RESERVED.</p>
+    <footer class="aura-footer">
+        &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA PORTAL v2.0
     </footer>
 
     <script>
