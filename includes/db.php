@@ -35,6 +35,16 @@ try {
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
     $stmt->execute(['selling_points_title', 'Actions']);
 
+    // Create contact_messages table
+    $pdo->exec("CREATE TABLE IF NOT EXISTS contact_messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        subject TEXT,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )");
+
 } catch (PDOException $e) {
     die("Database connection failed");
 }

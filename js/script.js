@@ -6,13 +6,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalOverlay = document.querySelector('.modal-overlay');
     const bookUsWrappers = document.querySelectorAll('.book-us-wrapper');
     const revealItems = document.querySelectorAll('.reveal-item');
+    const bgImage = document.querySelector('.stroll-bg-image');
 
     // 1. Scroll-driven Navigation effect
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 80) {
+        const scrolled = window.scrollY;
+        if (scrolled > 80) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
+        }
+
+        // Parallax Effect
+        if (bgImage) {
+            const val = scrolled * 0.1;
+            bgImage.style.transform = `scale(1.2) translate3d(0, ${-val}px, 0)`;
         }
     });
 

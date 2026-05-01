@@ -77,9 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
                 <a href="#features" class="nav-item">Features</a>
                 <a href="#" class="nav-item" id="contact-trigger">Contact</a>
             </div>
-            <div class="nav-portal">
-                <a href="admin/login.php" class="portal-btn">Portal</a>
-            </div>
         </div>
     </nav>
 
