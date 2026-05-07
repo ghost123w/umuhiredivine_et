@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo SITE_NAME; ?> | Aura Redesign</title>
+    <title><?php echo SITE_NAME; ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
                                     </svg>
                                     <div class="laurel-text">
                                         <span class="book">BOOK</span>
-                                        <span class="now">NOW</span>
+                                        <span class="now">US</span>
                                     </div>
                                     <div class="laurel-stars">
                                         <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>

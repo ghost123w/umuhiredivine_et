@@ -125,7 +125,7 @@ $view = $_GET['view'] ?? 'overview';
                             </svg>
                             <div class="laurel-text">
                                 <span class="book">BOOK</span>
-                                <span class="now">NOW</span>
+                                <span class="now">US</span>
                             </div>
                             <div class="laurel-stars">
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
