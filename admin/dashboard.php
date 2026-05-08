@@ -104,88 +104,13 @@ $view = $_GET['view'] ?? 'overview';
             <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
             <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
             <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
+            <a href="dashboard.php?view=messages" class="<?php echo $view == 'messages' ? 'active' : ''; ?>">Inquiries</a>
             <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" target="_blank" style="color: var(--primary-color); font-weight: 800; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">BOOK US</a>
             <a href="logout.php" style="color: var(--danger-color);">Exit</a>
         </div>
     </nav>
 
     <main class="portal-container">
-        <?php if ($view == 'overview'): ?>
-            <header class="portal-hero">
-                <h1><?php echo SITE_NAME; ?></h1>
-                <p>Welcome back, Artisan <?php echo htmlspecialchars($_SESSION['username']); ?></p>
-            </header>
-
-            <div class="portal-grid">
-                <section class="aura-card welcome-section" style="position: relative;">
-                    <div class="dashboard-laurel-container">
-                        <div class="laurel-icon small">
-                            <svg viewBox="0 0 100 80" class="laurel-svg">
-                                <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
-                                <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
-                                <circle cx="15" cy="30" r="3" fill="currentColor"/>
-                                <circle cx="20" cy="20" r="3" fill="currentColor"/>
-                                <circle cx="30" cy="15" r="3" fill="currentColor"/>
-                                <circle cx="45" cy="12" r="3" fill="currentColor"/>
-                                <circle cx="85" cy="30" r="3" fill="currentColor"/>
-                                <circle cx="80" cy="20" r="3" fill="currentColor"/>
-                                <circle cx="70" cy="15" r="3" fill="currentColor"/>
-                                <circle cx="55" cy="12" r="3" fill="currentColor"/>
-                            </svg>
-                            <div class="laurel-text">
-                                <span class="book">BOOK</span>
-                                <span class="now">US</span>
-                            </div>
-                            <div class="laurel-stars">
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                            </div>
-                        </div>
-                    </div>
-                    <h2>Perspective</h2>
-                    <p>Your digital workspace is currently vibrating at peak performance. All systems are synchronized with your creative vision.</p>
-
-                    <div class="quick-stats">
-                        <div class="stat-item">
-                            <h3><?php echo count($sections); ?></h3>
-                            <span>Masterpieces</span>
-                        </div>
-                        <div class="stat-item">
-                            <h3>Active</h3>
-                            <span>System Status</span>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="aura-card" style="padding: 0; overflow: hidden;">
-                    <div class="portrait-frame">
-                        <img src="../images/leadership.jpg" alt="Artisan">
-                        <div class="portrait-overlay">
-                            <h3>Verified Administrator</h3>
-                            <span style="color: var(--primary-color); font-size: 0.7rem; letter-spacing: 2px;">SECURE ACCESS SESSION</span>
-                        </div>
-                    </div>
-                </section>
-
-                <div class="actions-grid">
-                    <a href="dashboard.php?view=add" class="action-card">
-                        <div class="icon">✧</div>
-                        <h4>Add Masterpiece</h4>
-                        <p>Expand your digital collection with new points of light.</p>
-                    </a>
-                    <a href="dashboard.php?view=manage" class="action-card">
-                        <div class="icon">❖</div>
-                        <h4>Manage Aura</h4>
-                        <p>Refine and orchestrate your existing masterpieces.</p>
-                    </a>
-                    <a href="dashboard.php?view=settings" class="action-card">
-                        <div class="icon">⚙</div>
-                        <h4>Core Config</h4>
-                        <p>Adjust the foundational frequencies of your landing page.</p>
-                    </a>
-                </div>
-            </div>
-        <?php endif; ?>
-
         <div style="max-width: 900px; margin: 0 auto; width: 100%;">
             <?php if (isset($_GET['msg'])): ?>
                 <div style="background: rgba(255, 53, 3, 0.1); border: 1px solid var(--primary-color); color: var(--primary-color); padding: 20px; border-radius: 20px; margin-bottom: 40px; text-align: center; backdrop-filter: blur(10px);">
@@ -195,6 +120,82 @@ $view = $_GET['view'] ?? 'overview';
                         if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your vision has been updated.";
                         if ($_GET['msg'] == 'settings_updated') echo "<strong>Synchronized:</strong> Core settings are now in harmony.";
                     ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($view == 'overview'): ?>
+                <header class="portal-hero">
+                    <h1><?php echo SITE_NAME; ?></h1>
+                    <p>Welcome back, Artisan <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+                </header>
+
+                <div class="portal-grid">
+                    <section class="aura-card welcome-section" style="position: relative;">
+                        <div class="dashboard-laurel-container">
+                            <div class="laurel-icon small">
+                                <svg viewBox="0 0 100 80" class="laurel-svg">
+                                    <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="15" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="30" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="45" cy="12" r="3" fill="currentColor"/>
+                                    <circle cx="85" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="80" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="70" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="55" cy="12" r="3" fill="currentColor"/>
+                                </svg>
+                                <div class="laurel-text">
+                                    <span class="book">BOOK</span>
+                                    <span class="now">US</span>
+                                </div>
+                                <div class="laurel-stars">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Perspective</h2>
+                        <p>Your digital workspace is currently vibrating at peak performance. All systems are synchronized with your creative vision.</p>
+
+                        <div class="quick-stats">
+                            <div class="stat-item">
+                                <h3><?php echo count($sections); ?></h3>
+                                <span>Masterpieces</span>
+                            </div>
+                            <div class="stat-item">
+                                <h3>Active</h3>
+                                <span>System Status</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="aura-card" style="padding: 0; overflow: hidden;">
+                        <div class="portrait-frame">
+                            <img src="../images/leadership.jpg" alt="Artisan">
+                            <div class="portrait-overlay">
+                                <h3>Verified Administrator</h3>
+                                <span style="color: var(--primary-color); font-size: 0.7rem; letter-spacing: 2px;">SECURE ACCESS SESSION</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="actions-grid">
+                        <a href="dashboard.php?view=add" class="action-card">
+                            <div class="icon">✧</div>
+                            <h4>Add Masterpiece</h4>
+                            <p>Expand your digital collection with new points of light.</p>
+                        </a>
+                        <a href="dashboard.php?view=manage" class="action-card">
+                            <div class="icon">❖</div>
+                            <h4>Manage Aura</h4>
+                            <p>Refine and orchestrate your existing masterpieces.</p>
+                        </a>
+                        <a href="dashboard.php?view=settings" class="action-card">
+                            <div class="icon">⚙</div>
+                            <h4>Core Config</h4>
+                            <p>Adjust the foundational frequencies of your landing page.</p>
+                        </a>
+                    </div>
                 </div>
             <?php endif; ?>
 
@@ -294,6 +295,36 @@ $view = $_GET['view'] ?? 'overview';
                             <?php endif; ?>
                         </tbody>
                     </table>
+                </section>
+            <?php endif; ?>
+
+            <?php if ($view == 'messages'):
+                $stmt = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC");
+                $messages = $stmt->fetchAll();
+            ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Manifested <span style="color: var(--primary-color);">Inquiries</span></h2>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <?php if (empty($messages)): ?>
+                            <p style="text-align: center; color: #666; font-style: italic;">No inquiries have been manifested yet.</p>
+                        <?php else: ?>
+                            <?php foreach ($messages as $m): ?>
+                                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 20px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                                        <div>
+                                            <strong style="color: var(--primary-color); display: block; font-size: 1.1rem;"><?php echo htmlspecialchars($m['name']); ?></strong>
+                                            <span style="color: #666; font-size: 0.8rem;"><?php echo htmlspecialchars($m['email']); ?></span>
+                                        </div>
+                                        <span style="color: #444; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;"><?php echo $m['created_at']; ?></span>
+                                    </div>
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="background: rgba(255, 53, 3, 0.1); color: var(--primary-color); padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;"><?php echo htmlspecialchars($m['subject']); ?></span>
+                                    </div>
+                                    <p style="color: #ccc; margin: 0; white-space: pre-wrap;"><?php echo htmlspecialchars($m['message']); ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </section>
             <?php endif; ?>
         </div>

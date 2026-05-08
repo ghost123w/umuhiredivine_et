@@ -309,11 +309,22 @@ body {
 
 .nav-links-inner {
     display: flex;
+    align-items: center;
     gap: 25px;
     background: rgba(255, 255, 255, 0.05);
     padding: 10px 30px;
     border-radius: 100px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.highlight {
+    color: var(--primary-color) !important;
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(255, 53, 3, 0.3);
+}
+
+.nav-item.highlight:hover {
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.6);
 }
 
 .nav-portal .portal-btn {

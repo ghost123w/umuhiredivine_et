@@ -23,6 +23,10 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'c
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
+$stmt->execute();
+$book_us_link = $stmt->fetchColumn() ?: '#';
+
 $contact_msg = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
@@ -75,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
             <div class="nav-links-inner">
                 <a href="#hero" class="nav-item">Home</a>
                 <a href="#features" class="nav-item">Features</a>
+                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">Book Us Now</a>
                 <a href="#" class="nav-item" id="contact-trigger">Contact</a>
             </div>
         </div>
