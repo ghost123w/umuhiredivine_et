@@ -395,8 +395,8 @@ body {
 
 .laurel-icon {
     position: relative;
-    width: 200px;
-    height: 160px;
+    width: 260px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -425,12 +425,12 @@ body {
     margin-top: -5px;
 }
 
-.laurel-text .book { font-size: 2.2rem; display: block; letter-spacing: 2px; }
-.laurel-text .now { font-size: 2.2rem; display: block; letter-spacing: 4px; }
+.laurel-text .book { font-size: 3.2rem; display: block; letter-spacing: 4px; }
+.laurel-text .now { font-size: 3.2rem; display: block; letter-spacing: 6px; }
 
 .laurel-stars {
-    margin-top: 10px;
-    font-size: 1.2rem;
+    margin-top: 15px;
+    font-size: 1.8rem;
     display: flex;
     gap: 3px;
     z-index: 1;
