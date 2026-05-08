@@ -21,6 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('cta_link', ?)");
         $stmt->execute([$cta_link]);
 
+        $book_us_link = sanitize($_POST['book_us_link']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('book_us_link', ?)");
+        $stmt->execute([$book_us_link]);
+
         header("Location: dashboard.php?view=settings&msg=settings_updated");
         exit();
     }
@@ -75,6 +79,10 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'c
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
+$stmt->execute();
+$book_us_link = $stmt->fetchColumn() ?: '#';
+
 $view = $_GET['view'] ?? 'overview';
 ?>
 <!DOCTYPE html>
@@ -96,7 +104,8 @@ $view = $_GET['view'] ?? 'overview';
             <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
             <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
             <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
-            <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; margin-left: -20px;">Exit</a>
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" target="_blank" style="color: var(--primary-color); font-weight: 800; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">BOOK US</a>
+            <a href="logout.php" style="color: var(--danger-color);">Exit</a>
         </div>
     </nav>
 
@@ -205,6 +214,10 @@ $view = $_GET['view'] ?? 'overview';
                         <div class="form-group">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Call to Action Link</label>
                             <input type="text" name="cta_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($cta_link); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Book Us Link (Admin Nav)</label>
+                            <input type="text" name="book_us_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($book_us_link); ?>" placeholder="Enter URL for the admin Book Us button" required>
                         </div>
                         <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
