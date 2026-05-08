@@ -86,7 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
     </nav>
 
         <main class="layout-main" id="features">
-            <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
             <div class="prism-grid">
                 <?php foreach ($sections as $index => $s):
                     $grid_class = ($index % 3 == 0) ? 'grid-large' : 'grid-small';
