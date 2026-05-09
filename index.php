@@ -82,8 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
             <div class="nav-links-pill">
                 <a href="#hero" class="nav-item">Home</a>
                 <a href="#features" class="nav-item">Features</a>
-                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">Book Us<br>Now</a>
                 <a href="#" class="nav-item" id="contact-trigger">Contact</a>
+                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">BOOK<br>US NOW</a>
             </div>
         </div>
     </nav>

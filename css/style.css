@@ -295,14 +295,16 @@ body {
 }
 
 .brand-pill {
-    padding: 15px 40px;
+    padding: 18px 50px;
     border-radius: 100px;
+    border: 1px solid rgba(255, 53, 3, 0.3);
 }
 
 .nav-links-pill {
-    padding: 10px 40px;
+    padding: 12px 50px;
     border-radius: 100px;
-    gap: 40px;
+    gap: 45px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .aura-nav-compact.scrolled .brand-pill,
@@ -314,20 +316,22 @@ body {
 .nav-brand-pill {
     font-family: 'Cinzel', serif;
     font-weight: 900;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--primary-color);
     text-decoration: none;
-    letter-spacing: 5px;
+    letter-spacing: 14px;
     text-transform: uppercase;
-    transition: 0.3s;
+    transition: 0.5s;
+    text-shadow: 0 0 15px rgba(255, 53, 3, 0.4);
 }
 
 .nav-item {
-    color: #6a4c93; /* Violet tone matching reference */
+    color: #8372b3; /* Refined violet for luxury feel */
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: 0.3s;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 1px;
 }
 
 .nav-item:hover {
@@ -336,12 +340,13 @@ body {
 
 .nav-item.highlight {
     color: var(--primary-color) !important;
-    font-weight: 800;
+    font-weight: 900;
     text-align: center;
-    line-height: 1.1;
+    line-height: 1;
     text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.5);
 }
 
 .nav-item.highlight:hover {
