@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 require_once 'config.php';
@@ -100,7 +101,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
                             <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
                             <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
                         </div>
-                        <div class="aura-pulse-element"></div>
+                        <div class="book-us-wrapper" data-subject="<?php echo htmlspecialchars($s['section_title']); ?>">
+                            <div class="laurel-icon small">
+                                <svg viewBox="0 0 100 80" class="laurel-svg">
+                                    <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="15" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="30" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="45" cy="12" r="3" fill="currentColor"/>
+                                    <circle cx="85" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="80" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="70" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="55" cy="12" r="3" fill="currentColor"/>
+                                </svg>
+                                <div class="laurel-text">
+                                    <span class="book">BOOK</span>
+                                    <span class="now">US</span>
+                                </div>
+                                <div class="laurel-stars">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

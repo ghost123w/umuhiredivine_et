@@ -24,16 +24,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. Intersection Observer for Reveal animations
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, { threshold: 0.15 });
+    // 2. 3D Scroll Stroll Logic
+    const handle3DScroll = () => {
+        const viewportCenter = window.innerHeight / 2;
 
-    revealItems.forEach(item => revealObserver.observe(item));
+        revealItems.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const cardCenter = rect.top + rect.height / 2;
+            const distance = cardCenter - viewportCenter;
+
+            // Normalize distance (percentage of viewport height)
+            const normalizedDist = distance / (window.innerHeight / 2);
+
+            // 3D Transforms
+            const rotation = normalizedDist * 15; // Max 15deg tilt
+            const translation = Math.abs(normalizedDist) * -100; // Recede into distance
+            const opacity = 1 - Math.min(Math.abs(normalizedDist) * 0.5, 0.7);
+
+            item.style.transform = `
+                rotateX(${rotation}deg)
+                translateZ(${translation}px)
+            `;
+            item.style.opacity = opacity;
+        });
+    };
+
+    window.addEventListener('scroll', handle3DScroll);
+    handle3DScroll(); // Initial call
 
     // 3. Modal Logic
     const openModal = (subject = null) => {

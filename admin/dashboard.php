@@ -106,7 +106,7 @@ $view = $_GET['view'] ?? 'overview';
             <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
             <a href="dashboard.php?view=messages" class="<?php echo $view == 'messages' ? 'active' : ''; ?>">Inquiries</a>
             <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" target="_blank" style="color: var(--primary-color); font-weight: 800; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">BOOK US</a>
-            <a href="logout.php" style="color: var(--danger-color);">Exit</a>
+            <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">Exit</a>
         </div>
     </nav>
 
