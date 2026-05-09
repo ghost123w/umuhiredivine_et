@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactModal = document.getElementById('contact-modal');
     const modalClose = document.querySelector('.modal-close');
     const modalOverlay = document.querySelector('.modal-overlay');
-    const bookUsWrappers = document.querySelectorAll('.book-us-wrapper');
     const revealItems = document.querySelectorAll('.reveal-item');
     const bgImage = document.querySelector('.stroll-bg-image');
 
@@ -88,12 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    bookUsWrappers.forEach(wrapper => {
-        wrapper.addEventListener('click', () => {
-            const subject = wrapper.getAttribute('data-subject');
-            openModal(subject);
-        });
-    });
 
     if (modalClose) modalClose.addEventListener('click', closeModal);
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
