@@ -80,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
     <nav class="aura-nav-luxury">
         <div class="nav-links-pill">
             <a href="#hero" class="nav-item">Home</a>
+            <a href="#features" class="nav-item">Explore</a>
             <a href="#features" class="nav-item">Features</a>
             <a href="#" class="nav-item" id="contact-trigger">Contact</a>
             <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">BOOK<br>US NOW</a>
@@ -89,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
     <div class="section-nav">
         <div class="section-nav-inner">
             <a href="#hero" class="dot-nav active" data-tooltip="Home"></a>
+            <a href="#features" class="dot-nav" data-tooltip="Explore"></a>
             <a href="#features" class="dot-nav" data-tooltip="Features"></a>
             <a href="#" class="dot-nav" id="side-contact" data-tooltip="Contact"></a>
         </div>

@@ -33,14 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const sections = document.querySelectorAll('#hero, #features');
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 100) {
+            if (window.scrollY >= sectionTop - 150) {
                 currentSection = section.getAttribute('id');
             }
         });
 
         dotNavs.forEach(dot => {
             dot.classList.remove('active');
-            if (dot.getAttribute('href').includes(currentSection)) {
+            if (currentSection && dot.getAttribute('href') === `#${currentSection}`) {
                 dot.classList.add('active');
             }
         });
