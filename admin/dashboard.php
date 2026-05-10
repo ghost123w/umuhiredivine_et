@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['update_settings'])) {
         $title = sanitize($_POST['selling_points_title']);
-        $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = 'selling_points_title'");
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('selling_points_title', ?)");
         $stmt->execute([$title]);
 
         $cta_text = sanitize($_POST['cta_text']);

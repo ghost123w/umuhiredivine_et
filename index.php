@@ -63,7 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
 </head>
 <body class="landing-page">
     <div class="stroll-bg-container">
-        <div class="stroll-bg-image" style="background-image: url('images/landing-bg.png');"></div>
         <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
@@ -74,21 +73,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
             </div>
         </header>
 
-    <nav class="aura-nav-compact">
-        <div class="nav-pill-wrapper">
-            <div class="brand-pill">
-                <a href="#" class="nav-brand-pill"><?php echo strtoupper(SITE_NAME); ?></a>
-            </div>
-            <div class="nav-links-pill">
-                <a href="#hero" class="nav-item">Home</a>
-                <a href="#features" class="nav-item">Features</a>
-                <a href="#" class="nav-item" id="contact-trigger">Contact</a>
-                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">BOOK<br>US NOW</a>
-            </div>
+    <div class="aura-brand-header">
+        <a href="#" class="brand-title"><?php echo SITE_NAME; ?></a>
+    </div>
+
+    <nav class="aura-nav-luxury">
+        <div class="nav-links-pill">
+            <a href="#hero" class="nav-item">Home</a>
+            <a href="#features" class="nav-item">Features</a>
+            <a href="#" class="nav-item" id="contact-trigger">Contact</a>
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">BOOK<br>US NOW</a>
         </div>
     </nav>
 
+    <div class="section-nav">
+        <div class="section-nav-inner">
+            <a href="#hero" class="dot-nav active" data-tooltip="Home"></a>
+            <a href="#features" class="dot-nav" data-tooltip="Features"></a>
+            <a href="#" class="dot-nav" id="side-contact" data-tooltip="Contact"></a>
+        </div>
+    </div>
+
         <main class="layout-main" id="features">
+            <div class="section-header reveal-item">
+                <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
+            </div>
             <div class="prism-grid">
                 <?php foreach ($sections as $index => $s):
                     $grid_class = ($index % 3 == 0) ? 'grid-large' : 'grid-small';
@@ -101,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
                             <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
                             <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
                         </div>
+                        <div class="aura-pulse-element"></div>
                     </div>
                 <?php endforeach; ?>
             </div>

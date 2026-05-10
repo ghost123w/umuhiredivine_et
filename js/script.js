@@ -1,26 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const navbar = document.querySelector('.aura-nav-compact');
+    const navbar = document.querySelector('.aura-nav-luxury');
     const contactTrigger = document.getElementById('contact-trigger');
+    const sideContact = document.getElementById('side-contact');
     const contactModal = document.getElementById('contact-modal');
     const modalClose = document.querySelector('.modal-close');
     const modalOverlay = document.querySelector('.modal-overlay');
     const revealItems = document.querySelectorAll('.reveal-item');
-    const bgImage = document.querySelector('.stroll-bg-image');
+    const dotNavs = document.querySelectorAll('.dot-nav');
+    const featuresSection = document.getElementById('features');
 
     // 1. Scroll-driven Navigation effect
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
-        if (scrolled > 80) {
+        if (scrolled > 120) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
 
-        // Parallax Effect
-        if (bgImage) {
-            const val = scrolled * 0.1;
-            bgImage.style.transform = `scale(1.2) translate3d(0, ${-val}px, 0)`;
+        // Toggle dot nav visibility and active state
+        if (featuresSection) {
+            const rect = featuresSection.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.8) {
+                document.body.classList.add('features-active');
+            } else {
+                document.body.classList.remove('features-active');
+            }
         }
+
+        // Dot Nav Active State
+        let currentSection = '';
+        const sections = document.querySelectorAll('#hero, #features');
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+
+        dotNavs.forEach(dot => {
+            dot.classList.remove('active');
+            if (dot.getAttribute('href').includes(currentSection)) {
+                dot.classList.add('active');
+            }
+        });
     });
 
     // 2. 3D Scroll Stroll Logic
@@ -36,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const normalizedDist = distance / (window.innerHeight / 2);
 
             // 3D Transforms
-            const rotation = normalizedDist * 15; // Max 15deg tilt
-            const translation = Math.abs(normalizedDist) * -100; // Recede into distance
+            const rotation = normalizedDist * 12; // Max 12deg tilt
+            const translation = Math.abs(normalizedDist) * -150; // Recede into distance
             const opacity = 1 - Math.min(Math.abs(normalizedDist) * 0.5, 0.7);
 
             item.style.transform = `
@@ -82,6 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (contactTrigger) {
         contactTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+    }
+
+    if (sideContact) {
+        sideContact.addEventListener('click', (e) => {
             e.preventDefault();
             openModal();
         });
