@@ -14,7 +14,7 @@ try {
 // Ensure settings are defined
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
-$selling_points_title = $stmt->fetchColumn() ?: 'Actions';
+$selling_points_title = $stmt->fetchColumn() ?: '';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
 $stmt->execute();
@@ -97,9 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
     </div>
 
         <main class="layout-main" id="features">
-            <div class="section-header reveal-item">
-                <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
-            </div>
+            <?php if (!empty($selling_points_title)): ?>
+                <div class="section-header reveal-item">
+                    <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
+                </div>
+            <?php endif; ?>
             <div class="prism-grid">
                 <?php foreach ($sections as $index => $s):
                     $grid_class = ($index % 3 == 0) ? 'grid-large' : 'grid-small';

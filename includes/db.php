@@ -33,7 +33,7 @@ try {
 
     // Seed default settings
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
-    $stmt->execute(['selling_points_title', 'Actions']);
+    $stmt->execute(['selling_points_title', '']);
     $stmt->execute(['book_us_link', '#']);
 
     // Create contact_messages table

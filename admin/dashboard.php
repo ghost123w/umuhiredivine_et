@@ -69,7 +69,7 @@ $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
-$selling_points_title = $stmt->fetchColumn() ?: 'Actions';
+$selling_points_title = $stmt->fetchColumn() ?: '';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_text'");
 $stmt->execute();
