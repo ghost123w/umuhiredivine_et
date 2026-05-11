@@ -149,7 +149,7 @@ $view = $_GET['view'] ?? 'overview';
             ?>
                 <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="<?php echo $activeClass; ?>"><?php echo htmlspecialchars($item['label']); ?></a>
             <?php endforeach; ?>
-            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" target="_blank" style="color: var(--primary-color); font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 20px;">BOOK US</a>
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" style="color: var(--primary-color); font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 20px;">BOOK US</a>
             <a href="logout.php" style="color: var(--danger-color); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">Exit</a>
         </div>
     </nav>

@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
             ?>
                 <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
             <?php endforeach; ?>
-            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">BOOK<br>US NOW</a>
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight">BOOK<br>US NOW</a>
         </div>
     </nav>
 
