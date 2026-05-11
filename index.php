@@ -79,20 +79,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
 
     <nav class="aura-nav-luxury">
         <div class="nav-links-pill">
-            <a href="#hero" class="nav-item">Home</a>
-            <a href="#features" class="nav-item">Explore</a>
-            <a href="#features" class="nav-item">Features</a>
-            <a href="#" class="nav-item" id="contact-trigger">Contact</a>
+            <?php
+            $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
+            foreach ($navItems as $item):
+                $idAttr = ($item['label'] == 'Contact') ? 'id="contact-trigger"' : '';
+            ?>
+                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
+            <?php endforeach; ?>
             <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight" target="_blank">BOOK<br>US NOW</a>
         </div>
     </nav>
 
     <div class="section-nav">
         <div class="section-nav-inner">
-            <a href="#hero" class="dot-nav active" data-tooltip="Home"></a>
-            <a href="#features" class="dot-nav" data-tooltip="Explore"></a>
-            <a href="#features" class="dot-nav" data-tooltip="Features"></a>
-            <a href="#" class="dot-nav" id="side-contact" data-tooltip="Contact"></a>
+            <?php foreach ($navItems as $index => $item):
+                $dotId = ($item['label'] == 'Contact') ? 'id="side-contact"' : '';
+                $activeClass = ($index === 0) ? 'active' : '';
+            ?>
+                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="dot-nav <?php echo $activeClass; ?>" <?php echo $dotId; ?> data-tooltip="<?php echo htmlspecialchars($item['label']); ?>"></a>
+            <?php endforeach; ?>
         </div>
     </div>
 

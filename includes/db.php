@@ -46,6 +46,37 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
+    // Create navigation_items table
+    $pdo->exec("CREATE TABLE IF NOT EXISTS navigation_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        label TEXT NOT NULL,
+        link_url TEXT NOT NULL,
+        sort_order INTEGER DEFAULT 0,
+        is_active INTEGER DEFAULT 1,
+        nav_type TEXT DEFAULT 'main'
+    )");
+
+    // Seed default navigation items if table is empty
+    $stmt = $pdo->query("SELECT COUNT(*) FROM navigation_items");
+    if ($stmt->fetchColumn() == 0) {
+        $items = [
+            ['Home', '#hero', 0, 'main'],
+            ['Explore', '#features', 1, 'main'],
+            ['Features', '#features', 2, 'main'],
+            ['Contact', '#', 3, 'main'],
+            ['Portal', 'dashboard.php?view=overview', 0, 'admin'],
+            ['Aura', 'dashboard.php?view=settings', 1, 'admin'],
+            ['Create', 'dashboard.php?view=add', 2, 'admin'],
+            ['Manage', 'dashboard.php?view=manage', 3, 'admin'],
+            ['Inquiries', 'dashboard.php?view=messages', 4, 'admin'],
+            ['Navigation', 'dashboard.php?view=nav', 5, 'admin']
+        ];
+        $insertStmt = $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)");
+        foreach ($items as $item) {
+            $insertStmt->execute($item);
+        }
+    }
+
 } catch (PDOException $e) {
     die("Database connection failed");
 }

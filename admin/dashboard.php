@@ -63,6 +63,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: dashboard.php?view=manage&msg=deleted");
         exit();
     }
+
+    if (isset($_POST['update_nav_item'])) {
+        $id = (int)$_POST['id'];
+        $label = sanitize($_POST['label']);
+        $url = sanitize($_POST['link_url']);
+        $order = (int)$_POST['sort_order'];
+        $active = isset($_POST['is_active']) ? 1 : 0;
+        $type = sanitize($_POST['nav_type']);
+
+        $stmt = $pdo->prepare("UPDATE navigation_items SET label = ?, link_url = ?, sort_order = ?, is_active = ?, nav_type = ? WHERE id = ?");
+        $stmt->execute([$label, $url, $order, $active, $type, $id]);
+        header("Location: dashboard.php?view=nav&msg=updated");
+        exit();
+    }
+
+    if (isset($_POST['add_nav_item'])) {
+        $label = sanitize($_POST['label']);
+        $url = sanitize($_POST['link_url']);
+        $order = (int)$_POST['sort_order'];
+        $type = sanitize($_POST['nav_type']);
+
+        $stmt = $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$label, $url, $order, $type]);
+        header("Location: dashboard.php?view=nav&msg=added");
+        exit();
+    }
+
+    if (isset($_POST['delete_nav_item'])) {
+        $id = (int)$_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM navigation_items WHERE id = ?");
+        $stmt->execute([$id]);
+        header("Location: dashboard.php?view=nav&msg=deleted");
+        exit();
+    }
 }
 
 $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
@@ -98,15 +132,25 @@ $view = $_GET['view'] ?? 'overview';
 <body class="aura-body">
     <div class="aura-portal-bg"></div>
 
-    <nav class="aura-nav">
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <nav class="aura-nav" id="adminSidebar">
         <div class="glass-pill">
-            <a href="dashboard.php?view=overview" class="<?php echo $view == 'overview' ? 'active' : ''; ?>">Portal</a>
-            <a href="dashboard.php?view=settings" class="<?php echo $view == 'settings' ? 'active' : ''; ?>">Aura</a>
-            <a href="dashboard.php?view=add" class="<?php echo $view == 'add' ? 'active' : ''; ?>">Create</a>
-            <a href="dashboard.php?view=manage" class="<?php echo $view == 'manage' ? 'active' : ''; ?>">Manage</a>
-            <a href="dashboard.php?view=messages" class="<?php echo $view == 'messages' ? 'active' : ''; ?>">Inquiries</a>
-            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" target="_blank" style="color: var(--primary-color); font-weight: 800; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">BOOK US</a>
-            <a href="logout.php" style="color: var(--danger-color); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">Exit</a>
+            <?php
+            $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'admin' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
+            foreach ($navItems as $item):
+                $activeClass = ($view == str_replace('dashboard.php?view=', '', $item['link_url'])) ? 'active' : '';
+            ?>
+                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="<?php echo $activeClass; ?>"><?php echo htmlspecialchars($item['label']); ?></a>
+            <?php endforeach; ?>
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" target="_blank" style="color: var(--primary-color); font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 20px;">BOOK US</a>
+            <a href="logout.php" style="color: var(--danger-color); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">Exit</a>
         </div>
     </nav>
 
@@ -327,6 +371,63 @@ $view = $_GET['view'] ?? 'overview';
                     </div>
                 </section>
             <?php endif; ?>
+
+            <?php if ($view == 'nav'):
+                $navItems = $pdo->query("SELECT * FROM navigation_items ORDER BY nav_type, sort_order ASC")->fetchAll();
+            ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Orchestrate <span style="color: var(--primary-color);">Navigation</span></h2>
+
+                    <div style="margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 20px;">Add New Frequency</h3>
+                        <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr 80px 100px 120px; gap: 15px; align-items: end;">
+                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                            <div>
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">LABEL</label>
+                                <input type="text" name="label" class="form-control" placeholder="Label" required>
+                            </div>
+                            <div>
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">URL / TARGET</label>
+                                <input type="text" name="link_url" class="form-control" placeholder="URL" required>
+                            </div>
+                            <div>
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">ORDER</label>
+                                <input type="number" name="sort_order" class="form-control" value="0" required>
+                            </div>
+                            <div>
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">TYPE</label>
+                                <select name="nav_type" class="form-control">
+                                    <option value="main">Main</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" name="add_nav_item" class="btn-primary" style="padding: 15px;">ADD</button>
+                        </form>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <?php foreach ($navItems as $ni): ?>
+                            <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr 80px 100px 80px 100px 80px; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);">
+                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                <input type="hidden" name="id" value="<?php echo $ni['id']; ?>">
+                                <input type="text" name="label" class="form-control" value="<?php echo htmlspecialchars($ni['label']); ?>" required>
+                                <input type="text" name="link_url" class="form-control" value="<?php echo htmlspecialchars($ni['link_url']); ?>" required>
+                                <input type="number" name="sort_order" class="form-control" value="<?php echo $ni['sort_order']; ?>" required>
+                                <select name="nav_type" class="form-control">
+                                    <option value="main" <?php echo $ni['nav_type'] == 'main' ? 'selected' : ''; ?>>Main</option>
+                                    <option value="admin" <?php echo $ni['nav_type'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                                </select>
+                                <label style="font-size: 0.6rem; color: #666; text-align: center;">
+                                    ACTIVE<br>
+                                    <input type="checkbox" name="is_active" <?php echo $ni['is_active'] ? 'checked' : ''; ?>>
+                                </label>
+                                <button type="submit" name="update_nav_item" class="btn-primary" style="padding: 10px; font-size: 0.6rem;">SAVE</button>
+                                <button type="submit" name="delete_nav_item" class="btn-delete" style="padding: 10px; font-size: 0.6rem;" onclick="return confirm('Remove this navigation item?');">VOID</button>
+                            </form>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            <?php endif; ?>
         </div>
     </main>
 
@@ -335,6 +436,15 @@ $view = $_GET['view'] ?? 'overview';
     </footer>
 
     <script>
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const adminSidebar = document.getElementById('adminSidebar');
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                adminSidebar.classList.toggle('active');
+            });
+        }
+
         const imageInput = document.getElementById('imageInput');
         if (imageInput) {
             imageInput.addEventListener('change', function(event) {
