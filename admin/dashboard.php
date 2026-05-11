@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_section'])) {
         $title = sanitize($_POST['section_title']);
         $desc = sanitize($_POST['description']);
+        $nav_id = !empty($_POST['nav_item_id']) ? (int)$_POST['nav_item_id'] : null;
         $image_path = null;
 
         if (isset($_FILES['section_image']) && $_FILES['section_image']['error'] == 0) {
@@ -50,8 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        $stmt = $pdo->prepare("INSERT INTO content (section_title, description, image_path) VALUES (?, ?, ?)");
-        $stmt->execute([$title, $desc, $image_path]);
+        $stmt = $pdo->prepare("INSERT INTO content (section_title, description, image_path, nav_item_id) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$title, $desc, $image_path, $nav_id]);
         header("Location: dashboard.php?view=manage&msg=added");
         exit();
     }
@@ -71,6 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order = (int)$_POST['sort_order'];
         $active = isset($_POST['is_active']) ? 1 : 0;
         $type = sanitize($_POST['nav_type']);
+
+        // Handle auto-generation of section links
+        if (isset($_POST['make_standalone']) && $type == 'main') {
+            $url = "section.php?id=" . $id;
+        }
 
         $stmt = $pdo->prepare("UPDATE navigation_items SET label = ?, link_url = ?, sort_order = ?, is_active = ?, nav_type = ? WHERE id = ?");
         $stmt->execute([$label, $url, $order, $active, $type, $id]);
@@ -269,11 +275,22 @@ $view = $_GET['view'] ?? 'overview';
                 </section>
             <?php endif; ?>
 
-            <?php if ($view == 'add'): ?>
+            <?php if ($view == 'add'):
+                $navOptions = $pdo->query("SELECT id, label FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
+            ?>
                 <section class="aura-card">
                     <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Create <span style="color: var(--primary-color);">Masterpiece</span></h2>
                     <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Section / Destination</label>
+                            <select name="nav_item_id" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;">
+                                <option value="">Primary Landing Page</option>
+                                <?php foreach ($navOptions as $opt): ?>
+                                    <option value="<?php echo $opt['id']; ?>"><?php echo htmlspecialchars($opt['label']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Title</label>
                             <input type="text" name="section_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" required>
@@ -407,11 +424,18 @@ $view = $_GET['view'] ?? 'overview';
 
                     <div style="display: flex; flex-direction: column; gap: 15px;">
                         <?php foreach ($navItems as $ni): ?>
-                            <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr 80px 100px 80px 100px 80px; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);">
+                            <form method="POST" style="display: grid; grid-template-columns: 1fr 1.5fr 80px 100px 80px 80px 100px 80px; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);">
                                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                                 <input type="hidden" name="id" value="<?php echo $ni['id']; ?>">
                                 <input type="text" name="label" class="form-control" value="<?php echo htmlspecialchars($ni['label']); ?>" required>
-                                <input type="text" name="link_url" class="form-control" value="<?php echo htmlspecialchars($ni['link_url']); ?>" required>
+                                <div style="position: relative;">
+                                    <input type="text" name="link_url" class="form-control" value="<?php echo htmlspecialchars($ni['link_url']); ?>" required>
+                                    <?php if ($ni['nav_type'] == 'main'): ?>
+                                        <label style="font-size: 0.5rem; color: var(--primary-color); display: block; margin-top: 5px;">
+                                            <input type="checkbox" name="make_standalone"> Link to Section Page
+                                        </label>
+                                    <?php endif; ?>
+                                </div>
                                 <input type="number" name="sort_order" class="form-control" value="<?php echo $ni['sort_order']; ?>" required>
                                 <select name="nav_type" class="form-control">
                                     <option value="main" <?php echo $ni['nav_type'] == 'main' ? 'selected' : ''; ?>>Main</option>

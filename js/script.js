@@ -12,10 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Scroll-driven Navigation effect
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
-        if (scrolled > 120) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+        if (navbar) {
+            if (scrolled > 120) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         }
 
         // Toggle dot nav visibility and active state
@@ -75,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     handle3DScroll(); // Initial call
 
     // 3. Modal Logic
-    const openModal = (subject = null) => {
+    window.openContactModal = (subject = null) => {
         if (subject) {
             const subjectSelect = contactModal.querySelector('select[name="subject"]');
             if (subjectSelect) {
@@ -98,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     };
 
-    const closeModal = () => {
+    window.closeModal = () => {
         contactModal.classList.remove('active');
         document.body.style.overflow = 'auto';
     };
@@ -106,20 +108,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactTrigger) {
         contactTrigger.addEventListener('click', (e) => {
             e.preventDefault();
-            openModal();
+            window.openContactModal();
         });
     }
 
     if (sideContact) {
         sideContact.addEventListener('click', (e) => {
             e.preventDefault();
-            openModal();
+            window.openContactModal();
         });
     }
 
 
-    if (modalClose) modalClose.addEventListener('click', closeModal);
-    if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+    if (modalClose) modalClose.addEventListener('click', window.closeModal);
+    if (modalOverlay) modalOverlay.addEventListener('click', window.closeModal);
 
     // Close on ESC
     document.addEventListener('keydown', (e) => {

@@ -5,7 +5,7 @@ require_once 'includes/functions.php';
 require_once 'config.php';
 
 try {
-    $stmt = $pdo->query("SELECT * FROM content ORDER BY id ASC");
+    $stmt = $pdo->query("SELECT * FROM content WHERE nav_item_id IS NULL ORDER BY id ASC");
     $sections = $stmt->fetchAll();
 } catch (PDOException $e) {
     $sections = [];

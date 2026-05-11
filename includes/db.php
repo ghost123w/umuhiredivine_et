@@ -16,13 +16,26 @@ try {
         is_verified INTEGER DEFAULT 1
     )");
 
-    $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, image_path TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS content (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        section_title TEXT,
+        description TEXT,
+        image_path TEXT,
+        nav_item_id INTEGER DEFAULT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )");
 
-    // Check if image_path exists (for existing databases)
+    // Migration for existing databases
     try {
         $pdo->query("SELECT image_path FROM content LIMIT 1");
     } catch (Exception $e) {
         $pdo->exec("ALTER TABLE content ADD COLUMN image_path TEXT");
+    }
+
+    try {
+        $pdo->query("SELECT nav_item_id FROM content LIMIT 1");
+    } catch (Exception $e) {
+        $pdo->exec("ALTER TABLE content ADD COLUMN nav_item_id INTEGER DEFAULT NULL");
     }
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS settings (
