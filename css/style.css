@@ -44,6 +44,17 @@ body {
     background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
 }
 
+.stroll-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
 .mesh-bg {
     position: absolute;
     top: -50%;
@@ -450,7 +461,34 @@ body.features-active .section-nav {
 }
 
 .bento-card.grid-large { grid-column: span 2; grid-row: span 2; }
+.bento-card.grid-medium { grid-column: span 2; grid-row: span 1; }
+.bento-card.grid-tall { grid-column: span 1; grid-row: span 2; }
 .bento-card.grid-small { grid-column: span 1; grid-row: span 1; }
+
+.card-image-wrapper {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.bento-card:hover .card-image-wrapper img {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+}
 
 .card-bg-image {
     position: absolute;
@@ -960,9 +998,11 @@ body.features-active .section-nav {
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .aura-nav-compact {
+    .aura-nav-luxury, .aura-nav-compact {
         top: 15px;
         width: 95%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .nav-pill-wrapper {

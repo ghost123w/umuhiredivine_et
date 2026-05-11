@@ -24,24 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$nav_id = $_GET['id'] ?? null;
-if (!$nav_id) {
-    header("Location: index.php");
-    exit();
+// Find the Explore Nav Item ID
+$stmt = $pdo->prepare("SELECT id FROM navigation_items WHERE label = 'Explore' LIMIT 1");
+$stmt->execute();
+$nav_id = $stmt->fetchColumn();
+
+// Fetch content assigned to Explore
+$fixtures = [];
+if ($nav_id) {
+    $stmt = $pdo->prepare("SELECT * FROM content WHERE nav_item_id = ? ORDER BY id ASC");
+    $stmt->execute([$nav_id]);
+    $fixtures = $stmt->fetchAll();
 }
-
-$stmt = $pdo->prepare("SELECT * FROM navigation_items WHERE id = ? AND is_active = 1");
-$stmt->execute([$nav_id]);
-$navItem = $stmt->fetch();
-
-if (!$navItem) {
-    header("Location: index.php");
-    exit();
-}
-
-$stmt = $pdo->prepare("SELECT * FROM content WHERE nav_item_id = ? ORDER BY id DESC");
-$stmt->execute([$nav_id]);
-$fixtures = $stmt->fetchAll();
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
 $stmt->execute();
@@ -52,7 +46,7 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($navItem['label']); ?> | <?php echo SITE_NAME; ?></title>
+    <title>Explore | <?php echo htmlspecialchars(SITE_NAME); ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
@@ -73,7 +67,7 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
                 <?php
                 $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
                 foreach ($navItems as $item):
-                    $activeClass = ($item['id'] == $nav_id) ? 'active' : '';
+                    $activeClass = ($item['label'] == 'Explore') ? 'active' : '';
                     $idAttr = ($item['label'] == 'Contact') ? 'id="contact-trigger"' : '';
                 ?>
                     <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item <?php echo $activeClass; ?>" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
@@ -85,7 +79,8 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
 
     <main class="layout-main" style="padding-top: 150px;">
         <header class="layout-header" style="text-align: center; margin-bottom: 100px;">
-            <h1 class="shimmer-text" style="font-family: 'Cinzel', serif; font-size: 4rem; letter-spacing: 15px; margin: 0;"><?php echo htmlspecialchars($navItem['label']); ?></h1>
+            <h1 class="shimmer-text" style="font-family: 'Cinzel', serif; font-size: 4rem; letter-spacing: 15px; margin: 0;">Explore</h1>
+            <p style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 5px; font-weight: 700; font-size: 0.7rem; margin-top: 20px;">Discovery Awaits</p>
             <div style="width: 100px; height: 2px; background: var(--primary-color); margin: 30px auto; box-shadow: 0 0 20px var(--primary-color);"></div>
         </header>
 
@@ -93,8 +88,9 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
             <?php if (empty($fixtures)): ?>
                 <div class="bento-card grid-large" style="text-align: center; display: flex; align-items: center; justify-content: center; min-height: 400px;">
                     <div>
-                        <h2 style="font-family: 'Cinzel', serif; color: #444;">No fixtures found in this frequency.</h2>
-                        <a href="index.php" style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; text-decoration: none; margin-top: 20px; display: inline-block;">Return to Source</a>
+                        <h2 style="font-family: 'Cinzel', serif; color: #444;">The exploration horizon is currently clear.</h2>
+                        <p style="color: #666; font-size: 0.8rem; margin-top: 10px;">Check back as we expand our digital frequency.</p>
+                        <a href="index.php" style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; text-decoration: none; margin-top: 40px; display: inline-block; border: 1px solid var(--primary-color); padding: 10px 25px; border-radius: 50px;">Return to Source</a>
                     </div>
                 </div>
             <?php else: ?>
@@ -109,7 +105,7 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
                             </div>
                         <?php endif; ?>
                         <div class="card-content">
-                            <span class="card-tag">Artisan Fixture</span>
+                            <span class="card-tag">Discovery</span>
                             <h3><?php echo htmlspecialchars($f['section_title']); ?></h3>
                             <p><?php echo htmlspecialchars($f['description']); ?></p>
                             <button class="card-btn" onclick="openContactModal('<?php echo addslashes($f['section_title']); ?>')">Enquire</button>
@@ -121,7 +117,7 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
     </main>
 
     <footer class="aura-footer" style="margin-top: 100px; background: rgba(10,10,10,0.4); backdrop-filter: blur(20px);">
-        &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA LUXURY UX
+        &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?> &mdash; AURA EXPLORATION
     </footer>
 
     <!-- Contact Modal -->
@@ -158,12 +154,11 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SEND MESSAGE</button>
             </form>
-            <div id="formStatus" style="margin-top: 20px; text-align: center; display: none;"></div>
         </div>
     </div>
 
     <?php if ($contact_msg): ?>
-        <div id="contact-success-toast" style="position: fixed; bottom: 40px; right: 40px; background: var(--primary-color); color: #fff; padding: 20px 40px; border-radius: 100px; z-index: 10000; box-shadow: 0 20px 40px rgba(255, 53, 3, 0.4); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; animation: slideInUp 0.5s cubic-bezier(0.2, 1, 0.3, 1);">
+        <div id="contact-success-toast" style="position: fixed; bottom: 40px; right: 40px; background: var(--primary-color); color: #fff; padding: 20px 40px; border-radius: 100px; z-index: 10000; box-shadow: 0 20px 40px rgba(255, 53, 3, 0.4); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">
             <?php echo $contact_msg; ?>
         </div>
         <script>
