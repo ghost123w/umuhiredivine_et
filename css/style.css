@@ -17,6 +17,7 @@ body {
     margin: 0;
     line-height: 1.6;
     overflow-x: hidden;
+    background: #000;
 }
 
 .landing-page {
@@ -34,17 +35,6 @@ body {
     overflow: hidden;
 }
 
-.stroll-bg-image {
-    position: absolute;
-    top: -10%;
-    left: -10%;
-    width: 120%;
-    height: 120%;
-    background-size: cover;
-    background-position: center;
-    will-change: transform;
-}
-
 .stroll-bg-overlay {
     position: absolute;
     top: 0;
@@ -52,6 +42,17 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+}
+
+.stroll-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
 }
 
 .mesh-bg {
@@ -74,11 +75,18 @@ body {
     100% { transform: translate(-2%, 5%) scale(1.1) rotate(-2deg); }
 }
 
+@keyframes floating-aura {
+    0% { transform: rotateX(0deg) translateY(0px); text-shadow: 0 0 15px rgba(255, 53, 3, 0.4); }
+    50% { transform: rotateX(10deg) translateY(-5px); text-shadow: 0 0 25px rgba(255, 53, 3, 0.7), 0 0 10px rgba(255, 53, 3, 0.3); }
+    100% { transform: rotateX(0deg) translateY(0px); text-shadow: 0 0 15px rgba(255, 53, 3, 0.4); }
+}
+
 .layout-wrapper {
     display: block;
     min-height: 100vh;
     position: relative;
     z-index: 1;
+    perspective: 1200px;
 }
 
 .layout-header {
@@ -266,25 +274,460 @@ body {
     margin-bottom: 30px;
 }
 
-.cta {
+/* Navigation Redesign */
+.aura-brand-header {
+    position: fixed;
+    top: 40px;
+    left: 60px;
+    z-index: 1001;
+    text-align: left;
+    pointer-events: none;
+}
+
+.brand-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    letter-spacing: 14px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.4);
+    pointer-events: auto;
+    animation: floating-aura 4s infinite ease-in-out;
     display: inline-block;
-    padding: 14px 35px;
+}
+
+.aura-nav-luxury {
+    position: fixed;
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: auto;
+    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-links-pill {
+    background: rgba(20, 15, 12, 0.4);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    padding: 12px 50px;
+    border-radius: 100px;
+    gap: 45px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.aura-nav-luxury.scrolled {
+    top: 30px;
+}
+
+.aura-nav-luxury.scrolled .nav-links-pill {
+    background: rgba(10, 8, 7, 0.9);
+    border-color: rgba(255, 53, 3, 0.2);
+}
+
+.section-nav {
+    position: fixed;
+    left: calc(50% - 380px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s;
+}
+
+body.features-active .section-nav {
+    opacity: 1;
+    visibility: visible;
+}
+
+.section-nav-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dot-nav {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: 0.3s;
+    position: relative;
+}
+
+.dot-nav:hover, .dot-nav.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.dot-nav::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
     background: var(--primary-color);
     color: #fff;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.dot-nav:hover::before {
+    opacity: 1;
+    visibility: visible;
+    right: 30px;
+}
+
+.nav-item {
+    color: #8372b3; /* Refined violet for luxury feel */
     text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 1px;
+}
+
+.nav-item:hover {
+    color: #9d71e8;
+}
+
+.nav-item.highlight {
+    color: var(--primary-color) !important;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.5);
+}
+
+.nav-item.highlight:hover {
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.6);
+}
+
+.nav-portal .portal-btn {
+    font-size: 0.75rem;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid var(--primary-color);
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-portal .portal-btn:hover {
+    background: var(--primary-color);
+    box-shadow: 0 0 20px rgba(255, 53, 3, 0.4);
+}
+
+/* Prism Bento Grid */
+.prism-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 300px;
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.bento-card {
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+.bento-card.grid-large { grid-column: span 2; grid-row: span 2; }
+.bento-card.grid-medium { grid-column: span 2; grid-row: span 1; }
+.bento-card.grid-tall { grid-column: span 1; grid-row: span 2; }
+.bento-card.grid-small { grid-column: span 1; grid-row: span 1; }
+
+.card-image-wrapper {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.bento-card:hover .card-image-wrapper img {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+}
+
+.card-bg-image {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.8;
+    transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    transform: translateZ(-30px);
+}
+
+.bento-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+}
+
+.bento-card:hover .card-bg-image {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.bento-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transform: translateZ(50px);
+    transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.bento-card p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    transform: translateZ(30px);
+    transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+/* Laurel Icon Style */
+.book-us-wrapper {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 5;
+}
+
+.laurel-icon {
+    position: relative;
+    width: 260px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-color);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.book-us-wrapper:hover .laurel-icon {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 15px rgba(255, 53, 3, 0.6));
+}
+
+.laurel-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+
+.laurel-text {
+    text-align: center;
+    font-weight: 900;
+    line-height: 1;
+    z-index: 1;
+    margin-top: -5px;
+}
+
+.laurel-text .book { font-size: 3.2rem; display: block; letter-spacing: 4px; }
+.laurel-text .now { font-size: 3.2rem; display: block; letter-spacing: 6px; }
+
+.laurel-icon.mini {
+    width: 60px;
+    height: 50px;
+}
+
+.laurel-icon.mini .laurel-text .book,
+.laurel-icon.mini .laurel-text .now {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+}
+
+.laurel-icon.mini .laurel-stars {
+    display: none;
+}
+
+.laurel-stars {
+    margin-top: 15px;
+    font-size: 1.8rem;
+    display: flex;
+    gap: 3px;
+    z-index: 1;
+}
+
+.laurel-icon.small {
+    transform: scale(0.8);
+    transform-origin: bottom right;
+}
+
+.dashboard-laurel-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Modal Styles */
+.aura-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s;
+}
+
+.aura-modal.active { opacity: 1; visibility: visible; }
+
+.modal-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 550px;
+    padding: 60px;
+    border-radius: 40px;
+    transform: translateY(50px);
+    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.aura-modal.active .modal-content { transform: translateY(0); }
+
+.modal-close {
+    position: absolute;
+    top: 30px; right: 30px;
+    background: none; border: none;
+    color: #fff; font-size: 2rem; cursor: pointer;
+}
+
+.glass-morphism {
+    background: rgba(10, 10, 10, 0.8) !important;
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 30px 100px rgba(0,0,0,0.8);
+}
+
+.aura-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px 25px;
+    color: #fff;
+    width: 100%;
+    margin-bottom: 15px;
+    font-family: inherit;
+}
+
+.aura-input:focus { outline: none; border-color: var(--primary-color); }
+
+.cta-shimmer {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 20px;
     border-radius: 100px;
+    border: none;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 0.8rem;
-    transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-    box-shadow: 0 10px 20px rgba(255, 53, 3, 0.2);
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.cta:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 20px 40px rgba(255, 53, 3, 0.4);
-    background: #ff5500;
+.cta-shimmer:hover { box-shadow: 0 0 30px rgba(255, 53, 3, 0.5); }
+.full-width { width: 100%; }
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 60px;
+    letter-spacing: 6px;
+}
+
+.card-laurel-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.4;
+    transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    z-index: 2;
+}
+
+.bento-card:hover .card-laurel-container {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.aura-pulse-element {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    width: 10px; height: 10px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--primary-color);
+    animation: aura-pulse-btn 2s infinite;
+    transform: translateZ(80px);
+}
+
+@keyframes aura-pulse-btn {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
 }
 
 /* Aura Portal / Admin Styles */
@@ -300,42 +743,75 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background:
-        linear-gradient(rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.8)),
-        url('../images/login-bg.png');
+    background: linear-gradient(rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.8));
     background-size: cover;
     background-position: center;
     z-index: -1;
 }
 
-.aura-nav { display: flex; justify-content: center; padding: 30px 0; }
+.aura-nav {
+    position: fixed;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 .glass-pill {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 8px 40px;
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px 15px;
     border-radius: 100px;
     display: flex;
-    gap: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .glass-pill a {
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.4);
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
-    padding: 10px 0;
-    transition: 0.3s;
-    position: relative;
+    padding: 15px 20px;
+    transition: 0.4s;
+    border-radius: 50px;
+    text-align: center;
+    white-space: nowrap;
 }
 
-.glass-pill a:hover, .glass-pill a.active { color: var(--primary-color); }
+.glass-pill a:hover, .glass-pill a.active {
+    color: var(--primary-color);
+    background: rgba(255, 53, 3, 0.1);
+    box-shadow: 0 0 20px rgba(255, 53, 3, 0.2);
+}
 
-.portal-container { max-width: 1200px; margin: 40px auto; width: 90%; }
+.portal-container {
+    max-width: 1200px;
+    margin: 40px auto 40px 300px;
+    width: calc(90% - 260px);
+}
+
+/* Sidebar Responsive Toggle */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(255, 53, 3, 0.3);
+}
 
 .aura-card {
     background: rgba(255, 255, 255, 0.02);
@@ -546,4 +1022,123 @@ body {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .aura-nav-luxury, .aura-nav-compact {
+        top: 15px;
+        width: 95%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .nav-pill-wrapper {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .brand-pill {
+        padding: 12px 20px;
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .nav-brand-pill {
+        font-size: 0.8rem;
+        letter-spacing: 6px;
+    }
+
+    .nav-links-pill {
+        padding: 12px 15px;
+        gap: 15px;
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .nav-item {
+        font-size: 0.7rem;
+    }
+
+    .layout-header {
+        padding: 150px 20px 40px;
+    }
+
+    .layout-header h1 {
+        font-size: 1.8rem;
+        line-height: 1.2;
+    }
+
+    .prism-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: minmax(200px, auto);
+        gap: 20px;
+    }
+
+    .bento-card.grid-large {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .bento-card {
+        padding: 30px;
+    }
+
+    .bento-card h3 {
+        font-size: 1.4rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        letter-spacing: 3px;
+        margin-bottom: 40px;
+    }
+
+    .modal-content {
+        padding: 40px 20px;
+        width: 90%;
+        border-radius: 30px;
+    }
+
+    /* Admin Sidebar Responsiveness */
+    .aura-nav {
+        left: -100%;
+        top: 0;
+        transform: none;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.9);
+        backdrop-filter: blur(40px);
+        width: 250px;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+    .aura-nav.active {
+        left: 0;
+    }
+
+    .glass-pill {
+        padding: 0;
+        background: none;
+        backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    .glass-pill a {
+        text-align: left;
+        padding: 15px 25px;
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .portal-container {
+        margin: 100px auto 40px;
+        width: 90%;
+    }
 }

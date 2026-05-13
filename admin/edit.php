@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $title = sanitize($_POST['section_title']);
     $desc = sanitize($_POST['description']);
+    $nav_id = !empty($_POST['nav_item_id']) ? (int)$_POST['nav_item_id'] : null;
     $image_path = $section['image_path'];
 
     if (isset($_FILES['section_image']) && $_FILES['section_image']['error'] == 0) {
@@ -47,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $stmt = $pdo->prepare("UPDATE content SET section_title = ?, description = ?, image_path = ? WHERE id = ?");
-    $stmt->execute([$title, $desc, $image_path, $id]);
+    $stmt = $pdo->prepare("UPDATE content SET section_title = ?, description = ?, image_path = ?, nav_item_id = ? WHERE id = ?");
+    $stmt->execute([$title, $desc, $image_path, $nav_id, $id]);
     header("Location: dashboard.php?view=manage&msg=updated");
     exit();
 }
@@ -87,6 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <section class="aura-card">
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+
+                <?php
+                    $navOptions = $pdo->query("SELECT id, label FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
+                ?>
+                <div style="margin-bottom: 30px;">
+                    <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">Section / Destination</label>
+                    <select name="nav_item_id" class="form-control">
+                        <option value="">Primary Landing Page</option>
+                        <?php foreach ($navOptions as $opt): ?>
+                            <option value="<?php echo $opt['id']; ?>" <?php echo $section['nav_item_id'] == $opt['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($opt['label']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
                 <div style="margin-bottom: 30px;">
                     <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">Title</label>
