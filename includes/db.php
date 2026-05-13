@@ -73,10 +73,14 @@ try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM navigation_items");
     if ($stmt->fetchColumn() == 0) {
         $items = [
-            ['Home', '#hero', 0, 'main'],
-            ['Explore', '#features', 1, 'main'],
-            ['Features', '#features', 2, 'main'],
-            ['Contact', '#', 3, 'main'],
+            ['HOME', 'index.php', 0, 'main'],
+            ['COLLECTIONS', 'categories.php', 1, 'main'],
+            ['ABOUT US', '#', 2, 'main'],
+            ['MENU', '#', 3, 'main'],
+            ['EXPLORE', 'explore.php', 4, 'main'],
+            ['BLOG', '#', 5, 'main'],
+            ['GALLERY', '#', 6, 'main'],
+            ['GET IN TOUCH', '#contact-modal', 7, 'main'],
             ['Portal', 'dashboard.php?view=overview', 0, 'admin'],
             ['Aura', 'dashboard.php?view=settings', 1, 'admin'],
             ['Create', 'dashboard.php?view=add', 2, 'admin'],
