@@ -145,7 +145,29 @@ $view = $_GET['view'] ?? 'overview';
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="aura-body">
-    <?php include '../includes/header.php'; ?>
+    <div class="aura-portal-bg"></div>
+
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <nav class="aura-nav" id="adminSidebar">
+        <div class="glass-pill">
+            <?php
+            $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'admin' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
+            foreach ($navItems as $item):
+                $activeClass = ($view == str_replace('dashboard.php?view=', '', $item['link_url'])) ? 'active' : '';
+            ?>
+                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="<?php echo $activeClass; ?>"><?php echo htmlspecialchars($item['label']); ?></a>
+            <?php endforeach; ?>
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-book-us" style="color: var(--primary-color); font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 20px;">BOOK US</a>
+            <a href="logout.php" style="color: var(--danger-color); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">Exit</a>
+        </div>
+    </nav>
 
     <main class="portal-container">
         <div style="max-width: 900px; margin: 0 auto; width: 100%;">
@@ -168,6 +190,29 @@ $view = $_GET['view'] ?? 'overview';
 
                 <div class="portal-grid">
                     <section class="aura-card welcome-section" style="position: relative;">
+                        <div class="dashboard-laurel-container">
+                            <div class="laurel-icon small">
+                                <svg viewBox="0 0 100 80" class="laurel-svg">
+                                    <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="15" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="30" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="45" cy="12" r="3" fill="currentColor"/>
+                                    <circle cx="85" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="80" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="70" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="55" cy="12" r="3" fill="currentColor"/>
+                                </svg>
+                                <div class="laurel-text">
+                                    <span class="book">BOOK</span>
+                                    <span class="now">US</span>
+                                </div>
+                                <div class="laurel-stars">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                            </div>
+                        </div>
                         <h2>Perspective</h2>
                         <p>Your digital workspace is currently vibrating at peak performance. All systems are synchronized with your creative vision.</p>
 

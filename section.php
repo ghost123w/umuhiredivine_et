@@ -42,6 +42,10 @@ if (!$navItem) {
 $stmt = $pdo->prepare("SELECT * FROM content WHERE nav_item_id = ? ORDER BY id DESC");
 $stmt->execute([$nav_id]);
 $fixtures = $stmt->fetchAll();
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
+$stmt->execute();
+$book_us_link = $stmt->fetchColumn() ?: '#';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,13 +57,36 @@ $fixtures = $stmt->fetchAll();
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="landing-page">
-    <?php include 'includes/header.php'; ?>
+<body class="aura-body">
+    <div class="stroll-bg-container">
+        <div class="stroll-bg-image" style="background-image: url('images/aura-bg.jpg');"></div>
+        <div class="mesh-gradient"></div>
+        <div class="grain-overlay"></div>
+    </div>
 
-    <main class="layout-main">
-        <header class="layout-header" style="padding: 100px 0 60px;">
-            <h1 class="shimmer-text" style="font-size: 5rem; letter-spacing: -2px;"><?php echo htmlspecialchars(strtoupper($navItem['label'])); ?></h1>
-            <p style="text-transform: uppercase; letter-spacing: 10px; color: #999; font-size: 0.8rem; margin-top: 20px;">Artisan Experience</p>
+    <nav class="aura-nav-compact scrolled">
+        <div class="nav-pill-wrapper">
+            <div class="brand-pill">
+                <a href="index.php" class="nav-brand-pill"><?php echo htmlspecialchars(SITE_NAME); ?></a>
+            </div>
+            <div class="nav-links-pill">
+                <?php
+                $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
+                foreach ($navItems as $item):
+                    $activeClass = ($item['id'] == $nav_id) ? 'active' : '';
+                    $idAttr = ($item['label'] == 'Contact') ? 'id="contact-trigger"' : '';
+                ?>
+                    <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item <?php echo $activeClass; ?>" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
+                <?php endforeach; ?>
+                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight">BOOK<br>US NOW</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="layout-main" style="padding-top: 150px;">
+        <header class="layout-header" style="text-align: center; margin-bottom: 100px;">
+            <h1 class="shimmer-text" style="font-family: 'Cinzel', serif; font-size: 4rem; letter-spacing: 15px; margin: 0;"><?php echo htmlspecialchars($navItem['label']); ?></h1>
+            <div style="width: 100px; height: 2px; background: var(--primary-color); margin: 30px auto; box-shadow: 0 0 20px var(--primary-color);"></div>
         </header>
 
         <div class="prism-grid">
@@ -86,6 +113,26 @@ $fixtures = $stmt->fetchAll();
                             <h3><?php echo htmlspecialchars($f['section_title']); ?></h3>
                             <p><?php echo htmlspecialchars($f['description']); ?></p>
                             <button class="card-btn" onclick="openContactModal('<?php echo addslashes($f['section_title']); ?>')">Enquire</button>
+                        </div>
+                        <div class="card-laurel-container">
+                            <div class="laurel-icon mini">
+                                <svg viewBox="0 0 100 80" class="laurel-svg">
+                                    <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="15" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="30" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="45" cy="12" r="3" fill="currentColor"/>
+                                    <circle cx="85" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="80" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="70" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="55" cy="12" r="3" fill="currentColor"/>
+                                </svg>
+                                <div class="laurel-text">
+                                    <span class="book">BOOK</span>
+                                    <span class="now">US</span>
+                                </div>
+                            </div>
                         </div>
                     </section>
                 <?php endforeach; ?>
