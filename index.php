@@ -67,24 +67,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
     <?php include 'includes/header.php'; ?>
 
     <div class="layout-wrapper">
-        <header class="layout-header" id="hero">
-            <h1 class="shimmer-text"><?php echo htmlspecialchars(strtoupper(SITE_NAME)); ?></h1>
-            <div class="vintage-frame">Expressing culture through taste</div>
+        <header class="layout-header" id="hero" style="padding: 100px 0 60px;">
+            <h1 class="shimmer-text" style="font-size: 5rem; letter-spacing: -2px;"><?php echo htmlspecialchars(strtoupper(SITE_NAME)); ?></h1>
+            <p style="text-transform: uppercase; letter-spacing: 10px; color: #999; font-size: 0.8rem; margin-top: 20px;">Expressing culture through taste</p>
         </header>
     </div>
 
-    <div class="section-nav">
-        <div class="section-nav-inner">
-            <?php foreach ($navItems as $index => $item):
-                $dotId = ($item['label'] == 'Contact') ? 'id="side-contact"' : '';
-                $activeClass = ($index === 0) ? 'active' : '';
-            ?>
-                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="dot-nav <?php echo $activeClass; ?>" <?php echo $dotId; ?> data-tooltip="<?php echo htmlspecialchars($item['label']); ?>"></a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-
-        <main class="layout-main" id="features" style="padding-top: 100px;">
+        <main class="layout-main" id="features">
             <?php if (!empty($selling_points_title)): ?>
                 <div class="section-header reveal-item">
                     <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
@@ -102,27 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
                             <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
                             <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
                         </div>
-                        <div class="card-laurel-container">
-                            <div class="laurel-icon mini">
-                                <svg viewBox="0 0 100 80" class="laurel-svg">
-                                    <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
-                                    <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
-                                    <circle cx="15" cy="30" r="3" fill="currentColor"/>
-                                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
-                                    <circle cx="30" cy="15" r="3" fill="currentColor"/>
-                                    <circle cx="45" cy="12" r="3" fill="currentColor"/>
-                                    <circle cx="85" cy="30" r="3" fill="currentColor"/>
-                                    <circle cx="80" cy="20" r="3" fill="currentColor"/>
-                                    <circle cx="70" cy="15" r="3" fill="currentColor"/>
-                                    <circle cx="55" cy="12" r="3" fill="currentColor"/>
-                                </svg>
-                                <div class="laurel-text">
-                                    <span class="book">BOOK</span>
-                                    <span class="now">US</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="aura-pulse-element"></div>
                     </div>
                 <?php endforeach; ?>
             </div>
