@@ -114,6 +114,26 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
                             <p><?php echo htmlspecialchars($f['description']); ?></p>
                             <button class="card-btn" onclick="openContactModal('<?php echo addslashes($f['section_title']); ?>')">Enquire</button>
                         </div>
+                        <div class="card-laurel-container">
+                            <div class="laurel-icon mini">
+                                <svg viewBox="0 0 100 80" class="laurel-svg">
+                                    <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="15" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="30" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="45" cy="12" r="3" fill="currentColor"/>
+                                    <circle cx="85" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="80" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="70" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="55" cy="12" r="3" fill="currentColor"/>
+                                </svg>
+                                <div class="laurel-text">
+                                    <span class="book">BOOK</span>
+                                    <span class="now">US</span>
+                                </div>
+                            </div>
+                        </div>
                     </section>
                 <?php endforeach; ?>
             <?php endif; ?>

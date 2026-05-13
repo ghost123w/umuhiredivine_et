@@ -63,18 +63,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
 </head>
 <body class="landing-page">
     <div class="stroll-bg-container">
+        <div class="stroll-bg-image" style="background-image: url('images/aura-bg.jpg');"></div>
         <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
-    <div class="layout-wrapper">
-        <header class="layout-header" id="hero">
-            <div class="vintage-frame">
-                <h1><?php echo SITE_NAME; ?></h1>
-            </div>
-        </header>
-
     <div class="aura-brand-header">
         <a href="#" class="brand-title"><?php echo SITE_NAME; ?></a>
+    </div>
+
+    <div class="layout-wrapper">
+        <header class="layout-header" id="hero">
+        </header>
     </div>
 
     <nav class="aura-nav-luxury">
@@ -83,8 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
             $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
             foreach ($navItems as $item):
                 $idAttr = ($item['label'] == 'Contact') ? 'id="contact-trigger"' : '';
+                $activeClass = ($item['label'] == 'Home') ? 'active' : '';
             ?>
-                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
+                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item <?php echo $activeClass; ?>" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
             <?php endforeach; ?>
             <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight">BOOK<br>US NOW</a>
         </div>
@@ -118,6 +118,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
                         <div class="card-content">
                             <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
                             <p><?php echo nl2br(htmlspecialchars($s['description'])); ?></p>
+                        </div>
+                        <div class="card-laurel-container">
+                            <div class="laurel-icon mini">
+                                <svg viewBox="0 0 100 80" class="laurel-svg">
+                                    <path d="M10,40 Q10,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M90,40 Q90,10 50,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="15" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="30" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="45" cy="12" r="3" fill="currentColor"/>
+                                    <circle cx="85" cy="30" r="3" fill="currentColor"/>
+                                    <circle cx="80" cy="20" r="3" fill="currentColor"/>
+                                    <circle cx="70" cy="15" r="3" fill="currentColor"/>
+                                    <circle cx="55" cy="12" r="3" fill="currentColor"/>
+                                </svg>
+                                <div class="laurel-text">
+                                    <span class="book">BOOK</span>
+                                    <span class="now">US</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="aura-pulse-element"></div>
                     </div>

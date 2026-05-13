@@ -105,7 +105,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
+$filter_nav_id = $_GET['filter_nav'] ?? null;
+if ($filter_nav_id === 'landing') {
+    $sections = $pdo->query("SELECT * FROM content WHERE nav_item_id IS NULL ORDER BY id ASC")->fetchAll();
+} elseif ($filter_nav_id) {
+    $stmt = $pdo->prepare("SELECT * FROM content WHERE nav_item_id = ? ORDER BY id ASC");
+    $stmt->execute([(int)$filter_nav_id]);
+    $sections = $stmt->fetchAll();
+} else {
+    $sections = $pdo->query("SELECT * FROM content ORDER BY id ASC")->fetchAll();
+}
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
@@ -314,14 +323,29 @@ $view = $_GET['view'] ?? 'overview';
                 </section>
             <?php endif; ?>
 
-            <?php if ($view == 'manage'): ?>
+            <?php if ($view == 'manage'):
+                $navOptions = $pdo->query("SELECT id, label FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
+            ?>
                 <section class="aura-card">
-                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Masterpiece <span style="color: var(--primary-color);">Archive</span></h2>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                        <h2 style="font-family: 'Cinzel', serif; margin: 0;">Masterpiece <span style="color: var(--primary-color);">Archive</span></h2>
+                        <form method="GET" style="display: flex; gap: 10px; align-items: center;">
+                            <input type="hidden" name="view" value="manage">
+                            <select name="filter_nav" class="form-control" style="padding: 10px; font-size: 0.7rem; min-width: 200px;" onchange="this.form.submit()">
+                                <option value="">ALL FREQUENCIES</option>
+                                <option value="landing" <?php echo $filter_nav_id === 'landing' ? 'selected' : ''; ?>>PRIMARY LANDING PAGE</option>
+                                <?php foreach ($navOptions as $opt): ?>
+                                    <option value="<?php echo $opt['id']; ?>" <?php echo $filter_nav_id == $opt['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars(strtoupper($opt['label'])); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </form>
+                    </div>
+
                     <table class="admin-table">
                         <thead>
                             <tr>
                                 <th style="border: none; padding-bottom: 20px;">Asset</th>
-                                <th style="border: none; padding-bottom: 20px;">Title</th>
+                                <th style="border: none; padding-bottom: 20px;">Title & Destination</th>
                                 <th style="text-align: right; border: none; padding-bottom: 20px;">Actions</th>
                             </tr>
                         </thead>
@@ -341,7 +365,16 @@ $view = $_GET['view'] ?? 'overview';
                                             <?php endif; ?>
                                         </td>
                                         <td style="background: transparent; vertical-align: middle;">
-                                            <strong style="color: #fff; font-size: 1.1rem;"><?php echo htmlspecialchars($s['section_title']); ?></strong>
+                                            <strong style="color: #fff; font-size: 1.1rem; display: block;"><?php echo htmlspecialchars($s['section_title']); ?></strong>
+                                            <?php
+                                                $dest = "Primary Landing Page";
+                                                if ($s['nav_item_id']) {
+                                                    $stmt = $pdo->prepare("SELECT label FROM navigation_items WHERE id = ?");
+                                                    $stmt->execute([$s['nav_item_id']]);
+                                                    $dest = $stmt->fetchColumn() ?: "Unknown Section";
+                                                }
+                                            ?>
+                                            <span style="font-size: 0.6rem; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px;"><?php echo htmlspecialchars($dest); ?></span>
                                         </td>
                                         <td style="text-align: right; background: transparent; vertical-align: middle;">
                                             <a href="edit.php?id=<?php echo $s['id']; ?>" class="btn-primary" style="padding: 10px 25px; text-decoration: none; font-size: 0.8rem; border-radius: 100px;">REFINE</a>

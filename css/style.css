@@ -278,10 +278,9 @@ body {
 .aura-brand-header {
     position: fixed;
     top: 40px;
-    left: 0;
-    width: 100%;
+    left: 60px;
     z-index: 1001;
-    text-align: center;
+    text-align: left;
     pointer-events: none;
 }
 
@@ -581,6 +580,21 @@ body.features-active .section-nav {
 .laurel-text .book { font-size: 3.2rem; display: block; letter-spacing: 4px; }
 .laurel-text .now { font-size: 3.2rem; display: block; letter-spacing: 6px; }
 
+.laurel-icon.mini {
+    width: 60px;
+    height: 50px;
+}
+
+.laurel-icon.mini .laurel-text .book,
+.laurel-icon.mini .laurel-text .now {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+}
+
+.laurel-icon.mini .laurel-stars {
+    display: none;
+}
+
 .laurel-stars {
     margin-top: 15px;
     font-size: 1.8rem;
@@ -684,6 +698,20 @@ body.features-active .section-nav {
     text-align: center;
     margin-bottom: 60px;
     letter-spacing: 6px;
+}
+
+.card-laurel-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.4;
+    transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    z-index: 2;
+}
+
+.bento-card:hover .card-laurel-container {
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 .aura-pulse-element {
