@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Find the Explore Nav Item ID
-$stmt = $pdo->prepare("SELECT id FROM navigation_items WHERE link_url LIKE '%explore.php%' OR label = 'Explore' LIMIT 1");
+$stmt = $pdo->prepare("SELECT id FROM navigation_items WHERE link_url LIKE '%explore.php%' OR label = 'EXPLORE' LIMIT 1");
 $stmt->execute();
 $nav_id = $stmt->fetchColumn();
 
@@ -36,10 +36,6 @@ if ($nav_id) {
     $stmt->execute([$nav_id]);
     $fixtures = $stmt->fetchAll();
 }
-
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
-$stmt->execute();
-$book_us_link = $stmt->fetchColumn() ?: '#';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,24 +54,7 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
         <div class="grain-overlay"></div>
     </div>
 
-    <nav class="aura-nav-compact scrolled">
-        <div class="nav-pill-wrapper">
-            <div class="brand-pill">
-                <a href="index.php" class="nav-brand-pill"><?php echo htmlspecialchars(SITE_NAME); ?></a>
-            </div>
-            <div class="nav-links-pill">
-                <?php
-                $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
-                foreach ($navItems as $item):
-                    $activeClass = ($item['label'] == 'Explore') ? 'active' : '';
-                    $idAttr = ($item['label'] == 'Contact') ? 'id="contact-trigger"' : '';
-                ?>
-                    <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item <?php echo $activeClass; ?>" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
-                <?php endforeach; ?>
-                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight">BOOK<br>US NOW</a>
-            </div>
-        </div>
-    </nav>
+    <?php include 'includes/header.php'; ?>
 
     <main class="layout-main" style="padding-top: 150px;">
         <header class="layout-header" style="text-align: center; margin-bottom: 100px;">

@@ -24,10 +24,6 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'c
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
 
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
-$stmt->execute();
-$book_us_link = $stmt->fetchColumn() ?: '#';
-
 $contact_msg = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
@@ -67,28 +63,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
         <div class="mesh-bg"></div>
         <div class="stroll-bg-overlay"></div>
     </div>
-    <div class="aura-brand-header">
-        <a href="#" class="brand-title"><?php echo SITE_NAME; ?></a>
-    </div>
+
+    <?php include 'includes/header.php'; ?>
 
     <div class="layout-wrapper">
         <header class="layout-header" id="hero">
+            <h1 class="shimmer-text"><?php echo htmlspecialchars(strtoupper(SITE_NAME)); ?></h1>
+            <div class="vintage-frame">Expressing culture through taste</div>
         </header>
     </div>
-
-    <nav class="aura-nav-luxury">
-        <div class="nav-links-pill">
-            <?php
-            $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
-            foreach ($navItems as $item):
-                $idAttr = ($item['label'] == 'Contact') ? 'id="contact-trigger"' : '';
-                $activeClass = ($item['label'] == 'Home') ? 'active' : '';
-            ?>
-                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="nav-item <?php echo $activeClass; ?>" <?php echo $idAttr; ?>><?php echo htmlspecialchars($item['label']); ?></a>
-            <?php endforeach; ?>
-            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="nav-item highlight">BOOK<br>US NOW</a>
-        </div>
-    </nav>
 
     <div class="section-nav">
         <div class="section-nav-inner">
@@ -101,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['send_message'])) {
         </div>
     </div>
 
-        <main class="layout-main" id="features">
+        <main class="layout-main" id="features" style="padding-top: 100px;">
             <?php if (!empty($selling_points_title)): ?>
                 <div class="section-header reveal-item">
                     <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
