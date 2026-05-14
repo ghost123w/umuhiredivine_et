@@ -4,7 +4,25 @@ require_once 'config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
-$stmt = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 AND label NOT IN ('HOME', 'GET IN TOUCH') ORDER BY sort_order ASC");
+require_once 'includes/contact-logic.php';
+
+// Optimized query to fetch categories and their preview images in one go
+$query = "
+    SELECT n.*, c.image_path
+    FROM navigation_items n
+    LEFT JOIN (
+        SELECT nav_item_id, MIN(id) as min_id
+        FROM content
+        WHERE image_path IS NOT NULL
+        GROUP BY nav_item_id
+    ) c_min ON n.id = c_min.nav_item_id
+    LEFT JOIN content c ON c.id = c_min.min_id
+    WHERE n.nav_type = 'main'
+      AND n.is_active = 1
+      AND n.label NOT IN ('HOME', 'GET IN TOUCH')
+    ORDER BY n.sort_order ASC
+";
+$stmt = $pdo->query($query);
 $categories = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -21,16 +39,13 @@ $categories = $stmt->fetchAll();
     <?php include 'includes/header.php'; ?>
 
     <main class="layout-main">
-        <div style="margin-bottom: 80px; text-align: center;">
-            <h2 class="section-title" style="font-size: 5rem;">OUR CATEGORIES</h2>
+        <div class="categories-header">
+            <h2 class="section-title">OUR CATEGORIES</h2>
         </div>
 
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):
-                // Try to find an image from content for this category if possible
-                $imgStmt = $pdo->prepare("SELECT image_path FROM content WHERE nav_item_id = ? AND image_path IS NOT NULL LIMIT 1");
-                $imgStmt->execute([$cat['id']]);
-                $bg_image = $imgStmt->fetchColumn();
+                $bg_image = $cat['image_path'];
             ?>
                 <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card">
                     <?php if ($bg_image): ?>
@@ -45,8 +60,12 @@ $categories = $stmt->fetchAll();
         </div>
     </main>
 
+    <?php include 'includes/contact-modal.php'; ?>
+
     <footer class="aura-footer">
         &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?> &mdash; LUXURY EXPERIENCE
     </footer>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

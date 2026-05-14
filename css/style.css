@@ -700,6 +700,15 @@ body.features-active .section-nav {
     letter-spacing: 6px;
 }
 
+.categories-header {
+    margin-bottom: 80px;
+    text-align: center;
+}
+
+.categories-header .section-title {
+    font-size: 5rem;
+}
+
 .card-laurel-container {
     position: absolute;
     bottom: 20px;

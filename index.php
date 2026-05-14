@@ -4,6 +4,8 @@ require_once 'config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
+require_once 'includes/contact-logic.php';
+
 $stmt = $pdo->query("SELECT * FROM content WHERE nav_item_id IS NULL ORDER BY id ASC");
 $sections = $stmt->fetchAll();
 
@@ -18,20 +20,6 @@ $cta_text = $stmt->fetchColumn() ?: 'Get Started';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'cta_link'");
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_message'])) {
-    if (!verify_csrf_token($_POST['csrf_token'])) {
-        die("CSRF token validation failed.");
-    }
-    $name = sanitize($_POST['name']);
-    $email = sanitize($_POST['email']);
-    $subject = sanitize($_POST['subject']);
-    $message = sanitize($_POST['message']);
-
-    $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$name, $email, $subject, $message]);
-    $success = true;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,9 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_message'])) {
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h2 class="hero-title"><?php echo strtoupper(SITE_NAME); ?></h2>
-            <div class="hero-slogan-box">
-                <p class="hero-slogan">EXPRESSING CULTURE THROUGH TASTE</p>
-            </div>
         </div>
     </section>
 
@@ -80,57 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_message'])) {
         </div>
     </main>
 
-    <!-- Contact Modal -->
-    <div id="contact-modal" class="aura-modal">
-        <div class="modal-overlay" onclick="toggleModal('contact-modal')"></div>
-        <div class="modal-content">
-            <h2 style="font-family: 'Cinzel', serif; margin-bottom: 30px;">GET IN <span style="color: var(--primary-color);">TOUCH</span></h2>
-            <form id="contactForm" method="POST">
-                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                <input type="text" name="name" class="aura-input" placeholder="NAME" required>
-                <input type="email" name="email" class="aura-input" placeholder="EMAIL" required>
-                <input type="text" name="subject" class="aura-input" placeholder="SUBJECT" required id="modalSubject">
-                <textarea name="message" class="aura-input" placeholder="MESSAGE" rows="5" required></textarea>
-                <button type="submit" name="send_message" class="cta-shimmer">SEND MESSAGE</button>
-            </form>
-        </div>
-    </div>
+    <?php include 'includes/contact-modal.php'; ?>
 
     <footer class="aura-footer">
         &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?> &mdash; LUXURY EXPERIENCE
     </footer>
 
-    <?php if (isset($success)): ?>
-    <div id="success-toast" class="success-toast active">
-        Message sent successfully!
-    </div>
-    <script>
-        setTimeout(() => {
-            document.getElementById('success-toast').classList.remove('active');
-        }, 3000);
-    </script>
-    <?php endif; ?>
-
     <script src="js/script.js"></script>
-    <script>
-        function toggleModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.toggle('active');
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('aura-modal')) {
-                event.target.classList.remove('active');
-            }
-        }
-
-        // Handle navigation to modal
-        document.querySelectorAll('a[href="#contact-modal"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleModal('contact-modal');
-            });
-        });
-    </script>
 </body>
 </html>
