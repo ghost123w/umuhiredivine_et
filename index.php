@@ -6,8 +6,8 @@ require_once 'includes/functions.php';
 
 require_once 'includes/contact-logic.php';
 
-$stmt = $pdo->query("SELECT * FROM content WHERE nav_item_id IS NULL ORDER BY id ASC");
-$sections = $stmt->fetchAll();
+$stmt = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 AND label NOT IN ('HOME', 'GET IN TOUCH') ORDER BY sort_order ASC");
+$categories = $stmt->fetchAll();
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
@@ -38,29 +38,22 @@ $cta_link = $stmt->fetchColumn() ?: '#';
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h2 class="hero-title"><?php echo strtoupper(SITE_NAME); ?></h2>
+            <div class="hero-slogan-box">
+                <p class="hero-slogan">BY PODs</p>
+            </div>
         </div>
     </section>
 
     <main class="layout-main">
-        <?php if (!empty($selling_points_title)): ?>
-            <h2 class="section-title"><?php echo htmlspecialchars($selling_points_title); ?></h2>
-        <?php endif; ?>
-
         <div class="prism-grid">
-            <?php foreach ($sections as $index => $s): ?>
-                <div class="bento-card <?php
-                    if ($index == 0) echo 'grid-large';
-                    elseif ($index == 1) echo 'grid-tall';
-                    else echo 'grid-small';
-                ?>">
-                    <?php if ($s['image_path']): ?>
-                        <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($s['image_path']); ?>');"></div>
-                    <?php endif; ?>
+            <?php foreach ($categories as $index => $cat): ?>
+                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card">
+                    <div class="card-bg-image" style="background-image: url('images/category-bg.png');"></div>
                     <div class="card-content">
-                        <h3><?php echo htmlspecialchars($s['section_title']); ?></h3>
-                        <p><?php echo htmlspecialchars($s['description']); ?></p>
+                        <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
+                        <p>EXPLORE</p>
                     </div>
-                </div>
+                </a>
             <?php endforeach; ?>
         </div>
     </main>
