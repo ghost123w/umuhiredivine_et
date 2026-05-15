@@ -8,7 +8,13 @@ require_once 'includes/contact-logic.php';
 
 $stmt = $pdo->query("SELECT n.*, c.image_path
                     FROM navigation_items n
-                    LEFT JOIN content c ON n.label = c.title
+                    LEFT JOIN (
+                        SELECT nav_item_id, MIN(id) as min_id
+                        FROM content
+                        WHERE image_path IS NOT NULL
+                        GROUP BY nav_item_id
+                    ) c_min ON n.id = c_min.nav_item_id
+                    LEFT JOIN content c ON c.id = c_min.min_id
                     WHERE n.nav_type = 'main' AND n.is_active = 1 AND n.label NOT IN ('HOME', 'GET IN TOUCH')
                     ORDER BY n.sort_order ASC");
 $categories = $stmt->fetchAll();
