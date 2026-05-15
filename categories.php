@@ -44,12 +44,14 @@ $categories = $stmt->fetchAll();
         </div>
 
         <div class="prism-grid">
-            <?php foreach ($categories as $index => $cat): ?>
+            <?php foreach ($categories as $index => $cat):
+                $img = !empty($cat['image_path']) ? $cat['image_path'] : 'images/category-bg.png';
+            ?>
                 <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card">
-                    <div class="card-bg-image" style="background-image: url('images/category-bg.png');"></div>
+                    <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($img); ?>');"></div>
                     <div class="card-content">
                         <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                        <p>EXPLORE</p>
+                        <p>EXPLORE CATEGORY</p>
                     </div>
                 </a>
             <?php endforeach; ?>
