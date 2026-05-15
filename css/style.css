@@ -231,7 +231,7 @@ body {
 }
 
 .layout-main {
-    padding: 120px 20px 60px;
+    padding: 80vh 20px 60px;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
@@ -441,8 +441,15 @@ body.features-active .section-nav {
     box-shadow: 0 0 20px rgba(255, 53, 3, 0.4);
 }
 
-/* Prism Bento Grid */
+/* Prism Bento Grid - Luxury Overlay */
 .prism-grid {
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    padding: 60px;
+    border-radius: 60px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -50px 100px rgba(0,0,0,0.8);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 350px;
@@ -1269,30 +1276,32 @@ body.features-active .section-nav {
     color: var(--primary-color);
 }
 
-/* Hero Section Refinement */
+/* Hero Section Refinement - Main Branding Background */
 .hero-section {
-    position: relative;
-    height: 90vh;
+    position: fixed; /* Fixed background branding */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     background: #000;
-    margin-bottom: -100px;
-    z-index: 10;
+    z-index: -1; /* Place behind layout-main */
     overflow: hidden;
 }
 
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.2);
+    background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
 }
 
 .hero-content {
     position: relative;
-    z-index: 20;
+    z-index: 1;
 }
 
 .hero-brand-stack {

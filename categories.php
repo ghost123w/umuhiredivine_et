@@ -37,6 +37,7 @@ $categories = $stmt->fetchAll();
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
+    <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
         <div class="categories-header">
