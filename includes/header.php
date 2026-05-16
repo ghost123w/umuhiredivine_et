@@ -6,6 +6,30 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'b
 $stmt->execute();
 $book_us_link = $stmt->fetchColumn() ?: '#';
 
+// Fetch Social Media Links
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'facebook_link'");
+$stmt->execute();
+$fb_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'x_link'");
+$stmt->execute();
+$x_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'instagram_link'");
+$stmt->execute();
+$ig_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'whatsapp_link'");
+$stmt->execute();
+$wa_link = $stmt->fetchColumn() ?: '#';
+
+$social_links = [
+    'facebook' => $fb_link,
+    'x' => $x_link,
+    'instagram' => $ig_link,
+    'whatsapp' => $wa_link
+];
+
 // Fetch main navigation items
 $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC LIMIT 8")->fetchAll();
 
@@ -17,8 +41,10 @@ $base_path = $is_admin ? '../' : '';
 <header class="site-header">
     <div class="header-top">
         <div class="header-socials">
-            <?php foreach ($socials as $name => $svg): ?>
-                <a href="#" class="social-link" title="<?php echo ucfirst($name); ?>">
+            <?php foreach ($socials as $name => $svg):
+                $link = $social_links[$name] ?? '#';
+            ?>
+                <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
                     <?php echo $svg; ?>
                 </a>
             <?php endforeach; ?>

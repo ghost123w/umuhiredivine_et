@@ -25,6 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('book_us_link', ?)");
         $stmt->execute([$book_us_link]);
 
+        // Social Media Links
+        $fb = sanitize($_POST['facebook_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('facebook_link', ?)")->execute([$fb]);
+
+        $x = sanitize($_POST['x_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('x_link', ?)")->execute([$x]);
+
+        $ig = sanitize($_POST['instagram_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('instagram_link', ?)")->execute([$ig]);
+
+        $wa = sanitize($_POST['whatsapp_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('whatsapp_link', ?)")->execute([$wa]);
+
         header("Location: dashboard.php?view=settings&msg=settings_updated");
         exit();
     }
@@ -131,6 +144,23 @@ $cta_link = $stmt->fetchColumn() ?: '#';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
 $stmt->execute();
 $book_us_link = $stmt->fetchColumn() ?: '#';
+
+// Fetch Social Media Links
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'facebook_link'");
+$stmt->execute();
+$facebook_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'x_link'");
+$stmt->execute();
+$x_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'instagram_link'");
+$stmt->execute();
+$instagram_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'whatsapp_link'");
+$stmt->execute();
+$whatsapp_link = $stmt->fetchColumn() ?: '#';
 
 $view = $_GET['view'] ?? 'overview';
 ?>
@@ -279,7 +309,29 @@ $view = $_GET['view'] ?? 'overview';
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Book Us Link (Admin Nav)</label>
                             <input type="text" name="book_us_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($book_us_link); ?>" placeholder="Enter URL for the admin Book Us button" required>
                         </div>
-                        <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
+
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Social Media <span style="color: #fff;">Connectivities</span></h3>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">Facebook URL</label>
+                                <input type="text" name="facebook_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($facebook_link); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">X (Twitter) URL</label>
+                                <input type="text" name="x_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($x_link); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">Instagram URL</label>
+                                <input type="text" name="instagram_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($instagram_link); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">WhatsApp URL / Link</label>
+                                <input type="text" name="whatsapp_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($whatsapp_link); ?>">
+                            </div>
+                        </div>
+
+                        <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
                 </section>
             <?php endif; ?>
