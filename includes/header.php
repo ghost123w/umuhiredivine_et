@@ -33,8 +33,6 @@ $base_path = $is_admin ? '../' : '';
             <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
             <?php if ($is_admin): ?>
                 <a href="../logout.php" class="admin-portal-link" style="margin-left: 20px;">EXIT</a>
-            <?php else: ?>
-                <a href="admin/login.php" class="admin-portal-link" style="margin-left: 20px;">PORTAL</a>
             <?php endif; ?>
         </div>
     </div>
