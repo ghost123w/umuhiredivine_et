@@ -52,7 +52,6 @@ $base_path = $is_admin ? '../' : '';
 
         <div class="header-branding">
             <h1 class="brand-title"><?php echo strtoupper(SITE_NAME); ?></h1>
-            <span class="brand-sub">by PODs</span>
         </div>
 
         <div class="header-actions">
