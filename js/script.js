@@ -14,6 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Open Contact Modal with Subject
+    window.openContactModal = (subject = '') => {
+        const subjectInput = document.querySelector('#contact-modal input[name="subject"]');
+        if (subjectInput && subject) {
+            subjectInput.value = subject;
+        }
+        window.toggleModal('contact-modal');
+    };
+
     // Close on Modal Click
     window.onclick = function(event) {
         if (event.target.classList.contains('aura-modal')) {

@@ -41,18 +41,21 @@ $categories = $stmt->fetchAll();
 
     <main class="layout-main">
         <div class="categories-header">
-            <h2 class="section-title">OUR CATEGORIES</h2>
+            <h2 class="section-title">OUR COLLECTIONS</h2>
         </div>
 
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):
                 $img = !empty($cat['image_path']) ? $cat['image_path'] : 'images/category-bg.png';
+                $card_class = 'bento-card';
+                if ($index % 5 == 0) $card_class .= ' grid-large';
+                elseif ($index % 5 == 1 || $index % 5 == 2) $card_class .= ' grid-medium';
             ?>
-                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card">
+                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card <?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($img); ?>');"></div>
                     <div class="card-content">
                         <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                        <p>EXPLORE CATEGORY</p>
+                        <p>EXPLORE COLLECTION</p>
                     </div>
                 </a>
             <?php endforeach; ?>

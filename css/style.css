@@ -1181,15 +1181,18 @@ body.features-active .section-nav {
 /* New Header Styles */
 .site-header {
     background: #000;
-    padding: 20px 60px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 30px 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .header-socials {
@@ -1214,10 +1217,12 @@ body.features-active .section-nav {
 
 .header-branding .brand-title {
     font-family: 'Cinzel', serif;
-    font-size: 2.2rem;
+    font-size: 3rem;
     margin: 0;
-    letter-spacing: 4px;
+    letter-spacing: 8px;
     color: var(--primary-color);
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(255, 53, 3, 0.6), 0 0 40px rgba(255, 53, 3, 0.3);
 }
 
 .brand-sub {
@@ -1259,15 +1264,15 @@ body.features-active .section-nav {
 .header-menu {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 40px;
 }
 
 .menu-item {
     color: #fff;
     text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: bold;
-    letter-spacing: 2px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 3px;
     text-transform: uppercase;
     transition: 0.3s;
 }
@@ -1289,7 +1294,7 @@ body.features-active .section-nav {
     align-items: center;
     text-align: center;
     background: #000;
-    background-image: url('../images/home-bg.jpg');
+    background-image: url('../images/brand-hero.jpg');
     background-size: cover;
     background-position: center;
     z-index: -1; /* Place behind layout-main */
