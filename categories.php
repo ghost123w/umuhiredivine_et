@@ -8,7 +8,16 @@ require_once 'includes/contact-logic.php';
 
 // Optimized query to fetch categories and their preview images in one go
 $query = "
-    SELECT n.*, c.image_path
+    SELECT n.*,
+    COALESCE(c.image_path,
+        CASE
+            WHEN n.label = 'MENU' THEN 'images/menu-bg.jpg'
+            WHEN n.label = 'BLOG' THEN 'images/blog-bg.jpg'
+            WHEN n.label = 'GALLERY' THEN 'images/gallery-bg.jpg'
+            WHEN n.label = 'EXPLORE' THEN 'images/explore-bg.jpg'
+            ELSE 'images/category-bg.png'
+        END
+    ) as display_image
     FROM navigation_items n
     LEFT JOIN (
         SELECT nav_item_id, MIN(id) as min_id
@@ -19,7 +28,7 @@ $query = "
     LEFT JOIN content c ON c.id = c_min.min_id
     WHERE n.nav_type = 'main'
       AND n.is_active = 1
-      AND n.label NOT IN ('HOME', 'GET IN TOUCH')
+      AND n.label NOT IN ('HOME', 'GET IN TOUCH', 'COLLECTIONS')
     ORDER BY n.sort_order ASC
 ";
 $stmt = $pdo->query($query);
@@ -46,16 +55,19 @@ $categories = $stmt->fetchAll();
 
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):
-                $img = !empty($cat['image_path']) ? $cat['image_path'] : 'images/category-bg.png';
+                $img = $cat['display_image'];
                 $card_class = 'bento-card';
-                if ($index % 5 == 0) $card_class .= ' grid-large';
-                elseif ($index % 5 == 1 || $index % 5 == 2) $card_class .= ' grid-medium';
+                // Pattern: Large, Medium, Medium, Small, Small
+                $pos = $index % 5;
+                if ($pos == 0) $card_class .= ' grid-large';
+                elseif ($pos == 1 || $pos == 2) $card_class .= ' grid-medium';
+                else $card_class .= ' grid-small';
             ?>
                 <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card <?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($img); ?>');"></div>
                     <div class="card-content">
                         <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                        <p>EXPLORE COLLECTION</p>
+                        <p>EXPLORE <?php echo htmlspecialchars($cat['label']); ?></p>
                     </div>
                 </a>
             <?php endforeach; ?>

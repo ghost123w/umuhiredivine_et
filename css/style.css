@@ -1181,23 +1181,36 @@ body.features-active .section-nav {
 /* New Header Styles */
 .site-header {
     background: #000;
-    padding: 30px 60px;
+    padding: 40px 60px 30px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-header.scrolled {
+    padding: 15px 60px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(20px);
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+    transition: 0.5s;
+}
+
+.site-header.scrolled .header-top {
+    margin-bottom: 10px;
+    transform: scale(0.9);
 }
 
 .header-socials {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     flex: 1;
 }
 
@@ -1206,8 +1219,14 @@ body.features-active .section-nav {
     transition: 0.3s;
 }
 
+.social-link svg {
+    width: 18px;
+    height: 18px;
+}
+
 .social-link:hover {
     color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
 .header-branding {
@@ -1217,18 +1236,18 @@ body.features-active .section-nav {
 
 .header-branding .brand-title {
     font-family: 'Cinzel', serif;
-    font-size: 3rem;
+    font-size: 4rem;
     margin: 0;
-    letter-spacing: 8px;
+    letter-spacing: 12px;
     color: var(--primary-color);
     font-weight: 900;
-    text-shadow: 0 0 20px rgba(255, 53, 3, 0.6), 0 0 40px rgba(255, 53, 3, 0.3);
+    text-shadow: 0 0 25px rgba(255, 53, 3, 0.8), 0 0 50px rgba(255, 53, 3, 0.4);
+    transition: 0.5s;
 }
 
-.brand-sub {
-    font-size: 0.6rem;
-    letter-spacing: 2px;
-    color: #888;
+.site-header.scrolled .brand-title {
+    font-size: 2.2rem;
+    letter-spacing: 8px;
 }
 
 .header-actions {
@@ -1240,13 +1259,14 @@ body.features-active .section-nav {
 
 .book-table-btn {
     border: 1px solid #fff;
-    padding: 10px 20px;
+    padding: 12px 25px;
     color: #fff;
     text-decoration: none;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    font-weight: bold;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    font-weight: 900;
     transition: 0.3s;
+    text-transform: uppercase;
 }
 
 .book-table-btn:hover {
@@ -1254,31 +1274,32 @@ body.features-active .section-nav {
     color: #000;
 }
 
-.admin-portal-link {
-    color: #666;
-    font-size: 0.6rem;
-    text-decoration: none;
-    letter-spacing: 1px;
-}
-
 .header-menu {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 50px;
+    padding: 10px 0;
 }
 
 .menu-item {
     color: #fff;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 900;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     transition: 0.3s;
+    opacity: 0.8;
 }
 
 .menu-item:hover, .menu-item.active {
     color: var(--primary-color);
+    opacity: 1;
+}
+
+.menu-item.active {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
 }
 
 /* Hero Section Refinement - Main Branding Background */
