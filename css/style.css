@@ -1289,6 +1289,9 @@ body.features-active .section-nav {
     align-items: center;
     text-align: center;
     background: #000;
+    background-image: url('../images/home-bg.jpg');
+    background-size: cover;
+    background-position: center;
     z-index: -1; /* Place behind layout-main */
     overflow: hidden;
 }
@@ -1296,7 +1299,7 @@ body.features-active .section-nav {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+    background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
 }
 
 .hero-content {
