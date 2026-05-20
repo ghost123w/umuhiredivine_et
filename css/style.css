@@ -1181,20 +1181,11 @@ body.features-active .section-nav {
 /* New Header Styles */
 .site-header {
     background: #000;
-    padding: 20px 60px 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: sticky;
-    top: 0;
+    padding: 30px 80px 20px;
+    position: relative;
     z-index: 1000;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.site-header.scrolled {
-    padding: 10px 60px;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(30px);
-    border-bottom: 1px solid rgba(255, 53, 3, 0.2);
-}
 
 .header-top {
     display: flex;
@@ -1204,9 +1195,6 @@ body.features-active .section-nav {
     transition: 0.5s;
 }
 
-.site-header.scrolled .header-top {
-    margin-bottom: 8px;
-}
 
 .header-socials {
     display: flex;
@@ -1236,23 +1224,15 @@ body.features-active .section-nav {
 
 .header-branding .brand-title {
     font-family: 'Cinzel', serif;
-    font-size: 2.8rem;
+    font-size: 3.8rem;
     margin: 0;
-    letter-spacing: 10px;
+    letter-spacing: 18px;
     color: var(--primary-color);
     font-weight: 900;
-    text-shadow:
-        0 0 10px rgba(255, 53, 3, 1),
-        0 0 30px rgba(255, 53, 3, 0.8),
-        0 0 60px rgba(255, 53, 3, 0.4);
-    transition: 0.5s;
+    text-shadow: 0 0 25px rgba(255, 53, 3, 0.8), 0 0 50px rgba(255, 53, 3, 0.4);
+    line-height: 1.2;
 }
 
-.site-header.scrolled .brand-title {
-    font-size: 1.8rem;
-    letter-spacing: 6px;
-    text-shadow: 0 0 15px rgba(255, 53, 3, 1);
-}
 
 .header-actions {
     display: flex;
@@ -1262,15 +1242,16 @@ body.features-active .section-nav {
 }
 
 .book-table-btn {
-    border: 1px solid #fff;
-    padding: 12px 25px;
+    border: 1.5px solid #fff;
+    padding: 15px 40px;
     color: #fff;
     text-decoration: none;
-    font-size: 0.75rem;
-    letter-spacing: 3px;
+    font-size: 1rem;
+    letter-spacing: 5px;
     font-weight: 900;
     transition: 0.3s;
     text-transform: uppercase;
+    display: inline-block;
 }
 
 .book-table-btn:hover {
@@ -1281,39 +1262,35 @@ body.features-active .section-nav {
 .header-menu {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    padding: 5px 0;
+    gap: 70px;
+    padding: 30px 0 10px;
 }
 
 .menu-item {
     color: #fff;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 1.3rem;
     font-weight: 900;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    transition: 0.3s;
-    opacity: 0.8;
-}
-
-.menu-item {
+    transition: 0.2s;
     position: relative;
+    padding-bottom: 12px;
 }
 
 .menu-item::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: 0;
     left: 0;
     width: 0;
-    height: 3px;
+    height: 4px;
     background: var(--primary-color);
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .menu-item:hover, .menu-item.active {
     color: var(--primary-color);
-    opacity: 1;
 }
 
 .menu-item:hover::after, .menu-item.active::after {
