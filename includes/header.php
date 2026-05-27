@@ -39,6 +39,12 @@ $base_path = $is_admin ? '../' : '';
 ?>
 
 <header class="site-header">
+    <div class="mobile-nav-toggle" id="mobile-nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <div class="header-top">
         <div class="header-socials">
             <?php foreach ($socials as $name => $svg):
@@ -62,7 +68,17 @@ $base_path = $is_admin ? '../' : '';
         </div>
     </div>
 
-    <nav class="header-menu">
+    <nav class="header-menu" id="header-menu">
+        <div class="mobile-socials">
+            <?php foreach ($socials as $name => $svg):
+                $link = $social_links[$name] ?? '#';
+            ?>
+                <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" target="_blank">
+                    <?php echo $svg; ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+
         <?php foreach ($navItems as $item):
             $isActive = ($current_page == $item['link_url']) ? 'active' : '';
             $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
@@ -71,5 +87,9 @@ $base_path = $is_admin ? '../' : '';
                 <?php echo htmlspecialchars($item['label']); ?>
             </a>
         <?php endforeach; ?>
+
+        <div class="mobile-actions">
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+        </div>
     </nav>
 </header>
