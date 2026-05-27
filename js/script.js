@@ -59,6 +59,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggle = document.getElementById('mobile-nav-toggle');
     const headerMenu = document.getElementById('header-menu');
 
+    // Best Sellers Carousel Scroll Listener
+    const carouselWrapper = document.querySelector('.best-sellers-carousel-wrapper');
+    const dots = document.querySelectorAll('.dot');
+
+    if (carouselWrapper && dots.length > 0) {
+        carouselWrapper.addEventListener('scroll', () => {
+            const scrollWidth = carouselWrapper.scrollWidth - carouselWrapper.clientWidth;
+            const scrollPos = carouselWrapper.scrollLeft;
+            const activeIndex = Math.round((scrollPos / scrollWidth) * (dots.length - 1));
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const scrollWidth = carouselWrapper.scrollWidth - carouselWrapper.clientWidth;
+                const scrollPos = (index / (dots.length - 1)) * scrollWidth;
+                carouselWrapper.scrollTo({
+                    left: scrollPos,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    }
+
     if (mobileToggle && headerMenu) {
         mobileToggle.addEventListener('click', () => {
             mobileToggle.classList.toggle('active');

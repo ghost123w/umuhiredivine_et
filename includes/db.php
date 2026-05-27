@@ -59,6 +59,31 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
+    // Create products table
+    $pdo->exec("CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        price TEXT NOT NULL,
+        category TEXT,
+        image_path TEXT,
+        is_best_seller INTEGER DEFAULT 0
+    )");
+
+    // Seed default products if empty
+    $stmt = $pdo->query("SELECT COUNT(*) FROM products");
+    if ($stmt->fetchColumn() == 0) {
+        $products = [
+            ['Arowolo', '₦19,000', 'MAIN COURSES', 'images/product-1.jpg', 1],
+            ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/product-2.jpg', 1],
+            ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/product-3.jpg', 1],
+            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/product-4.jpg', 1]
+        ];
+        $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller) VALUES (?, ?, ?, ?, ?)");
+        foreach ($products as $p) {
+            $prodStmt->execute($p);
+        }
+    }
+
     // Create navigation_items table
     $pdo->exec("CREATE TABLE IF NOT EXISTS navigation_items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
