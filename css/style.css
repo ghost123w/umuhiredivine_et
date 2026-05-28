@@ -1706,18 +1706,20 @@ body.features-active .section-nav {
 }
 
 .product-card {
-    min-width: 500px;
+    min-width: 320px;
     background: #000;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     display: flex;
+    flex-direction: column;
     overflow: hidden;
     transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .product-image-container {
-    flex: 1;
-    height: 400px;
+    width: 100%;
+    height: 320px;
+    position: relative;
 }
 
 .product-image-container img {
@@ -1727,11 +1729,10 @@ body.features-active .section-nav {
 }
 
 .product-info {
-    flex: 1;
-    padding: 30px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .product-category {
@@ -1747,9 +1748,9 @@ body.features-active .section-nav {
 .product-name {
     font-family: 'Cinzel', serif;
     color: #fff;
-    font-size: 2.5rem;
-    margin-bottom: 25px;
-    letter-spacing: 4px;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     font-weight: 900;
     line-height: 1.1;
@@ -1757,25 +1758,27 @@ body.features-active .section-nav {
 
 .product-price {
     color: var(--primary-color);
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 900;
-    margin-bottom: 40px;
-    letter-spacing: 2px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
 }
 
 .order-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
-    border: 1.5px solid #fff;
-    padding: 15px 35px;
+    border: 1px solid #fff;
+    padding: 10px 25px;
     color: #fff;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 900;
     transition: 0.3s;
     text-transform: uppercase;
     letter-spacing: 2px;
+    max-width: 140px;
 }
 
 .order-btn:hover {
