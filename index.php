@@ -31,6 +31,10 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'c
 $stmt->execute();
 $cta_link = $stmt->fetchColumn() ?: '#';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'best_sellers_title'");
+$stmt->execute();
+$best_sellers_title = $stmt->fetchColumn() ?: 'BEST SELLERS';
+
 // Fetch Best Sellers
 $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDER BY id ASC")->fetchAll();
 ?>

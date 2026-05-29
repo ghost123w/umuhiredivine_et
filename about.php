@@ -10,9 +10,9 @@ $stmt = $pdo->prepare("SELECT * FROM content WHERE section_title = 'ABOUT US' OR
 $stmt->execute();
 $aboutContent = $stmt->fetch();
 
-$display_title = $aboutContent['section_title'] ?? 'ABOUT US';
-$display_desc = $aboutContent['description'] ?? 'Our journey from heritage to modern luxury.';
-$display_img = $aboutContent['image_path'] ?? 'images/leadership.jpg';
+$display_title = ($aboutContent && isset($aboutContent['section_title'])) ? $aboutContent['section_title'] : 'ABOUT US';
+$display_desc = ($aboutContent && isset($aboutContent['description'])) ? $aboutContent['description'] : 'Our journey from heritage to modern luxury.';
+$display_img = ($aboutContent && isset($aboutContent['image_path'])) ? $aboutContent['image_path'] : 'images/leadership.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="en">
