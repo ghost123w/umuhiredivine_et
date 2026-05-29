@@ -28,7 +28,7 @@ $query = "
     LEFT JOIN content c ON c.id = c_min.min_id
     WHERE n.nav_type = 'main'
       AND n.is_active = 1
-      AND n.label NOT IN ('HOME', 'GET IN TOUCH')
+      AND n.label NOT IN ('HOME', 'GET IN TOUCH', 'COLLECTIONS')
     ORDER BY n.sort_order ASC
 ";
 $stmt = $pdo->query($query);
