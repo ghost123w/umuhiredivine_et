@@ -71,7 +71,7 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
         <!-- Best Sellers Section -->
         <?php if (!empty($bestSellers)): ?>
         <section class="best-sellers-section">
-            <h2 class="section-title">BEST SELLERS</h2>
+            <h2 class="section-title"><?php echo htmlspecialchars($best_sellers_title); ?></h2>
             <div class="best-sellers-carousel-wrapper">
                 <div class="best-sellers-carousel">
                     <?php foreach ($bestSellers as $product): ?>
@@ -84,7 +84,7 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
                             <div class="product-info">
                                 <span class="product-category"><?php echo htmlspecialchars($product['category']); ?></span>
                                 <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
-                                <p class="product-price"><?php echo htmlspecialchars($product['price']); ?></p>
+                                <p class="product-price">₦<?php echo htmlspecialchars($product['price']); ?></p>
                                 <div class="product-actions">
                                     <a href="#contact-modal" class="order-btn" onclick="openContactModal('Order: <?php echo $product['name']; ?>')">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
