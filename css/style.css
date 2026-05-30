@@ -231,7 +231,7 @@ body {
 }
 
 .layout-main {
-    padding: 80vh 20px 60px;
+    padding: 20px 20px 60px;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
@@ -1180,19 +1180,16 @@ body.features-active .section-nav {
 
 /* New Header Styles */
 .site-header {
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 15px 40px 10px;
+    background: #000;
+    padding: 20px 60px;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
 }
 
 
@@ -1200,15 +1197,12 @@ body.features-active .section-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: 0.5s;
     width: 100%;
 }
 
 
 .header-socials {
-    display: flex;
-    gap: 20px;
-    flex: 1;
+    display: none;
 }
 
 .social-link {
@@ -1227,19 +1221,7 @@ body.features-active .section-nav {
 }
 
 .header-branding {
-    text-align: center;
-    flex: 2;
-}
-
-.header-branding .brand-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
-    margin: 0;
-    letter-spacing: 10px;
-    color: var(--primary-color);
-    font-weight: 900;
-    text-shadow: 0 0 15px rgba(255, 53, 3, 0.8);
-    line-height: 1.2;
+    display: none;
 }
 
 
@@ -1247,17 +1229,16 @@ body.features-active .section-nav {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    flex: 1;
 }
 
 .book-table-btn {
-    border: 1px solid #fff;
-    padding: 8px 20px;
+    border: 2px solid #fff;
+    padding: 12px 30px;
     color: #fff;
     text-decoration: none;
-    font-size: 0.7rem;
+    font-size: 1.1rem;
     letter-spacing: 2px;
-    font-weight: 900;
+    font-weight: 400;
     transition: 0.3s;
     text-transform: uppercase;
     display: inline-block;
@@ -1271,21 +1252,20 @@ body.features-active .section-nav {
 .header-menu {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    padding: 5px 0;
-    width: 100%;
+    gap: 40px;
+    align-items: center;
+    flex-grow: 1;
 }
 
 .menu-item {
     color: #fff;
     text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 900;
+    font-size: 1.1rem;
+    font-weight: 400;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     transition: 0.2s;
     position: relative;
-    padding-bottom: 6px;
 }
 
 .menu-item::after {
@@ -1717,9 +1697,9 @@ body.features-active .section-nav {
 
 /* Best Sellers Section Styles */
 .best-sellers-section {
-    padding: 100px 80px;
+    padding: 60px 60px 100px;
     background: #000;
-    margin-top: 100px;
+    margin-top: 0;
 }
 
 .best-sellers-carousel-wrapper {
@@ -1740,7 +1720,7 @@ body.features-active .section-nav {
 }
 
 .product-card {
-    min-width: 420px;
+    min-width: 450px;
     background: #000;
     border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 12px;
@@ -1748,11 +1728,11 @@ body.features-active .section-nav {
     flex-direction: row;
     overflow: hidden;
     transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    height: 350px;
+    height: 380px;
 }
 
 .product-image-container {
-    width: 200px;
+    width: 220px;
     height: 100%;
     position: relative;
     flex-shrink: 0;

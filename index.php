@@ -50,28 +50,12 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
-    <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <!-- Categories Section -->
-        <div class="prism-grid">
-            <?php foreach ($categories as $index => $cat):
-                $bg_image = !empty($cat['image_path']) ? $cat['image_path'] : 'images/category-bg.png';
-            ?>
-                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card">
-                    <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
-                    <div class="card-content">
-                        <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                        <p>EXPLORE CATEGORY</p>
-                    </div>
-                </a>
-            <?php endforeach; ?>
-        </div>
 
         <!-- Best Sellers Section -->
         <?php if (!empty($bestSellers)): ?>
         <section class="best-sellers-section">
-            <h2 class="section-title"><?php echo htmlspecialchars($best_sellers_title); ?></h2>
             <div class="best-sellers-carousel-wrapper">
                 <div class="best-sellers-carousel">
                     <?php foreach ($bestSellers as $product): ?>
