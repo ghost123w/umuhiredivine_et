@@ -45,21 +45,39 @@ $base_path = $is_admin ? '../' : '';
         <span></span>
     </div>
 
+    <div class="header-logo">
+        <div class="logo-main">
+            <span class="logo-red">Ile-iyan</span>
+        </div>
+    </div>
+
     <nav class="header-menu" id="header-menu">
         <?php foreach ($navItems as $item):
             $isActive = ($current_page == $item['link_url']) ? 'active' : '';
             $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
+            $isBlog = (strtoupper($item['label']) === 'BLOG');
         ?>
-            <a href="<?php echo htmlspecialchars($link_url); ?>" class="menu-item <?php echo $isActive; ?>">
+            <a href="<?php echo htmlspecialchars($link_url); ?>" class="menu-item <?php echo $isActive; ?> <?php echo $isBlog ? 'item-highlight' : ''; ?>">
                 <?php echo htmlspecialchars($item['label']); ?>
             </a>
         <?php endforeach; ?>
     </nav>
 
-    <div class="header-actions">
-        <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
-        <?php if ($is_admin): ?>
-            <a href="../logout.php" class="admin-portal-link" style="margin-left: 20px;">EXIT</a>
-        <?php endif; ?>
+    <div class="header-right-stack">
+        <div class="header-socials-top">
+            <?php foreach ($socials as $name => $svg):
+                $link = $social_links[$name] ?? '#';
+            ?>
+                <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                    <?php echo $svg; ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <div class="header-actions">
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+            <?php if ($is_admin): ?>
+                <a href="../logout.php" class="admin-portal-link" style="margin-left: 20px;">EXIT</a>
+            <?php endif; ?>
+        </div>
     </div>
 </header>

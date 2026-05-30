@@ -231,7 +231,7 @@ body {
 }
 
 .layout-main {
-    padding: 20px 20px 60px;
+    padding: 80vh 20px 60px;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
@@ -1181,28 +1181,54 @@ body.features-active .section-nav {
 /* New Header Styles */
 .site-header {
     background: #000;
-    padding: 20px 60px;
+    padding: 5px 60px;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 110px;
 }
 
-
-.header-top {
+.header-logo {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    min-width: 200px;
 }
 
+.logo-main {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
 
-.header-socials {
-    display: none;
+.logo-red {
+    color: #ff0000;
+    font-size: 3.2rem;
+    font-weight: 900;
+    line-height: 0.8;
+    font-family: 'Cinzel', serif;
+    letter-spacing: -2px;
+}
+
+.logo-white {
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: none;
+    font-family: 'Inter', sans-serif;
+}
+
+.logo-tagline {
+    color: #e8bc4a;
+    font-size: 0.55rem;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+    font-family: 'Inter', sans-serif;
 }
 
 .social-link {
@@ -1225,6 +1251,26 @@ body.features-active .section-nav {
 }
 
 
+.header-right-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.header-socials-top {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.header-socials-top .social-link svg {
+    width: 18px;
+    height: 18px;
+    fill: #fff;
+}
+
 .header-actions {
     display: flex;
     justify-content: flex-end;
@@ -1233,12 +1279,12 @@ body.features-active .section-nav {
 
 .book-table-btn {
     border: 2px solid #fff;
-    padding: 12px 30px;
+    padding: 10px 30px;
     color: #fff;
     text-decoration: none;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    font-weight: 600;
     transition: 0.3s;
     text-transform: uppercase;
     display: inline-block;
@@ -1252,7 +1298,7 @@ body.features-active .section-nav {
 .header-menu {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
     flex-grow: 1;
 }
@@ -1260,12 +1306,16 @@ body.features-active .section-nav {
 .menu-item {
     color: #fff;
     text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 500;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     transition: 0.2s;
     position: relative;
+}
+
+.menu-item.item-highlight {
+    color: #e8bc4a;
 }
 
 .menu-item::after {
