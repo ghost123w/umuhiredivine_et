@@ -11,10 +11,10 @@ $query = "
     SELECT n.*,
     COALESCE(c.image_path,
         CASE
-            WHEN n.label = 'MENU' THEN 'images/menu-bg.jpg'
-            WHEN n.label = 'BLOG' THEN 'images/blog-bg.jpg'
-            WHEN n.label = 'GALLERY' THEN 'images/gallery-bg.jpg'
-            WHEN n.label = 'EXPLORE' THEN 'images/explore-bg.jpg'
+            WHEN n.label = 'MENU' THEN 'images/brand-hero.jpg'
+            WHEN n.label = 'BLOG' THEN 'images/leadership.jpg'
+            WHEN n.label = 'GALLERY' THEN 'images/brand-portrait.jpg'
+            WHEN n.label = 'EXPLORE' THEN 'images/home-bg.jpg'
             ELSE 'images/category-bg.png'
         END
     ) as display_image

@@ -4,6 +4,7 @@ require_once '../includes/functions.php';
 check_login();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Global CSRF Protection for all administrative actions
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         die("CSRF token validation failed.");
     }
