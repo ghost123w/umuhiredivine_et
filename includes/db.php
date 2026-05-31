@@ -66,19 +66,21 @@ try {
         price TEXT NOT NULL,
         category TEXT,
         image_path TEXT,
-        is_best_seller INTEGER DEFAULT 0
+        is_best_seller INTEGER DEFAULT 0,
+        description TEXT,
+        tags TEXT
     )");
 
     // Seed default products if empty
     $stmt = $pdo->query("SELECT COUNT(*) FROM products");
     if ($stmt->fetchColumn() == 0) {
         $products = [
-            ['Arowolo', '₦19,000', 'MAIN COURSES', 'images/product-1.jpg', 1],
-            ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/product-2.jpg', 1],
-            ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/product-3.jpg', 1],
-            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/product-4.jpg', 1]
+            ['Arowolo', '₦19,000', 'MAIN COURSES', 'images/product-1.jpg', 1, 'Authentic Nigerian delicacy prepared with choice meats.', 'RICE, TURKEY, FOOD'],
+            ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/product-2.jpg', 1, 'Spicy and aromatic broth with fresh catch of the day.', 'FISH, SOUP, SPICY'],
+            ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/product-3.jpg', 1, 'Rich and soulful traditional preparation.', 'BEEF, STEW, LITE'],
+            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/product-4.jpg', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO']
         ];
-        $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller) VALUES (?, ?, ?, ?, ?)");
+        $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");
         foreach ($products as $p) {
             $prodStmt->execute($p);
         }

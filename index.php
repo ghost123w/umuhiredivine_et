@@ -82,6 +82,7 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
         <!-- Best Sellers Section -->
         <?php if (!empty($bestSellers)): ?>
         <section class="best-sellers-section">
+            <h2 class="section-title-luxury" style="text-align: center; margin-bottom: 40px; font-family: 'Cinzel', serif; letter-spacing: 4px;"><?php echo htmlspecialchars($best_sellers_title); ?></h2>
             <div class="best-sellers-carousel-wrapper">
                 <div class="best-sellers-carousel">
                     <?php foreach ($bestSellers as $product): ?>

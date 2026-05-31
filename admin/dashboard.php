@@ -30,6 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('best_sellers_title', ?)");
         $stmt->execute([$best_sellers_title]);
 
+        $phone = sanitize($_POST['contact_phone']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('contact_phone', ?)");
+        $stmt->execute([$phone]);
+
         // Social Media Links
         $fb = sanitize($_POST['facebook_link']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('facebook_link', ?)")->execute([$fb]);
@@ -126,6 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $name = sanitize($_POST['name']);
         $category = sanitize($_POST['category']);
         $price = sanitize($_POST['price']);
+        $description = sanitize($_POST['description']);
+        $tags = sanitize($_POST['tags']);
         $is_best_seller = isset($_POST['is_best_seller']) ? 1 : 0;
         $image_path = null;
 
@@ -145,8 +151,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        $stmt = $pdo->prepare("INSERT INTO products (name, category, price, image_path, is_best_seller) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $category, $price, $image_path, $is_best_seller]);
+        $stmt = $pdo->prepare("INSERT INTO products (name, category, price, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$name, $category, $price, $image_path, $is_best_seller, $description, $tags]);
         header("Location: dashboard.php?view=products&msg=added");
         exit();
     }
@@ -194,6 +200,10 @@ $cta_link = $stmt->fetchColumn() ?: '#';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'book_us_link'");
 $stmt->execute();
 $book_us_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_phone'");
+$stmt->execute();
+$contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'best_sellers_title'");
 $stmt->execute();
@@ -372,6 +382,10 @@ if ($view == 'products') {
                         <div class="form-group">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Best Sellers Section Title</label>
                             <input type="text" name="best_sellers_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($best_sellers_title); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Contact Phone Number</label>
+                            <input type="text" name="contact_phone" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_phone); ?>" required>
                         </div>
 
                         <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Social Media <span style="color: #fff;">Connectivities</span></h3>
@@ -556,7 +570,15 @@ if ($view == 'products') {
                             </div>
                             <div class="form-group">
                                 <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Price</label>
-                                <input type="text" name="price" class="form-control" placeholder="$0.00" required>
+                                <input type="text" name="price" class="form-control" placeholder="₦0.00" required>
+                            </div>
+                            <div class="form-group" style="grid-column: span 3;">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Description</label>
+                                <textarea name="description" class="form-control" placeholder="Village Rice cooked in palm oil sauce..."></textarea>
+                            </div>
+                            <div class="form-group" style="grid-column: span 3;">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Tags (Comma separated)</label>
+                                <input type="text" name="tags" class="form-control" placeholder="RICE, TURKEY, FOOD, LITE">
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
                                 <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Product Image</label>

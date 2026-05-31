@@ -26,6 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = sanitize($_POST['name']);
     $category = sanitize($_POST['category']);
     $price = sanitize($_POST['price']);
+    $description = sanitize($_POST['description']);
+    $tags = sanitize($_POST['tags']);
     $is_best_seller = isset($_POST['is_best_seller']) ? 1 : 0;
     $image_path = $product['image_path'];
 
@@ -49,8 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $stmt = $pdo->prepare("UPDATE products SET name = ?, category = ?, price = ?, image_path = ?, is_best_seller = ? WHERE id = ?");
-    $stmt->execute([$name, $category, $price, $image_path, $is_best_seller, $id]);
+    $stmt = $pdo->prepare("UPDATE products SET name = ?, category = ?, price = ?, image_path = ?, is_best_seller = ?, description = ?, tags = ? WHERE id = ?");
+    $stmt->execute([$name, $category, $price, $image_path, $is_best_seller, $description, $tags, $id]);
     header("Location: dashboard.php?view=products&msg=updated");
     exit();
 }
@@ -110,6 +112,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             BEST SELLER STATUS
                         </label>
                     </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">Description</label>
+                    <textarea name="description" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" rows="3"><?php echo htmlspecialchars($product['description']); ?></textarea>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">Tags (Comma separated)</label>
+                    <input type="text" name="tags" class="form-control" value="<?php echo htmlspecialchars($product['tags']); ?>">
                 </div>
 
                 <div style="margin-bottom: 30px;">

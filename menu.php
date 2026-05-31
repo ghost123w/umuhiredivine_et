@@ -5,16 +5,14 @@ require_once 'includes/db.php';
 require_once 'includes/functions.php';
 require_once 'includes/contact-logic.php';
 
-$stmt = $pdo->prepare("SELECT id FROM navigation_items WHERE label = 'MENU' LIMIT 1");
-$stmt->execute();
-$nav_id = $stmt->fetchColumn();
+// Fetch all products for the menu
+$stmt = $pdo->query("SELECT * FROM products ORDER BY category, id ASC");
+$menu_items = $stmt->fetchAll();
 
-$fixtures = [];
-if ($nav_id) {
-    $stmt = $pdo->prepare("SELECT * FROM content WHERE nav_item_id = ? ORDER BY id ASC");
-    $stmt->execute([$nav_id]);
-    $fixtures = $stmt->fetchAll();
-}
+// Fetch contact phone
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_phone'");
+$stmt->execute();
+$contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,41 +22,63 @@ if ($nav_id) {
     <title>Menu | <?php echo htmlspecialchars(SITE_NAME); ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="menu-page">
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/hero.php'; ?>
-    <main class="layout-main">
-        <div class="prism-grid">
-            <?php if (empty($fixtures)): ?>
-                <div class="bento-card grid-large" style="text-align: center; display: flex; align-items: center; justify-content: center; min-height: 400px;">
-                    <div class="card-content">
-                        <h2 style="font-family: 'Cinzel', serif; color: var(--primary-color);">A symphony of flavors is being composed.</h2>
-                        <p style="color: #666; font-size: 0.8rem; margin-top: 10px;">Check back to taste the excellence.</p>
-                        <a href="index.php" style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; text-decoration: none; margin-top: 40px; display: inline-block; border: 1px solid var(--primary-color); padding: 10px 25px; border-radius: 50px;">Return Home</a>
-                    </div>
+
+    <main class="menu-container">
+        <header class="menu-header">
+            <h2 class="menu-title">OUR <span class="highlight">COLLECTION</span></h2>
+            <p class="menu-subtitle">A SYMPHONY OF AUTHENTIC FLAVORS</p>
+            <div class="contact-strip">
+                <span class="phone-label">ORDER VIA WHATSAPP / CALL:</span>
+                <a href="tel:<?php echo htmlspecialchars($contact_phone); ?>" class="phone-link"><?php echo htmlspecialchars($contact_phone); ?></a>
+            </div>
+        </header>
+
+        <div class="menu-grid">
+            <?php if (empty($menu_items)): ?>
+                <div class="empty-menu">
+                    <p>Our culinary masters are currently preparing new masterpieces. Please check back soon.</p>
                 </div>
             <?php else: ?>
-                <?php foreach ($fixtures as $index => $f):
-                    $cardClass = ($index % 3 == 0) ? 'grid-large' : (($index % 3 == 1) ? 'grid-medium' : 'grid-tall');
-                    $bg_image = !empty($f['image_path']) ? $f['image_path'] : 'images/category-bg.png';
+                <?php foreach ($menu_items as $item):
+                    $tags = !empty($item['tags']) ? explode(',', $item['tags']) : [];
                 ?>
-                    <div class="bento-card <?php echo $cardClass; ?>">
-                        <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
-                        <div class="card-content">
-                            <h3><?php echo htmlspecialchars($f['section_title']); ?></h3>
-                            <p><?php echo htmlspecialchars($f['description']); ?></p>
-                            <button class="card-btn" style="background: none; border: 1px solid var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 20px;" onclick="openContactModal('<?php echo addslashes($f['section_title']); ?>')">ORDER NOW</button>
+                    <div class="menu-item-card">
+                        <div class="menu-item-image">
+                            <img src="<?php echo htmlspecialchars($item['image_path'] ?: 'images/category-bg.png'); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                        </div>
+                        <div class="menu-item-details">
+                            <div class="tags-row">
+                                <?php foreach ($tags as $tag): ?>
+                                    <span class="menu-tag"><?php echo htmlspecialchars(trim(strtoupper($tag))); ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="name-price-row">
+                                <h3 class="item-name"><?php echo htmlspecialchars($item['name']); ?></h3>
+                                <div class="price-leader"></div>
+                                <span class="item-price"><?php echo htmlspecialchars($item['price']); ?></span>
+                            </div>
+                            <p class="item-description"><?php echo htmlspecialchars($item['description']); ?></p>
+                            <div class="item-footer">
+                                <button class="order-icon-btn" onclick="openContactModal('Order: <?php echo addslashes($item['name']); ?>')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
     </main>
+
     <footer class="aura-footer">
-        &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?> &mdash; CULINARY EXPERIENCE
+        &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?> &mdash; CULINARY EXCELLENCE
     </footer>
+
     <?php include 'includes/contact-modal.php'; ?>
     <script src="js/script.js"></script>
 </body>

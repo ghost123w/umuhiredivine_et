@@ -60,13 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerMenu = document.getElementById('header-menu');
 
     // Best Sellers Carousel Scroll Listener
-    const carouselWrapper = document.querySelector('.best-sellers-carousel-wrapper');
+    const carouselContainer = document.querySelector('.best-sellers-carousel');
     const dots = document.querySelectorAll('.dot');
 
-    if (carouselWrapper && dots.length > 0) {
-        carouselWrapper.addEventListener('scroll', () => {
-            const scrollWidth = carouselWrapper.scrollWidth - carouselWrapper.clientWidth;
-            const scrollPos = carouselWrapper.scrollLeft;
+    if (carouselContainer && dots.length > 0) {
+        carouselContainer.addEventListener('scroll', () => {
+            const scrollWidth = carouselContainer.scrollWidth - carouselContainer.clientWidth;
+            const scrollPos = carouselContainer.scrollLeft;
             const activeIndex = Math.round((scrollPos / scrollWidth) * (dots.length - 1));
 
             dots.forEach((dot, index) => {
@@ -76,9 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
-                const scrollWidth = carouselWrapper.scrollWidth - carouselWrapper.clientWidth;
+                const scrollWidth = carouselContainer.scrollWidth - carouselContainer.clientWidth;
                 const scrollPos = (index / (dots.length - 1)) * scrollWidth;
-                carouselWrapper.scrollTo({
+                carouselContainer.scrollTo({
                     left: scrollPos,
                     behavior: 'smooth'
                 });
