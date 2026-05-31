@@ -419,7 +419,7 @@ body {
 }
 
 .menu-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 80px;
 }
 
@@ -432,6 +432,10 @@ body {
 
 .menu-title .highlight {
     color: var(--primary-color);
+}
+
+.menu-title .white-text {
+    color: #fff;
 }
 
 .menu-subtitle {

@@ -30,7 +30,7 @@ $contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
 
     <main class="menu-container">
         <header class="menu-header">
-            <h2 class="menu-title">OUR <span class="highlight">COLLECTION</span></h2>
+            <h2 class="menu-title"><span class="white-text">ME</span><span class="highlight">NU</span></h2>
             <p class="menu-subtitle">A SYMPHONY OF AUTHENTIC FLAVORS</p>
             <div class="contact-strip">
                 <span class="phone-label">ORDER VIA WHATSAPP / CALL:</span>
