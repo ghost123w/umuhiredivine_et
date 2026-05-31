@@ -6,7 +6,16 @@ require_once 'includes/functions.php';
 
 require_once 'includes/contact-logic.php';
 
-$stmt = $pdo->query("SELECT n.*, c.image_path
+$stmt = $pdo->query("SELECT n.*,
+                    COALESCE(c.image_path,
+                        CASE
+                            WHEN n.label = 'MENU' THEN 'images/brand-hero.jpg'
+                            WHEN n.label = 'BLOG' THEN 'images/leadership.jpg'
+                            WHEN n.label = 'GALLERY' THEN 'images/brand-portrait.jpg'
+                            WHEN n.label = 'EXPLORE' THEN 'images/home-bg.jpg'
+                            ELSE 'images/category-bg.png'
+                        END
+                    ) as display_image
                     FROM navigation_items n
                     LEFT JOIN (
                         SELECT nav_item_id, MIN(id) as min_id
@@ -56,13 +65,19 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
         <!-- Categories Section (Second Scroll) -->
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):
-                $bg_image = !empty($cat['image_path']) ? $cat['image_path'] : 'images/category-bg.png';
+                $bg_image = $cat['display_image'];
+                $card_class = 'bento-card';
+                // Pattern: Large, Medium, Medium, Small, Small
+                $pos = $index % 5;
+                if ($pos == 0) $card_class .= ' grid-large';
+                elseif ($pos == 1 || $pos == 2) $card_class .= ' grid-medium';
+                else $card_class .= ' grid-small';
             ?>
-                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card">
+                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="<?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
                     <div class="card-content">
                         <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                        <p>EXPLORE CATEGORY</p>
+                        <p>EXPLORE <?php echo htmlspecialchars($cat['label']); ?></p>
                     </div>
                 </a>
             <?php endforeach; ?>
@@ -83,7 +98,7 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
                             <div class="product-info">
                                 <span class="product-category"><?php echo htmlspecialchars($product['category']); ?></span>
                                 <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
-                                <p class="product-price">₦<?php echo htmlspecialchars($product['price']); ?></p>
+                                <p class="product-price"><?php echo htmlspecialchars($product['price']); ?></p>
                                 <div class="product-actions">
                                     <a href="#contact-modal" class="order-btn" onclick="openContactModal('Order: <?php echo $product['name']; ?>')">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>

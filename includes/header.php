@@ -31,40 +31,16 @@ $social_links = [
 ];
 
 // Fetch main navigation items
-$navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC LIMIT 8")->fetchAll();
+$navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
 
 $current_page = basename($_SERVER['PHP_SELF']);
 $is_admin = strpos($_SERVER['REQUEST_URI'], '/admin/') !== false;
 $base_path = $is_admin ? '../' : '';
 ?>
 
-<header class="site-header">
-    <div class="mobile-nav-toggle" id="mobile-nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-
-    <div class="header-logo">
-        <div class="logo-main">
-            <span class="logo-red">Ile-iyan</span>
-        </div>
-    </div>
-
-    <nav class="header-menu" id="header-menu">
-        <?php foreach ($navItems as $item):
-            $isActive = ($current_page == $item['link_url']) ? 'active' : '';
-            $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
-            $isBlog = (strtoupper($item['label']) === 'BLOG');
-        ?>
-            <a href="<?php echo htmlspecialchars($link_url); ?>" class="menu-item <?php echo $isActive; ?> <?php echo $isBlog ? 'item-highlight' : ''; ?>">
-                <?php echo htmlspecialchars($item['label']); ?>
-            </a>
-        <?php endforeach; ?>
-    </nav>
-
-    <div class="header-right-stack">
-        <div class="header-socials-top">
+<header class="site-header-aura">
+    <div class="header-top-row">
+        <div class="header-socials-left">
             <?php foreach ($socials as $name => $svg):
                 $link = $social_links[$name] ?? '#';
             ?>
@@ -73,11 +49,35 @@ $base_path = $is_admin ? '../' : '';
                 </a>
             <?php endforeach; ?>
         </div>
-        <div class="header-actions">
+
+        <div class="header-brand-center">
+            <a href="<?php echo $base_path; ?>index.php" class="brand-link">
+                <?php echo strtoupper(SITE_NAME); ?>
+            </a>
+        </div>
+
+        <div class="header-actions-right">
             <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
             <?php if ($is_admin): ?>
                 <a href="../logout.php" class="admin-portal-link" style="margin-left: 20px;">EXIT</a>
             <?php endif; ?>
         </div>
+    </div>
+
+    <nav class="header-nav-bottom" id="header-menu">
+        <?php foreach ($navItems as $item):
+            $isActive = ($current_page == $item['link_url']) ? 'active' : '';
+            $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
+        ?>
+            <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
+                <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
+            </a>
+        <?php endforeach; ?>
+    </nav>
+
+    <div class="mobile-nav-toggle" id="mobile-nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
 </header>
