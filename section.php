@@ -84,9 +84,15 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
     </nav>
 
     <main class="layout-main" style="padding-top: 150px;">
-        <header class="layout-header" style="text-align: center; margin-bottom: 100px;">
-            <h1 class="shimmer-text" style="font-family: 'Cinzel', serif; font-size: 4rem; letter-spacing: 15px; margin: 0;"><?php echo htmlspecialchars($navItem['label']); ?></h1>
-            <div style="width: 100px; height: 2px; background: var(--primary-color); margin: 30px auto; box-shadow: 0 0 20px var(--primary-color);"></div>
+        <header class="layout-header" style="max-width: 1400px; margin: 0 auto 100px;">
+            <?php
+                $label = strtoupper($navItem['label']);
+                $len = strlen($label);
+                $split = ceil($len / 2);
+                $white = substr($label, 0, $split);
+                $orange = substr($label, $split);
+            ?>
+            <h2 class="luxury-heading"><span class="white-text"><?php echo htmlspecialchars($white); ?></span><span class="highlight"><?php echo htmlspecialchars($orange); ?></span></h2>
         </header>
 
         <div class="prism-grid">

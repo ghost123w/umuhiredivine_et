@@ -50,7 +50,7 @@ $categories = $stmt->fetchAll();
 
     <main class="layout-main">
         <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
-            <h2 class="luxury-heading"><span class="white-text">COLLEC</span><span class="highlight">TIONS</span></h2>
+            <h2 class="luxury-heading"><span class="white-text">CATE</span><span class="highlight">GORIES</span></h2>
         </header>
 
         <div class="prism-grid">
@@ -63,8 +63,11 @@ $categories = $stmt->fetchAll();
                 elseif ($pos == 1 || $pos == 2) $card_class .= ' grid-medium';
                 else $card_class .= ' grid-small';
             ?>
-                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card <?php echo $card_class; ?>">
+                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="<?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($img); ?>');"></div>
+                    <div class="card-content">
+                        <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
+                    </div>
                 </a>
             <?php endforeach; ?>
         </div>

@@ -63,7 +63,7 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
 
     <main class="layout-main">
         <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
-            <h2 class="luxury-heading"><span class="white-text">COLLEC</span><span class="highlight">TIONS</span></h2>
+            <h2 class="luxury-heading"><span class="white-text">ME</span><span class="highlight">NU</span></h2>
         </header>
 
         <!-- Categories Section (Second Scroll) -->
