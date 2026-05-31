@@ -28,7 +28,7 @@ $query = "
     LEFT JOIN content c ON c.id = c_min.min_id
     WHERE n.nav_type = 'main'
       AND n.is_active = 1
-      AND n.label NOT IN ('HOME', 'GET IN TOUCH')
+      AND n.label NOT IN ('HOME', 'GET IN TOUCH', 'COLLECTIONS')
     ORDER BY n.sort_order ASC
 ";
 $stmt = $pdo->query($query);
@@ -49,9 +49,9 @@ $categories = $stmt->fetchAll();
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <div class="categories-header">
-            <h2 class="section-title">OUR COLLECTIONS</h2>
-        </div>
+        <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
+            <h2 class="luxury-heading"><span class="white-text">COLLEC</span><span class="highlight">TIONS</span></h2>
+        </header>
 
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):

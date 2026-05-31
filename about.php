@@ -36,7 +36,7 @@ $display_img = ($aboutContent && isset($aboutContent['image_path'])) ? $aboutCon
                     <div class="image-glow"></div>
                 </div>
                 <div class="about-text-content">
-                    <h2 class="section-title"><?php echo htmlspecialchars($display_title); ?></h2>
+                    <h2 class="luxury-heading"><span class="white-text">ABOUT</span><span class="highlight"> US</span></h2>
                     <div class="about-description">
                         <?php echo nl2br(htmlspecialchars($display_desc)); ?>
                     </div>

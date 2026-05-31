@@ -24,7 +24,7 @@ $stmt = $pdo->query("SELECT n.*,
                         GROUP BY nav_item_id
                     ) c_min ON n.id = c_min.nav_item_id
                     LEFT JOIN content c ON c.id = c_min.min_id
-                    WHERE n.nav_type = 'main' AND n.is_active = 1 AND n.label NOT IN ('HOME', 'GET IN TOUCH')
+                    WHERE n.nav_type = 'main' AND n.is_active = 1 AND n.label NOT IN ('HOME', 'GET IN TOUCH', 'COLLECTIONS')
                     ORDER BY n.sort_order ASC");
 $categories = $stmt->fetchAll();
 
@@ -62,6 +62,10 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
+        <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
+            <h2 class="luxury-heading"><span class="white-text">COLLEC</span><span class="highlight">TIONS</span></h2>
+        </header>
+
         <!-- Categories Section (Second Scroll) -->
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):

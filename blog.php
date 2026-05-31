@@ -30,6 +30,9 @@ if ($nav_id) {
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/hero.php'; ?>
     <main class="layout-main">
+        <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
+            <h2 class="luxury-heading"><span class="white-text">BL</span><span class="highlight">OG</span></h2>
+        </header>
         <div class="prism-grid">
             <?php if (empty($fixtures)): ?>
                 <div class="bento-card grid-large" style="text-align: center; display: flex; align-items: center; justify-content: center; min-height: 400px;">
