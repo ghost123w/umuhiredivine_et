@@ -7,6 +7,5 @@
                 <h1 class="hero-title-fg"><?php echo strtoupper(SITE_NAME); ?></h1>
             </div>
         <?php endif; ?>
-        <p class="hero-slogan">LUXURY DINING & LIFESTYLE</p>
     </div>
 </section>

@@ -65,10 +65,6 @@ $categories = $stmt->fetchAll();
             ?>
                 <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="bento-card <?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($img); ?>');"></div>
-                    <div class="card-content">
-                        <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                        <p>EXPLORE <?php echo htmlspecialchars($cat['label']); ?></p>
-                    </div>
                 </a>
             <?php endforeach; ?>
         </div>

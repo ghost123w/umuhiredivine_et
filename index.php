@@ -75,10 +75,6 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
             ?>
                 <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="<?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
-                    <div class="card-content">
-                        <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                        <p>EXPLORE <?php echo htmlspecialchars($cat['label']); ?></p>
-                    </div>
                 </a>
             <?php endforeach; ?>
         </div>
