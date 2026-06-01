@@ -38,6 +38,18 @@ try {
         $pdo->exec("ALTER TABLE content ADD COLUMN nav_item_id INTEGER DEFAULT NULL");
     }
 
+    // Migration for Boutique link
+    try {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM navigation_items WHERE label = 'Boutique' AND nav_type = 'admin'");
+        $stmt->execute();
+        if ($stmt->fetchColumn() == 0) {
+            $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)")
+                ->execute(['Boutique', 'dashboard.php?view=products', 5, 'admin']);
+        }
+    } catch (Exception $e) {
+        // Table might not exist yet, handled by seed below
+    }
+
     $pdo->exec("CREATE TABLE IF NOT EXISTS settings (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         setting_key TEXT UNIQUE,
@@ -113,7 +125,8 @@ try {
             ['Create', 'dashboard.php?view=add', 2, 'admin'],
             ['Manage', 'dashboard.php?view=manage', 3, 'admin'],
             ['Inquiries', 'dashboard.php?view=messages', 4, 'admin'],
-            ['Navigation', 'dashboard.php?view=nav', 5, 'admin']
+            ['Boutique', 'dashboard.php?view=products', 5, 'admin'],
+            ['Navigation', 'dashboard.php?view=nav', 6, 'admin']
         ];
         $insertStmt = $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)");
         foreach ($items as $item) {
