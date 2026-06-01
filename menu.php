@@ -29,14 +29,6 @@ $contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
     <?php include 'includes/hero.php'; ?>
 
     <main class="menu-container">
-        <header class="menu-header">
-            <h2 class="luxury-heading"><span class="white-text">ME</span><span class="highlight">NU</span></h2>
-            <p class="menu-subtitle">A SYMPHONY OF AUTHENTIC FLAVORS</p>
-            <div class="contact-strip">
-                <span class="phone-label">ORDER VIA WHATSAPP / CALL:</span>
-                <a href="tel:<?php echo htmlspecialchars($contact_phone); ?>" class="phone-link"><?php echo htmlspecialchars($contact_phone); ?></a>
-            </div>
-        </header>
 
         <div class="menu-grid">
             <?php if (empty($menu_items)): ?>

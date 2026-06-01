@@ -49,11 +49,6 @@ if ($nav_id) {
                 ?>
                     <div class="bento-card <?php echo $cardClass; ?>">
                         <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
-                        <div class="card-content">
-                            <h3><?php echo htmlspecialchars($f['section_title']); ?></h3>
-                            <p><?php echo htmlspecialchars($f['description']); ?></p>
-                            <button class="card-btn" style="background: none; border: 1px solid var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 20px;" onclick="openContactModal('<?php echo addslashes($f['section_title']); ?>')">VIEW PIECE</button>
-                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>

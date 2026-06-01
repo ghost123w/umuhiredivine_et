@@ -3,7 +3,12 @@ function check_login() {
     if (session_status() === PHP_SESSION_NONE) session_start();
     if (!isset($_SESSION['admin_id'])) { header("Location: login.php"); exit(); }
 }
-function sanitize($data) { return trim($data); }
+function sanitize($data) {
+    if (is_array($data)) {
+        return array_map('sanitize', $data);
+    }
+    return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
+}
 function generate_csrf_token() {
     if (session_status() === PHP_SESSION_NONE) session_start();
     if (empty($_SESSION['csrf_token'])) $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

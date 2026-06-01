@@ -65,9 +65,6 @@ $categories = $stmt->fetchAll();
             ?>
                 <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="<?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($img); ?>');"></div>
-                    <div class="card-content">
-                        <h3><?php echo htmlspecialchars($cat['label']); ?></h3>
-                    </div>
                 </a>
             <?php endforeach; ?>
         </div>

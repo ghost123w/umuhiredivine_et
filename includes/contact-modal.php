@@ -2,7 +2,6 @@
 <div id="contact-modal" class="aura-modal">
     <div class="modal-overlay" onclick="toggleModal('contact-modal')"></div>
     <div class="modal-content glass-morphism">
-        <h2 style="font-family: 'Cinzel', serif; margin-bottom: 30px; text-align: center;">GET IN <span style="color: var(--primary-color);">TOUCH</span></h2>
         <form id="contactForm" method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
             <input type="text" name="name" class="aura-input" placeholder="NAME" required>

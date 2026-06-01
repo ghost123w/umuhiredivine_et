@@ -62,11 +62,11 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
-            <h2 class="luxury-heading"><span class="white-text">ME</span><span class="highlight">NU</span></h2>
-        </header>
 
-        <!-- Categories Section (Second Scroll) -->
+        <!-- Menu Parallax Section -->
+        <section class="menu-section-landing"></section>
+
+        <!-- Categories Section -->
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):
                 $bg_image = $cat['display_image'];
