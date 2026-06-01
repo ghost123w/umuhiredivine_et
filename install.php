@@ -48,10 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             )");
             $pdo->exec("CREATE TABLE IF NOT EXISTS content (id INTEGER PRIMARY KEY AUTOINCREMENT, section_title TEXT, description TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
-            $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
-            if ($stmt->fetchColumn() > 0) {
-                die("Installation already complete.");
-            }
+            // Removed restriction that blocked multiple administrators during installation phase if needed
+            // However, installation is usually for the FIRST admin.
+            // For subsequent admins, they should use signup.php if enabled.
 
             $username = sanitize($_POST['username']);
             $email = sanitize($_POST['email'] ?? '');

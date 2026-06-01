@@ -428,7 +428,7 @@ body {
 }
 
 .layout-main .menu-section-landing {
-    background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('../images/menu-bg.png');
+    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('../images/menu-bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -448,7 +448,7 @@ body {
     padding: 80px 40px 100px;
     position: relative;
     z-index: 10;
-    background: #000;
+    background: transparent;
 }
 
 .menu-header {
