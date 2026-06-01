@@ -135,7 +135,7 @@ body {
 }
 
 .menu-page .hero-section {
-    background-image: url('../images/menu-bg.png');
+    background-image: url('../images/menu-bg.jpg');
 }
 
 .hero-overlay {
@@ -428,7 +428,7 @@ body {
 }
 
 .layout-main .menu-section-landing {
-    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('../images/menu-bg.png');
+    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('../images/menu-bg.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

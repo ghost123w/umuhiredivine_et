@@ -9,7 +9,7 @@ require_once 'includes/contact-logic.php';
 $stmt = $pdo->query("SELECT n.*,
                     COALESCE(c.image_path,
                         CASE
-                            WHEN n.label = 'MENU' THEN 'images/menu-bg.png'
+                            WHEN n.label = 'MENU' THEN 'images/menu-bg.jpg'
                             WHEN n.label = 'BLOG' THEN 'images/leadership.jpg'
                             WHEN n.label = 'GALLERY' THEN 'images/brand-portrait.jpg'
                             WHEN n.label = 'EXPLORE' THEN 'images/home-bg.jpg'
