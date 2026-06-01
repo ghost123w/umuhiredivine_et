@@ -63,9 +63,6 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
 
     <main class="layout-main">
 
-        <!-- Menu Parallax Section -->
-        <section class="menu-section-landing"></section>
-
         <!-- Categories Section -->
         <div class="prism-grid">
             <?php foreach ($categories as $index => $cat):

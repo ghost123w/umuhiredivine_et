@@ -7,7 +7,7 @@ function sanitize($data) {
     if (is_array($data)) {
         return array_map('sanitize', $data);
     }
-    return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
+    return trim($data);
 }
 function generate_csrf_token() {
     if (session_status() === PHP_SESSION_NONE) session_start();

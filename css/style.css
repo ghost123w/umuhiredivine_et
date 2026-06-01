@@ -427,19 +427,8 @@ body {
     background: #000;
 }
 
-.layout-main .menu-section-landing {
-    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('../images/menu-bg.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    height: 100vh;
-    width: 100%;
-    background-color: transparent !important;
-    padding: 0 !important;
-}
-
-.menu-section-landing .menu-header,
-.menu-section-landing .menu-grid {
+.menu-header,
+.menu-grid {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
