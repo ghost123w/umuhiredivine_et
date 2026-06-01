@@ -3,30 +3,16 @@ session_start();
 require_once 'config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
-
 require_once 'includes/contact-logic.php';
 
-$stmt = $pdo->query("SELECT n.*,
-                    COALESCE(c.image_path,
-                        CASE
-                            WHEN n.label = 'MENU' THEN 'images/menu-bg.jpg'
-                            WHEN n.label = 'BLOG' THEN 'images/leadership.jpg'
-                            WHEN n.label = 'GALLERY' THEN 'images/brand-portrait.jpg'
-                            WHEN n.label = 'EXPLORE' THEN 'images/home-bg.jpg'
-                            ELSE 'images/category-bg.png'
-                        END
-                    ) as display_image
-                    FROM navigation_items n
-                    LEFT JOIN (
-                        SELECT nav_item_id, MIN(id) as min_id
-                        FROM content
-                        WHERE image_path IS NOT NULL
-                        GROUP BY nav_item_id
-                    ) c_min ON n.id = c_min.nav_item_id
-                    LEFT JOIN content c ON c.id = c_min.min_id
-                    WHERE n.nav_type = 'main' AND n.is_active = 1 AND n.label NOT IN ('HOME', 'GET IN TOUCH', 'COLLECTIONS')
-                    ORDER BY n.sort_order ASC");
-$categories = $stmt->fetchAll();
+// Fetch all products for the menu section
+$stmt = $pdo->query("SELECT * FROM products ORDER BY category, id ASC");
+$menu_items = $stmt->fetchAll();
+
+// Fetch contact phone
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_phone'");
+$stmt->execute();
+$contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'selling_points_title'");
 $stmt->execute();
@@ -62,26 +48,52 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
-            <h2 class="luxury-heading"><span class="white-text">ME</span><span class="highlight">NU</span></h2>
-        </header>
+        <section class="menu-section-landing" id="menu">
+            <header class="menu-header">
+                <h2 class="luxury-heading"><span class="white-text">ME</span><span class="highlight">NU</span></h2>
+                <p class="menu-subtitle">A SYMPHONY OF AUTHENTIC FLAVORS</p>
+                <div class="contact-strip">
+                    <span class="phone-label">ORDER VIA WHATSAPP / CALL:</span>
+                    <a href="tel:<?php echo htmlspecialchars($contact_phone); ?>" class="phone-link"><?php echo htmlspecialchars($contact_phone); ?></a>
+                </div>
+            </header>
 
-        <!-- Categories Section (Second Scroll) -->
-        <div class="prism-grid">
-            <?php foreach ($categories as $index => $cat):
-                $bg_image = $cat['display_image'];
-                $card_class = 'bento-card';
-                // Pattern: Large, Medium, Medium, Small, Small
-                $pos = $index % 5;
-                if ($pos == 0) $card_class .= ' grid-large';
-                elseif ($pos == 1 || $pos == 2) $card_class .= ' grid-medium';
-                else $card_class .= ' grid-small';
-            ?>
-                <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="<?php echo $card_class; ?>">
-                    <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
-                </a>
-            <?php endforeach; ?>
-        </div>
+            <div class="menu-grid">
+                <?php if (empty($menu_items)): ?>
+                    <div class="empty-menu">
+                        <p>Our culinary masters are currently preparing new masterpieces. Please check back soon.</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($menu_items as $item):
+                        $tags = !empty($item['tags']) ? explode(',', $item['tags']) : [];
+                    ?>
+                        <div class="menu-item-card">
+                            <div class="menu-item-image">
+                                <img src="<?php echo htmlspecialchars($item['image_path'] ?: 'images/category-bg.png'); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                            </div>
+                            <div class="menu-item-details">
+                                <div class="tags-row">
+                                    <?php foreach ($tags as $tag): ?>
+                                        <span class="menu-tag"><?php echo htmlspecialchars(trim(strtoupper($tag))); ?></span>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="name-price-row">
+                                    <h3 class="item-name"><?php echo htmlspecialchars($item['name']); ?></h3>
+                                    <div class="price-leader"></div>
+                                    <span class="item-price"><?php echo htmlspecialchars($item['price']); ?></span>
+                                </div>
+                                <p class="item-description"><?php echo htmlspecialchars($item['description']); ?></p>
+                                <div class="item-footer">
+                                    <button class="order-icon-btn" onclick="openContactModal('Order: <?php echo addslashes($item['name']); ?>')">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </section>
 
         <!-- Best Sellers Section -->
         <?php if (!empty($bestSellers)): ?>

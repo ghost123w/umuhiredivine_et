@@ -202,6 +202,9 @@ body {
     position: relative;
     z-index: 10;
     margin-top: 80vh;
+}
+
+.layout-main > * {
     background: #000;
     padding: 80px 60px 100px;
 }
@@ -269,7 +272,7 @@ body {
 
 /* Best Sellers Boutique */
 .best-sellers-section {
-    padding: 60px;
+    background: #000;
 }
 
 .best-sellers-carousel {
@@ -422,6 +425,21 @@ body {
 /* Menu Page Styles */
 .menu-page {
     background: #000;
+}
+
+.layout-main .menu-section-landing {
+    background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('../images/menu-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 120px 60px;
+}
+
+.menu-section-landing .menu-header,
+.menu-section-landing .menu-grid {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .menu-container {
