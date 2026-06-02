@@ -60,7 +60,7 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
 <body>
     <?php include 'includes/header.php'; ?>
     <?php
-    $hero_bg = 'images/landing.png';
+    $hero_bg = 'images/home_exclusive.jpg';
     include 'includes/hero.php';
     ?>
 

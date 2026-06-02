@@ -16,6 +16,13 @@ try {
         is_verified INTEGER DEFAULT 1
     )");
 
+    // Seed default admin if empty
+    $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
+    if ($stmt->fetchColumn() == 0) {
+        $stmt = $pdo->prepare("INSERT INTO admins (username, password, email) VALUES (?, ?, ?)");
+        $stmt->execute(['admin', password_hash('admin123', PASSWORD_DEFAULT), 'admin@example.com']);
+    }
+
     $pdo->exec("CREATE TABLE IF NOT EXISTS content (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         section_title TEXT,
@@ -87,10 +94,10 @@ try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM products");
     if ($stmt->fetchColumn() == 0) {
         $products = [
-            ['Arowolo', '₦19,000', 'MAIN COURSES', 'images/product-1.jpg', 1, 'Authentic Nigerian delicacy prepared with choice meats.', 'RICE, TURKEY, FOOD'],
-            ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/product-2.jpg', 1, 'Spicy and aromatic broth with fresh catch of the day.', 'FISH, SOUP, SPICY'],
-            ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/product-3.jpg', 1, 'Rich and soulful traditional preparation.', 'BEEF, STEW, LITE'],
-            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/product-4.jpg', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO']
+            ['Arowolo', '₦19,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Authentic Nigerian delicacy prepared with choice meats.', 'RICE, TURKEY, FOOD'],
+            ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Spicy and aromatic broth with fresh catch of the day.', 'FISH, SOUP, SPICY'],
+            ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Rich and soulful traditional preparation.', 'BEEF, STEW, LITE'],
+            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/category-bg.png', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO']
         ];
         $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");
         foreach ($products as $p) {
