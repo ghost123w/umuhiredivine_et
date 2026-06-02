@@ -9,7 +9,7 @@ require_once 'includes/contact-logic.php';
 $stmt = $pdo->query("SELECT n.*,
                     COALESCE(c.image_path,
                         CASE
-                            WHEN n.label = 'MENU' THEN 'images/menu-bg.png'
+                            WHEN n.label = 'MENU' THEN 'images/menu_page.png'
                             WHEN n.label = 'BLOG' THEN 'images/leadership.jpg'
                             WHEN n.label = 'GALLERY' THEN 'images/brand-portrait.jpg'
                             WHEN n.label = 'EXPLORE' THEN 'images/home-bg.jpg'
@@ -59,7 +59,10 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
-    <?php include 'includes/hero.php'; ?>
+    <?php
+    $hero_bg = 'images/landing.png';
+    include 'includes/hero.php';
+    ?>
 
     <main class="layout-main">
 
@@ -76,6 +79,10 @@ $bestSellers = $pdo->query("SELECT * FROM products WHERE is_best_seller = 1 ORDE
             ?>
                 <a href="<?php echo htmlspecialchars($cat['link_url']); ?>" class="<?php echo $card_class; ?>">
                     <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
+                    <div class="card-overlay">
+                        <span class="category-label"><?php echo htmlspecialchars($cat['label']); ?></span>
+                        <span class="explore-prompt">EXPLORE</span>
+                    </div>
                 </a>
             <?php endforeach; ?>
         </div>

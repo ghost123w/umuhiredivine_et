@@ -26,7 +26,12 @@ $contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
 </head>
 <body class="menu-page">
     <?php include 'includes/header.php'; ?>
-    <?php include 'includes/hero.php'; ?>
+    <?php
+    $hero_title = "MENU";
+    $hero_subtitle = "CULINARY EXCELLENCE";
+    $hero_bg = 'images/menu_page.png';
+    include 'includes/hero.php';
+    ?>
 
     <main class="menu-container">
 

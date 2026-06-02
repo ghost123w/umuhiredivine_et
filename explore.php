@@ -31,7 +31,10 @@ if ($nav_id) {
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
-    <?php include 'includes/hero.php'; ?>
+    <?php
+    $hero_bg = 'images/home-bg.jpg';
+    include 'includes/hero.php';
+    ?>
 
     <main class="layout-main">
         <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
