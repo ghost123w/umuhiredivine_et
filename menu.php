@@ -33,50 +33,78 @@ $menu_featured_image = $stmt->fetchColumn() ?: 'images/menu-featured.png';
     <?php
     $hero_title = "MENU";
     $hero_subtitle = "CULINARY EXCELLENCE";
+    // First scroll uses a generic background
     $hero_bg = 'images/menu_page.png';
     include 'includes/hero.php';
     ?>
 
-    <?php if ($menu_featured_image): ?>
-        <section class="menu-featured-section" style="background-image: url('<?php echo htmlspecialchars($menu_featured_image); ?>');"></section>
-    <?php endif; ?>
+    <main class="layout-main">
+        <!-- Second Scroll: Featured Image -->
+        <section class="menu-featured-full" style="background-image: url('<?php echo htmlspecialchars($menu_featured_image); ?>');">
+            <div class="featured-overlay"></div>
+        </section>
 
-    <main class="menu-container">
+        <!-- Third Scroll onwards: Menu Content -->
+        <div class="menu-content-wrapper">
+            <div class="menu-header">
+                <h2 class="luxury-heading">
+                    <span class="white-text">OUR</span>
+                    <span class="highlight">MENU</span>
+                </h2>
+                <p class="menu-subtitle">CULINARY EXCELLENCE</p>
 
-        <div class="menu-grid">
-            <?php if (empty($menu_items)): ?>
-                <div class="empty-menu">
-                    <p>Our culinary masters are currently preparing new masterpieces. Please check back soon.</p>
+                <div class="contact-strip">
+                    <span class="phone-label">ORDER VIA PHONE:</span>
+                    <a href="tel:<?php echo htmlspecialchars($contact_phone); ?>" class="phone-link"><?php echo htmlspecialchars($contact_phone); ?></a>
                 </div>
-            <?php else: ?>
-                <?php foreach ($menu_items as $item):
-                    $tags = !empty($item['tags']) ? explode(',', $item['tags']) : [];
+            </div>
+
+            <div class="menu-grid">
+                <?php
+                $current_category = '';
+                foreach ($menu_items as $item):
+                    if ($current_category !== $item['category']):
+                        $current_category = $item['category'];
                 ?>
-                    <div class="menu-item-card">
-                        <div class="menu-item-image">
-                            <img src="<?php echo htmlspecialchars($item['image_path'] ?: 'images/category-bg.png'); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                    <div class="menu-category-divider" style="grid-column: 1 / -1; margin-top: 40px; margin-bottom: 20px;">
+                        <h3 style="font-family: 'Cinzel', serif; color: var(--primary-color); letter-spacing: 4px; text-transform: uppercase; font-size: 1.2rem; border-bottom: 1px solid rgba(255,53,3,0.2); padding-bottom: 10px;">
+                            <?php echo htmlspecialchars($current_category); ?>
+                        </h3>
+                    </div>
+                <?php endif; ?>
+
+                <div class="menu-item-card">
+                    <div class="menu-item-image">
+                        <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" onerror="this.src='images/category-bg.png'">
+                    </div>
+                    <div class="menu-item-details">
+                        <div class="tags-row">
+                            <?php
+                            $tags = explode(',', $item['tags']);
+                            foreach ($tags as $tag):
+                                if (trim($tag)):
+                            ?>
+                                <span class="menu-tag"><?php echo htmlspecialchars(trim($tag)); ?></span>
+                            <?php
+                                endif;
+                            endforeach;
+                            ?>
                         </div>
-                        <div class="menu-item-details">
-                            <div class="tags-row">
-                                <?php foreach ($tags as $tag): ?>
-                                    <span class="menu-tag"><?php echo htmlspecialchars(trim(strtoupper($tag))); ?></span>
-                                <?php endforeach; ?>
-                            </div>
-                            <div class="name-price-row">
-                                <h3 class="item-name"><?php echo htmlspecialchars($item['name']); ?></h3>
-                                <div class="price-leader"></div>
-                                <span class="item-price"><?php echo htmlspecialchars($item['price']); ?></span>
-                            </div>
-                            <p class="item-description"><?php echo htmlspecialchars($item['description']); ?></p>
-                            <div class="item-footer">
-                                <button class="order-icon-btn" onclick="openContactModal('Order: <?php echo addslashes($item['name']); ?>')">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                                </button>
-                            </div>
+                        <div class="name-price-row">
+                            <h4 class="item-name"><?php echo htmlspecialchars($item['name']); ?></h4>
+                            <div class="price-leader"></div>
+                            <span class="item-price"><?php echo htmlspecialchars($item['price']); ?></span>
+                        </div>
+                        <p class="item-description"><?php echo htmlspecialchars($item['description']); ?></p>
+                        <div class="item-footer">
+                            <button class="order-icon-btn" onclick="openContactModal('Order: <?php echo htmlspecialchars($item['name']); ?>')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                            </button>
                         </div>
                     </div>
+                </div>
                 <?php endforeach; ?>
-            <?php endif; ?>
+            </div>
         </div>
     </main>
 

@@ -377,7 +377,7 @@ if ($view == 'products') {
                         <div class="portrait-frame">
                             <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured Asset">
                             <div class="portrait-overlay">
-                                <h3>Menu Featured Asset</h3>
+                                <h3>Featured Menu Portrait (Second Scroll)</h3>
                                 <form method="POST" enctype="multipart/form-data" id="quickUploadForm">
                                     <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                                     <input type="hidden" name="quick_upload_menu_image" value="1">
@@ -459,9 +459,9 @@ if ($view == 'products') {
                             </div>
                         </div>
 
-                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Menu Featured <span style="color: #fff;">Asset</span></h3>
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Menu Page Featured <span style="color: #fff;">Portrait</span></h3>
                         <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">Featured Image (Menu Page 2nd Scroll)</label>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">Featured Portrait (Second Scroll)</label>
                             <?php if ($menu_featured_image): ?>
                                 <div style="margin-bottom: 15px; max-width: 200px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
                                     <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" style="width: 100%; display: block;">
