@@ -47,20 +47,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $wa = sanitize($_POST['whatsapp_link']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('whatsapp_link', ?)")->execute([$wa]);
 
-        // Menu Featured Image Upload from settings view
-        if (isset($_FILES['menu_featured_image']) && $_FILES['menu_featured_image']['error'] == 0) {
+        // Handle Menu Hero Image Upload
+        if (isset($_FILES['menu_hero_image']) && $_FILES['menu_hero_image']['error'] == 0) {
             $target_dir = "../uploads/";
             if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
 
-            $file_ext = strtolower(pathinfo($_FILES["menu_featured_image"]["name"], PATHINFO_EXTENSION));
+            $file_ext = strtolower(pathinfo($_FILES["menu_hero_image"]["name"], PATHINFO_EXTENSION));
             $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
             if (in_array($file_ext, $allowed_exts)) {
-                $new_filename = 'menu_featured_' . uniqid() . '.' . $file_ext;
+                $new_filename = 'menu_hero_' . uniqid() . '.' . $file_ext;
                 $target_file = $target_dir . $new_filename;
-                if (move_uploaded_file($_FILES["menu_featured_image"]["tmp_name"], $target_file)) {
-                    $new_path = 'uploads/' . $new_filename;
-                    $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_featured_image', ?)")->execute([$new_path]);
+                if (move_uploaded_file($_FILES["menu_hero_image"]["tmp_name"], $target_file)) {
+                    $image_path = 'uploads/' . $new_filename;
+                    $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_hero_image', ?)");
+                    $stmt->execute([$image_path]);
                 }
             }
         }
@@ -191,28 +192,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    if (isset($_POST['quick_upload_menu_image'])) {
-        if (isset($_FILES['menu_featured_image']) && $_FILES['menu_featured_image']['error'] == 0) {
-            $target_dir = "../uploads/";
-            if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
-
-            $file_ext = strtolower(pathinfo($_FILES["menu_featured_image"]["name"], PATHINFO_EXTENSION));
-            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
-            if (in_array($file_ext, $allowed_exts)) {
-                $new_filename = 'menu_featured_' . uniqid() . '.' . $file_ext;
-                $target_file = $target_dir . $new_filename;
-                if (move_uploaded_file($_FILES["menu_featured_image"]["tmp_name"], $target_file)) {
-                    $new_path = 'uploads/' . $new_filename;
-                    $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_featured_image', ?)")->execute([$new_path]);
-                    header("Location: dashboard.php?msg=settings_updated");
-                    exit();
-                }
-            }
-        }
-        header("Location: dashboard.php?msg=error");
-        exit();
-    }
 }
 
 $filter_nav_id = $_GET['filter_nav'] ?? null;
@@ -267,9 +246,9 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'w
 $stmt->execute();
 $whatsapp_link = $stmt->fetchColumn() ?: '#';
 
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image'");
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_hero_image'");
 $stmt->execute();
-$menu_featured_image = $stmt->fetchColumn() ?: 'images/menu-featured.png';
+$menu_hero_image = $stmt->fetchColumn() ?: 'images/menu_page.png';
 
 $view = $_GET['view'] ?? 'overview';
 
@@ -373,20 +352,6 @@ if ($view == 'products') {
                         </div>
                     </section>
 
-                    <section class="aura-card" style="padding: 0; overflow: hidden;">
-                        <div class="portrait-frame">
-                            <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured Asset">
-                            <div class="portrait-overlay">
-                                <h3>Featured Menu Portrait (Second Scroll)</h3>
-                                <form method="POST" enctype="multipart/form-data" id="quickUploadForm">
-                                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                    <input type="hidden" name="quick_upload_menu_image" value="1">
-                                    <input type="file" name="menu_featured_image" id="quickFileInput" style="display: none;" onchange="document.getElementById('quickUploadForm').submit();" accept="image/*">
-                                    <label for="quickFileInput" style="color: var(--primary-color); font-size: 0.7rem; letter-spacing: 2px; cursor: pointer; text-decoration: underline;">CHANGE ASSET</label>
-                                </form>
-                            </div>
-                        </div>
-                    </section>
 
                     <div class="actions-grid">
                         <a href="dashboard.php?view=add" class="action-card">
@@ -438,6 +403,21 @@ if ($view == 'products') {
                             <input type="text" name="contact_phone" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_phone); ?>" required>
                         </div>
 
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Visual <span style="color: #fff;">Customization</span></h3>
+
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Menu Full-Display Image</label>
+                            <div style="margin-top: 20px; text-align: center;">
+                                <div class="portrait-frame">
+                                    <img src="../<?php echo htmlspecialchars($menu_hero_image); ?>" style="max-width: 400px; height: auto;" id="menuHeroPreview">
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <input type="file" name="menu_hero_image" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 10px;" accept="image/*" onchange="document.getElementById('menuHeroPreview').src = window.URL.createObjectURL(this.files[0])">
+                            </div>
+                            <p style="font-size: 0.6rem; color: #444; margin-top: 10px;">Upload a high-resolution image for the full-display menu section.</p>
+                        </div>
+
                         <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Social Media <span style="color: #fff;">Connectivities</span></h3>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -459,16 +439,6 @@ if ($view == 'products') {
                             </div>
                         </div>
 
-                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Menu Page Featured <span style="color: #fff;">Portrait</span></h3>
-                        <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">Featured Portrait (Second Scroll)</label>
-                            <?php if ($menu_featured_image): ?>
-                                <div style="margin-bottom: 15px; max-width: 200px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
-                                    <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" style="width: 100%; display: block;">
-                                </div>
-                            <?php endif; ?>
-                            <input type="file" name="menu_featured_image" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" accept="image/*">
-                        </div>
 
                         <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
