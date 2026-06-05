@@ -3,3 +3,5 @@ php_server.log
 *.log
 node_modules/
 .DS_Store
+data/database.sqlite
+test-results/
