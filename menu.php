@@ -58,10 +58,10 @@ $all_products = $stmt->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
 <body class="menu-page">
     <?php include 'includes/header.php'; ?>
 
-    <!-- First Scroll: Standard Hero -->
+    <!-- First Scroll: Standard Hero (Purely Visual) -->
     <?php
-    $hero_title = "MENU";
-    $hero_subtitle = "CULINARY EXCELLENCE";
+    $hero_title = "";
+    $hero_subtitle = "";
     $hero_bg = 'images/brand-hero.jpg';
     include 'includes/hero.php';
     ?>
