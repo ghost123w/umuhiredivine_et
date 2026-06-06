@@ -64,6 +64,7 @@ try {
     $stmt->execute(['selling_points_title', '']);
     $stmt->execute(['book_us_link', '#']);
     $stmt->execute(['menu_hero_image', 'images/menu_page.png']);
+    $stmt->execute(['menu_featured_image', 'images/menu_featured.jpg']);
 
     // Create contact_messages table
     $pdo->exec("CREATE TABLE IF NOT EXISTS contact_messages (

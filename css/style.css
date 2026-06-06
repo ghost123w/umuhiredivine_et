@@ -816,3 +816,137 @@ body {
 .luxury-heading .highlight {
     color: var(--primary-color);
 }
+
+
+/* Menu Scrollytelling Styles */
+.menu-hero-scroll {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    text-align: center;
+}
+
+.menu-hero-content .scrolly-hint {
+    color: #444;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    margin-top: 20px;
+    animation: pulse 2s infinite;
+}
+
+.menu-featured-scroll {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-featured-scroll .scroll-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame-border {
+    width: 90%;
+    height: 85%;
+    border: 1px solid rgba(255,255,255,0.3);
+    pointer-events: none;
+}
+
+.menu-collection-section {
+    background: #000;
+    padding: 100px 60px;
+}
+
+.category-divider {
+    font-family: 'Cinzel', serif;
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+    margin: 60px 0 30px;
+    text-transform: uppercase;
+}
+
+.menu-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.menu-item-row .item-info h3 {
+    font-family: 'Cinzel', serif;
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.menu-item-row .item-info p {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.menu-item-row .item-price {
+    color: var(--primary-color);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+/* Admin Dashboard Custom Styles */
+.admin-image-preview-container {
+    margin: 15px 0;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.2);
+}
+
+.admin-image-frame {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 4px solid #1a1a1a;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.admin-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-file-input {
+    margin-top: 15px;
+    background: transparent;
+    border: 1px dashed rgba(255,255,255,0.2);
+}
+
+.admin-hint-text {
+    font-size: 0.6rem;
+    color: #444;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

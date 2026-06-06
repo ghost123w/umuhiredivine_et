@@ -4,6 +4,10 @@ require_once 'config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
+// Fetch the featured image from settings
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image'");
+$stmt->execute();
+$menu_featured_image = $stmt->fetchColumn() ?: 'images/menu_featured.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,14 +23,23 @@ require_once 'includes/functions.php';
     <?php include 'includes/header.php'; ?>
 
     <main class="layout-main" style="margin-top: 0;">
-        <div style="padding: 200px 60px; text-align: center; background: #000; min-height: 100vh;">
-            <h1 style="font-family: 'Cinzel', serif; font-size: 3rem; color: #fff;">MENU</h1>
-            <p style="color: #666; letter-spacing: 2px; margin-top: 20px;">PREPARING THE COLLECTION</p>
-        </div>
+        <!-- Scroll 1: Hero (Cleaned up, no text words as requested) -->
+        <section class="menu-hero-scroll">
+            <div class="menu-hero-content">
+                <p class="scrolly-hint">SCROLL TO DISCOVER</p>
+            </div>
+        </section>
+
+        <!-- Scroll 2: Featured Image (Full Display) -->
+        <section class="menu-featured-scroll" style="background-image: url('<?php echo htmlspecialchars($menu_featured_image); ?>');">
+            <div class="scroll-overlay">
+                <div class="frame-border"></div>
+            </div>
+        </section>
     </main>
 
     <?php include 'includes/contact-modal.php'; ?>
-    <footer class="aura-footer" style="background: #000;">
+    <footer class="aura-footer">
         &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?> &mdash; CULINARY EXCELLENCE
     </footer>
     <script src="js/script.js"></script>

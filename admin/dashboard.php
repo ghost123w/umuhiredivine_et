@@ -47,6 +47,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $wa = sanitize($_POST['whatsapp_link']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('whatsapp_link', ?)")->execute([$wa]);
 
+        // Handle Menu Featured Image Upload
+        if (isset($_FILES['menu_featured_image']) && $_FILES['menu_featured_image']['error'] == 0) {
+            $target_dir = "../uploads/";
+            if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
+
+            $file_ext = strtolower(pathinfo($_FILES["menu_featured_image"]["name"], PATHINFO_EXTENSION));
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (in_array($file_ext, $allowed_exts)) {
+                $new_filename = 'menu_featured_' . time() . '.' . $file_ext;
+                $target_file = $target_dir . $new_filename;
+                if (move_uploaded_file($_FILES["menu_featured_image"]["tmp_name"], $target_file)) {
+                    $image_path = 'uploads/' . $new_filename;
+                    $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_featured_image', ?)")->execute([$image_path]);
+                }
+            }
+        }
+
         header("Location: dashboard.php?view=settings&msg=settings_updated");
         exit();
     }
@@ -209,6 +227,10 @@ $contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'best_sellers_title'");
 $stmt->execute();
 $best_sellers_title = $stmt->fetchColumn() ?: 'BEST SELLERS';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image'");
+$stmt->execute();
+$menu_featured_image = $stmt->fetchColumn() ?: 'images/menu_featured.jpg';
 
 // Fetch Social Media Links
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'facebook_link'");
@@ -378,6 +400,19 @@ if ($view == 'products') {
                         <div class="form-group">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Contact Phone Number</label>
                             <input type="text" name="contact_phone" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_phone); ?>" required>
+                        </div>
+
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Visual <span style="color: #fff;">Customization</span></h3>
+
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Menu Featured Image (Second Scroll)</label>
+                            <div class="admin-image-preview-container">
+                                <div class="admin-image-frame">
+                                    <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured" id="menuFeaturedPreview">
+                                </div>
+                                <input type="file" name="menu_featured_image" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview')">
+                                <p class="admin-hint-text">Recommended: High-resolution portrait or landscape (Auto-cropped to viewport)</p>
+                            </div>
                         </div>
 
                         <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Social Media <span style="color: #fff;">Connectivities</span></h3>
@@ -703,6 +738,16 @@ if ($view == 'products') {
     </footer>
 
     <script>
+        function previewImage(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         const sidebarToggle = document.getElementById('sidebarToggle');
         const adminSidebar = document.getElementById('adminSidebar');
 
