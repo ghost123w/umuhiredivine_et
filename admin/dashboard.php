@@ -248,7 +248,7 @@ $whatsapp_link = $stmt->fetchColumn() ?: '#';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_hero_image'");
 $stmt->execute();
-$menu_hero_image = $stmt->fetchColumn() ?: 'images/menu_page.png';
+$menu_hero_image = $stmt->fetchColumn() ?: 'images/menu_full.png';
 
 $view = $_GET['view'] ?? 'overview';
 
