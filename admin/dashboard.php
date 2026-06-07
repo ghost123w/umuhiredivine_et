@@ -405,7 +405,7 @@ if ($view == 'products') {
                         <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Visual <span style="color: #fff;">Customization</span></h3>
 
                         <div class="form-group" style="margin-bottom: 30px;">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Menu Featured Image (Second Scroll)</label>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Menu Landing Image (Frame Section)</label>
                             <div class="admin-image-preview-container">
                                 <div class="admin-image-frame">
                                     <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured" id="menuFeaturedPreview">

@@ -17,7 +17,12 @@ try {
     )");
 
     // Seed default admin if empty
-    // Initial setup should be performed via secure environment configuration or manual entry.
+    $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
+    if ($stmt->fetchColumn() == 0) {
+        $password = password_hash('admin123', PASSWORD_DEFAULT);
+        $pdo->prepare("INSERT INTO admins (username, password, email) VALUES (?, ?, ?)")
+            ->execute(['admin', $password, 'admin@example.com']);
+    }
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS content (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,7 +68,7 @@ try {
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
     $stmt->execute(['selling_points_title', '']);
     $stmt->execute(['book_us_link', '#']);
-    $stmt->execute(['menu_hero_image', 'images/menu_page.png']);
+    $stmt->execute(['menu_hero_image', 'images/menu_full.png']);
     $stmt->execute(['menu_featured_image', 'images/menu_featured.jpg']);
 
     // Create contact_messages table

@@ -819,49 +819,22 @@ body {
 
 
 /* Menu Scrollytelling Styles */
-.menu-hero-scroll {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-    text-align: center;
-}
-
-.menu-hero-content .scrolly-hint {
-    color: #444;
-    font-size: 0.7rem;
-    letter-spacing: 4px;
-    margin-top: 20px;
-    animation: pulse 2s infinite;
-}
-
-.menu-featured-scroll {
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    position: relative;
-    overflow: hidden;
-}
-
-.menu-featured-scroll .scroll-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .frame-border {
-    width: 90%;
-    height: 85%;
-    border: 1px solid rgba(255,255,255,0.3);
+    width: 85%;
+    height: 80%;
+    border: 1px solid rgba(255,255,255,0.4);
+    position: relative;
     pointer-events: none;
+}
+
+.frame-border::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .menu-collection-section {
