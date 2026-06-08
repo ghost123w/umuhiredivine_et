@@ -84,11 +84,6 @@ $products = $stmt->fetchAll();
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <!-- First Scroll: Initial Black State with Prompt -->
-        <section class="initial-scroll-reveal">
-            <div class="scroll-prompt">SCROLL TO DISCOVER</div>
-        </section>
-
         <!-- Second Scroll: Transparent to reveal fixed Hero in full display -->
         <section class="transparent-scroll"></section>
 

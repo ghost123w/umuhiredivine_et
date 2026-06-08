@@ -947,30 +947,6 @@ body {
 }
 
 /* Menu Scrollytelling Reveal */
-.initial-scroll-reveal {
-    height: 100vh;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-}
-
-.scroll-prompt {
-    font-family: 'Cinzel', serif;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 10px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    animation: pulse-aura 3s infinite ease-in-out;
-}
-
-@keyframes pulse-aura {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.05); }
-}
-
 .transparent-scroll {
     height: 100vh;
     background: transparent;
