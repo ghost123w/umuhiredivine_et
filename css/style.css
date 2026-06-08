@@ -606,34 +606,6 @@ body {
     text-transform: uppercase;
 }
 
-.portrait-frame {
-    position: relative;
-    padding: 20px;
-    background: #111;
-    border: 10px solid #222;
-    box-shadow:
-        inset 0 0 20px rgba(0,0,0,0.5),
-        0 10px 30px rgba(0,0,0,0.8);
-    display: inline-block;
-}
-
-.portrait-frame::after {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    right: -15px;
-    bottom: -15px;
-    border: 1px solid rgba(255, 53, 3, 0.2);
-    pointer-events: none;
-}
-
-.portrait-frame img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    border: 1px solid rgba(255,255,255,0.1);
-}
 
 .portrait-overlay {
     position: absolute;
@@ -819,22 +791,72 @@ body {
 
 
 /* Menu Scrollytelling Styles */
-.frame-border {
-    width: 85%;
-    height: 80%;
-    border: 1px solid rgba(255,255,255,0.4);
-    position: relative;
-    pointer-events: none;
+.menu-page .layout-main { margin-top: 0; }
+
+.transparent-scroll {
+    height: 100vh;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
 }
 
-.frame-border::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    border: 1px solid rgba(255,255,255,0.1);
+.featured-image-scroll {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+.solid-bg {
+    background: #000 !important;
+    min-height: 100vh;
+}
+
+.menu-grid-luxury {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.category-header {
+    font-family: 'Cinzel', serif;
+    color: var(--primary-color);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+    margin: 60px 0 30px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.menu-item-aura {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.item-detail h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.item-detail p {
+    color: #666;
+    font-size: 0.85rem;
+    max-width: 500px;
+}
+
+.item-price-aura {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.1rem;
 }
 
 .menu-collection-section {
@@ -922,4 +944,37 @@ body {
     margin-top: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+/* Menu Scrollytelling Reveal */
+.initial-scroll-reveal {
+    height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.scroll-prompt {
+    font-family: 'Cinzel', serif;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 10px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    animation: pulse-aura 3s infinite ease-in-out;
+}
+
+@keyframes pulse-aura {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.transparent-scroll {
+    height: 100vh;
+    background: transparent;
+    pointer-events: none;
+    position: relative;
+    z-index: 0;
 }

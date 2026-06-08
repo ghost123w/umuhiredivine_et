@@ -402,16 +402,16 @@ if ($view == 'products') {
                             <input type="text" name="contact_phone" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_phone); ?>" required>
                         </div>
 
-                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Visual <span style="color: #fff;">Customization</span></h3>
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);"><span style="color: var(--primary-color);">FRAME SECTION</span> <span style="color: #fff;">CUSTOMIZATION</span></h3>
 
                         <div class="form-group" style="margin-bottom: 30px;">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Menu Landing Image (Frame Section)</label>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">FRAME SECTION IMAGE</label>
                             <div class="admin-image-preview-container">
                                 <div class="admin-image-frame">
                                     <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured" id="menuFeaturedPreview">
                                 </div>
                                 <input type="file" name="menu_featured_image" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview')">
-                                <p class="admin-hint-text">Recommended: High-resolution portrait or landscape (Auto-cropped to viewport)</p>
+                                <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
                             </div>
                         </div>
 
