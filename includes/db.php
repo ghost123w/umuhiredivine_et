@@ -17,9 +17,11 @@ try {
     )");
 
     // Seed default admin if empty
+    // NOTE: In production, use environment variables for initial credentials.
+    // Ensure the password is changed immediately upon first login.
     $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
     if ($stmt->fetchColumn() == 0) {
-        $password = password_hash('admin123', PASSWORD_DEFAULT);
+        $password = password_hash('Aura_Secure_Init_2024!', PASSWORD_DEFAULT);
         $pdo->prepare("INSERT INTO admins (username, password, email) VALUES (?, ?, ?)")
             ->execute(['admin', $password, 'admin@example.com']);
     }
