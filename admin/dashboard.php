@@ -47,6 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $wa = sanitize($_POST['whatsapp_link']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('whatsapp_link', ?)")->execute([$wa]);
 
+        $menu_branding = sanitize($_POST['menu_branding_title']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_branding_title', ?)")->execute([$menu_branding]);
+
+        $menu_collection = sanitize($_POST['menu_collection_title']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_collection_title', ?)")->execute([$menu_collection]);
+
         // Handle Menu Featured Image Upload
         if (isset($_FILES['menu_featured_image']) && $_FILES['menu_featured_image']['error'] == 0) {
             $target_dir = "../uploads/";
@@ -232,6 +238,14 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'm
 $stmt->execute();
 $menu_featured_image = $stmt->fetchColumn() ?: 'images/menu_featured.jpg';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_branding_title'");
+$stmt->execute();
+$menu_branding_title = $stmt->fetchColumn() ?: 'MENU';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_collection_title'");
+$stmt->execute();
+$menu_collection_title = $stmt->fetchColumn() ?: 'OUR COLLECTION';
+
 // Fetch Social Media Links
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'facebook_link'");
 $stmt->execute();
@@ -403,6 +417,16 @@ if ($view == 'products') {
                         </div>
 
                         <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);"><span style="color: var(--primary-color);">FRAME SECTION</span> <span style="color: #fff;">CUSTOMIZATION</span></h3>
+
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU BRANDING TITLE</label>
+                            <input type="text" name="menu_branding_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_branding_title); ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU COLLECTION TITLE</label>
+                            <input type="text" name="menu_collection_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_collection_title); ?>" required>
+                        </div>
 
                         <div class="form-group" style="margin-bottom: 30px;">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">FRAME SECTION IMAGE</label>

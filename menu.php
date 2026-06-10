@@ -9,6 +9,14 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'm
 $stmt->execute();
 $featured_img = $stmt->fetchColumn() ?: 'images/menu_featured.jpg';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_branding_title'");
+$stmt->execute();
+$branding_title = $stmt->fetchColumn() ?: 'MENU';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_collection_title'");
+$stmt->execute();
+$collection_title = $stmt->fetchColumn() ?: 'OUR COLLECTION';
+
 $hero_bg = $featured_img;
 $hero_title = ""; // Use custom title scrolls
 
@@ -27,29 +35,37 @@ $products = $stmt->fetchAll();
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="menu-page">
+    <style>
+        .menu-page .hero-overlay { background: rgba(0,0,0,0.2); }
+    </style>
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <!-- Scroll 1: Luxury Branding "MENU" -->
+        <!-- Viewport 1: Luxury Branding -->
         <section class="solid-scroll-section">
             <div class="hero-brand-stack">
-                <div class="hero-title-bg">MENU</div>
-                <div class="hero-title-fg">MENU</div>
+                <div class="hero-title-bg"><?php echo htmlspecialchars($branding_title); ?></div>
+                <div class="hero-title-fg"><?php echo htmlspecialchars($branding_title); ?></div>
             </div>
         </section>
 
-        <!-- Scroll 2: Secondary Header / Interaction Hint -->
-        <section class="solid-scroll-section">
-            <h2 class="luxury-heading" style="text-align: center;"><span class="white-text">OUR</span> <span class="highlight">COLLECTION</span></h2>
-            <div class="discover-hint">SCROLL TO DISCOVER</div>
-        </section>
-
-        <!-- Scroll 3: Reveal fixed featured image in full display -->
+        <!-- Viewport 2: Reveal featured image (Second Scroll) -->
         <section class="transparent-reveal-section"></section>
 
-        <!-- Scroll 4: Detailed Menu Items -->
+        <!-- Viewport 3+: Detailed Menu Items -->
         <section class="menu-items-section">
+            <div style="text-align: center; margin-bottom: 80px;">
+                <?php
+                $words = explode(' ', $collection_title);
+                $last_word = array_pop($words);
+                $first_part = implode(' ', $words);
+                ?>
+                <h2 class="luxury-heading" style="display: inline-block;">
+                    <span class="white-text"><?php echo htmlspecialchars($first_part); ?></span>
+                    <span class="highlight"><?php echo htmlspecialchars($last_word); ?></span>
+                </h2>
+            </div>
             <?php
             $current_cat = '';
             foreach ($products as $product):

@@ -793,6 +793,18 @@ body {
 /* Menu Scrollytelling Styles */
 .menu-page .layout-main { margin-top: 0; }
 
+.menu-page .hero-section {
+    background-size: cover;
+    background-attachment: scroll; /* Default for mobile stability */
+}
+
+/* Desktop override for parallax effect */
+@media (min-width: 1025px) {
+    .menu-page .hero-section {
+        background-attachment: fixed;
+    }
+}
+
 .solid-scroll-section {
     height: 100vh;
     background: #000;
