@@ -50,7 +50,7 @@ try {
         $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
         $stmt->execute(['selling_points_title', '']);
         $stmt->execute(['book_us_link', '#']);
-        $stmt->execute(['menu_hero_image', 'images/menu_full.png']);
+        $stmt->execute(['menu_hero_image', 'images/menu_featured.jpg']);
         $stmt->execute(['menu_featured_image', 'images/menu_featured.jpg']);
         $stmt->execute(['menu_featured_image_2', 'images/menu_featured_2.jpg']);
         $stmt->execute(['menu_branding_title', 'MENU']);
