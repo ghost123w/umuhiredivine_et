@@ -821,7 +821,7 @@ body {
 }
 
 .menu-items-section {
-    background: #000 !important;
+    background: transparent !important;
     min-height: 100vh;
     padding: 100px 0;
     position: relative;

@@ -47,14 +47,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $wa = sanitize($_POST['whatsapp_link']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('whatsapp_link', ?)")->execute([$wa]);
 
-        $menu_branding = sanitize($_POST['menu_branding_title']);
-        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_branding_title', ?)")->execute([$menu_branding]);
+        if (isset($_POST['menu_branding_title'])) {
+            $menu_branding = sanitize($_POST['menu_branding_title']);
+            $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_branding_title', ?)")->execute([$menu_branding]);
+        }
 
-        $menu_collection = sanitize($_POST['menu_collection_title']);
-        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_collection_title', ?)")->execute([$menu_collection]);
+        if (isset($_POST['menu_collection_title'])) {
+            $menu_collection = sanitize($_POST['menu_collection_title']);
+            $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_collection_title', ?)")->execute([$menu_collection]);
+        }
 
-        $menu_reveal_2 = sanitize($_POST['menu_reveal_title_2']);
-        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_reveal_title_2', ?)")->execute([$menu_reveal_2]);
+        if (isset($_POST['menu_reveal_title_2'])) {
+            $menu_reveal_2 = sanitize($_POST['menu_reveal_title_2']);
+            $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_reveal_title_2', ?)")->execute([$menu_reveal_2]);
+        }
 
         // Handle Menu Featured Image Uploads
         $upload_map = [
@@ -75,6 +81,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $target_file = $target_dir . $new_filename;
                     if (move_uploaded_file($_FILES[$form_key]["tmp_name"], $target_file)) {
                         $image_path = 'uploads/' . $new_filename;
+
+                        // Clean up old image if it exists in uploads
+                        $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+                        $stmt->execute([$setting_key]);
+                        $old_path = $stmt->fetchColumn();
+                        if ($old_path && file_exists('../' . $old_path) && strpos($old_path, 'uploads/') === 0) {
+                            unlink('../' . $old_path);
+                        }
+
                         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES (?, ?)")->execute([$setting_key, $image_path]);
                     }
                 }
@@ -437,13 +452,18 @@ if ($view == 'products') {
                         <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);"><span style="color: var(--primary-color);">FRAME SECTION</span> <span style="color: #fff;">CUSTOMIZATION</span></h3>
 
                         <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU BRANDING TITLE</label>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU HERO TITLE</label>
                             <input type="text" name="menu_branding_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_branding_title); ?>" required>
                         </div>
 
                         <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU COLLECTION TITLE</label>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU COLLECTION TITLE (SCROLL 2)</label>
                             <input type="text" name="menu_collection_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_collection_title); ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">EXTRA REVEAL TITLE (OPTIONAL)</label>
+                            <input type="text" name="menu_reveal_title_2" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_reveal_title_2); ?>">
                         </div>
 
                         <div class="form-group" style="margin-bottom: 30px;">
@@ -455,11 +475,6 @@ if ($view == 'products') {
                                 <input type="file" name="menu_featured_image" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview')">
                                 <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU REVEAL TITLE 2 (OPTIONAL)</label>
-                            <input type="text" name="menu_reveal_title_2" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_reveal_title_2); ?>">
                         </div>
 
                         <div class="form-group" style="margin-bottom: 30px;">
