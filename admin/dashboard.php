@@ -53,20 +53,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $menu_collection = sanitize($_POST['menu_collection_title']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_collection_title', ?)")->execute([$menu_collection]);
 
-        // Handle Menu Featured Image Upload
-        if (isset($_FILES['menu_featured_image']) && $_FILES['menu_featured_image']['error'] == 0) {
-            $target_dir = "../uploads/";
-            if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
+        $menu_reveal_2 = sanitize($_POST['menu_reveal_title_2']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_reveal_title_2', ?)")->execute([$menu_reveal_2]);
 
-            $file_ext = strtolower(pathinfo($_FILES["menu_featured_image"]["name"], PATHINFO_EXTENSION));
-            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        // Handle Menu Featured Image Uploads
+        $upload_map = [
+            'menu_featured_image' => 'menu_featured_image',
+            'menu_featured_image_2' => 'menu_featured_image_2'
+        ];
 
-            if (in_array($file_ext, $allowed_exts)) {
-                $new_filename = 'menu_featured_' . time() . '.' . $file_ext;
-                $target_file = $target_dir . $new_filename;
-                if (move_uploaded_file($_FILES["menu_featured_image"]["tmp_name"], $target_file)) {
-                    $image_path = 'uploads/' . $new_filename;
-                    $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_featured_image', ?)")->execute([$image_path]);
+        foreach ($upload_map as $form_key => $setting_key) {
+            if (isset($_FILES[$form_key]) && $_FILES[$form_key]['error'] == 0) {
+                $target_dir = "../uploads/";
+                if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
+
+                $file_ext = strtolower(pathinfo($_FILES[$form_key]["name"], PATHINFO_EXTENSION));
+                $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if (in_array($file_ext, $allowed_exts)) {
+                    $new_filename = $setting_key . '_' . time() . '.' . $file_ext;
+                    $target_file = $target_dir . $new_filename;
+                    if (move_uploaded_file($_FILES[$form_key]["tmp_name"], $target_file)) {
+                        $image_path = 'uploads/' . $new_filename;
+                        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES (?, ?)")->execute([$setting_key, $image_path]);
+                    }
                 }
             }
         }
@@ -245,6 +255,14 @@ $menu_branding_title = $stmt->fetchColumn() ?: 'MENU';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_collection_title'");
 $stmt->execute();
 $menu_collection_title = $stmt->fetchColumn() ?: 'OUR COLLECTION';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_2'");
+$stmt->execute();
+$menu_featured_image_2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_reveal_title_2'");
+$stmt->execute();
+$menu_reveal_title_2 = $stmt->fetchColumn() ?: '';
 
 // Fetch Social Media Links
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'facebook_link'");
@@ -429,12 +447,28 @@ if ($view == 'products') {
                         </div>
 
                         <div class="form-group" style="margin-bottom: 30px;">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">FRAME SECTION IMAGE</label>
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">FRAME SECTION IMAGE 1</label>
                             <div class="admin-image-preview-container">
                                 <div class="admin-image-frame">
-                                    <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured" id="menuFeaturedPreview">
+                                    <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured 1" id="menuFeaturedPreview">
                                 </div>
                                 <input type="file" name="menu_featured_image" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview')">
+                                <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU REVEAL TITLE 2 (OPTIONAL)</label>
+                            <input type="text" name="menu_reveal_title_2" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_reveal_title_2); ?>">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">FRAME SECTION IMAGE 2</label>
+                            <div class="admin-image-preview-container">
+                                <div class="admin-image-frame">
+                                    <img src="../<?php echo htmlspecialchars($menu_featured_image_2); ?>" alt="Menu Featured 2" id="menuFeaturedPreview2">
+                                </div>
+                                <input type="file" name="menu_featured_image_2" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview2')">
                                 <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
                             </div>
                         </div>

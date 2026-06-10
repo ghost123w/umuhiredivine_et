@@ -793,18 +793,6 @@ body {
 /* Menu Scrollytelling Styles */
 .menu-page .layout-main { margin-top: 0; }
 
-.menu-page .hero-section {
-    background-size: cover;
-    background-attachment: scroll; /* Default for mobile stability */
-}
-
-/* Desktop override for parallax effect */
-@media (min-width: 1025px) {
-    .menu-page .hero-section {
-        background-attachment: fixed;
-    }
-}
-
 .solid-scroll-section {
     height: 100vh;
     background: #000;
@@ -816,21 +804,20 @@ body {
     z-index: 10;
 }
 
-.discover-hint {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 5px;
-    color: rgba(255,255,255,0.4);
-    text-transform: uppercase;
-    margin-top: 40px;
-}
-
-.transparent-reveal-section {
+.reveal-scroll-section {
     height: 100vh;
-    background: transparent;
-    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll; /* Fallback */
     position: relative;
     z-index: 5;
+}
+
+/* Desktop override for parallax effect */
+@media (min-width: 1025px) {
+    .reveal-scroll-section {
+        background-attachment: fixed;
+    }
 }
 
 .menu-items-section {
@@ -891,34 +878,37 @@ body {
 }
 
 .menu-tag-v2 {
-    background: var(--primary-color);
+    background: #ff0000; /* Bright red from image */
     color: #fff;
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 6px 16px;
+    border-radius: 100px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
 }
 
 .menu-item-header-v2 {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
 .menu-item-name-v2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.4rem;
-    color: var(--accent-color);
+    font-size: 2rem;
+    color: var(--secondary-color); /* Gold/Tan color from image */
     margin: 0;
+    letter-spacing: 1px;
 }
 
 .menu-item-price-v2 {
-    font-size: 1.2rem;
-    color: var(--accent-color);
-    font-weight: 400;
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    color: var(--secondary-color);
+    font-weight: 700;
 }
 
 .menu-item-desc-v2 {
@@ -931,14 +921,16 @@ body {
 .menu-item-actions-v2 {
     display: flex;
     justify-content: flex-end;
+    margin-top: 20px;
 }
 
 .cart-btn-v2 {
     background: transparent;
     border: none;
-    color: var(--accent-color);
+    color: var(--secondary-color);
     cursor: pointer;
     transition: 0.3s;
+    opacity: 0.8;
 }
 
 .cart-btn-v2:hover {

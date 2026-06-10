@@ -22,10 +22,14 @@ try {
             is_verified INTEGER DEFAULT 1
         )");
 
-        // Seed default admin
-        $password = password_hash('admin123', PASSWORD_DEFAULT);
-        $pdo->prepare("INSERT INTO admins (username, password, email) VALUES (?, ?, ?)")
-            ->execute(['admin', $password, 'admin@example.com']);
+        // Seed default admin: admin / admin123
+        $admin_exists = $pdo->query("SELECT COUNT(*) FROM admins")->fetchColumn();
+        if ($admin_exists == 0) {
+            $hashed_password = password_hash('admin123', PASSWORD_DEFAULT);
+            $pdo->prepare("INSERT INTO admins (username, password, email) VALUES (?, ?, ?)")
+                ->execute(['admin', $hashed_password, 'admin@example.com']);
+        }
+
 
         $pdo->exec("CREATE TABLE IF NOT EXISTS content (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,7 +52,9 @@ try {
         $stmt->execute(['book_us_link', '#']);
         $stmt->execute(['menu_hero_image', 'images/menu_full.png']);
         $stmt->execute(['menu_featured_image', 'images/menu_featured.jpg']);
+        $stmt->execute(['menu_featured_image_2', 'images/menu_featured_2.jpg']);
         $stmt->execute(['menu_branding_title', 'MENU']);
+        $stmt->execute(['menu_reveal_title_2', '']);
         $stmt->execute(['menu_collection_title', 'OUR COLLECTION']);
 
         $pdo->exec("CREATE TABLE IF NOT EXISTS contact_messages (
@@ -94,12 +100,7 @@ try {
 
         $items = [
             ['HOME', 'index.php', 0, 'main'],
-            ['COLLECTIONS', 'categories.php', 1, 'main'],
-            ['ABOUT US', 'about.php', 2, 'main'],
             ['MENU', 'menu.php', 3, 'main'],
-            ['EXPLORE', 'explore.php', 4, 'main'],
-            ['BLOG', 'blog.php', 5, 'main'],
-            ['GALLERY', 'gallery.php', 6, 'main'],
             ['GET IN TOUCH', '#contact-modal', 7, 'main'],
             ['Portal', 'dashboard.php?view=overview', 0, 'admin'],
             ['Aura', 'dashboard.php?view=settings', 1, 'admin'],

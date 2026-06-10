@@ -4,21 +4,30 @@ require_once 'config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
-// Featured image for the reveal section
+// Featured image 1
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image'");
 $stmt->execute();
 $featured_img = $stmt->fetchColumn() ?: 'images/menu_featured.jpg';
 
+// Branding Title
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_branding_title'");
 $stmt->execute();
 $branding_title = $stmt->fetchColumn() ?: 'MENU';
 
+// Collection Title
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_collection_title'");
 $stmt->execute();
 $collection_title = $stmt->fetchColumn() ?: 'OUR COLLECTION';
 
-$hero_bg = $featured_img;
-$hero_title = ""; // Use custom title scrolls
+// Featured image 2
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_2'");
+$stmt->execute();
+$featured_img_2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
+
+// Reveal Title 2
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_reveal_title_2'");
+$stmt->execute();
+$reveal_title_2 = $stmt->fetchColumn() ?: '';
 
 // Fetch products for the menu items
 $stmt = $pdo->query("SELECT * FROM products ORDER BY category");
@@ -35,11 +44,7 @@ $products = $stmt->fetchAll();
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="menu-page">
-    <style>
-        .menu-page .hero-overlay { background: rgba(0,0,0,0.2); }
-    </style>
     <?php include 'includes/header.php'; ?>
-    <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
         <!-- Viewport 1: Luxury Branding -->
@@ -50,18 +55,33 @@ $products = $stmt->fetchAll();
             </div>
         </section>
 
-        <!-- Viewport 2: Reveal featured image (Second Scroll) -->
-        <section class="transparent-reveal-section"></section>
+        <!-- Viewport 2: Reveal first featured image -->
+        <section class="reveal-scroll-section" style="background-image: url('<?php echo htmlspecialchars($featured_img); ?>');">
+            <div class="hero-overlay" style="background: rgba(0,0,0,0.2);"></div>
+        </section>
 
-        <!-- Viewport 3+: Detailed Menu Items -->
+        <!-- Viewport 3: Second Branding / Transition Title -->
+        <section class="solid-scroll-section">
+            <div class="hero-brand-stack">
+                <div class="hero-title-bg"><?php echo htmlspecialchars($reveal_title_2); ?></div>
+                <div class="hero-title-fg"><?php echo htmlspecialchars($reveal_title_2); ?></div>
+            </div>
+        </section>
+
+        <!-- Viewport 4: Reveal second featured image -->
+        <section class="reveal-scroll-section" style="background-image: url('<?php echo htmlspecialchars($featured_img_2); ?>');">
+            <div class="hero-overlay" style="background: rgba(0,0,0,0.2);"></div>
+        </section>
+
+        <!-- Viewport 5+: Detailed Menu Items -->
         <section class="menu-items-section">
-            <div style="text-align: center; margin-bottom: 80px;">
+            <div style="text-align: center; margin-bottom: 120px;">
                 <?php
                 $words = explode(' ', $collection_title);
                 $last_word = array_pop($words);
                 $first_part = implode(' ', $words);
                 ?>
-                <h2 class="luxury-heading" style="display: inline-block;">
+                <h2 class="luxury-heading" style="display: inline-block; font-size: 5rem;">
                     <span class="white-text"><?php echo htmlspecialchars($first_part); ?></span>
                     <span class="highlight"><?php echo htmlspecialchars($last_word); ?></span>
                 </h2>
