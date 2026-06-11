@@ -3,6 +3,7 @@ session_start();
 require_once 'config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
+require_once 'includes/icons.php';
 
 // Featured image 1
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image'");
@@ -53,7 +54,7 @@ $products = $stmt->fetchAll();
             </div>
         </section>
 
-        <!-- Viewport 2: Split Layout (Sticky Image + Scrollable Menu) -->
+        <!-- Viewport 2: Luxury Split Layout (Sticky Image + Premium Grid) -->
         <section class="menu-split-container">
             <!-- Sticky Image Side (40%) -->
             <div class="menu-image-side" style="background-image: url('<?php echo htmlspecialchars($featured_img_2); ?>');">
@@ -74,30 +75,47 @@ $products = $stmt->fetchAll();
                             if ($current_cat !== '') echo '</div></div>';
                             $current_cat = $product['category'];
                     ?>
-                        <div class="category-group">
-                            <h3 class="category-title-luxury"><?php echo htmlspecialchars($current_cat); ?></h3>
-                            <div class="items-grid">
+                        <div class="category-group-v3">
+                            <h3 class="category-title-luxury-v3"><?php echo htmlspecialchars($current_cat); ?></h3>
+                            <div class="items-grid-v3">
                     <?php endif; ?>
 
-                        <div class="menu-item-card-v2">
-                            <div class="menu-item-info-v2">
-                                <h3 class="menu-item-name-v2"><?php echo htmlspecialchars($product['name']); ?></h3>
-                                <?php
-                                $tags = array_filter(array_map('trim', explode(',', $product['tags'] ?? '')));
-                                if (!empty($tags)): ?>
-                                    <div class="menu-item-tags-v2">
-                                        <?php foreach ($tags as $tag): ?>
-                                            <span class="menu-tag-v2"><?php echo htmlspecialchars($tag); ?></span>
-                                        <?php endforeach; ?>
-                                    </div>
-                                <?php endif; ?>
+                        <div class="menu-item-v3">
+                            <div class="item-v3-image">
+                                <img src="<?php echo htmlspecialchars($product['image_path'] ?: 'images/category-bg.png'); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
                             </div>
-                            <div class="menu-item-spacer"></div>
-                            <span class="menu-item-price-v2"><?php echo htmlspecialchars($product['price']); ?></span>
+                            <div class="item-v3-details">
+                                <div class="item-v3-tags">
+                                    <?php
+                                    $tags = array_filter(array_map('trim', explode(',', $product['tags'] ?? '')));
+                                    foreach ($tags as $tag): ?>
+                                        <span class="tag-v3"><?php echo htmlspecialchars($tag); ?></span>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="item-v3-header">
+                                    <h3 class="item-v3-name"><?php echo htmlspecialchars($product['name']); ?></h3>
+                                    <div class="item-v3-dots"></div>
+                                    <span class="item-v3-price"><?php echo htmlspecialchars($product['price']); ?></span>
+                                </div>
+                                <p class="item-v3-desc"><?php echo htmlspecialchars($product['description'] ?? ''); ?></p>
+                                <div class="item-v3-footer">
+                                    <button class="cart-btn-v3">
+                                        <?php echo get_cart_icon(); ?>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                     <?php if ($current_cat !== '') echo '</div></div>'; ?>
                 </div>
+            </div>
+
+            <!-- Floating Cart Indicator (Localized to this section for better UX) -->
+            <div class="cart-floating-btn">
+                <span>Cart empty</span>
+                <span class="cart-icon-wrapper">
+                    <?php echo get_cart_icon(); ?>
+                </span>
             </div>
         </section>
     </main>
