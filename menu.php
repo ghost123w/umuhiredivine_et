@@ -82,9 +82,11 @@ $products = $stmt->fetchAll();
 
                         <div class="menu-item-v3">
                             <div class="item-v3-image">
-                                <img src="<?php echo htmlspecialchars($product['image_path'] ?: 'images/category-bg.png'); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                <?php if ($product['image_path']): ?>
+                                    <img src="<?php echo htmlspecialchars($product['image_path']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                <?php endif; ?>
                             </div>
-                            <div class="item-v3-details">
+                            <div class="item-v3-content">
                                 <div class="item-v3-tags">
                                     <?php
                                     $tags = array_filter(array_map('trim', explode(',', $product['tags'] ?? '')));
@@ -92,7 +94,7 @@ $products = $stmt->fetchAll();
                                         <span class="tag-v3"><?php echo htmlspecialchars($tag); ?></span>
                                     <?php endforeach; ?>
                                 </div>
-                                <div class="item-v3-header">
+                                <div class="item-v3-title-price">
                                     <h3 class="item-v3-name"><?php echo htmlspecialchars($product['name']); ?></h3>
                                     <div class="item-v3-dots"></div>
                                     <span class="item-v3-price"><?php echo htmlspecialchars($product['price']); ?></span>
@@ -112,7 +114,7 @@ $products = $stmt->fetchAll();
 
             <!-- Floating Cart Indicator (Localized to this section for better UX) -->
             <div class="cart-floating-btn">
-                <span>Cart empty</span>
+                <span class="cart-text">CART EMPTY</span>
                 <span class="cart-icon-wrapper">
                     <?php echo get_cart_icon(); ?>
                 </span>
