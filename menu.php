@@ -18,7 +18,7 @@ $branding_title = $stmt->fetchColumn() ?: 'MENU';
 // Featured image 2
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_2'");
 $stmt->execute();
-$featured_img_2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
+$featured_img_2 = $stmt->fetchColumn() ?: 'images/menu-featured-default.jpg';
 
 // Reveal Title 2
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_reveal_title_2'");

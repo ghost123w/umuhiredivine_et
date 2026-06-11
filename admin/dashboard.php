@@ -273,7 +273,7 @@ $menu_collection_title = $stmt->fetchColumn() ?: 'OUR COLLECTION';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_2'");
 $stmt->execute();
-$menu_featured_image_2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
+$menu_featured_image_2 = $stmt->fetchColumn() ?: 'images/menu-featured-default.jpg';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_reveal_title_2'");
 $stmt->execute();
