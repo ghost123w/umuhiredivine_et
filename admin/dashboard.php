@@ -65,7 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Handle Menu Featured Image Uploads
         $upload_map = [
             'menu_featured_image' => 'menu_featured_image',
-            'menu_featured_image_2' => 'menu_featured_image_2'
+            'menu_featured_image_2' => 'menu_featured_image_2',
+            'menu_featured_image_3' => 'menu_featured_image_3',
+            'menu_featured_image_4' => 'menu_featured_image_4'
         ];
 
         foreach ($upload_map as $form_key => $setting_key) {
@@ -275,6 +277,14 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'm
 $stmt->execute();
 $menu_featured_image_2 = $stmt->fetchColumn() ?: 'images/menu-featured-default.jpg';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_3'");
+$stmt->execute();
+$menu_featured_image_3 = $stmt->fetchColumn() ?: 'images/menu_featured.jpg';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_4'");
+$stmt->execute();
+$menu_featured_image_4 = $stmt->fetchColumn() ?: 'images/home-bg.jpg';
+
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_reveal_title_2'");
 $stmt->execute();
 $menu_reveal_title_2 = $stmt->fetchColumn() ?: '';
@@ -473,6 +483,28 @@ if ($view == 'products') {
                                     <img src="../<?php echo htmlspecialchars($menu_featured_image); ?>" alt="Menu Featured 1" id="menuFeaturedPreview">
                                 </div>
                                 <input type="file" name="menu_featured_image" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview')">
+                                <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU BACKGROUND IMAGE (SCROLL 3)</label>
+                            <div class="admin-image-preview-container">
+                                <div class="admin-image-frame">
+                                    <img src="../<?php echo htmlspecialchars($menu_featured_image_3); ?>" alt="Menu Featured 3" id="menuFeaturedPreview3">
+                                </div>
+                                <input type="file" name="menu_featured_image_3" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview3')">
+                                <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU BACKGROUND IMAGE (SCROLL 4)</label>
+                            <div class="admin-image-preview-container">
+                                <div class="admin-image-frame">
+                                    <img src="../<?php echo htmlspecialchars($menu_featured_image_4); ?>" alt="Menu Featured 4" id="menuFeaturedPreview4">
+                                </div>
+                                <input type="file" name="menu_featured_image_4" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview4')">
                                 <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
                             </div>
                         </div>

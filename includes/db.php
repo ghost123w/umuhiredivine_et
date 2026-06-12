@@ -53,6 +53,8 @@ try {
         $stmt->execute(['menu_hero_image', 'images/menu_featured.jpg']);
         $stmt->execute(['menu_featured_image', 'images/menu_featured.jpg']);
         $stmt->execute(['menu_featured_image_2', 'images/woman-portrait.png']);
+        $stmt->execute(['menu_featured_image_3', 'images/menu_featured.jpg']);
+        $stmt->execute(['menu_featured_image_4', 'images/home-bg.jpg']);
         $stmt->execute(['menu_branding_title', 'MENU']);
         $stmt->execute(['menu_reveal_title_2', '']);
         $stmt->execute(['menu_collection_title', 'OUR COLLECTION']);
@@ -79,10 +81,13 @@ try {
 
         // Seed default products
         $products = [
-            ['Arowolo', '₦19,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Authentic Nigerian delicacy prepared with choice meats.', 'RICE, TURKEY, FOOD'],
             ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Spicy and aromatic broth with fresh catch of the day.', 'FISH, SOUP, SPICY'],
             ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Rich and soulful traditional preparation.', 'BEEF, STEW, LITE'],
-            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/category-bg.png', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO']
+            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/category-bg.png', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO'],
+            ['Alariya', '₦8,000.00', 'SIGNATURES', 'images/category-bg.png', 1, 'Freshly pounded yam served with Egusi/Efo riro and assorted meat.', 'EGUSI, EFO-RIRO, ASSORTED'],
+            ['Ayedun', '₦8,500.00', 'SIGNATURES', 'images/category-bg.png', 1, 'Freshly pounded yam served with Egusi/Efo riro, 1 goat meat, and 1 chicken.', 'EGUSI, EFO-RIRO, GOAT, CHICKEN'],
+            ['Oyin Momo Combo', '₦16,000.00', 'SIGNATURES', 'images/category-bg.png', 1, 'Dundun (Fried Yam) or Dodo (Plantain).', 'ASUN, DODO, DUNDUN, FOOD, GOAT MEAT'],
+            ['Arowolo', '₦19,000.00', 'SIGNATURES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of assorted Egusi/Efo Riro with 2.', 'EFO RIRO, EGUSI, FOOD, POUNDED YAM']
         ];
         $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");
         foreach ($products as $p) {

@@ -3,26 +3,7 @@ session_start();
 require_once 'config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
-
-$contact_msg = '';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-        $contact_msg = "Security mismatch. Please try again.";
-    } else {
-        $name = sanitize($_POST['name']);
-        $email = sanitize($_POST['email']);
-        $subject = sanitize($_POST['subject']);
-        $message = sanitize($_POST['message']);
-
-        $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)");
-        if ($stmt->execute([$name, $email, $subject, $message])) {
-            $contact_msg = "Your message has been manifested. We will synchronize shortly.";
-        } else {
-            $contact_msg = "A frequency mismatch occurred. Please try again.";
-        }
-    }
-}
+require_once 'includes/contact-logic.php';
 
 $nav_id = $_GET['id'] ?? null;
 if (!$nav_id) {
@@ -150,54 +131,7 @@ $book_us_link = $stmt->fetchColumn() ?: '#';
         &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> &mdash; AURA LUXURY UX
     </footer>
 
-    <!-- Contact Modal -->
-    <div class="aura-modal" id="contact-modal">
-        <div class="modal-overlay" onclick="closeModal()"></div>
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <div class="modal-header">
-                <div class="brand-portrait-mini">
-                    <img src="images/brand-portrait.jpg" alt="Portrait">
-                </div>
-                <h2 class="modal-title">Connect With Us</h2>
-                <p class="modal-subtitle">Manifest your vision into reality.</p>
-            </div>
-            <form id="contact-form" method="POST">
-                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                <div class="form-group">
-                    <input type="text" name="name" class="form-control" placeholder="YOUR IDENTITY" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" class="form-control" placeholder="CONTACT FREQUENCY (EMAIL)" required>
-                </div>
-                <div class="form-group">
-                    <select name="subject" id="modalSubject" class="form-control" required>
-                        <option value="" disabled selected>NATURE OF INQUIRY</option>
-                        <option value="General Vision">General Vision</option>
-                        <option value="Bespoke Design">Bespoke Design</option>
-                        <option value="Fixture Procurement">Fixture Procurement</option>
-                        <option value="Creative Direction">Creative Direction</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" class="form-control" placeholder="MANIFEST YOUR MESSAGE" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn-primary" style="width: 100%; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SEND MESSAGE</button>
-            </form>
-            <div id="formStatus" style="margin-top: 20px; text-align: center; display: none;"></div>
-        </div>
-    </div>
-
-    <?php if ($contact_msg): ?>
-        <div id="contact-success-toast" style="position: fixed; bottom: 40px; right: 40px; background: var(--primary-color); color: #fff; padding: 20px 40px; border-radius: 100px; z-index: 10000; box-shadow: 0 20px 40px rgba(255, 53, 3, 0.4); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; animation: slideInUp 0.5s cubic-bezier(0.2, 1, 0.3, 1);">
-            <?php echo $contact_msg; ?>
-        </div>
-        <script>
-            setTimeout(() => {
-                document.getElementById('contact-success-toast').style.display = 'none';
-            }, 5000);
-        </script>
-    <?php endif; ?>
+    <?php include 'includes/contact-modal.php'; ?>
 
     <script src="js/script.js"></script>
     <script>
