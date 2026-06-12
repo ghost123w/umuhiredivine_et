@@ -12,7 +12,7 @@ $stmt->execute();
 $branding_title = $stmt->fetchColumn() ?: 'MENU';
 
 // Background images for reveal sections
-$bg_keys = ['menu_featured_image', 'menu_featured_image_2', 'menu_featured_image_3', 'menu_featured_image_4'];
+$bg_keys = ['menu_featured_image', 'menu_featured_image_2', 'menu_featured_image_3', 'menu_featured_image_4', 'menu_featured_image_5'];
 $backgrounds = [];
 foreach ($bg_keys as $key) {
     $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
@@ -45,7 +45,7 @@ foreach ($products as $product) {
 
     <main class="layout-main">
         <!-- Viewport 1: Hero Branding -->
-        <section class="reveal-scroll-section" style="background-image: url('<?php echo htmlspecialchars($backgrounds[0]); ?>');">
+        <section class="reveal-scroll-section menu-full-width-section" style="background-image: url('<?php echo htmlspecialchars($backgrounds[0]); ?>');">
             <div class="hero-overlay" style="background: rgba(0,0,0,0.2);"></div>
             <div class="hero-content">
                 <div class="hero-brand-stack">
@@ -57,11 +57,15 @@ foreach ($products as $product) {
 
         <?php
         $bg_index = 1;
-        foreach ($categories as $cat_name => $cat_products):
-            $current_bg = $backgrounds[$bg_index % count($backgrounds)];
-            if ($bg_index == 1) $current_bg = $backgrounds[1]; // Explicitly use image 2 for first content scroll
-            if ($bg_index == 2) $current_bg = $backgrounds[2]; // Explicitly use image 3 for second content scroll
-            if ($bg_index == 3) $current_bg = $backgrounds[3]; // Explicitly use image 4 for third content scroll
+        // Re-order categories to ensure SIGNATURES is last (5th scroll)
+        $ordered_categories = [];
+        if (isset($categories['APPETIZERS'])) $ordered_categories['APPETIZERS'] = $categories['APPETIZERS'];
+        if (isset($categories['MAIN COURSES'])) $ordered_categories['MAIN COURSES'] = $categories['MAIN COURSES'];
+        if (isset($categories['DESSERTS'])) $ordered_categories['DESSERTS'] = $categories['DESSERTS'];
+        if (isset($categories['SIGNATURES'])) $ordered_categories['SIGNATURES'] = $categories['SIGNATURES'];
+
+        foreach ($ordered_categories as $cat_name => $cat_products):
+            $current_bg = $backgrounds[$bg_index] ?? $backgrounds[0];
         ?>
             <!-- Scrollytelling Section for Category: <?php echo htmlspecialchars($cat_name); ?> -->
             <section class="reveal-scroll-section menu-full-width-section" style="background-image: url('<?php echo htmlspecialchars($current_bg); ?>'); height: auto; min-height: 100vh;">

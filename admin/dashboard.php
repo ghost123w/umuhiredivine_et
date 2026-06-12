@@ -67,7 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'menu_featured_image' => 'menu_featured_image',
             'menu_featured_image_2' => 'menu_featured_image_2',
             'menu_featured_image_3' => 'menu_featured_image_3',
-            'menu_featured_image_4' => 'menu_featured_image_4'
+            'menu_featured_image_4' => 'menu_featured_image_4',
+            'menu_featured_image_5' => 'menu_featured_image_5'
         ];
 
         foreach ($upload_map as $form_key => $setting_key) {
@@ -285,6 +286,10 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'm
 $stmt->execute();
 $menu_featured_image_4 = $stmt->fetchColumn() ?: 'images/home-bg.jpg';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_5'");
+$stmt->execute();
+$menu_featured_image_5 = $stmt->fetchColumn() ?: 'images/brand-hero.jpg';
+
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_reveal_title_2'");
 $stmt->execute();
 $menu_reveal_title_2 = $stmt->fetchColumn() ?: '';
@@ -474,6 +479,17 @@ if ($view == 'products') {
                         <div class="form-group">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">EXTRA REVEAL TITLE (OPTIONAL)</label>
                             <input type="text" name="menu_reveal_title_2" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_reveal_title_2); ?>">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU BACKGROUND IMAGE (SCROLL 5)</label>
+                            <div class="admin-image-preview-container">
+                                <div class="admin-image-frame">
+                                    <img src="../<?php echo htmlspecialchars($menu_featured_image_5); ?>" alt="Menu Featured 5" id="menuFeaturedPreview5">
+                                </div>
+                                <input type="file" name="menu_featured_image_5" class="form-control admin-file-input" accept="image/*" onchange="previewImage(this, 'menuFeaturedPreview5')">
+                                <p class="admin-hint-text">RECOMMENDED: HIGH-RESOLUTION PORTRAIT OR LANDSCAPE (AUTO-CROPPED TO VIEWPORT)</p>
+                            </div>
                         </div>
 
                         <div class="form-group" style="margin-bottom: 30px;">

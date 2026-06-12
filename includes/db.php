@@ -55,6 +55,7 @@ try {
         $stmt->execute(['menu_featured_image_2', 'images/woman-portrait.png']);
         $stmt->execute(['menu_featured_image_3', 'images/menu_featured.jpg']);
         $stmt->execute(['menu_featured_image_4', 'images/home-bg.jpg']);
+        $stmt->execute(['menu_featured_image_5', 'images/brand-hero.jpg']);
         $stmt->execute(['menu_branding_title', 'MENU']);
         $stmt->execute(['menu_reveal_title_2', '']);
         $stmt->execute(['menu_collection_title', 'OUR COLLECTION']);
@@ -81,6 +82,11 @@ try {
 
         // Seed default products
         $products = [
+            ['Spring Rolls', '₦4,500', 'APPETIZERS', 'images/category-bg.png', 0, 'Crispy golden rolls served with sweet chili sauce.', 'VEGGIE, CRISPY'],
+            ['Peppered Snail', '₦12,000', 'APPETIZERS', 'images/category-bg.png', 1, 'Jumbo snails sautéed in spicy pepper sauce.', 'SPICY, SEAFOOD'],
+            ['Suya Platter', '₦9,000', 'APPETIZERS', 'images/category-bg.png', 1, 'Spiced grilled beef skewers with onions and yaji.', 'BEEF, SPICY'],
+            ['Chocolate Fondant', '₦6,500', 'DESSERTS', 'images/category-bg.png', 0, 'Warm chocolate cake with a molten center.', 'SWEET, CHOCOLATE'],
+            ['Fruit Platter', '₦5,000', 'DESSERTS', 'images/category-bg.png', 0, 'Seasonal fresh tropical fruits.', 'FRESH, LIGHT'],
             ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Spicy and aromatic broth with fresh catch of the day.', 'FISH, SOUP, SPICY'],
             ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Rich and soulful traditional preparation.', 'BEEF, STEW, LITE'],
             ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/category-bg.png', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO'],
