@@ -52,7 +52,7 @@ try {
         $stmt->execute(['book_us_link', '#']);
         $stmt->execute(['menu_hero_image', 'images/menu_featured.jpg']);
         $stmt->execute(['menu_featured_image', 'images/menu_featured.jpg']);
-        $stmt->execute(['menu_featured_image_2', 'images/menu-featured-default.jpg']);
+        $stmt->execute(['menu_featured_image_2', 'images/woman-portrait.png']);
         $stmt->execute(['menu_branding_title', 'MENU']);
         $stmt->execute(['menu_reveal_title_2', '']);
         $stmt->execute(['menu_collection_title', 'OUR COLLECTION']);
