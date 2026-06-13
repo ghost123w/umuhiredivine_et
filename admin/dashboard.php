@@ -52,10 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_branding_title', ?)")->execute([$menu_branding]);
         }
 
-        if (isset($_POST['menu_collection_title'])) {
-            $menu_collection = sanitize($_POST['menu_collection_title']);
-            $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('menu_collection_title', ?)")->execute([$menu_collection]);
-        }
 
         if (isset($_POST['menu_reveal_title_2'])) {
             $menu_reveal_2 = sanitize($_POST['menu_reveal_title_2']);
@@ -270,9 +266,6 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'm
 $stmt->execute();
 $menu_branding_title = $stmt->fetchColumn() ?: 'MENU';
 
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_collection_title'");
-$stmt->execute();
-$menu_collection_title = $stmt->fetchColumn() ?: 'OUR COLLECTION';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'menu_featured_image_2'");
 $stmt->execute();
@@ -359,7 +352,7 @@ if ($view == 'products') {
             <?php if (isset($_GET['msg'])): ?>
                 <div style="background: rgba(255, 53, 3, 0.1); border: 1px solid var(--primary-color); color: var(--primary-color); padding: 20px; border-radius: 20px; margin-bottom: 40px; text-align: center; backdrop-filter: blur(10px);">
                     <?php
-                        if ($_GET['msg'] == 'added') echo "<strong>Masterpiece Added:</strong> The collection has been expanded.";
+                        if ($_GET['msg'] == 'added') echo "<strong>Masterpiece Added:</strong> The archive has been expanded.";
                         if ($_GET['msg'] == 'deleted') echo "<strong>Removed:</strong> The piece has been returned to the void.";
                         if ($_GET['msg'] == 'updated') echo "<strong>Refined:</strong> Your vision has been updated.";
                         if ($_GET['msg'] == 'settings_updated') echo "<strong>Synchronized:</strong> Core settings are now in harmony.";
@@ -418,7 +411,7 @@ if ($view == 'products') {
                         <a href="dashboard.php?view=add" class="action-card">
                             <div class="icon">✧</div>
                             <h4>Add Masterpiece</h4>
-                            <p>Expand your digital collection with new points of light.</p>
+                            <p>Expand your digital archive with new points of light.</p>
                         </a>
                         <a href="dashboard.php?view=manage" class="action-card">
                             <div class="icon">❖</div>
@@ -471,10 +464,6 @@ if ($view == 'products') {
                             <input type="text" name="menu_branding_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_branding_title); ?>" required>
                         </div>
 
-                        <div class="form-group">
-                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">MENU COLLECTION TITLE (SCROLL 2)</label>
-                            <input type="text" name="menu_collection_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($menu_collection_title); ?>" required>
-                        </div>
 
                         <div class="form-group">
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">EXTRA REVEAL TITLE (OPTIONAL)</label>

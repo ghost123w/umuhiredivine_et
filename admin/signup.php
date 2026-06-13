@@ -7,6 +7,10 @@ require_once '../includes/functions.php';
 $error = '';
 $success = '';
 
+if (!ALLOW_REGISTRATION) {
+    die("Registration is currently disabled.");
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         $error = "Invalid CSRF token.";
@@ -39,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             } catch (PDOException $e) {
-                $error = "Error: " . $e->getMessage();
+                $error = "A database error occurred. Please try again later.";
             }
         }
     }

@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 style="font-family: 'Cinzel', serif; font-size: 3rem; letter-spacing: 0.1em; text-transform: uppercase; margin: 0;">
                 Refine <span style="color: var(--primary-color);">Product</span>
             </h1>
-            <p style="color: #666; font-size: 0.9rem; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px;">Perfecting the essence of your collection.</p>
+            <p style="color: #666; font-size: 0.9rem; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px;">Perfecting the essence of your boutique.</p>
         </header>
 
         <section class="aura-card">
