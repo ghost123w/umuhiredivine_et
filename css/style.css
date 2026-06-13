@@ -1,11 +1,11 @@
 /* Reset and Base Styles */
 :root {
-    --primary-color: #ff3503;
+    --primary-color: #c5a059;
     --secondary-color: #fbc794;
     --accent-color: #e8bc4a;
     --bg-dark: #000000;
     --text-white: #ffffff;
-    --danger-color: #ff3b30;
+    --danger-color: #e74c3c;
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
 }
@@ -54,13 +54,13 @@ body {
 }
 
 .brand-link {
-    color: #ff3b30; /* Red/Orange color from image */
+    color: var(--primary-color);
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
     font-weight: 900;
     text-decoration: none;
     letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(255, 59, 48, 0.3);
+    text-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
 }
 
 .header-actions-right {
@@ -100,7 +100,7 @@ body {
 }
 
 .nav-item:hover, .nav-item.active {
-    color: #ff3b30;
+    color: var(--primary-color);
 }
 
 .social-link svg {
@@ -111,7 +111,7 @@ body {
 }
 
 .social-link:hover svg {
-    fill: #ff3b30;
+    fill: var(--primary-color);
 }
 
 /* Hero Section with Background Restoration */
@@ -181,11 +181,11 @@ body {
 .hero-title-fg {
     font-family: 'Cinzel', serif;
     font-size: 4rem;
-    color: #ff3b30;
+    color: var(--primary-color);
     position: relative;
     z-index: 2;
     letter-spacing: 15px;
-    text-shadow: 0 0 30px rgba(255, 59, 48, 0.5);
+    text-shadow: 0 0 30px rgba(197, 160, 89, 0.5);
 }
 
 @media (max-width: 768px) {
@@ -680,9 +680,9 @@ body {
 }
 
 .btn-delete {
-    background: rgba(255, 59, 48, 0.1);
+    background: rgba(231, 76, 60, 0.1);
     color: var(--danger-color);
-    border: 1px solid rgba(255, 59, 48, 0.2);
+    border: 1px solid rgba(231, 76, 60, 0.2);
     padding: 12px 30px;
     border-radius: 12px;
     font-weight: 700;
@@ -1034,6 +1034,7 @@ body {
     margin-bottom: 30px;
     padding-bottom: 15px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
 }
 
 .items-grid-v3 {
@@ -1081,7 +1082,7 @@ body {
 }
 
 .tag-v3 {
-    background: #ff3503;
+    background: var(--primary-color);
     color: #fff;
     font-size: 0.7rem;
     font-weight: 900;
@@ -1089,7 +1090,7 @@ body {
     border-radius: 50px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    box-shadow: 0 4px 10px rgba(255, 53, 3, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .item-v3-title-price {
@@ -1101,7 +1102,7 @@ body {
 
 .item-v3-name {
     font-family: 'Cinzel', serif;
-    color: var(--secondary-color);
+    color: var(--primary-color);
     font-size: 1.6rem;
     font-weight: 700;
     margin: 0;
@@ -1118,7 +1119,7 @@ body {
 
 .item-v3-price {
     font-family: 'Cinzel', serif;
-    color: var(--secondary-color);
+    color: var(--primary-color);
     font-size: 1.6rem;
     font-weight: 700;
     letter-spacing: 1px;
