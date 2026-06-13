@@ -53,6 +53,7 @@ foreach ($products as $product) {
             sort($nav_categories);
 
             foreach ($nav_categories as $nav_cat):
+                if ($nav_cat === 'MAIN COURSES') continue;
             ?>
                 <a href="#cat-<?php echo str_replace(' ', '-', strtolower($nav_cat)); ?>" class="menu-nav-link">
                     <?php echo htmlspecialchars($nav_cat); ?>
@@ -66,10 +67,6 @@ foreach ($products as $product) {
         <section class="reveal-scroll-section menu-full-width-section" style="background-image: url('<?php echo htmlspecialchars($backgrounds[0]); ?>');">
             <div class="hero-overlay" style="background: rgba(0,0,0,0.2);"></div>
             <div class="hero-content">
-                <div class="hero-brand-stack">
-                    <h1 class="hero-title-bg"><?php echo htmlspecialchars($branding_title); ?></h1>
-                    <h1 class="hero-title-fg"><?php echo htmlspecialchars($branding_title); ?></h1>
-                </div>
             </div>
         </section>
 
@@ -77,6 +74,7 @@ foreach ($products as $product) {
         $bg_index = 1;
         // Iterate through all categories found in the database
         foreach ($nav_categories as $cat_name):
+            if ($cat_name === 'MAIN COURSES') continue;
             $cat_products = $categories[$cat_name];
             $current_bg = $backgrounds[$bg_index] ?? $backgrounds[0];
             $cat_id = 'cat-' . str_replace(' ', '-', strtolower($cat_name));

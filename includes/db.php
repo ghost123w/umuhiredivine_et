@@ -84,10 +84,6 @@ try {
         $products = [
             ['Peppered Snail', '₦12,000', 'APPETIZERS', 'images/category-bg.png', 1, 'Jumbo snails sautéed in spicy pepper sauce.', 'SPICY, SEAFOOD'],
             ['Suya Platter', '₦9,000', 'APPETIZERS', 'images/category-bg.png', 1, 'Spiced grilled beef skewers with onions and yaji.', 'BEEF, SPICY'],
-            ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Spicy and aromatic broth with fresh catch of the day.', 'FISH, SOUP, SPICY'],
-            ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Experience the delightful blend of flavors and textures with our Sokoyokoto.', 'SWALLOW, SEAFOOD'],
-            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/category-bg.png', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO'],
-            ['Pounded Yam & Egusi', '₦15,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Freshly pounded yam with rich Egusi soup.', 'SWALLOW, TRADITIONAL'],
             ['Chocolate Fondant', '₦6,500', 'DESSERTS', 'images/category-bg.png', 0, 'Warm chocolate cake with a molten center.', 'SWEET, CHOCOLATE'],
             ['Fruit Platter', '₦5,000', 'DESSERTS', 'images/category-bg.png', 0, 'Seasonal fresh tropical fruits.', 'FRESH, LIGHT'],
             ['Alariya', '₦18,000.00', 'SIGNATURES', 'images/category-bg.png', 1, 'Freshly pounded yam served with Egusi/Efo riro and assorted meat.', 'EGUSI, EFO-RIRO, ASSORTED'],
