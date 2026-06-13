@@ -58,7 +58,6 @@ try {
         $stmt->execute(['menu_featured_image_5', 'images/brand-hero.jpg']);
         $stmt->execute(['menu_branding_title', 'MENU']);
         $stmt->execute(['menu_reveal_title_2', '']);
-        $stmt->execute(['menu_collection_title', 'OUR COLLECTION']);
 
         $pdo->exec("CREATE TABLE IF NOT EXISTS contact_messages (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

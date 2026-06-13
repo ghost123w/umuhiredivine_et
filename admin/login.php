@@ -83,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
 
             <div style="text-align: center; margin-top: 40px;">
+                <p style="color: #666; font-size: 0.8rem; margin-bottom: 10px;">New administrator? <a href="signup.php" style="color: var(--primary-color); text-decoration: none;">Register here</a></p>
                 <a href="../index.php" style="color: #444; text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#444'">&larr; Return to Gallery</a>
             </div>
         </div>
