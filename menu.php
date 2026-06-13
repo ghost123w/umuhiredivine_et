@@ -116,6 +116,9 @@ foreach ($products as $product) {
                                                 <span class="btn-icon"><?php echo get_cart_icon(); ?></span>
                                             </button>
                                         </div>
+                                        <div class="item-v3-cart-icon">
+                                            <?php echo get_cart_icon(); ?>
+                                        </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>

@@ -93,7 +93,11 @@ try {
             ['Alariya', '₦18,000.00', 'SIGNATURES', 'images/category-bg.png', 1, 'Freshly pounded yam served with Egusi/Efo riro and assorted meat.', 'EGUSI, EFO-RIRO, ASSORTED'],
             ['Ayedun', '₦18,500.00', 'SIGNATURES', 'images/category-bg.png', 1, 'Freshly pounded yam served with Egusi/Efo riro, 1 goat meat, and 1 chicken.', 'EGUSI, EFO-RIRO, GOAT, CHICKEN'],
             ['Oyin Momo Combo', '₦16,000.00', 'SIGNATURES', 'images/category-bg.png', 1, 'Dundun (Fried Yam) or Dodo (Plantain).', 'ASUN, DODO, DUNDUN, FOOD, GOAT MEAT'],
-            ['Arowolo', '₦19,000.00', 'SIGNATURES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of assorted Egusi/Efo Riro.', 'EFO RIRO, EGUSI, FOOD, POUNDED YAM']
+            ['Arowolo', '₦19,000.00', 'SIGNATURES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of assorted Egusi/Efo Riro.', 'EFO RIRO, EGUSI, FOOD, POUNDED YAM'],
+            ['Ila Alasepo Soup Bowl(4 Litres)', '₦44,000.00', 'SOUP BOWLS', 'images/category-bg.png', 1, 'A smooth, seasoned one-pot okro delight that brings comfort and culture together.', 'ILA ALASEPO, OKRO SOUP, SOUP BOWL'],
+            ['Ila Alasepo Soup Bowl(2 Litres)', '₦22,000.00', 'SOUP BOWLS', 'images/category-bg.png', 1, 'A smooth, seasoned one-pot okro delight that brings comfort and culture together.', 'ILA ALASEPO, OKRO SOUP, SOUP BOWL'],
+            ['Sea Food Okro Soup Bowl(4 Litres)', '₦94,000.00', 'SOUP BOWLS', 'images/category-bg.png', 1, 'A smooth, seasoned one-pot okro delight that brings comfort and culture together.', 'SEAFOOD OKRO, OKRA SOUP, SOUP BOWL'],
+            ['Sea Food Okro Soup Bowl(2 Litres)', '₦50,000.00', 'SOUP BOWLS', 'images/category-bg.png', 1, 'A smooth, seasoned one-pot okro delight that brings comfort and culture together.', 'SEAFOOD OKRO, OKRA SOUP, SOUP BOWL']
         ];
         $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");
         foreach ($products as $p) {

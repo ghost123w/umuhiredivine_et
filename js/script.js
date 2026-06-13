@@ -122,15 +122,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return sum + (price * item.quantity);
         }, 0);
 
-        if (cartCountEl) cartCountEl.textContent = `${totalItems} ITEM${totalItems !== 1 ? 'S' : ''}`;
-        if (cartTotalEl) cartTotalEl.textContent = `₦${totalPrice.toLocaleString()}`;
+        if (totalItems > 0) {
+            if (cartCountEl) cartCountEl.textContent = `${totalItems} ITEM${totalItems !== 1 ? 'S' : ''}`;
+            if (cartTotalEl) cartTotalEl.textContent = `₦${totalPrice.toLocaleString()}`;
+            if (cartTotalEl) cartTotalEl.style.display = 'inline';
+        } else {
+            if (cartCountEl) cartCountEl.textContent = 'Cart empty';
+            if (cartTotalEl) cartTotalEl.style.display = 'none';
+        }
 
         if (floatingCart) {
-            if (totalItems > 0) {
-                floatingCart.classList.add('active');
-            } else {
-                floatingCart.classList.remove('active');
-            }
+            // Floating cart is always active now as per screenshot 'Cart empty' state
+            floatingCart.classList.add('active');
         }
     };
 
@@ -159,4 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000);
         });
     });
+
+    // Initial UI state
+    updateCartUI();
 });
