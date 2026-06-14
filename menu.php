@@ -12,7 +12,7 @@ $stmt->execute();
 $branding_title = $stmt->fetchColumn() ?: 'MENU';
 
 // Background images for reveal sections
-$bg_keys = ['menu_featured_image', 'menu_featured_image_2', 'menu_featured_image_3', 'menu_featured_image_4', 'menu_featured_image_5'];
+$bg_keys = ['menu_featured_image', 'menu_featured_image_2', 'menu_featured_image_3', 'menu_featured_image_4', 'menu_featured_image_5', 'menu_featured_image_6'];
 $backgrounds = [];
 foreach ($bg_keys as $key) {
     $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
@@ -78,7 +78,11 @@ foreach ($products as $product) {
     <main class="layout-main">
         <!-- Viewport 1: Hero Branding -->
         <section class="reveal-scroll-section menu-full-width-section" style="background-image: url('<?php echo htmlspecialchars($backgrounds[0]); ?>');">
-            <div class="hero-overlay" style="background: rgba(0,0,0,0.2);"></div>
+            <div class="hero-overlay" style="background: rgba(0,0,0,0.3);"></div>
+            <div class="hero-branding-v3">
+                <h1 class="luxury-heading-v3"><?php echo htmlspecialchars($branding_title); ?></h1>
+                <div class="luxury-line"></div>
+            </div>
         </section>
 
         <?php

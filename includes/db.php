@@ -58,7 +58,15 @@ try {
             ['Fresh Juice "Tropical Bliss"', '₦3,500.00', 'DRINKS', 'images/category-bg.png', 0, 'Escape to paradise with watermelon and pineapple.', 'BANANA, DRINKS, FRESH, JUICE, PINEAPPLE, WATERMELON'],
             ['Fresh Juice "MangoPine"', '₦3,500.00', 'DRINKS', 'images/category-bg.png', 0, 'Tropical twist with natural mango and pineapple.', 'FRESH JUICE, MANGO, MANGOPINE, NATURAL, PINEAPPLE'],
             ['Fresh Juice "GuavaPine"', '₦3,500.00', 'DRINKS', 'images/category-bg.png', 0, 'Tropical fusion with natural guava and pineapple.', 'DRINKS, FRESH, FRESH JUICE, GUAVA, PINEAPPLE'],
-            ['Fresh Juice "Tropical Apple Bliss"', '₦3,500.00', 'DRINKS', 'images/category-bg.png', 0, 'Refreshing juice with apple and pineapple.', 'APPLE, COCONUT, DRINKS, FRESH JUICE, PINEAPPLE']
+            ['Fresh Juice "Tropical Apple Bliss"', '₦3,500.00', 'DRINKS', 'images/category-bg.png', 0, 'Refreshing juice with apple and pineapple.', 'APPLE, COCONUT, DRINKS, FRESH JUICE, PINEAPPLE'],
+            ['Alariya', '₦7,441.86', 'MAIN COURSES', 'images/category-bg.png', 0, 'Freshly Pounded Yam served with Egusi or Efo Riro and Choice of Turkey/Chicken/Goat meat/Fish.', 'MAIN COURSES, POUNDED YAM, EGUSI, EFO RIRO, TURKEY, CHICKEN, GOAT MEAT, FISH'],
+            ['Ayedun', '₦5,581.40', 'MAIN COURSES', 'images/category-bg.png', 0, 'Freshly Pounded Yam served with Egusi or Efo Riro and 1 piece of Beef.', 'MAIN COURSES, POUNDED YAM, EGUSI, EFO RIRO, BEEF'],
+            ['Oyin Momo Combo', '₦10,000.00', 'MAIN COURSES', 'images/category-bg.png', 0, 'Freshly Pounded Yam served with Egusi or Efo Riro with 2 pieces of meat/fish and a drink.', 'MAIN COURSES, POUNDED YAM, COMBO'],
+            ['Arowolo', '₦8,500.00', 'MAIN COURSES', 'images/category-bg.png', 0, 'Village Rice served with 2 pieces of Snail and Dodo.', 'MAIN COURSES, RICE, SNAIL, DODO'],
+            ['Iresi Agbala', '₦6,500.00', 'MAIN COURSES', 'images/category-bg.png', 0, 'Signature Village Rice cooked in palm oil sauce with assorted meat.', 'MAIN COURSES, VILLAGE RICE, ASSORTED'],
+            ['Olowosibi', '₦12,000.00', 'MAIN COURSES', 'images/category-bg.png', 0, 'Full Platter of Pounded Yam, Choice of Soup, and 4 varieties of protein.', 'MAIN COURSES, LUXURY, PLATTER'],
+            ['Igbalode', '₦5,000.00', 'MAIN COURSES', 'images/category-bg.png', 0, 'Freshly Pounded Yam with choice of soup and 1 piece of protein.', 'MAIN COURSES, TRADITIONAL'],
+            ['Eko Akete', '₦5,500.00', 'MAIN COURSES', 'images/category-bg.png', 0, 'Jollof Rice or Fried Rice served with Chicken and Coleslaw.', 'MAIN COURSES, JOLLOF, CHICKEN']
         ];
 
         $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");

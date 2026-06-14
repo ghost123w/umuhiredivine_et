@@ -123,11 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 0);
 
         if (totalItems > 0) {
-            if (cartCountEl) cartCountEl.textContent = `${totalItems} ITEM${totalItems !== 1 ? 'S' : ''}`;
+        if (cartCountEl) cartCountEl.textContent = `${totalItems} Item${totalItems !== 1 ? 's' : ''}`;
             if (cartTotalEl) cartTotalEl.textContent = `₦${totalPrice.toLocaleString()}`;
             if (cartTotalEl) cartTotalEl.style.display = 'block';
         } else {
-            if (cartCountEl) cartCountEl.textContent = 'CART EMPTY';
+        if (cartCountEl) cartCountEl.textContent = 'Cart empty';
             if (cartTotalEl) cartTotalEl.style.display = 'none';
         }
 

@@ -1098,26 +1098,26 @@ body {
 }
 
 .tag-v3 {
-    background: rgba(197, 160, 89, 0.15);
-    color: #c5a059;
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    font-size: 0.6rem;
-    font-weight: 800;
-    padding: 4px 12px;
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 5px 15px;
     border-radius: 50px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     transition: 0.3s;
 }
 
 .menu-item-v3:hover .tag-v3 {
-    background: #c5a059;
-    color: #000;
+    background: #cc0000;
 }
 
 .item-v3-title-price {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 15px;
     margin-bottom: 12px;
 }
@@ -1125,24 +1125,22 @@ body {
 .item-v3-name {
     font-family: 'Cinzel', serif;
     color: var(--primary-color);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 700;
     margin: 0;
-    white-space: nowrap;
+    line-height: 1.2;
     letter-spacing: 1px;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 
 .item-v3-dots {
-    flex-grow: 1;
-    border-bottom: 1px dotted rgba(200, 165, 92, 0.4);
-    margin: 0 10px 8px;
+    display: none;
 }
 
 .item-v3-price {
     font-family: 'Cinzel', serif;
     color: var(--primary-color);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 700;
     letter-spacing: 1px;
 }
@@ -1190,18 +1188,18 @@ body {
     position: fixed;
     bottom: 40px;
     right: 40px;
-    background: #e5d1b1; /* Lighter beige/gold for premium feel */
-    color: #000;
-    padding: 12px 28px;
-    border-radius: 100px;
+    background: #d4b57e; /* Gold color matching image */
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 50px;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-weight: 800;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     z-index: 1100;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -1328,14 +1326,37 @@ body {
 }
 
 .cart-count {
-    font-size: 0.6rem;
-    color: #000;
-    opacity: 0.7;
-    font-weight: 700;
+    font-size: 0.8rem;
+    color: #fff;
+    font-weight: 400;
 }
 
 .cart-total {
     font-size: 1rem;
     font-weight: 900;
     font-family: 'Cinzel', serif;
+}
+
+/* Hero Branding v3 */
+.hero-branding-v3 {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.luxury-heading-v3 {
+    font-family: 'Cinzel', serif;
+    font-size: 8rem;
+    font-weight: 900;
+    color: var(--primary-color);
+    letter-spacing: 15px;
+    margin: 0;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.luxury-line {
+    width: 100px;
+    height: 3px;
+    background: var(--primary-color);
+    margin: 20px auto 0;
 }
