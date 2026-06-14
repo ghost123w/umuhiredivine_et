@@ -39,20 +39,6 @@ try {
             ['Ìrésì Àgbàlá Lite', '₦4,186.04', 'LITE', 'images/category-bg.png', 0, 'Village Rice cooked in palm oil sauce served with Turkey', 'RICE, TURKEY, FOOD, LITE, VILLAGE RICE'],
             ['Ìgbàlódé Lite', '₦4,186.04', 'LITE', 'images/category-bg.png', 0, '1 wrap of Freshly Pounded Yam with 1 Goat Meat', 'POUNDED YAM, GOAT MEAT, EFO RIRO, EGUSI, FOOD, LITE'],
             ['Ìgbàlódé Lite Combo', '₦4,651.16', 'LITE', 'images/category-bg.png', 0, '1 wrap of Freshly Pounded Yam with 1 Goat Meat and a Pet Coke Drink', 'POUNDED YAM, GOAT MEAT, EFO RIRO, EGUSI, FOOD, LITE, COMBO, DRINK'],
-            ['Alariya', '₦8,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, 'Freshly pounded yam served with Egusi/Efo riro and assorted meat', 'EGUSI, EFO-RIRO, ASSORTED'],
-            ['Ayedun', '₦8,500.00', 'MAIN COURSES', 'images/category-bg.png', 1, 'Freshly pounded yam served with Egusi/Efo riro, 1 goat meat, and 1 chicken.', 'EGUSI, EFO-RIRO, GOAT, CHICKEN'],
-            ['Oyin Momo Combo', '₦16,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, 'Dundun (Fried Yam) or Dodo (Plantain) served with Asun', 'ASUN, DODO, DUNDUN, FOOD, GOAT MEAT'],
-            ['Arowolo', '₦19,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of assorted Egusi/Efo Riro with 2 pieces of protein.', 'EFO RIRO, EGUSI, FOOD, POUNDED YAM'],
-            ['Iresi Agbala', '₦20,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, 'Village Basmatic Rice cooked in palm oil sauce served with Peppered Snails, Smoked Fish and Turkey.', 'BASMATI, FOOD, PEPPERY, SMOKED FISH, SNAIL, TURKEY'],
-            ['Fish Peppersoup', '₦16,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, 'Fish Peppersoup served with Yam', 'FISH, FOOD, GRILLED, PEPPERY'],
-            ['Olowosibi', '₦13,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of Assorted Egusi/Efo Riro with 2 pieces of protein.', 'EFO RIRO, EGUSI, FOOD, POUNDED YAM'],
-            ['Igbalode', '₦11,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of Assorted Egusi/Efo Riro with 2 pieces of protein.', 'EFO RIRO, EGUSI, FOOD, POUNDED YAM'],
-            ['Eko Akete', '₦21,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of Assorted Egusi/Efo Riro with 2 pieces of protein.', 'EFO RIRO, EGUSI, FOOD, POUNDED YAM, PROTEIN'],
-            ['Goat Meat Peppersoup', '₦11,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, 'Goat Meat Peppersoup served with Yam', 'FOOD, GOAT MEAT, PEPPER SOUP, PEPPERY, YAM'],
-            ['Olowo Layemo', '₦16,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with choice of Assorted Egusi/Efo riro with 1 piece of protein.', 'EFO RIRO, EGUSI, POUNDED YAM'],
-            ['Ila Alasepo', '₦16,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with Ila Alasepo and 2 pieces of Goat Meat', 'OKRO'],
-            ['Aridunnu Combo', '₦20,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, 'Dundun (Fried Yam) or Dodo (Plantain) served with Full fried fish', 'FISH, FOOD, PLANTAIN, YAM'],
-            ['Ishapa Combo', '₦16,000.00', 'MAIN COURSES', 'images/category-bg.png', 1, '2 wraps of Freshly Pounded Yam with freshly made Ishapa Soup with 2 pieces of protein.', 'EFO, EGUSI, FOOD, GOAT MEET, POUNDED YAM, VEGETABLE'],
             ['Gbajumo Platter', '₦60,000.00', 'PLATTERS', 'images/category-bg.png', 1, 'Boli and Dundun (Fried Yam) served with Green Chili Sauce with 4 pieces of Turkey, Snail and Chicken.', 'BOLI, CHICKEN, DUNDUN, FOOD, GOAT MEAT, GUINEA FOWL, SNAIL, TURKEY'],
             ['Ade Ori Okin Platter', '₦32,000.00', 'PLATTERS', 'images/category-bg.png', 1, 'Dundun (Fried Yam) and Dodo (Plantain) served with Full Fried Fish, 2 pieces of Turkey and Snail.', 'CHILLI, FOOD, PLANTAIN, PLATTER, SPICY, YAM'],
             ['Ila Alasepo Soup Bowl(4 Litres)', '₦44,000.00', 'SOUP BOWLS', 'images/category-bg.png', 1, 'A smooth, seasoned one-pot okro delight (4 Litres).', 'ILA ALASEPO, OKRO SOUP, SOUP BOWL'],
@@ -127,6 +113,28 @@ try {
             message TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )");
+    }
+
+    if (!tableExists($pdo, 'content')) {
+        $pdo->exec("CREATE TABLE content (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            section_title TEXT,
+            description TEXT,
+            image_path TEXT,
+            nav_item_id INTEGER,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )");
+
+        // Seed some initial content
+        $content = [
+            ['LUXURY DINING', 'Experience the finest traditional cuisine in a modern setting.', 'images/home_exclusive.jpg', 1],
+            ['OUR STORY', 'Passionate about bringing authentic flavors to your table.', 'images/brand-portrait.jpg', 2],
+            ['SIGNATURES', 'Our most celebrated dishes crafted with excellence.', 'images/menu_page.png', 3]
+        ];
+        $contentStmt = $pdo->prepare("INSERT INTO content (section_title, description, image_path, nav_item_id) VALUES (?, ?, ?, ?)");
+        foreach ($content as $c) {
+            $contentStmt->execute($c);
+        }
     }
 
     if (!tableExists($pdo, 'navigation_items')) {

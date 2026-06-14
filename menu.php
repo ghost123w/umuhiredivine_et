@@ -79,11 +79,6 @@ foreach ($products as $product) {
         <!-- Viewport 1: Hero Branding -->
         <section class="reveal-scroll-section menu-full-width-section" style="background-image: url('<?php echo htmlspecialchars($backgrounds[0]); ?>');">
             <div class="hero-overlay" style="background: rgba(0,0,0,0.2);"></div>
-            <div class="hero-content">
-                <div class="hero-brand-stack">
-                    <span class="hero-brand-main"><?php echo htmlspecialchars($branding_title); ?></span>
-                </div>
-            </div>
         </section>
 
         <?php
