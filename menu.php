@@ -48,12 +48,25 @@ foreach ($products as $product) {
         <div class="nav-scroll-container">
             <?php
             // Extract unique categories from the database items
-            $nav_categories = array_keys($categories);
-            // Optional: Sort them alphabetically or by a predefined priority if needed
-            sort($nav_categories);
+            $raw_categories = array_keys($categories);
+
+            // Define desired order based on reference site
+            $desired_order = ['LITE', 'MAIN COURSES', 'PLATTERS', 'SOUP BOWLS', 'DRINKS'];
+
+            // Sort categories based on desired order, putting others at the end
+            usort($raw_categories, function($a, $b) use ($desired_order) {
+                $pos_a = array_search($a, $desired_order);
+                $pos_b = array_search($b, $desired_order);
+
+                if ($pos_a === false && $pos_b === false) return strcmp($a, $b);
+                if ($pos_a === false) return 1;
+                if ($pos_b === false) return -1;
+                return $pos_a - $pos_b;
+            });
+
+            $nav_categories = $raw_categories;
 
             foreach ($nav_categories as $nav_cat):
-                if ($nav_cat === 'MAIN COURSES') continue;
             ?>
                 <a href="#cat-<?php echo str_replace(' ', '-', strtolower($nav_cat)); ?>" class="menu-nav-link">
                     <?php echo htmlspecialchars($nav_cat); ?>
@@ -67,6 +80,9 @@ foreach ($products as $product) {
         <section class="reveal-scroll-section menu-full-width-section" style="background-image: url('<?php echo htmlspecialchars($backgrounds[0]); ?>');">
             <div class="hero-overlay" style="background: rgba(0,0,0,0.2);"></div>
             <div class="hero-content">
+                <div class="hero-brand-stack">
+                    <span class="hero-brand-main"><?php echo htmlspecialchars($branding_title); ?></span>
+                </div>
             </div>
         </section>
 
@@ -74,7 +90,6 @@ foreach ($products as $product) {
         $bg_index = 1;
         // Iterate through all categories found in the database
         foreach ($nav_categories as $cat_name):
-            if ($cat_name === 'MAIN COURSES') continue;
             $cat_products = $categories[$cat_name];
             $current_bg = $backgrounds[$bg_index] ?? $backgrounds[0];
             $cat_id = 'cat-' . str_replace(' ', '-', strtolower($cat_name));
@@ -89,11 +104,11 @@ foreach ($products as $product) {
                         <div class="items-grid-v3">
                             <?php foreach ($cat_products as $product): ?>
                                 <div class="menu-item-v3">
+                                    <?php if ($product['image_path'] && $product['image_path'] !== 'images/category-bg.png'): ?>
                                     <div class="item-v3-image">
-                                        <?php if ($product['image_path']): ?>
-                                            <img src="<?php echo htmlspecialchars($product['image_path']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                        <?php endif; ?>
+                                        <img src="<?php echo htmlspecialchars($product['image_path']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
                                     </div>
+                                    <?php endif; ?>
                                     <div class="item-v3-content">
                                         <div class="item-v3-tags">
                                             <?php

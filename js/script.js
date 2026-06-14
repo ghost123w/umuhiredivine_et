@@ -125,14 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (totalItems > 0) {
             if (cartCountEl) cartCountEl.textContent = `${totalItems} ITEM${totalItems !== 1 ? 'S' : ''}`;
             if (cartTotalEl) cartTotalEl.textContent = `₦${totalPrice.toLocaleString()}`;
-            if (cartTotalEl) cartTotalEl.style.display = 'inline';
+            if (cartTotalEl) cartTotalEl.style.display = 'block';
         } else {
-            if (cartCountEl) cartCountEl.textContent = 'Cart empty';
+            if (cartCountEl) cartCountEl.textContent = 'CART EMPTY';
             if (cartTotalEl) cartTotalEl.style.display = 'none';
         }
 
         if (floatingCart) {
-            // Floating cart is always active now as per screenshot 'Cart empty' state
             floatingCart.classList.add('active');
         }
     };
@@ -153,16 +152,45 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCartUI();
 
             // Feedback animation
-            btn.classList.add('added');
-            const originalText = btn.innerHTML;
-            btn.textContent = 'ADDED!';
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.classList.remove('added');
-            }, 1000);
+            if (!btn.classList.contains('adding')) {
+                btn.classList.add('adding');
+                const btnText = btn.childNodes[0];
+                const originalText = btnText.textContent;
+                btnText.textContent = 'ADDED! ';
+
+                setTimeout(() => {
+                    btnText.textContent = originalText;
+                    btn.classList.remove('adding');
+                }, 1500);
+            }
         });
     });
 
+    // --- Sticky Nav Active State ---
+    const menuNavLinks = document.querySelectorAll('.menu-nav-link');
+    const sections = document.querySelectorAll('section[id^="cat-"]');
+
+    const handleNavActive = () => {
+        let current = "";
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= (sectionTop - 150)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        menuNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current) && current !== "") {
+                link.classList.add('active');
+            }
+        });
+    };
+
+    window.addEventListener('scroll', handleNavActive);
+
     // Initial UI state
     updateCartUI();
+    handleNavActive();
 });
