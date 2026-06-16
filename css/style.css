@@ -1098,8 +1098,8 @@ body {
 }
 
 .tag-v3 {
-    background: #ff0000;
-    color: #fff;
+    background: var(--primary-color);
+    color: #000;
     border: none;
     font-size: 0.65rem;
     font-weight: 700;
@@ -1111,7 +1111,7 @@ body {
 }
 
 .menu-item-v3:hover .tag-v3 {
-    background: #cc0000;
+    background: #fff;
 }
 
 .item-v3-title-price {
