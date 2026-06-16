@@ -4,6 +4,7 @@ require_once '../includes/functions.php';
 check_login();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Global CSRF Protection for all administrative actions
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         die("CSRF token validation failed.");
     }
@@ -24,6 +25,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $book_us_link = sanitize($_POST['book_us_link']);
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('book_us_link', ?)");
         $stmt->execute([$book_us_link]);
+
+        $best_sellers_title = sanitize($_POST['best_sellers_title']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('best_sellers_title', ?)");
+        $stmt->execute([$best_sellers_title]);
+
+        $phone = sanitize($_POST['contact_phone']);
+        $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('contact_phone', ?)");
+        $stmt->execute([$phone]);
+
+        // Social Media Links
+        $fb = sanitize($_POST['facebook_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('facebook_link', ?)")->execute([$fb]);
+
+        $x = sanitize($_POST['x_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('x_link', ?)")->execute([$x]);
+
+        $ig = sanitize($_POST['instagram_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('instagram_link', ?)")->execute([$ig]);
+
+        $wa = sanitize($_POST['whatsapp_link']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('whatsapp_link', ?)")->execute([$wa]);
 
         header("Location: dashboard.php?view=settings&msg=settings_updated");
         exit();
@@ -103,6 +125,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: dashboard.php?view=nav&msg=deleted");
         exit();
     }
+
+    if (isset($_POST['add_product'])) {
+        $name = sanitize($_POST['name']);
+        $category = sanitize($_POST['category']);
+        $price = sanitize($_POST['price']);
+        $description = sanitize($_POST['description']);
+        $tags = sanitize($_POST['tags']);
+        $is_best_seller = isset($_POST['is_best_seller']) ? 1 : 0;
+        $image_path = null;
+
+        if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
+            $target_dir = "../uploads/";
+            if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
+
+            $file_ext = strtolower(pathinfo($_FILES["product_image"]["name"], PATHINFO_EXTENSION));
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (in_array($file_ext, $allowed_exts)) {
+                $new_filename = uniqid() . '.' . $file_ext;
+                $target_file = $target_dir . $new_filename;
+                if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
+                    $image_path = 'uploads/' . $new_filename;
+                }
+            }
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO products (name, category, price, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$name, $category, $price, $image_path, $is_best_seller, $description, $tags]);
+        header("Location: dashboard.php?view=products&msg=added");
+        exit();
+    }
+
+    if (isset($_POST['delete_product'])) {
+        $id = (int)$_POST['id'];
+        // Fetch image path to delete file
+        $stmt = $pdo->prepare("SELECT image_path FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+        $img = $stmt->fetchColumn();
+        if ($img && file_exists('../' . $img)) {
+            unlink('../' . $img);
+        }
+
+        $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+        header("Location: dashboard.php?view=products&msg=deleted");
+        exit();
+    }
 }
 
 $filter_nav_id = $_GET['filter_nav'] ?? null;
@@ -132,7 +201,38 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'b
 $stmt->execute();
 $book_us_link = $stmt->fetchColumn() ?: '#';
 
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'contact_phone'");
+$stmt->execute();
+$contact_phone = $stmt->fetchColumn() ?: '+234 000 000 0000';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'best_sellers_title'");
+$stmt->execute();
+$best_sellers_title = $stmt->fetchColumn() ?: 'BEST SELLERS';
+
+// Fetch Social Media Links
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'facebook_link'");
+$stmt->execute();
+$facebook_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'x_link'");
+$stmt->execute();
+$x_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'instagram_link'");
+$stmt->execute();
+$instagram_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'whatsapp_link'");
+$stmt->execute();
+$whatsapp_link = $stmt->fetchColumn() ?: '#';
+
 $view = $_GET['view'] ?? 'overview';
+
+// Fetch Products if in products view
+$products = [];
+if ($view == 'products') {
+    $products = $pdo->query("SELECT * FROM products ORDER BY id DESC")->fetchAll();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -279,7 +379,37 @@ $view = $_GET['view'] ?? 'overview';
                             <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Book Us Link (Admin Nav)</label>
                             <input type="text" name="book_us_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($book_us_link); ?>" placeholder="Enter URL for the admin Book Us button" required>
                         </div>
-                        <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Best Sellers Section Title</label>
+                            <input type="text" name="best_sellers_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($best_sellers_title); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Contact Phone Number</label>
+                            <input type="text" name="contact_phone" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_phone); ?>" required>
+                        </div>
+
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Social Media <span style="color: #fff;">Connectivities</span></h3>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">Facebook URL</label>
+                                <input type="text" name="facebook_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($facebook_link); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">X (Twitter) URL</label>
+                                <input type="text" name="x_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($x_link); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">Instagram URL</label>
+                                <input type="text" name="instagram_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($instagram_link); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">WhatsApp URL / Link</label>
+                                <input type="text" name="whatsapp_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($whatsapp_link); ?>">
+                            </div>
+                        </div>
+
+                        <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
                     </form>
                 </section>
             <?php endif; ?>
@@ -419,6 +549,93 @@ $view = $_GET['view'] ?? 'overview';
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
+                </section>
+            <?php endif; ?>
+
+            <?php if ($view == 'products'): ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Best Sellers <span style="color: var(--primary-color);">Boutique</span></h2>
+
+                    <div style="margin-bottom: 50px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 25px;">Manifest New Product</h3>
+                        <form method="POST" enctype="multipart/form-data" style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 20px;">
+                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                            <div class="form-group">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Product Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="e.g. Signature Blend" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Category / Subtitle</label>
+                                <input type="text" name="category" class="form-control" placeholder="e.g. Premium Selection" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Price</label>
+                                <input type="text" name="price" class="form-control" placeholder="₦0.00" required>
+                            </div>
+                            <div class="form-group" style="grid-column: span 3;">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Description</label>
+                                <textarea name="description" class="form-control" placeholder="Village Rice cooked in palm oil sauce..."></textarea>
+                            </div>
+                            <div class="form-group" style="grid-column: span 3;">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Tags (Comma separated)</label>
+                                <input type="text" name="tags" class="form-control" placeholder="RICE, TURKEY, FOOD, LITE">
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Product Image</label>
+                                <input type="file" name="product_image" class="form-control" accept="image/*" required>
+                            </div>
+                            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="is_best_seller" id="is_best_seller" checked>
+                                <label for="is_best_seller" style="font-size: 0.7rem; color: #666; cursor: pointer;">BEST SELLER</label>
+                            </div>
+                            <button type="submit" name="add_product" class="btn-primary" style="grid-column: span 3; padding: 15px; margin-top: 10px;">MANIFEST PRODUCT</button>
+                        </form>
+                    </div>
+
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="border: none; padding-bottom: 20px;">Product</th>
+                                <th style="border: none; padding-bottom: 20px;">Details</th>
+                                <th style="border: none; padding-bottom: 20px;">Price</th>
+                                <th style="text-align: right; border: none; padding-bottom: 20px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($products)): ?>
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 40px; color: #666; font-style: italic;">
+                                        No products have been manifested yet.
+                                    </td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($products as $p): ?>
+                                    <tr>
+                                        <td style="background: transparent;">
+                                            <?php if ($p['image_path']): ?>
+                                                <img src="../<?php echo htmlspecialchars($p['image_path']); ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
+                                            <?php endif; ?>
+                                        </td>
+                                        <td style="background: transparent; vertical-align: middle;">
+                                            <strong style="color: #fff; font-size: 1rem; display: block;"><?php echo htmlspecialchars($p['name']); ?></strong>
+                                            <span style="font-size: 0.6rem; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px;"><?php echo htmlspecialchars($p['category']); ?></span>
+                                        </td>
+                                        <td style="background: transparent; vertical-align: middle; color: #fff;">
+                                            <?php echo htmlspecialchars($p['price']); ?>
+                                        </td>
+                                        <td style="text-align: right; background: transparent; vertical-align: middle;">
+                                            <a href="edit_product.php?id=<?php echo $p['id']; ?>" class="btn-primary" style="padding: 8px 20px; text-decoration: none; font-size: 0.7rem; border-radius: 100px;">REFINE</a>
+                                            <form method="POST" style="display: inline-block; margin-left: 10px;">
+                                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                                <input type="hidden" name="id" value="<?php echo $p['id']; ?>">
+                                                <button type="submit" name="delete_product" class="btn-delete" style="padding: 8px 20px; font-size: 0.7rem; border-radius: 100px;" onclick="return confirm('Void this product?');">VOID</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </section>
             <?php endif; ?>
 
