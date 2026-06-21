@@ -12,7 +12,7 @@ $stmt = $pdo->query("SELECT n.*,
                             WHEN n.label = 'MENU' THEN 'images/brand-hero.jpg'
                             WHEN n.label = 'BLOG' THEN 'images/leadership.jpg'
                             WHEN n.label = 'GALLERY' THEN 'images/brand-portrait.jpg'
-                            WHEN n.label = 'EXPLORE' THEN 'images/home-bg.jpg'
+                            WHEN n.label = 'EXPLORE' THEN 'images/explore-bg.jpg'
                             ELSE 'images/category-bg.png'
                         END
                     ) as display_image
