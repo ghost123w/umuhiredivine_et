@@ -68,6 +68,11 @@ $base_path = $is_admin ? '../' : '';
 
     <nav class="header-nav-bottom" id="header-menu">
         <?php foreach ($navItems as $item):
+            // Hide 'GET IN TOUCH' from Explore page to maintain minimal aesthetic
+            if (basename($_SERVER['PHP_SELF']) === 'explore.php' && strtoupper($item['label']) === 'GET IN TOUCH') {
+                continue;
+            }
+
             $isActive = ($current_page == $item['link_url']) ? 'active' : '';
             $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
         ?>
