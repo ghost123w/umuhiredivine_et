@@ -51,9 +51,11 @@ $base_path = $is_admin ? '../' : '';
         </div>
 
         <div class="header-brand-center">
-            <a href="<?php echo $base_path; ?>index.php" class="brand-link">
-                <?php echo strtoupper(SITE_NAME); ?>
-            </a>
+            <?php if (basename($_SERVER['PHP_SELF']) !== 'explore.php'): ?>
+                <a href="<?php echo $base_path; ?>index.php" class="brand-link">
+                    <?php echo strtoupper(SITE_NAME); ?>
+                </a>
+            <?php endif; ?>
         </div>
 
         <div class="header-actions-right">

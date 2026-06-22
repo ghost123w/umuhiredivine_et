@@ -6,12 +6,11 @@ require_once '../includes/functions.php';
 try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM admins");
     if ($stmt->fetchColumn() == 0) {
-        header("Location: ../install.php");
+        header("Location: signup.php");
         exit();
     }
 } catch (Exception $e) {
-    header("Location: ../install.php");
-    exit();
+    // Table might not exist or other DB error
 }
 
 $error = '';
