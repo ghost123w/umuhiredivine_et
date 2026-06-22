@@ -34,19 +34,8 @@ if ($nav_id) {
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <header class="section-header" style="max-width: 1400px; margin: 0 auto 40px;">
-            <h2 class="luxury-heading"><span class="white-text">EXPL</span><span class="highlight">ORE</span></h2>
-        </header>
         <div class="prism-grid">
-            <?php if (empty($fixtures)): ?>
-                <div class="bento-card grid-large" style="text-align: center; display: flex; align-items: center; justify-content: center; min-height: 400px;">
-                    <div class="card-content">
-                        <h2 style="font-family: 'Cinzel', serif; color: var(--primary-color);">The exploration horizon is currently clear.</h2>
-                        <p style="color: #666; font-size: 0.8rem; margin-top: 10px;">Check back as we expand our digital frequency.</p>
-                        <a href="index.php" style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; text-decoration: none; margin-top: 40px; display: inline-block; border: 1px solid var(--primary-color); padding: 10px 25px; border-radius: 50px;">Return to Source</a>
-                    </div>
-                </div>
-            <?php else: ?>
+            <?php if (!empty($fixtures)): ?>
                 <?php foreach ($fixtures as $index => $f):
                     $cardClass = ($index % 3 == 0) ? 'grid-large' : (($index % 3 == 1) ? 'grid-medium' : 'grid-tall');
                     $bg_image = !empty($f['image_path']) ? $f['image_path'] : 'images/category-bg.png';
