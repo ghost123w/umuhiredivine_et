@@ -53,11 +53,6 @@ if ($nav_id) {
         </div>
     </main>
 
-    <footer class="aura-footer">
-        &copy; <?php echo date('Y'); ?> LUXURY EXPLORATION
-    </footer>
-
-    <?php include 'includes/contact-modal.php'; ?>
     <script src="js/script.js"></script>
 </body>
 </html>
