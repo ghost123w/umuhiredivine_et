@@ -11,7 +11,7 @@ $stmt = $pdo->prepare("SELECT id FROM navigation_items WHERE link_url LIKE '%exp
 $stmt->execute();
 $nav_id = $stmt->fetchColumn();
 
-// Fetch content assigned to Explore
+// Fetch content assigned to Explore (Optional, if needed for other logic)
 $fixtures = [];
 if ($nav_id) {
     $stmt = $pdo->prepare("SELECT * FROM content WHERE nav_item_id = ? ORDER BY id ASC");
@@ -34,23 +34,7 @@ if ($nav_id) {
     <?php include 'includes/hero.php'; ?>
 
     <main class="layout-main">
-        <div class="prism-grid">
-            <?php if (!empty($fixtures)): ?>
-                <?php foreach ($fixtures as $index => $f):
-                    $cardClass = ($index % 3 == 0) ? 'grid-large' : (($index % 3 == 1) ? 'grid-medium' : 'grid-tall');
-                    $bg_image = !empty($f['image_path']) ? $f['image_path'] : 'images/category-bg.png';
-                ?>
-                    <div class="bento-card <?php echo $cardClass; ?>">
-                        <div class="card-bg-image" style="background-image: url('<?php echo htmlspecialchars($bg_image); ?>');"></div>
-                        <div class="card-content">
-                            <h3><?php echo htmlspecialchars($f['section_title']); ?></h3>
-                            <p><?php echo htmlspecialchars($f['description']); ?></p>
-                            <button class="card-btn" style="background: none; border: 1px solid var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 20px;" onclick="openContactModal('<?php echo addslashes($f['section_title']); ?>')">ENQUIRE</button>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+        <!-- Content removed for minimal full-screen background experience -->
     </main>
 
     <script src="js/script.js"></script>

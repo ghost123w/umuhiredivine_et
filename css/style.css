@@ -206,6 +206,12 @@ body {
     padding: 80px 60px 100px;
 }
 
+.explore-page .layout-main {
+    background: transparent;
+    margin-top: 0;
+    min-height: 100vh;
+}
+
 /* Prism Bento Grid */
 .prism-grid {
     display: grid;
