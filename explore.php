@@ -31,11 +31,23 @@ if ($nav_id) {
 </head>
 <body class="explore-page">
     <?php include 'includes/header.php'; ?>
-    <?php include 'includes/hero.php'; ?>
 
-    <main class="layout-main">
-        <!-- Content removed for minimal full-screen background experience -->
-    </main>
+    <div class="explore-3d-viewport">
+        <div class="explore-3d-scene">
+            <!-- Background Layer -->
+            <div class="layer layer-bg"></div>
+
+            <!-- Purely immersive empty layers for 3D depth effect without text/branding as requested -->
+            <div class="layer layer-1"></div>
+            <div class="layer layer-2"></div>
+            <div class="layer layer-3"></div>
+            <div class="layer layer-4"></div>
+            <div class="layer layer-5"></div>
+        </div>
+    </div>
+
+    <!-- Scroll tracking space -->
+    <div class="scroll-spacer"></div>
 
     <script src="js/script.js"></script>
 </body>
