@@ -108,26 +108,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// Explore 3D Scroll Logic
-document.addEventListener('scroll', () => {
-    const scene = document.querySelector('.explore-3d-scene');
-    if (!scene) return;
-
-    const scrollY = window.scrollY;
-    const viewportHeight = window.innerHeight;
-
-    // Smoothly map scroll position to Z translation
-    // Adjust the multiplier (2) to control the speed of the 3D movement
-    const zTranslation = scrollY * 1.5;
-
-    scene.style.transform = `translateZ(${zTranslation}px)`;
-
-    // Optional: Fade out layers as they pass the camera (z > 500ish)
-    const layers = document.querySelectorAll('.layer');
-    layers.forEach(layer => {
-        // We need to account for the initial translateZ of each layer
-        // This is a bit complex since getComputedStyle returns a matrix
-        // For simplicity, we can use a data attribute or just let them clip naturally
-    });
-});

@@ -32,22 +32,7 @@ if ($nav_id) {
 <body class="explore-page">
     <?php include 'includes/header.php'; ?>
 
-    <div class="explore-3d-viewport">
-        <div class="explore-3d-scene">
-            <!-- Background Layer -->
-            <div class="layer layer-bg"></div>
-
-            <!-- Purely immersive empty layers for 3D depth effect without text/branding as requested -->
-            <div class="layer layer-1"></div>
-            <div class="layer layer-2"></div>
-            <div class="layer layer-3"></div>
-            <div class="layer layer-4"></div>
-            <div class="layer layer-5"></div>
-        </div>
-    </div>
-
-    <!-- Scroll tracking space -->
-    <div class="scroll-spacer"></div>
+    <div class="explore-background-container"></div>
 
     <script src="js/script.js"></script>
 </body>
