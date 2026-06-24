@@ -5,19 +5,6 @@ require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
 require_once 'includes/contact-logic.php';
-
-// Find the Explore Nav Item ID
-$stmt = $pdo->prepare("SELECT id FROM navigation_items WHERE link_url LIKE '%explore.php%' OR label = 'Explore' LIMIT 1");
-$stmt->execute();
-$nav_id = $stmt->fetchColumn();
-
-// Fetch content assigned to Explore (Optional, if needed for other logic)
-$fixtures = [];
-if ($nav_id) {
-    $stmt = $pdo->prepare("SELECT * FROM content WHERE nav_item_id = ? ORDER BY id ASC");
-    $stmt->execute([$nav_id]);
-    $fixtures = $stmt->fetchAll();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +21,17 @@ if ($nav_id) {
 
     <div class="explore-background-container"></div>
 
+    <section class="explore-section" id="section-1"></section>
+
+    <section class="explore-section" id="section-2"></section>
+
+    <section class="explore-section" id="section-3">
+        <div class="video-container">
+            <div id="explore-video"></div>
+        </div>
+    </section>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

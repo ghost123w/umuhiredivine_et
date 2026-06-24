@@ -107,4 +107,46 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // Explore Page Video Logic
+    if (document.body.classList.contains('explore-page')) {
+        let player;
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('explore-video', {
+                height: '100%',
+                width: '100%',
+                videoId: 'WTI-TNm6bjI',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'loop': 1,
+                    'playlist': 'WTI-TNm6bjI',
+                    'mute': 1,
+                    'rel': 0,
+                    'showinfo': 0
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        };
+
+        function onPlayerReady(event) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        player.playVideo();
+                    } else {
+                        player.pauseVideo();
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const section3 = document.getElementById('section-3');
+            if (section3) {
+                observer.observe(section3);
+            }
+        }
+    }
 });

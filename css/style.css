@@ -614,7 +614,8 @@ body {
 
 /* Explore Page Styling (Static) */
 .explore-page {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .explore-background-container {
@@ -627,4 +628,56 @@ body {
     background-size: cover;
     background-position: center;
     z-index: 1;
+}
+
+.explore-section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 60px;
+}
+
+.explore-content {
+    max-width: 800px;
+}
+
+.explore-subtitle {
+    font-size: 1rem;
+    letter-spacing: 0.5em;
+    color: var(--accent-color);
+    margin-top: 20px;
+}
+
+.explore-feature-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.explore-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.video-container {
+    width: 100%;
+    height: 100%;
+    max-width: 1200px;
+    max-height: 675px; /* 16:9 aspect ratio for 1200px width */
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+#section-3 {
+    background: rgba(0,0,0,0.2);
 }
