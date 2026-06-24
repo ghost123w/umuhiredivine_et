@@ -27,7 +27,7 @@ require_once 'includes/contact-logic.php';
 
     <section class="explore-section" id="section-3">
         <div class="video-container">
-            <div id="explore-video"></div>
+            <div class="youtube-player" data-video-id="WTI-TNm6bjI"></div>
         </div>
     </section>
 
