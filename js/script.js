@@ -1,3 +1,46 @@
+// YouTube API Multi-video support
+const players = [];
+
+window.onYouTubeIframeAPIReady = function() {
+    const youtubePlayers = document.querySelectorAll('.youtube-player');
+    youtubePlayers.forEach((element) => {
+        const videoId = element.getAttribute('data-video-id');
+        const player = new YT.Player(element, {
+            height: '100%',
+            width: '100%',
+            videoId: videoId,
+            playerVars: {
+                'autoplay': 0,
+                'controls': 0,
+                'modestbranding': 1,
+                'loop': 1,
+                'playlist': videoId,
+                'mute': 0,
+                'rel': 0,
+                'showinfo': 0
+            },
+            events: {
+                'onReady': (event) => onPlayerReady(event, player)
+            }
+        });
+        players.push(player);
+    });
+};
+
+function onPlayerReady(event, player) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                player.playVideo();
+            } else {
+                player.pauseVideo();
+            }
+        });
+    }, { threshold: 0.5 });
+
+    observer.observe(player.getIframe());
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const contactModal = document.getElementById('contact-modal');
 
@@ -108,48 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Explore Page Video Logic (Multi-video support)
-    const youtubePlayers = document.querySelectorAll('.youtube-player');
-    if (youtubePlayers.length > 0) {
-        const players = [];
-
-        window.onYouTubeIframeAPIReady = function() {
-            youtubePlayers.forEach((element, index) => {
-                const videoId = element.getAttribute('data-video-id');
-                const player = new YT.Player(element, {
-                    height: '100%',
-                    width: '100%',
-                    videoId: videoId,
-                    playerVars: {
-                        'autoplay': 0,
-                        'controls': 0,
-                        'modestbranding': 1,
-                        'loop': 1,
-                        'playlist': videoId,
-                        'mute': 0,
-                        'rel': 0,
-                        'showinfo': 0
-                    },
-                    events: {
-                        'onReady': (event) => onPlayerReady(event, player)
-                    }
-                });
-                players.push(player);
-            });
-        };
-
-        function onPlayerReady(event, player) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        player.playVideo();
-                    } else {
-                        player.pauseVideo();
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            observer.observe(player.getIframe());
-        }
+    // Parallax Effect for Explore Page Background
+    const exploreBg = document.querySelector('.explore-background-container');
+    if (exploreBg && document.body.classList.contains('explore-page')) {
+        window.addEventListener('scroll', () => {
+            const scrollValue = window.scrollY;
+            exploreBg.style.transform = `translateY(${scrollValue * 0.5}px)`;
+        });
     }
 });
