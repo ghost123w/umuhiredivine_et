@@ -36,9 +36,10 @@ $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' 
 $current_page = basename($_SERVER['PHP_SELF']);
 $is_admin = strpos($_SERVER['REQUEST_URI'], '/admin/') !== false;
 $base_path = $is_admin ? '../' : '';
+$is_explore = ($current_page === 'explore.php');
 ?>
 
-<header class="site-header-aura">
+<header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?>">
     <div class="header-top-row">
         <div class="header-socials-left">
             <?php foreach ($socials as $name => $svg):
@@ -50,16 +51,22 @@ $base_path = $is_admin ? '../' : '';
             <?php endforeach; ?>
         </div>
 
+        <?php if (!$is_explore): ?>
         <div class="header-brand-center">
-            <?php if (basename($_SERVER['PHP_SELF']) !== 'explore.php'): ?>
-                <a href="<?php echo $base_path; ?>index.php" class="brand-link">
-                    <?php echo strtoupper(SITE_NAME); ?>
-                </a>
-            <?php endif; ?>
+            <a href="<?php echo $base_path; ?>index.php" class="brand-link">
+                <?php echo strtoupper(SITE_NAME); ?>
+            </a>
         </div>
+        <?php endif; ?>
 
         <div class="header-actions-right">
-            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn <?php echo $is_explore ? 'btn-stacked' : ''; ?>">
+                <?php if ($is_explore): ?>
+                    <span>BOOK</span><br><span>TABLE</span>
+                <?php else: ?>
+                    BOOK TABLE
+                <?php endif; ?>
+            </a>
             <?php if ($is_admin): ?>
                 <a href="../logout.php" class="admin-portal-link" style="margin-left: 20px;">EXIT</a>
             <?php endif; ?>
@@ -69,7 +76,7 @@ $base_path = $is_admin ? '../' : '';
     <nav class="header-nav-bottom" id="header-menu">
         <?php foreach ($navItems as $item):
             // Hide 'GET IN TOUCH' from Explore page to maintain minimal aesthetic
-            if (basename($_SERVER['PHP_SELF']) === 'explore.php' && strtoupper($item['label']) === 'GET IN TOUCH') {
+            if ($is_explore && strtoupper($item['label']) === 'GET IN TOUCH') {
                 continue;
             }
 
