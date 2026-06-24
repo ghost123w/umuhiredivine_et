@@ -17,7 +17,9 @@ require_once 'includes/functions.php';
 <body class="explore-page">
     <?php include 'includes/header.php'; ?>
 
-    <div class="explore-background-container"></div>
+    <div class="explore-bg-wrapper">
+        <div class="explore-background-container"></div>
+    </div>
 
     <section class="explore-section" id="section-1"></section>
 

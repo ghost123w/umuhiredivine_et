@@ -156,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (exploreBg && document.body.classList.contains('explore-page')) {
         window.addEventListener('scroll', () => {
             const scrollValue = window.scrollY;
-            exploreBg.style.transform = `translateY(${scrollValue * 0.5}px)`;
+            const parallaxAmount = (scrollValue / (document.documentElement.scrollHeight - window.innerHeight)) * 20;
+            exploreBg.style.transform = `translateY(${parallaxAmount}vh)`;
         });
     }
 });
