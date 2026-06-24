@@ -23,13 +23,13 @@ require_once 'includes/contact-logic.php';
 
     <section class="explore-section" id="section-1"></section>
 
-    <section class="explore-section" id="section-2"></section>
-
-    <section class="explore-section" id="section-3">
+    <section class="explore-section" id="section-2">
         <div class="video-container">
             <div class="youtube-player" data-video-id="WTI-TNm6bjI"></div>
         </div>
     </section>
+
+    <section class="explore-section" id="section-3"></section>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="js/script.js"></script>
