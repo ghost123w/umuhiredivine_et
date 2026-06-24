@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'modestbranding': 1,
                     'loop': 1,
                     'playlist': 'WTI-TNm6bjI',
-                    'mute': 1,
+                    'mute': 0,
                     'rel': 0,
                     'showinfo': 0
                 },
