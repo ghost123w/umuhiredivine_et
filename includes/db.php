@@ -46,6 +46,13 @@ try {
             $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)")
                 ->execute(['Boutique', 'dashboard.php?view=products', 5, 'admin']);
         }
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM navigation_items WHERE label = 'Footer' AND nav_type = 'admin'");
+        $stmt->execute();
+        if ($stmt->fetchColumn() == 0) {
+            $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)")
+                ->execute(['Footer', 'dashboard.php?view=footer', 7, 'admin']);
+        }
     } catch (Exception $e) {
         // Table might not exist yet, handled by seed below
     }
@@ -98,6 +105,31 @@ try {
         }
     }
 
+    // Create footer_items table
+    $pdo->exec("CREATE TABLE IF NOT EXISTS footer_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        label TEXT NOT NULL,
+        link_url TEXT NOT NULL,
+        sort_order INTEGER DEFAULT 0,
+        is_active INTEGER DEFAULT 1
+    )");
+
+    // Seed default footer items if table is empty
+    $stmt = $pdo->query("SELECT COUNT(*) FROM footer_items");
+    if ($stmt->fetchColumn() == 0) {
+        $footerItems = [
+            ['PRIVACY POLICY', '#', 0],
+            ['TERMS OF SERVICE', '#', 1],
+            ['COOKIE POLICY', '#', 2],
+            ['INSTAGRAM', '#', 3],
+            ['FACEBOOK', '#', 4]
+        ];
+        $footerStmt = $pdo->prepare("INSERT INTO footer_items (label, link_url, sort_order) VALUES (?, ?, ?)");
+        foreach ($footerItems as $f) {
+            $footerStmt->execute($f);
+        }
+    }
+
     // Create navigation_items table
     $pdo->exec("CREATE TABLE IF NOT EXISTS navigation_items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -125,7 +157,8 @@ try {
             ['Manage', 'dashboard.php?view=manage', 3, 'admin'],
             ['Inquiries', 'dashboard.php?view=messages', 4, 'admin'],
             ['Boutique', 'dashboard.php?view=products', 5, 'admin'],
-            ['Navigation', 'dashboard.php?view=nav', 6, 'admin']
+            ['Navigation', 'dashboard.php?view=nav', 6, 'admin'],
+            ['Footer', 'dashboard.php?view=footer', 7, 'admin']
         ];
         $insertStmt = $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)");
         foreach ($items as $item) {

@@ -42,8 +42,9 @@ $is_explore = ($current_page === 'explore.php');
 <header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?>">
     <?php if ($is_explore): ?>
         <div class="header-explore-row">
-            <nav class="header-nav-inline">
+            <nav class="header-nav-inline" id="header-menu">
                 <?php foreach ($navItems as $item):
+                    if (strtoupper($item['label']) === 'GET IN TOUCH') continue;
                     $isActive = ($current_page == $item['link_url']) ? 'active' : '';
                     $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
                 ?>
