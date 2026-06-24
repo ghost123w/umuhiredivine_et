@@ -156,7 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (exploreBg && document.body.classList.contains('explore-page')) {
         window.addEventListener('scroll', () => {
             const scrollValue = window.scrollY;
-            const parallaxAmount = (scrollValue / (document.documentElement.scrollHeight - window.innerHeight)) * 20;
+            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+            // Translate upwards as we scroll down to avoid gaps at the top
+            // Start at 0, move to -20vh
+            const parallaxAmount = (scrollValue / totalScroll) * -20;
             exploreBg.style.transform = `translateY(${parallaxAmount}vh)`;
         });
     }

@@ -40,54 +40,69 @@ $is_explore = ($current_page === 'explore.php');
 ?>
 
 <header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?>">
-    <div class="header-top-row">
-        <div class="header-socials-left">
-            <?php foreach ($socials as $name => $svg):
-                $link = $social_links[$name] ?? '#';
+    <?php if ($is_explore): ?>
+        <div class="header-explore-row">
+            <nav class="header-nav-inline">
+                <?php foreach ($navItems as $item):
+                    $isActive = ($current_page == $item['link_url']) ? 'active' : '';
+                    $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
+                ?>
+                    <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
+                        <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
+
+            <div class="header-explore-right">
+                <div class="header-socials-inline">
+                    <?php foreach ($socials as $name => $svg):
+                        $link = $social_links[$name] ?? '#';
+                    ?>
+                        <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                            <?php echo $svg; ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="header-top-row">
+            <div class="header-socials-left">
+                <?php foreach ($socials as $name => $svg):
+                    $link = $social_links[$name] ?? '#';
+                ?>
+                    <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                        <?php echo $svg; ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="header-brand-center">
+                <a href="<?php echo $base_path; ?>index.php" class="brand-link">
+                    <?php echo strtoupper(SITE_NAME); ?>
+                </a>
+            </div>
+
+            <div class="header-actions-right">
+                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+                <?php if ($is_admin): ?>
+                    <a href="../logout.php" class="admin-portal-link" style="margin-left: 20px;">EXIT</a>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <nav class="header-nav-bottom" id="header-menu">
+            <?php foreach ($navItems as $item):
+                $isActive = ($current_page == $item['link_url']) ? 'active' : '';
+                $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
             ?>
-                <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
-                    <?php echo $svg; ?>
+                <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
+                    <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
                 </a>
             <?php endforeach; ?>
-        </div>
-
-        <?php if (!$is_explore): ?>
-        <div class="header-brand-center">
-            <a href="<?php echo $base_path; ?>index.php" class="brand-link">
-                <?php echo strtoupper(SITE_NAME); ?>
-            </a>
-        </div>
-        <?php endif; ?>
-
-        <div class="header-actions-right">
-            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn <?php echo $is_explore ? 'btn-stacked' : ''; ?>">
-                <?php if ($is_explore): ?>
-                    <span>BOOK</span><br><span>TABLE</span>
-                <?php else: ?>
-                    BOOK TABLE
-                <?php endif; ?>
-            </a>
-            <?php if ($is_admin): ?>
-                <a href="../logout.php" class="admin-portal-link" style="margin-left: 20px;">EXIT</a>
-            <?php endif; ?>
-        </div>
-    </div>
-
-    <nav class="header-nav-bottom" id="header-menu">
-        <?php foreach ($navItems as $item):
-            // Hide 'GET IN TOUCH' from Explore page to maintain minimal aesthetic
-            if ($is_explore && strtoupper($item['label']) === 'GET IN TOUCH') {
-                continue;
-            }
-
-            $isActive = ($current_page == $item['link_url']) ? 'active' : '';
-            $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
-        ?>
-            <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
-                <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
-            </a>
-        <?php endforeach; ?>
-    </nav>
+        </nav>
+    <?php endif; ?>
 
     <div class="mobile-nav-toggle" id="mobile-nav-toggle">
         <span></span>
