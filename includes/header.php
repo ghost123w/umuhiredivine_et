@@ -55,16 +55,18 @@ $is_explore = ($current_page === 'explore.php');
             </nav>
 
             <div class="header-explore-right">
-                <div class="header-socials-inline">
-                    <?php foreach ($socials as $name => $svg):
-                        $link = $social_links[$name] ?? '#';
-                    ?>
-                        <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
-                            <?php echo $svg; ?>
-                        </a>
-                    <?php endforeach; ?>
+                <div class="explore-cta-stack">
+                    <div class="header-socials-inline">
+                        <?php foreach ($socials as $name => $svg):
+                            $link = $social_links[$name] ?? '#';
+                        ?>
+                            <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                                <?php echo $svg; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                    <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
                 </div>
-                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
             </div>
         </div>
     <?php else: ?>
