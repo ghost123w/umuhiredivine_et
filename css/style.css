@@ -615,22 +615,20 @@ body {
 
 .header-explore-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
+    gap: 50px;
 }
 
 .header-nav-inline {
     display: flex;
     gap: 40px;
-    flex: 2;
 }
 
 .header-explore-right {
     display: flex;
     align-items: center;
-    gap: 30px;
-    flex: 1;
     justify-content: flex-end;
 }
 
