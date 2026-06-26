@@ -42,6 +42,11 @@ $is_explore = ($current_page === 'explore.php');
 <header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?>">
     <?php if ($is_explore): ?>
         <div class="header-explore-row">
+            <div class="header-brand-left-explore">
+                <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
+                    UMUHIREDIVINE
+                </a>
+            </div>
             <nav class="header-nav-inline" id="header-menu">
                 <?php foreach ($navItems as $item):
                     if (strtoupper($item['label']) === 'GET IN TOUCH') continue;

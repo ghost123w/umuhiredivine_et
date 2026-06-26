@@ -615,10 +615,24 @@ body {
 
 .header-explore-row {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     gap: 50px;
+}
+
+.brand-link-explore {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #c8a55c;
+    text-decoration: none;
+    letter-spacing: 0.2rem;
+}
+
+.header-brand-left-explore {
+    flex-grow: 0;
+    margin-right: auto;
 }
 
 .header-nav-inline {
