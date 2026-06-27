@@ -622,12 +622,14 @@ body {
 }
 
 .brand-link-explore {
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #c8a55c;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: #ff0000;
     text-decoration: none;
-    letter-spacing: 0.2rem;
+    letter-spacing: 0.05rem;
+    line-height: 1;
+    text-transform: uppercase;
 }
 
 .header-brand-left-explore {

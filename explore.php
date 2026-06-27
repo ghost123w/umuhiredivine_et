@@ -12,7 +12,7 @@ require_once 'includes/functions.php';
     <title>Explore | <?php echo htmlspecialchars(SITE_NAME); ?></title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&family=Patrick+Hand&display=swap" rel="stylesheet">
 </head>
 <body class="explore-page">
     <?php include 'includes/header.php'; ?>
