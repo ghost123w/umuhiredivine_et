@@ -3,10 +3,7 @@ session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
-$stmt = $pdo->query("SELECT COUNT(*) FROM admins");
-$admin_count = $stmt->fetchColumn();
-
-if ($admin_count > 0 && (!defined('ALLOW_REGISTRATION') || ALLOW_REGISTRATION !== true)) {
+if (!defined('ALLOW_REGISTRATION') || ALLOW_REGISTRATION !== true) {
     header("Location: login.php");
     exit();
 }

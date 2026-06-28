@@ -22,9 +22,6 @@ require_once 'includes/functions.php';
     </div>
 
     <section class="explore-section" id="section-1">
-        <div class="explore-quote-container">
-            <h2 class="explore-quote">Be patient.<br>Sometimes the wait is longer because the Blessing is Bigger.</h2>
-        </div>
     </section>
 
     <section class="explore-section" id="section-2">

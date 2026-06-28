@@ -584,6 +584,52 @@ if ($view == 'products') {
                 </section>
             <?php endif; ?>
 
+            <?php if ($view == 'footer'):
+                $footerItems = $pdo->query("SELECT * FROM footer_items ORDER BY sort_order ASC")->fetchAll();
+            ?>
+                <section class="aura-card">
+                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Refine <span style="color: var(--primary-color);">Footer</span></h2>
+
+                    <div style="margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 20px;">Add New Footer Link</h3>
+                        <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr 80px 120px; gap: 15px; align-items: end;">
+                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                            <div>
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">LABEL</label>
+                                <input type="text" name="label" class="form-control" placeholder="Label" required>
+                            </div>
+                            <div>
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">URL / TARGET</label>
+                                <input type="text" name="link_url" class="form-control" placeholder="URL" required>
+                            </div>
+                            <div>
+                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">ORDER</label>
+                                <input type="number" name="sort_order" class="form-control" value="0" required>
+                            </div>
+                            <button type="submit" name="add_footer_item" class="btn-primary" style="padding: 15px;">ADD</button>
+                        </form>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <?php foreach ($footerItems as $fi): ?>
+                            <form method="POST" style="display: grid; grid-template-columns: 1fr 1.5fr 80px 80px 80px 80px; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);">
+                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                                <input type="hidden" name="id" value="<?php echo $fi['id']; ?>">
+                                <input type="text" name="label" class="form-control" value="<?php echo htmlspecialchars($fi['label']); ?>" required>
+                                <input type="text" name="link_url" class="form-control" value="<?php echo htmlspecialchars($fi['link_url']); ?>" required>
+                                <input type="number" name="sort_order" class="form-control" value="<?php echo $fi['sort_order']; ?>" required>
+                                <label style="font-size: 0.6rem; color: #666; text-align: center;">
+                                    ACTIVE<br>
+                                    <input type="checkbox" name="is_active" <?php echo $fi['is_active'] ? 'checked' : ''; ?>>
+                                </label>
+                                <button type="submit" name="update_footer_item" class="btn-primary" style="padding: 10px; font-size: 0.6rem;">SAVE</button>
+                                <button type="submit" name="delete_footer_item" class="btn-delete" style="padding: 10px; font-size: 0.6rem;" onclick="return confirm('Remove this footer item?');">VOID</button>
+                            </form>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            <?php endif; ?>
+
             <?php if ($view == 'products'): ?>
                 <section class="aura-card">
                     <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Best Sellers <span style="color: var(--primary-color);">Boutique</span></h2>
@@ -668,52 +714,6 @@ if ($view == 'products') {
                             <?php endif; ?>
                         </tbody>
                     </table>
-                </section>
-            <?php endif; ?>
-
-            <?php if ($view == 'footer'):
-                $footerItems = $pdo->query("SELECT * FROM footer_items ORDER BY sort_order ASC")->fetchAll();
-            ?>
-                <section class="aura-card">
-                    <h2 style="font-family: 'Cinzel', serif; margin-bottom: 40px;">Explore <span style="color: var(--primary-color);">Footer List</span></h2>
-
-                    <div style="margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 20px;">Add New Footer Link</h3>
-                        <form method="POST" style="display: grid; grid-template-columns: 1fr 1.5fr 80px 120px; gap: 15px; align-items: end;">
-                            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                            <div>
-                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">LABEL</label>
-                                <input type="text" name="label" class="form-control" placeholder="Label" required>
-                            </div>
-                            <div>
-                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">URL / TARGET</label>
-                                <input type="text" name="link_url" class="form-control" placeholder="URL" required>
-                            </div>
-                            <div>
-                                <label style="display:block; font-size: 0.6rem; color: #444; margin-bottom: 5px;">ORDER</label>
-                                <input type="number" name="sort_order" class="form-control" value="0" required>
-                            </div>
-                            <button type="submit" name="add_footer_item" class="btn-primary" style="padding: 15px;">MANIFEST</button>
-                        </form>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 15px;">
-                        <?php foreach ($footerItems as $fi): ?>
-                            <form method="POST" style="display: grid; grid-template-columns: 1fr 1.5fr 80px 80px 100px 80px; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);">
-                                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                                <input type="hidden" name="id" value="<?php echo $fi['id']; ?>">
-                                <input type="text" name="label" class="form-control" value="<?php echo htmlspecialchars($fi['label']); ?>" required>
-                                <input type="text" name="link_url" class="form-control" value="<?php echo htmlspecialchars($fi['link_url']); ?>" required>
-                                <input type="number" name="sort_order" class="form-control" value="<?php echo $fi['sort_order']; ?>" required>
-                                <label style="font-size: 0.6rem; color: #666; text-align: center;">
-                                    ACTIVE<br>
-                                    <input type="checkbox" name="is_active" <?php echo $fi['is_active'] ? 'checked' : ''; ?>>
-                                </label>
-                                <button type="submit" name="update_footer_item" class="btn-primary" style="padding: 10px; font-size: 0.6rem;">SAVE</button>
-                                <button type="submit" name="delete_footer_item" class="btn-delete" style="padding: 10px; font-size: 0.6rem;" onclick="return confirm('Remove this footer item?');">VOID</button>
-                            </form>
-                        <?php endforeach; ?>
-                    </div>
                 </section>
             <?php endif; ?>
 

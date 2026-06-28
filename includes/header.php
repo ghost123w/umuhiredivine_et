@@ -42,36 +42,37 @@ $is_explore = ($current_page === 'explore.php');
 <header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?>">
     <?php if ($is_explore): ?>
         <div class="header-explore-row">
-            <div class="header-brand-left-explore">
-                <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
-                    UMUHIREDIVINE
-                </a>
-            </div>
-            <nav class="header-nav-inline" id="header-menu">
-                <?php foreach ($navItems as $item):
-                    if (strtoupper($item['label']) === 'GET IN TOUCH') continue;
-                    $isActive = ($current_page == $item['link_url']) ? 'active' : '';
-                    $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
+            <div class="header-socials-left-explore">
+                <?php foreach ($socials as $name => $svg):
+                    $link = $social_links[$name] ?? '#';
                 ?>
-                    <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
-                        <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
+                    <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                        <?php echo $svg; ?>
                     </a>
                 <?php endforeach; ?>
-            </nav>
+            </div>
 
-            <div class="header-explore-right">
-                <div class="explore-cta-stack">
-                    <div class="header-socials-inline">
-                        <?php foreach ($socials as $name => $svg):
-                            $link = $social_links[$name] ?? '#';
-                        ?>
-                            <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
-                                <?php echo $svg; ?>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
-                    <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+            <div class="header-explore-center-group">
+                <div class="header-brand-explore">
+                    <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
+                        <?php echo strtoupper(SITE_NAME); ?>
+                    </a>
                 </div>
+                <nav class="header-nav-inline" id="header-menu">
+                    <?php foreach ($navItems as $item):
+                        if (strtoupper($item['label']) === 'GET IN TOUCH') continue;
+                        $isActive = ($current_page == $item['link_url']) ? 'active' : '';
+                        $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
+                    ?>
+                        <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
+                            <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
+                        </a>
+                    <?php endforeach; ?>
+                </nav>
+            </div>
+
+            <div class="header-explore-right-group">
+                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
             </div>
         </div>
     <?php else: ?>

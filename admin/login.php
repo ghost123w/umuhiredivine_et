@@ -10,7 +10,9 @@ try {
         exit();
     }
 } catch (Exception $e) {
-    // Table might not exist or other DB error
+    // If table doesn't exist or other error, it might be first run
+    // But usually we expect db.php to have run.
+    // If we can't even query, we might want to go to signup or just show error.
 }
 
 $error = '';
