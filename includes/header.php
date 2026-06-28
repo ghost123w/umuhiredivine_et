@@ -42,22 +42,13 @@ $is_explore = ($current_page === 'explore.php');
 <header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?>">
     <?php if ($is_explore): ?>
         <div class="header-explore-row">
-            <div class="header-socials-left-explore">
-                <?php foreach ($socials as $name => $svg):
-                    $link = $social_links[$name] ?? '#';
-                ?>
-                    <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
-                        <?php echo $svg; ?>
-                    </a>
-                <?php endforeach; ?>
+            <div class="header-brand-explore">
+                <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
+                    <?php echo strtoupper(SITE_NAME); ?>
+                </a>
             </div>
 
-            <div class="header-explore-center-group">
-                <div class="header-brand-explore">
-                    <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
-                        <?php echo strtoupper(SITE_NAME); ?>
-                    </a>
-                </div>
+            <div class="header-explore-right-combined">
                 <nav class="header-nav-inline" id="header-menu">
                     <?php foreach ($navItems as $item):
                         if (strtoupper($item['label']) === 'GET IN TOUCH') continue;
@@ -69,10 +60,19 @@ $is_explore = ($current_page === 'explore.php');
                         </a>
                     <?php endforeach; ?>
                 </nav>
-            </div>
 
-            <div class="header-explore-right-group">
-                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+                <div class="header-explore-actions-stack">
+                    <div class="header-socials-vertical">
+                        <?php foreach ($socials as $name => $svg):
+                            $link = $social_links[$name] ?? '#';
+                        ?>
+                            <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                                <?php echo $svg; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                    <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
+                </div>
             </div>
         </div>
     <?php else: ?>

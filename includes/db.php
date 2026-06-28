@@ -38,15 +38,8 @@ try {
         $pdo->exec("ALTER TABLE content ADD COLUMN nav_item_id INTEGER DEFAULT NULL");
     }
 
-    // Migration for Boutique link
+    // Migration for Footer link
     try {
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM navigation_items WHERE label = 'Boutique' AND nav_type = 'admin'");
-        $stmt->execute();
-        if ($stmt->fetchColumn() == 0) {
-            $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)")
-                ->execute(['Boutique', 'dashboard.php?view=products', 5, 'admin']);
-        }
-
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM navigation_items WHERE label = 'Footer' AND nav_type = 'admin'");
         $stmt->execute();
         if ($stmt->fetchColumn() == 0) {
@@ -77,33 +70,6 @@ try {
         message TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
-
-    // Create products table
-    $pdo->exec("CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        price TEXT NOT NULL,
-        category TEXT,
-        image_path TEXT,
-        is_best_seller INTEGER DEFAULT 0,
-        description TEXT,
-        tags TEXT
-    )");
-
-    // Seed default products if empty
-    $stmt = $pdo->query("SELECT COUNT(*) FROM products");
-    if ($stmt->fetchColumn() == 0) {
-        $products = [
-            ['Arowolo', '₦19,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Authentic Nigerian delicacy prepared with choice meats.', 'RICE, TURKEY, FOOD'],
-            ['Fish Peppersoup', '₦16,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Spicy and aromatic broth with fresh catch of the day.', 'FISH, SOUP, SPICY'],
-            ['Sokoyokoto', '₦23,000', 'MAIN COURSES', 'images/category-bg.png', 1, 'Rich and soulful traditional preparation.', 'BEEF, STEW, LITE'],
-            ['Egusi Special', '₦18,500', 'MAIN COURSES', 'images/category-bg.png', 1, 'Melon seed soup with assorted meats and vegetables.', 'SOUP, FOOD, COMBO']
-        ];
-        $prodStmt = $pdo->prepare("INSERT INTO products (name, price, category, image_path, is_best_seller, description, tags) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        foreach ($products as $p) {
-            $prodStmt->execute($p);
-        }
-    }
 
     // Create footer_items table
     $pdo->exec("CREATE TABLE IF NOT EXISTS footer_items (
@@ -145,20 +111,16 @@ try {
     if ($stmt->fetchColumn() == 0) {
         $items = [
             ['HOME', 'index.php', 0, 'main'],
-            ['ABOUT US', 'about.php', 2, 'main'],
-            ['MENU', 'menu.php', 3, 'main'],
-            ['EXPLORE', 'explore.php', 4, 'main'],
-            ['BLOG', 'blog.php', 5, 'main'],
-            ['GALLERY', 'gallery.php', 6, 'main'],
-            ['GET IN TOUCH', '#contact-modal', 7, 'main'],
+            ['CATEGORIES', 'categories.php', 1, 'main'],
+            ['EXPLORE', 'explore.php', 2, 'main'],
+            ['GET IN TOUCH', '#contact-modal', 3, 'main'],
             ['Portal', 'dashboard.php?view=overview', 0, 'admin'],
             ['Aura', 'dashboard.php?view=settings', 1, 'admin'],
             ['Create', 'dashboard.php?view=add', 2, 'admin'],
             ['Manage', 'dashboard.php?view=manage', 3, 'admin'],
             ['Inquiries', 'dashboard.php?view=messages', 4, 'admin'],
-            ['Boutique', 'dashboard.php?view=products', 5, 'admin'],
-            ['Navigation', 'dashboard.php?view=nav', 6, 'admin'],
-            ['Footer', 'dashboard.php?view=footer', 7, 'admin']
+            ['Navigation', 'dashboard.php?view=nav', 5, 'admin'],
+            ['Footer', 'dashboard.php?view=footer', 6, 'admin']
         ];
         $insertStmt = $pdo->prepare("INSERT INTO navigation_items (label, link_url, sort_order, nav_type) VALUES (?, ?, ?, ?)");
         foreach ($items as $item) {

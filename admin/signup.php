@@ -3,7 +3,9 @@ session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
-if (!defined('ALLOW_REGISTRATION') || ALLOW_REGISTRATION !== true) {
+// Allow registration if no admin exists, even if ALLOW_REGISTRATION is false
+$adminCheck = $pdo->query("SELECT COUNT(*) FROM admins")->fetchColumn();
+if ($adminCheck > 0 && (!defined('ALLOW_REGISTRATION') || ALLOW_REGISTRATION !== true)) {
     header("Location: login.php");
     exit();
 }
