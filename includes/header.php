@@ -59,22 +59,21 @@ $is_explore = ($current_page === 'explore.php');
                             <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
                         </a>
                         <?php if (strtoupper($item['label']) === 'GALLERY'): ?>
-                            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn-inline">BOOK TABLE</a>
+                            <div class="nav-book-stack">
+                                <div class="header-socials-horizontal">
+                                    <?php foreach ($socials as $name => $svg):
+                                        $link = $social_links[$name] ?? '#';
+                                    ?>
+                                        <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                                            <?php echo $svg; ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn-inline">BOOK TABLE</a>
+                            </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </nav>
-
-                <div class="header-explore-actions-stack">
-                    <div class="header-socials-horizontal">
-                        <?php foreach ($socials as $name => $svg):
-                            $link = $social_links[$name] ?? '#';
-                        ?>
-                            <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
-                                <?php echo $svg; ?>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
             </div>
         </div>
     <?php else: ?>
