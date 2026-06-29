@@ -111,9 +111,12 @@ try {
     if ($stmt->fetchColumn() == 0) {
         $items = [
             ['HOME', 'index.php', 0, 'main'],
-            ['CATEGORIES', 'categories.php', 1, 'main'],
-            ['EXPLORE', 'explore.php', 2, 'main'],
-            ['GET IN TOUCH', '#contact-modal', 3, 'main'],
+            ['ABOUT US', 'about.php', 1, 'main'],
+            ['MENU', 'menu.php', 2, 'main'],
+            ['EXPLORE', 'explore.php', 3, 'main'],
+            ['BLOG', 'blog.php', 4, 'main'],
+            ['GALLERY', 'gallery.php', 5, 'main'],
+            ['GET IN TOUCH', '#contact-modal', 6, 'main'],
             ['Portal', 'dashboard.php?view=overview', 0, 'admin'],
             ['Aura', 'dashboard.php?view=settings', 1, 'admin'],
             ['Create', 'dashboard.php?view=add', 2, 'admin'],

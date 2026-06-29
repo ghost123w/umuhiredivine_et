@@ -58,6 +58,9 @@ $is_explore = ($current_page === 'explore.php');
                         <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
                             <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
                         </a>
+                        <?php if (strtoupper($item['label']) === 'GALLERY'): ?>
+                            <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn-inline">BOOK TABLE</a>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </nav>
 
@@ -71,7 +74,6 @@ $is_explore = ($current_page === 'explore.php');
                             </a>
                         <?php endforeach; ?>
                     </div>
-                    <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn">BOOK TABLE</a>
                 </div>
             </div>
         </div>

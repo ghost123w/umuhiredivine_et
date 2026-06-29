@@ -672,21 +672,34 @@ body {
     text-transform: uppercase;
 }
 
-.header-explore .book-table-btn {
-    border: 3px solid #fff;
-    padding: 18px 45px;
+.header-explore .book-table-btn,
+.header-explore .book-table-btn-inline {
+    border: 2px solid #fff;
+    padding: 10px 30px;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
     color: #fff;
     text-decoration: none;
     white-space: nowrap;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.header-explore .book-table-btn-inline {
+    margin-left: 5px;
+}
+
+.header-nav-inline {
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
 .header-explore .social-link svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     fill: #fff;
 }
 
