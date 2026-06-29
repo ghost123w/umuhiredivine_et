@@ -44,7 +44,7 @@ $is_explore = ($current_page === 'explore.php');
         <div class="header-explore-row">
             <div class="header-brand-explore">
                 <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
-                    <?php echo strtoupper(SITE_NAME); ?>
+                    <img src="images/brand-logo.png" alt="<?php echo strtoupper(SITE_NAME); ?>" style="height: 60px;">
                 </a>
             </div>
 
@@ -62,7 +62,7 @@ $is_explore = ($current_page === 'explore.php');
                 </nav>
 
                 <div class="header-explore-actions-stack">
-                    <div class="header-socials-vertical">
+                    <div class="header-socials-horizontal">
                         <?php foreach ($socials as $name => $svg):
                             $link = $social_links[$name] ?? '#';
                         ?>
