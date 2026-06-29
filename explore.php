@@ -16,7 +16,6 @@ include 'includes/contact-logic.php';
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&family=Patrick+Hand&display=swap" rel="stylesheet">
 </head>
 <body class="explore-page">
-    <?php include 'includes/header.php'; ?>
 
     <div class="explore-bg-wrapper">
         <div class="explore-background-container"></div>
