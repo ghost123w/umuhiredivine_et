@@ -609,7 +609,7 @@ body {
     position: fixed;
     background: transparent;
     border: none;
-    padding: 0 60px;
+    padding: 40px 60px 0;
     width: 100%;
 }
 
