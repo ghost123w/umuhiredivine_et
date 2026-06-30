@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'includes/db.php';
 $is_explore_page = true;
 
@@ -12,7 +13,7 @@ $footer_items = $pdo->query("SELECT * FROM footer_items WHERE is_active = 1 ORDE
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore | <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&family=Patrick+Hand&display=swap" rel="stylesheet">
 </head>
 <body class="explore-page">
 <?php include 'includes/header.php'; ?>
@@ -23,21 +24,13 @@ $footer_items = $pdo->query("SELECT * FROM footer_items WHERE is_active = 1 ORDE
 
 <main class="layout-main explore-layout">
     <section id="section-1" class="explore-section">
-        <div class="explore-quote-container">
-            <h2 class="explore-quote">
-                CULINARY EXCELLENCE <br>
-                MEETS TIMELESS <br>
-                ELEGANCE
-            </h2>
-        </div>
-        <div class="gold-line"></div>
-        <div class="explore-subtext">DISCOVER THE ART OF TASTE</div>
+        <!-- Text removed as per user request -->
     </section>
 
     <section id="section-2" class="explore-section">
         <div class="video-container">
             <!-- YouTube Video integration with auto-play scroll logic in script.js -->
-            <div class="youtube-player" data-video-id="dQw4w9WgXcQ"></div>
+            <div class="youtube-player" data-video-id="WTI-TNm6bjI"></div>
         </div>
     </section>
 

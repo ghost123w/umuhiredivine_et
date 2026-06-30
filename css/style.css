@@ -26,7 +26,7 @@ body {
 /* New Header Layout */
 .site-header-aura {
     background: #000;
-    padding: 10px 60px;
+    padding: 5px 60px;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -609,7 +609,7 @@ body {
     position: fixed;
     background: transparent;
     border: none;
-    padding: 40px 60px;
+    padding: 0 60px;
     width: 100%;
 }
 
@@ -618,7 +618,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 30px 60px;
+    padding: 2px 0 0;
 }
 
 .header-brand-explore {
@@ -655,7 +655,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     margin-left: 20px;
 }
 
@@ -765,7 +765,7 @@ body {
 }
 
 .explore-quote {
-    font-family: 'Cinzel', serif;
+    font-family: 'Patrick Hand', cursive;
     color: #c8a55c;
     font-size: 2.2rem;
     text-align: center;

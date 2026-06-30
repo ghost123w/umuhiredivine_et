@@ -50,6 +50,7 @@ $is_explore = (isset($is_explore_page) && $is_explore_page === true);
 
             <nav class="header-nav-inline" id="header-menu">
                 <?php foreach ($navItems as $item):
+                    if ($item['label'] === 'GET IN TOUCH') continue;
                     $isActive = ($current_page == $item['link_url']) ? 'active' : '';
                     $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
                 ?>
