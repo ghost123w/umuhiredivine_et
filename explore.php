@@ -1,55 +1,66 @@
 <?php
-session_start();
-require_once 'config.php';
 require_once 'includes/db.php';
-require_once 'includes/functions.php';
-include 'includes/contact-logic.php';
+$is_explore_page = true;
+
+// Fetch Dynamic Footer Items
+$footer_items = $pdo->query("SELECT * FROM footer_items WHERE is_active = 1 ORDER BY sort_order ASC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore | <?php echo htmlspecialchars(SITE_NAME); ?></title>
-    <link rel="icon" href="images/favicon.jpg">
+    <title>Explore | <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body class="explore-page">
+<?php include 'includes/header.php'; ?>
 
-    <div class="explore-bg-wrapper">
-        <div class="explore-background-container"></div>
-    </div>
+<div class="explore-bg-wrapper">
+    <div class="explore-background-container"></div>
+</div>
 
-    <section class="explore-section" id="section-1">
+<main class="layout-main explore-layout">
+    <section id="section-1" class="explore-section">
+        <div class="explore-quote-container">
+            <h2 class="explore-quote">
+                CULINARY EXCELLENCE <br>
+                MEETS TIMELESS <br>
+                ELEGANCE
+            </h2>
+        </div>
+        <div class="gold-line"></div>
+        <div class="explore-subtext">DISCOVER THE ART OF TASTE</div>
     </section>
 
-    <section class="explore-section" id="section-2">
+    <section id="section-2" class="explore-section">
         <div class="video-container">
-            <div class="youtube-player" data-video-id="WTI-TNm6bjI"></div>
+            <!-- YouTube Video integration with auto-play scroll logic in script.js -->
+            <div class="youtube-player" data-video-id="dQw4w9WgXcQ"></div>
         </div>
     </section>
 
-    <section class="explore-section" id="section-3">
-        <footer class="explore-footer">
-            <div class="footer-list">
-                <?php
-                $stmt = $pdo->query("SELECT * FROM footer_items WHERE is_active = 1 ORDER BY sort_order ASC");
-                $footers = $stmt->fetchAll();
-                foreach ($footers as $f):
-                ?>
-                    <a href="<?php echo htmlspecialchars($f['link_url']); ?>" class="footer-link"><?php echo htmlspecialchars($f['label']); ?></a>
-                <?php endforeach; ?>
-            </div>
-            <div class="footer-copyright">
-                &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?>. ALL RIGHTS RESERVED.
-            </div>
-        </footer>
-    </section>
+    <footer class="explore-footer">
+        <div class="footer-list">
+            <?php foreach ($footer_items as $item): ?>
+                <a href="<?php echo htmlspecialchars($item['link_url']); ?>" class="footer-link">
+                    <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
 
-    <?php include 'includes/contact-modal.php'; ?>
+        <div class="footer-copyright">
+            <p>&copy; <?php echo date('Y'); ?> <?php echo strtoupper(SITE_NAME); ?>. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+</main>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="js/script.js"></script>
+<?php include 'includes/contact-modal.php'; ?>
+
+<!-- YouTube IFrame API and Unified Script -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="js/script.js"></script>
+
 </body>
 </html>

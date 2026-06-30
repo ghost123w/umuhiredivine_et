@@ -36,44 +36,42 @@ $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' 
 $current_page = basename($_SERVER['PHP_SELF']);
 $is_admin = strpos($_SERVER['REQUEST_URI'], '/admin/') !== false;
 $base_path = $is_admin ? '../' : '';
-$is_explore = ($current_page === 'explore.php');
+$is_explore = (isset($is_explore_page) && $is_explore_page === true);
 ?>
 
-<header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?>">
+<header class="site-header-aura <?php echo $is_explore ? 'header-explore' : ''; ?> <?php echo $is_explore ? 'explore-page' : ''; ?>">
     <?php if ($is_explore): ?>
         <div class="header-explore-row">
             <div class="header-brand-explore">
                 <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
-                    <img src="images/brand-logo.png" alt="<?php echo strtoupper(SITE_NAME); ?>" style="height: 60px;">
+                    <?php echo strtoupper(SITE_NAME); ?>
                 </a>
             </div>
 
-            <div class="header-explore-right-combined">
-                <nav class="header-nav-inline" id="header-menu">
-                    <?php foreach ($navItems as $item):
-                        if (strtoupper($item['label']) === 'GET IN TOUCH') continue;
-                        $isActive = ($current_page == $item['link_url']) ? 'active' : '';
-                        $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
-                    ?>
-                        <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
-                            <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
-                        </a>
-                        <?php if (strtoupper($item['label']) === 'GALLERY'): ?>
-                            <div class="nav-book-stack">
-                                <div class="header-socials-horizontal">
-                                    <?php foreach ($socials as $name => $svg):
-                                        $link = $social_links[$name] ?? '#';
-                                    ?>
-                                        <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
-                                            <?php echo $svg; ?>
-                                        </a>
-                                    <?php endforeach; ?>
-                                </div>
-                                <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn-inline">BOOK TABLE</a>
-                            </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </nav>
+            <nav class="header-nav-inline" id="header-menu">
+                <?php foreach ($navItems as $item):
+                    $isActive = ($current_page == $item['link_url']) ? 'active' : '';
+                    $link_url = (strpos($item['link_url'], 'http') === 0) ? $item['link_url'] : $base_path . $item['link_url'];
+                ?>
+                    <a href="<?php echo htmlspecialchars($link_url); ?>" class="nav-item <?php echo $isActive; ?>">
+                        <?php echo htmlspecialchars(strtoupper($item['label'])); ?>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
+
+            <div class="header-actions-explore">
+                <div class="nav-book-stack">
+                    <div class="header-socials-horizontal">
+                        <?php foreach ($socials as $name => $svg):
+                            $link = $social_links[$name] ?? '#';
+                        ?>
+                            <a href="<?php echo htmlspecialchars($link); ?>" class="social-link" title="<?php echo ucfirst($name); ?>" target="_blank">
+                                <?php echo $svg; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                    <a href="<?php echo htmlspecialchars($book_us_link); ?>" class="book-table-btn-inline">BOOK TABLE</a>
+                </div>
             </div>
         </div>
     <?php else: ?>
