@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
+require_once 'includes/contact-logic.php';
 $is_explore_page = true;
 
 // Fetch Dynamic Footer Items

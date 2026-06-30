@@ -639,14 +639,15 @@ body {
 }
 
 .header-nav-inline {
-    flex: 2;
+    flex: 3;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 35px;
+    margin-right: 40px;
 }
 
 .header-actions-explore {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
 }
@@ -655,13 +656,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin-left: 20px;
+    gap: 12px;
 }
 
 .header-socials-horizontal {
     display: flex;
     gap: 30px;
+    justify-content: center;
 }
 
 .header-explore .nav-item {
@@ -675,17 +676,17 @@ body {
     text-transform: uppercase;
 }
 
-.header-explore .nav-item:last-of-type {
-    color: #c8a55c;
+.header-explore .nav-item-contact {
+    color: #c8a55c !important;
 }
 
 .header-explore .book-table-btn,
 .header-explore .book-table-btn-inline {
-    border: 2px solid #fff;
-    padding: 10px 30px;
+    border: 1.5px solid #fff;
+    padding: 8px 25px;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     letter-spacing: 2px;
     color: #fff;
     text-decoration: none;
