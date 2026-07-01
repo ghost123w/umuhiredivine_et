@@ -151,16 +151,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Parallax Effect for Explore Page Background
+    // Parallax Effect and Overlay Fade for Explore Page
     const exploreBg = document.querySelector('.explore-background-container');
-    if (exploreBg && document.body.classList.contains('explore-page')) {
+    const exploreOverlay = document.querySelector('.explore-overlay-container');
+    if (document.body.classList.contains('explore-page')) {
         window.addEventListener('scroll', () => {
             const scrollValue = window.scrollY;
-            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-            // Translate upwards as we scroll down to avoid gaps at the top
-            // Start at 0, move to -20vh
-            const parallaxAmount = (scrollValue / totalScroll) * -20;
-            exploreBg.style.transform = `translateY(${parallaxAmount}vh)`;
+            const viewportHeight = window.innerHeight;
+            const totalScroll = document.documentElement.scrollHeight - viewportHeight;
+
+            // Background Parallax
+            if (exploreBg) {
+                // Translate upwards as we scroll down to avoid gaps at the top
+                // Start at 0, move to -20vh
+                const parallaxAmount = (scrollValue / totalScroll) * -20;
+                exploreBg.style.transform = `translateY(${parallaxAmount}vh)`;
+            }
+
+            // Overlay Fade Logic
+            if (exploreOverlay) {
+                // Fade out over the first 80% of the viewport height
+                const fadeEnd = viewportHeight * 0.8;
+                let opacity = 1 - (scrollValue / fadeEnd);
+
+                if (opacity < 0) opacity = 0;
+                if (opacity > 1) opacity = 1;
+
+                exploreOverlay.style.opacity = opacity;
+
+                // Toggle visibility to prevent it from blocking clicks when invisible
+                if (opacity <= 0) {
+                    exploreOverlay.style.visibility = 'hidden';
+                } else {
+                    exploreOverlay.style.visibility = 'visible';
+                }
+            }
         });
     }
 });

@@ -20,6 +20,10 @@ $footer_items = $pdo->query("SELECT * FROM footer_items WHERE is_active = 1 ORDE
 <body class="explore-page">
 <?php include 'includes/header.php'; ?>
 
+<div class="explore-overlay-container">
+    <img src="images/explore_overlay.png" alt="Explore Overlay" class="explore-overlay-image">
+</div>
+
 <div class="explore-bg-wrapper">
     <div class="explore-background-container"></div>
 </div>
