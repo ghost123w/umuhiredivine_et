@@ -44,7 +44,7 @@ $is_explore = (isset($is_explore_page) && $is_explore_page === true);
         <div class="header-explore-row">
             <div class="header-brand-explore">
                 <a href="<?php echo $base_path; ?>index.php" class="brand-link-explore">
-                    <?php echo strtoupper(SITE_NAME); ?>
+                    <?php echo SITE_NAME; ?>
                 </a>
             </div>
 
@@ -88,7 +88,7 @@ $is_explore = (isset($is_explore_page) && $is_explore_page === true);
 
             <div class="header-brand-center">
                 <a href="<?php echo $base_path; ?>index.php" class="brand-link">
-                    <?php echo strtoupper(SITE_NAME); ?>
+                    <?php echo SITE_NAME; ?>
                 </a>
             </div>
 

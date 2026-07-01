@@ -52,7 +52,7 @@ $best_sellers_title = $stmt->fetchColumn() ?: 'BEST SELLERS';
     <title><?php echo SITE_NAME; ?> | Home</title>
     <link rel="icon" href="images/favicon.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Inter:wght@400;700;900&family=Patrick+Hand&display=swap" rel="stylesheet">
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
