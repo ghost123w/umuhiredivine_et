@@ -14,7 +14,7 @@ $query = "
             WHEN n.label = 'MENU' THEN 'images/hero-bg.jpg'
             WHEN n.label = 'BLOG' THEN 'images/leadership.jpg'
             WHEN n.label = 'GALLERY' THEN 'images/brand-portrait.jpg'
-            WHEN n.label = 'EXPLORE' THEN 'images/explore-bg.jpg'
+            WHEN n.label = 'EXPLORE' THEN 'images/explore_hero.jpg'
             ELSE 'images/category-bg.png'
         END
     ) as display_image
