@@ -15,9 +15,10 @@ window.onYouTubeIframeAPIReady = function() {
                 'modestbranding': 1,
                 'loop': 1,
                 'playlist': videoId,
-                'mute': 0,
+                'mute': 1,
                 'rel': 0,
-                'showinfo': 0
+                'showinfo': 0,
+                'vq': 'hd1080'
             },
             events: {
                 'onReady': (event) => onPlayerReady(event, player)
@@ -28,6 +29,10 @@ window.onYouTubeIframeAPIReady = function() {
 };
 
 function onPlayerReady(event, player) {
+    if (typeof player.setPlaybackQuality === 'function') {
+        player.setPlaybackQuality('hd1080');
+    }
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
