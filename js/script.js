@@ -15,24 +15,22 @@ window.onYouTubeIframeAPIReady = function() {
                 'modestbranding': 1,
                 'loop': 1,
                 'playlist': videoId,
-                'mute': 0,
+                'mute': 1, // Muted for reliable autoplay on scroll
+                'playsinline': 1,
                 'rel': 0,
                 'showinfo': 0,
                 'vq': 'hd1080'
             },
             events: {
-                'onReady': (event) => onPlayerReady(event, player)
+                'onReady': onPlayerReady
             }
         });
         players.push(player);
     });
 };
 
-function onPlayerReady(event, player) {
-    if (typeof player.setPlaybackQuality === 'function') {
-        player.setPlaybackQuality('hd1080');
-    }
-
+function onPlayerReady(event) {
+    const player = event.target;
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -41,9 +39,12 @@ function onPlayerReady(event, player) {
                 player.pauseVideo();
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.1 });
 
-    observer.observe(player.getIframe());
+    const iframe = player.getIframe();
+    if (iframe) {
+        observer.observe(iframe);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -107,33 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggle = document.getElementById('mobile-nav-toggle');
     const headerMenu = document.getElementById('header-menu');
 
-    // Best Sellers Carousel Scroll Listener
-    const carouselContainer = document.querySelector('.best-sellers-carousel');
-    const dots = document.querySelectorAll('.dot');
-
-    if (carouselContainer && dots.length > 0) {
-        carouselContainer.addEventListener('scroll', () => {
-            const scrollWidth = carouselContainer.scrollWidth - carouselContainer.clientWidth;
-            const scrollPos = carouselContainer.scrollLeft;
-            const activeIndex = Math.round((scrollPos / scrollWidth) * (dots.length - 1));
-
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === activeIndex);
-            });
-        });
-
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                const scrollWidth = carouselContainer.scrollWidth - carouselContainer.clientWidth;
-                const scrollPos = (index / (dots.length - 1)) * scrollWidth;
-                carouselContainer.scrollTo({
-                    left: scrollPos,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    }
-
     if (mobileToggle && headerMenu) {
         mobileToggle.addEventListener('click', () => {
             mobileToggle.classList.toggle('active');
@@ -187,8 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Toggle visibility to prevent it from blocking clicks when invisible
                 if (opacity <= 0) {
                     exploreOverlay.style.visibility = 'hidden';
+                    exploreOverlay.style.pointerEvents = 'none';
                 } else {
                     exploreOverlay.style.visibility = 'visible';
+                    exploreOverlay.style.pointerEvents = 'auto';
                 }
             }
         });

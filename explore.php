@@ -56,9 +56,9 @@ $footer_items = $pdo->query("SELECT * FROM footer_items WHERE is_active = 1 ORDE
 
 <?php include 'includes/contact-modal.php'; ?>
 
-<!-- YouTube IFrame API and Unified Script -->
-<script src="https://www.youtube.com/iframe_api"></script>
+<!-- Unified Script followed by YouTube IFrame API -->
 <script src="js/script.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
