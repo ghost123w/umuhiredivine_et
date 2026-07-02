@@ -15,7 +15,7 @@ window.onYouTubeIframeAPIReady = function() {
                 'modestbranding': 1,
                 'loop': 1,
                 'playlist': videoId,
-                'mute': 1,
+                'mute': 0,
                 'rel': 0,
                 'showinfo': 0,
                 'vq': 'hd1080'
