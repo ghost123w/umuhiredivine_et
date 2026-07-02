@@ -15,26 +15,37 @@ window.onYouTubeIframeAPIReady = function() {
                 'modestbranding': 1,
                 'loop': 1,
                 'playlist': videoId,
-                'mute': 1, // Muted for reliable autoplay on scroll
+                'mute': 0,
                 'playsinline': 1,
                 'rel': 0,
                 'showinfo': 0,
-                'vq': 'hd1080'
+                'vq': 'hd1080',
+                'enablejsapi': 1
             },
             events: {
-                'onReady': onPlayerReady
+                'onReady': (event) => onPlayerReady(event, player)
             }
         });
         players.push(player);
     });
 };
 
-function onPlayerReady(event) {
-    const player = event.target;
+function onPlayerReady(event, player) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                player.playVideo();
+                // Try to play unmuted. If it fails, some browsers allow muted autoplay.
+                player.unMute();
+                const playPromise = player.playVideo();
+
+                // YT API playVideo doesn't always return a promise, but we can check state
+                setTimeout(() => {
+                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                        console.log("Unmuted autoplay blocked, attempting muted autoplay");
+                        player.mute();
+                        player.playVideo();
+                    }
+                }, 500);
             } else {
                 player.pauseVideo();
             }
