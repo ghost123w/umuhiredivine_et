@@ -964,9 +964,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 500; /* Between background (1) and header (1000) */
-    pointer-events: none; /* Allow clicking through if needed, though we will hide it */
-    transition: opacity 0.1s ease-out;
+    z-index: 9999; /* Above everything including header */
+    pointer-events: all; /* Capture click to dismiss */
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+    cursor: pointer;
 }
 
 .explore-overlay-image {

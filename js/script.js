@@ -151,19 +151,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Parallax Effect and Overlay Fade for Explore Page
+    // Parallax Effect and Overlay Dismiss for Explore Page
     const exploreBg = document.querySelector('.explore-background-container');
     const exploreOverlay = document.querySelector('.explore-overlay-container');
     if (document.body.classList.contains('explore-page')) {
-        let shouldShowOverlay = false;
-
         // Session-based Overlay Display Logic
         if (exploreOverlay) {
             if (sessionStorage.getItem('hasSeenExploreOverlay')) {
                 exploreOverlay.style.display = 'none';
             } else {
-                shouldShowOverlay = true;
-                sessionStorage.setItem('hasSeenExploreOverlay', 'true');
+                exploreOverlay.style.display = 'flex';
+                exploreOverlay.style.opacity = '1';
+                exploreOverlay.style.visibility = 'visible';
+                document.body.style.overflow = 'hidden'; // Lock scroll while overlay is active
+
+                // Click to dismiss
+                exploreOverlay.addEventListener('click', () => {
+                    exploreOverlay.style.opacity = '0';
+                    exploreOverlay.style.visibility = 'hidden';
+                    document.body.style.overflow = 'auto';
+                    sessionStorage.setItem('hasSeenExploreOverlay', 'true');
+
+                    // After transition, remove from layout
+                    setTimeout(() => {
+                        exploreOverlay.style.display = 'none';
+                    }, 500);
+                });
             }
         }
 
@@ -178,25 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Start at 0, move to -20vh
                 const parallaxAmount = (scrollValue / totalScroll) * -20;
                 exploreBg.style.transform = `translateY(${parallaxAmount}vh)`;
-            }
-
-            // Overlay Fade Logic
-            if (exploreOverlay && shouldShowOverlay) {
-                // Fade out over the first 80% of the viewport height
-                const fadeEnd = viewportHeight * 0.8;
-                let opacity = 1 - (scrollValue / fadeEnd);
-
-                if (opacity < 0) opacity = 0;
-                if (opacity > 1) opacity = 1;
-
-                exploreOverlay.style.opacity = opacity;
-
-                // Toggle visibility to prevent it from blocking clicks when invisible
-                if (opacity <= 0) {
-                    exploreOverlay.style.visibility = 'hidden';
-                } else {
-                    exploreOverlay.style.visibility = 'visible';
-                }
             }
         });
     }
