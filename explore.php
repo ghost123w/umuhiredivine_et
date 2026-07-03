@@ -21,9 +21,6 @@ $footer_items = $pdo->query("SELECT * FROM footer_items WHERE is_active = 1 ORDE
 <?php include 'includes/header.php'; ?>
 
 <main class="layout-main explore-layout">
-    <section id="section-1" class="explore-section">
-    </section>
-
     <section id="section-2" class="explore-section">
         <div class="video-container">
             <!-- YouTube Video integration with auto-play scroll logic in script.js -->
