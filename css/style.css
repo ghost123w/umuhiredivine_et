@@ -360,6 +360,8 @@ body {
 
 @media (max-width: 768px) {
     .site-header-aura { padding: 10px 20px; }
+    .explore-page .layout-main { padding: 40px 20px; }
+    .explore-section { padding: 0 20px; }
     .header-nav-bottom {
         display: none;
         flex-direction: column;
@@ -800,16 +802,6 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
-.video-container {
-    width: 100%;
-    height: 100%;
-    max-width: 1200px;
-    max-height: 675px; /* 16:9 aspect ratio for 1200px width */
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-}
 
 #section-3 {
     background: rgba(0,0,0,0.2);
@@ -913,9 +905,10 @@ body {
 }
 
 .video-container {
-    width: 90%;
-    max-width: 1200px;
+    width: 95%;
+    max-width: 1400px;
     aspect-ratio: 16 / 9;
+    position: relative;
     background: #000;
     border-radius: 20px;
     overflow: hidden;
