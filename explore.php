@@ -20,13 +20,6 @@ $is_explore_page = true;
 <main class="layout-main explore-layout">
     <section id="section-2" class="explore-section">
         <div class="explore-hero-bg"></div>
-        <div class="explore-overlay"></div>
-        <div class="explore-content">
-            <h2 class="explore-subtitle">DISCOVER</h2>
-            <h1 class="explore-feature-title">EXPLORE THE EXTRAORDINARY</h1>
-            <div class="gold-line"></div>
-            <p class="explore-description">Immerse yourself in a world of luxury and elegance, where every detail is crafted to perfection.</p>
-        </div>
     </section>
 </main>
 
