@@ -22,12 +22,17 @@ $site_name = SITE_NAME;
 
     <section class="explore-section explore-hero-bg"></section>
 
+    <section class="explore-section video-section">
+        <div id="youtube-player"></div>
+    </section>
+
     <?php include 'includes/contact-modal.php'; ?>
 
     <footer class="aura-footer">
         &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(SITE_NAME); ?> &mdash; LUXURY EXPERIENCE
     </footer>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
