@@ -6,9 +6,6 @@ include 'includes/contact-logic.php';
 
 $is_explore_page = true;
 $site_name = SITE_NAME;
-
-// Fetch navigation items specifically for explore (if different)
-$navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' AND is_active = 1 ORDER BY sort_order ASC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,11 +20,7 @@ $navItems = $pdo->query("SELECT * FROM navigation_items WHERE nav_type = 'main' 
 
     <?php include 'includes/header.php'; ?>
 
-    <section class="explore-section explore-hero-bg">
-        <div class="explore-quote-container">
-            <h1 class="explore-quote">"True luxury is found in the moments we explore the extraordinary."</h1>
-        </div>
-    </section>
+    <section class="explore-section explore-hero-bg"></section>
 
     <?php include 'includes/contact-modal.php'; ?>
 
