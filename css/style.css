@@ -208,11 +208,6 @@ body {
     padding: 0;
 }
 
-.explore-page .hero-section {
-    background-image: none;
-    background: #000;
-}
-
 /* Prism Bento Grid */
 .prism-grid {
     display: grid;

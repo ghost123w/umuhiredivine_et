@@ -15,7 +15,7 @@ window.onYouTubeIframeAPIReady = function() {
                 'modestbranding': 1,
                 'loop': 1,
                 'playlist': videoId,
-                'mute': 0,
+                'mute': 1,
                 'rel': 0,
                 'showinfo': 0
             },
@@ -31,24 +31,8 @@ function onPlayerReady(event, player) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Attempt to play unmuted first
-                const playPromise = player.playVideo();
-
-                // YouTube player.playVideo() doesn't always return a promise in the same way as HTML5 video element,
-                // but we can check the player state or use a small delay if needed.
-                // However, modern browsers blocking autoplay will trigger an error or keep it paused.
-
-                // Better approach for YT API:
-                // Listen for state changes or use a timeout to check if it's playing.
-                // Alternatively, we can try to play unmuted, and if it fails, mute and play.
-
-                setTimeout(() => {
-                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
-                        player.mute();
-                        player.playVideo();
-                    }
-                }, 150);
-
+                player.mute();
+                player.playVideo();
             } else {
                 player.pauseVideo();
             }
