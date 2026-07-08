@@ -16,14 +16,9 @@ $is_explore_page = true;
 </head>
 <body class="explore-page">
 <?php include 'includes/header.php'; ?>
+<?php include 'includes/hero.php'; ?>
 
-<main class="layout-main explore-layout">
-    <section id="section-1" class="explore-section">
-        <div class="explore-quote-container">
-            <h2 class="explore-quote">True luxury is found in the moments we explore the extraordinary.</h2>
-        </div>
-    </section>
-
+<main class="layout-main">
     <section id="section-2" class="explore-section">
         <div class="video-container">
             <!-- YouTube Video integration with auto-play scroll logic in script.js -->

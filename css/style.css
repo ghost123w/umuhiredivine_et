@@ -202,9 +202,15 @@ body {
 }
 
 .explore-page .layout-main {
-    background: transparent;
-    margin-top: 0;
+    background: #000;
+    margin-top: 100vh;
     min-height: 100vh;
+    padding: 0;
+}
+
+.explore-page .hero-section {
+    background-image: none;
+    background: #000;
 }
 
 /* Prism Bento Grid */
