@@ -15,7 +15,7 @@ window.onYouTubeIframeAPIReady = function() {
                 'modestbranding': 1,
                 'loop': 1,
                 'playlist': videoId,
-                'mute': 1,
+                'mute': 0,
                 'rel': 0,
                 'showinfo': 0
             },
@@ -31,8 +31,18 @@ function onPlayerReady(event, player) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                player.mute();
+                // Try unmuted first
+                player.unMute();
                 player.playVideo();
+
+                // Fallback for browsers that block unmuted autoplay
+                // We wait a moment and check if it's playing
+                setTimeout(() => {
+                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                        player.mute();
+                        player.playVideo();
+                    }
+                }, 500);
             } else {
                 player.pauseVideo();
             }
