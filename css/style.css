@@ -715,6 +715,10 @@ body {
     position: relative;
 }
 
+.explore-page .hero-section {
+    background-image: url('../images/explore-hero.png');
+}
+
 
 .explore-section {
     height: 100vh;
