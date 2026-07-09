@@ -31,18 +31,10 @@ function onPlayerReady(event, player) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Try unmuted first
+                // User explicitly wants unmuted playback
                 player.unMute();
+                player.setVolume(100);
                 player.playVideo();
-
-                // Fallback for browsers that block unmuted autoplay
-                // We wait a moment and check if it's playing
-                setTimeout(() => {
-                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
-                        player.mute();
-                        player.playVideo();
-                    }
-                }, 500);
             } else {
                 player.pauseVideo();
             }
@@ -53,6 +45,22 @@ function onPlayerReady(event, player) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Global interaction listener to ensure unmuted playback is allowed by browser policies
+    const unmuteAll = () => {
+        players.forEach(player => {
+            if (player && typeof player.unMute === 'function') {
+                player.unMute();
+                player.setVolume(100);
+            }
+        });
+        // Remove listener once interaction is established
+        document.removeEventListener('click', unmuteAll);
+        document.removeEventListener('touchstart', unmuteAll);
+    };
+
+    document.addEventListener('click', unmuteAll);
+    document.addEventListener('touchstart', unmuteAll);
+
     const contactModal = document.getElementById('contact-modal');
 
     // Unified Modal Toggle
