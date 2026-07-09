@@ -1,0 +1,7 @@
+# Deny access to data directory
+RewriteEngine On
+RewriteRule ^data/ - [F,L]
+
+# Basic security settings
+Options -Indexes
+DirectoryIndex index.php
