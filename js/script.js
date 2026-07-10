@@ -31,15 +31,23 @@ function onPlayerReady(event, player) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // User explicitly wants unmuted playback
+                // Autoplay logic: Try unmuted first, fallback to muted so it always plays
                 player.unMute();
                 player.setVolume(100);
-                player.playVideo();
+                const playPromise = player.playVideo();
+
+                // YouTube API doesn't always return a promise, so we check status after a delay
+                setTimeout(() => {
+                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                        player.mute();
+                        player.playVideo();
+                    }
+                }, 300);
             } else {
                 player.pauseVideo();
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.1 }); // Trigger as soon as it enters the viewport
 
     observer.observe(player.getIframe());
 }
@@ -51,15 +59,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (player && typeof player.unMute === 'function') {
                 player.unMute();
                 player.setVolume(100);
+                // If it's visible but muted/paused, kickstart it
+                if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                    player.playVideo();
+                }
             }
         });
         // Remove listener once interaction is established
-        document.removeEventListener('click', unmuteAll);
-        document.removeEventListener('touchstart', unmuteAll);
+        document.removeEventListener('click', unmuteAll, true);
+        document.removeEventListener('touchstart', unmuteAll, true);
     };
 
-    document.addEventListener('click', unmuteAll);
-    document.addEventListener('touchstart', unmuteAll);
+    document.addEventListener('click', unmuteAll, true);
+    document.addEventListener('touchstart', unmuteAll, true);
 
     const contactModal = document.getElementById('contact-modal');
 
