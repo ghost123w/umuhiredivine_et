@@ -4,6 +4,11 @@ require_once 'includes/db.php';
 require_once 'includes/functions.php';
 require_once 'includes/contact-logic.php';
 $is_explore_page = true;
+
+// Fetch dynamic YouTube video ID
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'explore_video_id'");
+$stmt->execute();
+$explore_video_id = $stmt->fetchColumn() ?: 'tHEa6HHAdaI';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +27,7 @@ $is_explore_page = true;
     <section id="section-2" class="explore-section">
         <div class="video-container">
             <!-- YouTube Video integration with auto-play scroll logic in script.js -->
-            <div class="youtube-player" data-video-id="tHEa6HHAdaI"></div>
+            <div class="youtube-player" data-video-id="<?php echo htmlspecialchars($explore_video_id); ?>"></div>
         </div>
     </section>
 </main>

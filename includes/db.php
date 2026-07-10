@@ -60,6 +60,7 @@ try {
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO settings (setting_key, setting_value) VALUES (?, ?)");
     $stmt->execute(['selling_points_title', '']);
     $stmt->execute(['book_us_link', '#']);
+    $stmt->execute(['explore_video_id', 'tHEa6HHAdaI']);
 
     // Create contact_messages table
     $pdo->exec("CREATE TABLE IF NOT EXISTS contact_messages (

@@ -47,6 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $wa = sanitize($_POST['whatsapp_link']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('whatsapp_link', ?)")->execute([$wa]);
 
+        $explore_video = sanitize($_POST['explore_video_id']);
+        // Extract ID from full URL if needed
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $explore_video, $match)) {
+            $explore_video = $match[1];
+        }
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('explore_video_id', ?)")->execute([$explore_video]);
+
         header("Location: dashboard.php?view=settings&msg=settings_updated");
         exit();
     }
@@ -210,6 +217,10 @@ $instagram_link = $stmt->fetchColumn() ?: '#';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'whatsapp_link'");
 $stmt->execute();
 $whatsapp_link = $stmt->fetchColumn() ?: '#';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'explore_video_id'");
+$stmt->execute();
+$explore_video_id = $stmt->fetchColumn() ?: 'tHEa6HHAdaI';
 
 $view = $_GET['view'] ?? 'overview';
 ?>
@@ -386,6 +397,13 @@ $view = $_GET['view'] ?? 'overview';
                                 <label style="color: #666; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 2px;">WhatsApp URL / Link</label>
                                 <input type="text" name="whatsapp_link" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 15px;" value="<?php echo htmlspecialchars($whatsapp_link); ?>">
                             </div>
+                        </div>
+
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Explore Page <span style="color: #fff;">Media</span></h3>
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Explore YouTube Video Link / ID</label>
+                            <input type="text" name="explore_video_id" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($explore_video_id); ?>" placeholder="Enter YouTube URL or Video ID">
+                            <small style="color: #444; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 10px;">Current Video ID: <?php echo htmlspecialchars($explore_video_id); ?></small>
                         </div>
 
                         <button type="submit" name="update_settings" class="btn-primary" style="width: 100%; margin-top: 40px; padding: 20px; font-size: 1rem; letter-spacing: 4px;">SYNCHRONIZE</button>
