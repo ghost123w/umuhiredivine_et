@@ -39,8 +39,9 @@ function onPlayerReady(event, player) {
                 // YouTube API doesn't always return a promise, so we check status after a delay
                 setTimeout(() => {
                     if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
-                        // User explicitly requested unmuted audio, so we don't fallback to mute.
-                        // We try playing again in case it was a transient failure.
+                        // Fallback to muted so it always plays automatically as requested.
+                        // User interaction listener will handle unmuting later.
+                        player.mute();
                         player.playVideo();
                     }
                 }, 300);
