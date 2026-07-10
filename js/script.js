@@ -31,20 +31,13 @@ function onPlayerReady(event, player) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Autoplay logic: Try unmuted first, fallback to muted so it always plays
+                // Strictly unmuted playback as requested
                 player.unMute();
                 player.setVolume(100);
-                const playPromise = player.playVideo();
+                player.playVideo();
 
-                // YouTube API doesn't always return a promise, so we check status after a delay
-                setTimeout(() => {
-                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
-                        // Fallback to muted so it always plays automatically as requested.
-                        // User interaction listener will handle unmuting later.
-                        player.mute();
-                        player.playVideo();
-                    }
-                }, 300);
+                // We do NOT fallback to mute here.
+                // The global interaction listener will handle kickstarting unmuted playback if blocked.
             } else {
                 player.pauseVideo();
             }
