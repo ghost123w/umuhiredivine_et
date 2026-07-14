@@ -52,7 +52,10 @@ $is_explore_page = true; // Activate inline navigation
         }
 
         /* Distinct Luxury Backgrounds for Visual Cue */
-        .sec-1 { background-color: #000000; }
+        .sec-1 {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.8) 100%), url('images/home_scroll1.jpg') no-repeat center center;
+            background-size: cover;
+        }
         .sec-2 { background: linear-gradient(180deg, #000000 0%, #0d0d0d 100%); }
         .sec-3 { background-color: #050505; }
         .sec-4 { background: linear-gradient(180deg, #050505 0%, #0c0a05 100%); }
