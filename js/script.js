@@ -102,31 +102,93 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggle = document.getElementById('mobile-nav-toggle');
     const headerMenu = document.getElementById('header-menu');
 
-    // Best Sellers Carousel Scroll Listener
+    // Best Sellers Carousel Scroll Listener and Autoplay
     const carouselContainer = document.querySelector('.best-sellers-carousel');
     const dots = document.querySelectorAll('.dot');
 
     if (carouselContainer && dots.length > 0) {
+        let currentIndex = 0;
+        let autoplayInterval = null;
+        const intervalTime = 3000; // 3 seconds
+        let isProgrammaticScroll = false;
+        let scrollTimeout = null;
+
+        const scrollToDot = (index) => {
+            const scrollWidth = carouselContainer.scrollWidth - carouselContainer.clientWidth;
+            const scrollPos = (index / (dots.length - 1)) * scrollWidth;
+            isProgrammaticScroll = true;
+            carouselContainer.scrollTo({
+                left: scrollPos,
+                behavior: 'smooth'
+            });
+            // Reset programmatic flag after smooth scroll is expected to complete
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isProgrammaticScroll = false;
+            }, 800);
+        };
+
+        const startAutoplay = () => {
+            if (autoplayInterval) clearInterval(autoplayInterval);
+            autoplayInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % dots.length;
+                scrollToDot(currentIndex);
+            }, intervalTime);
+        };
+
+        const stopAutoplay = () => {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
+        };
+
         carouselContainer.addEventListener('scroll', () => {
             const scrollWidth = carouselContainer.scrollWidth - carouselContainer.clientWidth;
             const scrollPos = carouselContainer.scrollLeft;
-            const activeIndex = Math.round((scrollPos / scrollWidth) * (dots.length - 1));
+            const activeIndex = Math.round((scrollPos / (scrollWidth || 1)) * (dots.length - 1));
 
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === activeIndex);
             });
+
+            // If the active index changed due to manual scroll, align currentIndex
+            if (!isProgrammaticScroll) {
+                currentIndex = activeIndex;
+                stopAutoplay();
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    startAutoplay();
+                }, 4000); // Resume autoplay 4 seconds after manual scrolling ceases
+            }
         });
 
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
-                const scrollWidth = carouselContainer.scrollWidth - carouselContainer.clientWidth;
-                const scrollPos = (index / (dots.length - 1)) * scrollWidth;
-                carouselContainer.scrollTo({
-                    left: scrollPos,
-                    behavior: 'smooth'
-                });
+                stopAutoplay();
+                currentIndex = index;
+                scrollToDot(currentIndex);
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    startAutoplay();
+                }, 4000); // Resume autoplay 4 seconds after user click
             });
         });
+
+        // Pause on hover
+        carouselContainer.addEventListener('mouseenter', () => {
+            stopAutoplay();
+            clearTimeout(scrollTimeout);
+        });
+
+        carouselContainer.addEventListener('mouseleave', () => {
+            if (!isProgrammaticScroll) {
+                startAutoplay();
+            }
+        });
+
+        // Initialize autoplay
+        startAutoplay();
     }
 
     if (mobileToggle && headerMenu) {
