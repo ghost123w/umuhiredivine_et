@@ -1,7 +1,0 @@
-php.log
-data/*.db
-data/*.sqlite
-verification/
-php_server.log
-*.log
-test-results/
