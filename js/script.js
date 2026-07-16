@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
                     startAutoplay();
-                }, 4000); // Resume autoplay 4 seconds after manual scrolling ceases
+                }, 2000); // Resume autoplay 2 seconds after manual scrolling ceases
             }
         });
 
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
                     startAutoplay();
-                }, 4000); // Resume autoplay 4 seconds after user click
+                }, 2000); // Resume autoplay 2 seconds after user click
             });
         });
 
