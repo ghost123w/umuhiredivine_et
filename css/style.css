@@ -1024,6 +1024,53 @@ body {
     text-align: center;
 }
 
+/* Redesigned Section 3 ABOUT US Text Style matching screenshot */
+.sec-3-about {
+    align-items: flex-start !important;
+    text-align: left !important;
+    padding: 0 50px !important;
+}
+
+.sec-3-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.sec-3-title {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 5.5rem;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 35px 0;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.sec-3-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #dddddd;
+    font-weight: 400;
+    margin: 0;
+    padding-left: 60px; /* Offset indent for description */
+    text-align: left;
+}
+
+@media (max-width: 1024px) {
+    .sec-3-title {
+        font-size: 4.5rem;
+    }
+    .sec-3-desc {
+        padding-left: 30px;
+    }
+}
+
 @media (max-width: 900px) {
     .sec-3-image-side {
         display: none;

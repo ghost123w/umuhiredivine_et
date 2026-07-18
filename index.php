@@ -370,11 +370,10 @@ $sec3_img2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
                 <div class="sec-3-image-side sec-3-left" style="background-image: url('<?php echo htmlspecialchars($sec3_img1); ?>');"></div>
 
                 <!-- Center Content Side -->
-                <div class="sec-3-content">
-                    <h2 class="sec-title">PRIVATE COLLECTION</h2>
-                    <div class="sec-subtitle">CURATED FOR THE CONNOISSEUR</div>
-                    <div class="sec-accent"></div>
-                    <p class="sec-desc">A symphony of exquisite skincare, luxury oils, and rare fragrances designed to elevate your daily ritual. Discover custom-tailored creations.</p>
+                <div class="sec-3-content sec-3-about">
+                    <div class="sec-3-subtitle">OUR UNIQUE EXPERIENCE</div>
+                    <h2 class="sec-3-title">ABOUT US</h2>
+                    <p class="sec-3-desc">At Ile Iyan by PODs, every detail is a tribute to the Yoruba cultural heritage. From our staff members adorned in exquisite woven attire embellished with beads to the authentic ambiance of our restaurant, we ensure a truly immersive encounter. Each staff member is identified by their Oriki name, adding a personal and cultural touch to your experience.</p>
                 </div>
 
                 <!-- Right Image Side -->
