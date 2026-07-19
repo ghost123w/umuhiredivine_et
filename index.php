@@ -365,19 +365,19 @@ $sec3_img2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
 
         <!-- Section 3: Bespoke Collection -->
         <section class="scroll-section sec-3" style="padding: 0; overflow: hidden;">
-            <div class="sec-3-split">
-                <!-- Left Image Side -->
-                <div class="sec-3-image-side sec-3-left" style="background-image: url('<?php echo htmlspecialchars($sec3_img1); ?>');"></div>
-
-                <!-- Center Content Side -->
-                <div class="sec-3-content sec-3-about">
-                    <div class="sec-3-subtitle">CURATED FOR THE CONNOISSEUR</div>
-                    <h2 class="sec-3-title">PRIVATE COLLECTION</h2>
-                    <p class="sec-3-desc">A symphony of exquisite skincare, luxury oils, and rare fragrances designed to elevate your daily ritual. Discover custom-tailored creations.</p>
+            <div class="sec-3-layout">
+                <!-- Left Column (Stacked text & landscape image) -->
+                <div class="sec-3-col-left">
+                    <div class="sec-3-text-wrapper">
+                        <div class="sec-3-subtitle">CURATED FOR THE CONNOISSEUR</div>
+                        <h2 class="sec-3-title">PRIVATE COLLECTION</h2>
+                        <p class="sec-3-desc">A symphony of exquisite skincare, luxury oils, and rare fragrances designed to elevate your daily ritual. Discover custom-tailored creations.</p>
+                    </div>
+                    <div class="sec-3-landscape-img" style="background-image: url('<?php echo htmlspecialchars($sec3_img1); ?>');"></div>
                 </div>
 
-                <!-- Right Image Side -->
-                <div class="sec-3-image-side sec-3-right" style="background-image: url('<?php echo htmlspecialchars($sec3_img2); ?>');"></div>
+                <!-- Right Column (Full-height portrait image) -->
+                <div class="sec-3-col-right" style="background-image: url('<?php echo htmlspecialchars($sec3_img2); ?>');"></div>
             </div>
         </section>
 

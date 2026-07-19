@@ -991,44 +991,32 @@ body {
     letter-spacing: 1px;
 }
 
-/* Section 3 split-screen layout styles */
-.sec-3-split {
+/* Section 3 asymmetrical split-screen layout styles */
+.sec-3-layout {
     display: flex;
     width: 100%;
     height: 100vh;
-    align-items: center;
-    justify-content: space-between;
+    box-sizing: border-box;
     background-color: #050505;
 }
 
-.sec-3-image-side {
-    width: 30%;
+/* Left Column (50% width, stacked flex container) */
+.sec-3-col-left {
+    width: 50%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: transform 0.5s ease;
-}
-
-.sec-3-image-side:hover {
-    transform: scale(1.02);
-}
-
-.sec-3-content {
-    width: 40%;
-    padding: 0 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10% 8% 0 10%; /* Breathing space for top header and edges */
 }
 
-/* Redesigned Section 3 ABOUT US Text Style matching screenshot */
-.sec-3-about {
-    align-items: flex-start !important;
-    text-align: left !important;
-    padding: 0 50px !important;
+/* Text elements wrapper on top-left */
+.sec-3-text-wrapper {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .sec-3-subtitle {
@@ -1046,7 +1034,7 @@ body {
     font-size: 5.5rem;
     font-weight: 400;
     color: #ffffff;
-    margin: 0 0 35px 0;
+    margin: 0 0 25px 0;
     letter-spacing: 1px;
     line-height: 1;
 }
@@ -1058,25 +1046,63 @@ body {
     color: #dddddd;
     font-weight: 400;
     margin: 0;
-    padding-left: 60px; /* Offset indent for description */
-    text-align: left;
+    max-width: 90%;
+}
+
+/* Landscape-oriented image at the bottom-left */
+.sec-3-landscape-img {
+    width: 100%;
+    height: 38%; /* Matches visual weight beautifully */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.5s ease;
+}
+
+.sec-3-landscape-img:hover {
+    transform: scale(1.02);
+}
+
+/* Right Column (50% width, full-height portrait image) */
+.sec-3-col-right {
+    width: 50%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.5s ease;
+}
+
+.sec-3-col-right:hover {
+    transform: scale(1.02);
 }
 
 @media (max-width: 1024px) {
     .sec-3-title {
         font-size: 4.5rem;
     }
-    .sec-3-desc {
-        padding-left: 30px;
+    .sec-3-col-left {
+        padding: 12% 6% 0 8%;
     }
 }
 
-@media (max-width: 900px) {
-    .sec-3-image-side {
-        display: none;
+@media (max-width: 768px) {
+    .sec-3-layout {
+        flex-direction: column;
+        height: auto;
     }
-    .sec-3-content {
+    .sec-3-col-left {
         width: 100%;
-        padding: 0 20px;
+        height: auto;
+        padding: 60px 20px 20px;
+        justify-content: flex-start;
+        gap: 30px;
+    }
+    .sec-3-landscape-img {
+        height: 250px;
+    }
+    .sec-3-col-right {
+        width: 100%;
+        height: 400px;
     }
 }
