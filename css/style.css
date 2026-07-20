@@ -1052,7 +1052,7 @@ body {
 /* Landscape-oriented image at the bottom-left */
 .sec-3-landscape-img {
     width: 100%;
-    height: 38%; /* Matches visual weight beautifully */
+    height: 50%; /* Display half height on the third session page */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
