@@ -24,7 +24,7 @@ $sec3_subtitle = $stmt->fetchColumn() ?: 'CURATED FOR THE CONNOISSEUR';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_title'");
 $stmt->execute();
-$sec3_title = $stmt->fetchColumn() ?: 'PRIVATE COLLECTION';
+$sec3_title = $stmt->fetchColumn() ?: 'ABOUT US';
 
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_desc'");
 $stmt->execute();
