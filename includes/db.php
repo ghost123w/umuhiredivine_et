@@ -62,6 +62,9 @@ try {
     $stmt->execute(['book_us_link', '#']);
     $stmt->execute(['section3_image_1', 'images/making.jpg']);
     $stmt->execute(['section3_image_2', 'images/brand-portrait.jpg']);
+    $stmt->execute(['section3_subtitle', 'CURATED FOR THE CONNOISSEUR']);
+    $stmt->execute(['section3_title', 'PRIVATE COLLECTION']);
+    $stmt->execute(['section3_desc', 'A symphony of exquisite skincare, luxury oils, and rare fragrances designed to elevate your daily ritual. Discover custom-tailored creations.']);
 
     // Create contact_messages table
     $pdo->exec("CREATE TABLE IF NOT EXISTS contact_messages (

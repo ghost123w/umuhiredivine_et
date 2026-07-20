@@ -34,6 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('contact_phone', ?)");
         $stmt->execute([$phone]);
 
+        // Section 3 text values
+        $sec3_subtitle = sanitize($_POST['section3_subtitle']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('section3_subtitle', ?)")->execute([$sec3_subtitle]);
+
+        $sec3_title = sanitize($_POST['section3_title']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('section3_title', ?)")->execute([$sec3_title]);
+
+        $sec3_desc = sanitize($_POST['section3_desc']);
+        $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('section3_desc', ?)")->execute([$sec3_desc]);
+
         // Social Media Links
         $fb = sanitize($_POST['facebook_link']);
         $pdo->prepare("INSERT OR REPLACE INTO settings (setting_key, setting_value) VALUES ('facebook_link', ?)")->execute([$fb]);
@@ -240,6 +250,19 @@ $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 's
 $stmt->execute();
 $section3_image_2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
 
+// Fetch Section 3 text values
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_subtitle'");
+$stmt->execute();
+$section3_subtitle = $stmt->fetchColumn() ?: 'CURATED FOR THE CONNOISSEUR';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_title'");
+$stmt->execute();
+$section3_title = $stmt->fetchColumn() ?: 'PRIVATE COLLECTION';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_desc'");
+$stmt->execute();
+$section3_desc = $stmt->fetchColumn() ?: 'A symphony of exquisite skincare, luxury oils, and rare fragrances designed to elevate your daily ritual. Discover custom-tailored creations.';
+
 // Fetch Social Media Links
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'facebook_link'");
 $stmt->execute();
@@ -413,7 +436,22 @@ $view = $_GET['view'] ?? 'overview';
                             <input type="text" name="contact_phone" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($contact_phone); ?>" required>
                         </div>
 
-                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Section 3 (Private Collection) <span style="color: #fff;">Image Sides</span></h3>
+                        <h3 style="font-family: 'Cinzel', serif; margin: 30px 0 20px; font-size: 1rem; color: var(--primary-color);">Section 3 (Private Collection) <span style="color: #fff;">Content & Images</span></h3>
+
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Section 3 Subtitle</label>
+                            <input type="text" name="section3_subtitle" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($section3_subtitle); ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Section 3 Title</label>
+                            <input type="text" name="section3_title" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" value="<?php echo htmlspecialchars($section3_title); ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Section 3 Description</label>
+                            <textarea name="section3_desc" class="form-control" style="background: rgba(255,255,255,0.03); color: #fff; border-color: rgba(255,255,255,0.05); padding: 20px;" rows="4" required><?php echo htmlspecialchars($section3_desc); ?></textarea>
+                        </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
                             <div class="form-group">

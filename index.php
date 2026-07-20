@@ -16,6 +16,19 @@ $sec3_img1 = $stmt->fetchColumn() ?: 'images/making.jpg';
 $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_image_2'");
 $stmt->execute();
 $sec3_img2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
+
+// Fetch Section 3 text components
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_subtitle'");
+$stmt->execute();
+$sec3_subtitle = $stmt->fetchColumn() ?: 'CURATED FOR THE CONNOISSEUR';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_title'");
+$stmt->execute();
+$sec3_title = $stmt->fetchColumn() ?: 'PRIVATE COLLECTION';
+
+$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'section3_desc'");
+$stmt->execute();
+$sec3_desc = $stmt->fetchColumn() ?: 'A symphony of exquisite skincare, luxury oils, and rare fragrances designed to elevate your daily ritual. Discover custom-tailored creations.';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -369,9 +382,9 @@ $sec3_img2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
                 <!-- Left Column (Stacked text & content image with rounded corners) -->
                 <div class="sec-3-col-left">
                     <div class="sec-3-text-wrapper">
-                        <div class="sec-3-subtitle">CURATED FOR THE CONNOISSEUR</div>
-                        <h2 class="sec-3-title">PRIVATE COLLECTION</h2>
-                        <p class="sec-3-desc">A symphony of exquisite skincare, luxury oils, and rare fragrances designed to elevate your daily ritual. Discover custom-tailored creations.</p>
+                        <div class="sec-3-subtitle"><?php echo htmlspecialchars($sec3_subtitle); ?></div>
+                        <h2 class="sec-3-title"><?php echo htmlspecialchars($sec3_title); ?></h2>
+                        <p class="sec-3-desc"><?php echo htmlspecialchars($sec3_desc); ?></p>
                     </div>
                     <img src="<?php echo htmlspecialchars($sec3_img1); ?>" alt="Bespoke Collection Content Image" class="sec-3-landscape-img">
                 </div>
