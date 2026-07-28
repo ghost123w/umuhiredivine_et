@@ -1052,7 +1052,7 @@ body {
 /* Landscape-oriented image at the bottom-left */
 .sec-3-landscape-img {
     width: 100%;
-    height: 38%; /* Matches visual weight beautifully */
+    height: 48%; /* Increased height slightly for a more adjusted, prominent size */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
