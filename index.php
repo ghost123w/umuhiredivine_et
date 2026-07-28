@@ -377,7 +377,9 @@ $sec3_img2 = $stmt->fetchColumn() ?: 'images/brand-portrait.jpg';
                 </div>
 
                 <!-- Right Column (Full-height portrait image) -->
-                <div class="sec-3-col-right" style="background-image: url('<?php echo htmlspecialchars($sec3_img2); ?>');"></div>
+                <div class="sec-3-col-right">
+                    <div class="sec-3-portrait-img" style="background-image: url('<?php echo htmlspecialchars($sec3_img2); ?>');"></div>
+                </div>
             </div>
         </section>
 

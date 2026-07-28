@@ -1063,17 +1063,28 @@ body {
     transform: scale(1.02);
 }
 
-/* Right Column (50% width, full-height portrait image) */
+/* Right Column (50% width, inset portrait image) */
 .sec-3-col-right {
     width: 50%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 10% 10% 10% 5%; /* Top/Bottom breathing space, inset layout */
+}
+
+.sec-3-portrait-img {
+    width: 100%;
+    height: 80%; /* Reduced from 100% full height */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 12px;
     transition: transform 0.5s ease;
 }
 
-.sec-3-col-right:hover {
+.sec-3-portrait-img:hover {
     transform: scale(1.02);
 }
 
